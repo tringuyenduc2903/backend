@@ -2,21 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
-class Customer extends User implements MustVerifyEmail
+class Employee extends User
 {
-    use HasApiTokens;
-    use HasFactory;
-    use Notifiable;
+    use HasRoles;
     use SoftDeletes;
-    use TwoFactorAuthenticatable;
 
     /*
     |--------------------------------------------------------------------------
@@ -31,11 +24,8 @@ class Customer extends User implements MustVerifyEmail
      */
     protected $fillable = [
         'name',
-        'birthday',
-        'gender',
         'email',
-        'phone_number',
-        'timezone',
+        'password',
     ];
 
     /**
@@ -46,8 +36,6 @@ class Customer extends User implements MustVerifyEmail
     protected $hidden = [
         'password',
         'remember_token',
-        'two_factor_secret',
-        'two_factor_recovery_codes',
     ];
 
     /**
@@ -56,9 +44,6 @@ class Customer extends User implements MustVerifyEmail
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'phone_number_verified_at' => 'datetime',
-        'two_factor_confirmed_at' => 'datetime',
         'password' => 'hashed',
         'remember_token' => 'hashed',
     ];
