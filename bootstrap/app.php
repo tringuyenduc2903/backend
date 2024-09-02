@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Responses\LoginResponse;
+use App\Http\Responses\LogoutResponse;
+use App\Http\Responses\TwoFactorEnabledResponse;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -17,6 +20,11 @@ return Application::configure(basePath: dirname(__DIR__))
             EnsureFrontendRequestsAreStateful::class,
         ]);
     })
+    ->withBindings([
+        \Laravel\Fortify\Http\Responses\LoginResponse::class => LoginResponse::class,
+        \Laravel\Fortify\Http\Responses\LogoutResponse::class => LogoutResponse::class,
+        \Laravel\Fortify\Http\Responses\TwoFactorEnabledResponse::class => TwoFactorEnabledResponse::class,
+    ])
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
