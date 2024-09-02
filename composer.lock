@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb9d92684566f4eba736605e19a6c655",
+    "content-hash": "79129bd732ba902356a4fedfdc370249",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -119,6 +119,68 @@
                 }
             ],
             "time": "2023-11-29T23:19:16+00:00"
+        },
+        {
+            "name": "buihuycuong/vnfaker",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/itbk95/VNFaker.git",
+                "reference": "9427dc74f00d3734d1894e6069adc2bb43c8c026"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/itbk95/VNFaker/zipball/9427dc74f00d3734d1894e6069adc2bb43c8c026",
+                "reference": "9427dc74f00d3734d1894e6069adc2bb43c8c026",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Buihuycuong\\Vnfaker\\VNFakerServiceProvider"
+                    ],
+                    "aliases": {
+                        "VNFaker": "Buihuycuong\\Vnfaker\\Facades\\VNFaker"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Buihuycuong\\Vnfaker\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bui Huy Cuong",
+                    "email": "buihuycuong1510@gmail.com"
+                }
+            ],
+            "description": "VNFaker is a Laravel package that generates fake data about name, city, address, phone,... in Viet Nam",
+            "homepage": "https://github.com/BuiHuyCuong/VNFaker",
+            "keywords": [
+                "Bui Huy Cuong",
+                "Richard Bui",
+                "data",
+                "laravel",
+                "laravel faker",
+                "php",
+                "viet nam",
+                "vnfaker"
+            ],
+            "support": {
+                "issues": "https://github.com/itbk95/VNFaker/issues",
+                "source": "https://github.com/itbk95/VNFaker/tree/master"
+            },
+            "time": "2018-12-27T06:51:21+00:00"
         },
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -755,16 +817,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php-lite",
-            "version": "8.13.43",
+            "version": "8.13.44",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php-lite.git",
-                "reference": "68dba92b8fe981410a129f36f5fd037c8f66fa99"
+                "reference": "03fa85075310283f95a1911f4930426594ebcae7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php-lite/zipball/68dba92b8fe981410a129f36f5fd037c8f66fa99",
-                "reference": "68dba92b8fe981410a129f36f5fd037c8f66fa99",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php-lite/zipball/03fa85075310283f95a1911f4930426594ebcae7",
+                "reference": "03fa85075310283f95a1911f4930426594ebcae7",
                 "shasum": ""
             },
             "require": {
@@ -834,7 +896,7 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php-lite/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php-lite"
             },
-            "time": "2024-08-13T12:15:00+00:00"
+            "time": "2024-09-02T10:57:40+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -8511,7 +8573,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "buihuycuong/vnfaker": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

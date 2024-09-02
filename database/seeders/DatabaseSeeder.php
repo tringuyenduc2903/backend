@@ -12,11 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Customer::factory(10)->create();
-
-        Customer::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        Customer::factory(50)->create();
+        Customer::factory(50)->unverified()->create();
     }
 }

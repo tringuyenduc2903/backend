@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Enums\CustomerGender;
 use App\Models\Customer;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Random\RandomException;
 
 /**
  * @extends Factory<Customer>
@@ -15,20 +17,33 @@ class CustomerFactory extends Factory
     /**
      * The current password being used by the factory.
      */
-    protected static ?string $password;
+    protected string $password = 'password';
 
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
+     *
+     * @throws RandomException
      */
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'name' => vnfaker()->fullname(),
+            'email' => vnfaker()->email(),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'phone_number' => sprintf(
+                '+84%s',
+                substr(vnfaker()->mobilephone(), 1)
+            ),
+            'phone_number_verified_at' => now(),
+            'birthday' => fake()->dateTimeBetween(
+                Carbon::now()->subYears(100),
+                Carbon::now()->subYears(16)
+            ),
+            'gender' => fake()->randomElement(CustomerGender::keys()),
+            'password' => $this->password,
+            'timezone' => random_int(0, count(timezone_identifiers_list()) - 1),
             'remember_token' => Str::random(10),
         ];
     }
@@ -40,6 +55,7 @@ class CustomerFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+            'phone_number_verified_at' => null,
         ]);
     }
 }
