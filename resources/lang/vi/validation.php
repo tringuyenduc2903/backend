@@ -161,5 +161,6 @@ return [
         'birthday' => 'ngày sinh',
         'gender' => 'giới tính',
         'timezone' => 'múi giờ',
+        'permissions' => 'quyền truy cập',
     ],
 ];

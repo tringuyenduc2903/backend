@@ -119,9 +119,17 @@ class EmployeeCrudController extends CrudController
             ->label(trans('Password confirmation'))
             ->type('password')
             ->tab(trans('Employee info'));
-        CRUD::field('roles')
-            ->label(trans('Roles'))
-            ->tab(trans('Employee role'));
+        CRUD::addField([
+            'name' => 'roles',
+            'label' => trans('Roles'),
+            'data_source' => route('employees.fetchRoles'),
+            'minimum_input_length' => 0,
+            'inline_create' => [
+                'create_route' => route('roles-inline-create-save'),
+                'modal_route' => route('roles-inline-create'),
+            ],
+            'tab' => trans('Employee role'),
+        ]);
     }
 
     /**

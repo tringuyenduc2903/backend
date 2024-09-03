@@ -19,6 +19,11 @@
                             'title' => trans('All employees'),
                             'link' => backpack_url('employees'),
                         ],
+                        [
+                            'permission' => EmployeePermissionEnum::ROLE_CRUD,
+                            'title' => trans('Employee roles'),
+                            'link' => backpack_url('roles'),
+                        ],
                     ],
                 ],
             ],

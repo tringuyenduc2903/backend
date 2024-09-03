@@ -17,4 +17,5 @@ Route::prefix(config('backpack.base.route_prefix', 'admin'))
     ))
     ->group(function () {
         Route::crud('employees', EmployeeCrudController::class);
+        Route::crud('roles', RoleCrudController::class);
     });
