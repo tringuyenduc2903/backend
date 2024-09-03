@@ -15,4 +15,6 @@ Route::prefix(config('backpack.base.route_prefix', 'admin'))
         (array) config('backpack.base.web_middleware', 'web'),
         (array) config('backpack.base.middleware_key', 'admin')
     ))
-    ->group(function () {});
+    ->group(function () {
+        Route::crud('employees', EmployeeCrudController::class);
+    });

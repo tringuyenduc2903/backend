@@ -2,5 +2,20 @@
     "The provided password does not match your current password.": "Mật khẩu được cung cấp không khớp với mật khẩu hiện tại của bạn.",
     "Male": "Nam",
     "Female": "Nữ",
-    "Not Specified": "Không xác định"
+    "Not Specified": "Không xác định",
+    "System": "Hệ thống",
+    "Permissions": "Quyền truy cập",
+    "All employees": "Tất cả nhân viên",
+    "Name": "Tên",
+    "Email": "Email",
+    "Roles": "Vai trò",
+    "Role": "Vai trò",
+    "Extra permissions": "Quyền truy cập bổ sung",
+    "Password": "Mật khẩu",
+    "Password confirmation": "Xác nhận mật khẩu",
+    "Employee, role, permission": "Nhân viên, vai trò, quyền truy cập",
+    "Employee info": "Thông tin nhân viên",
+    "Employee role": "Vai trò của nhân viên",
+    "Employee": "Nhân viên",
+    "Employees": "Nhân viên"
 }

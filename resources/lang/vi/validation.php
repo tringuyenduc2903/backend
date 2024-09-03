@@ -21,7 +21,7 @@ return [
     ],
     'boolean' => 'Trường :attribute phải là true hoặc false.',
     'can' => 'Trường :attribute chứa giá trị không được phép.',
-    'confirmed' => 'Xác nhận Trường :attribute không khớp.',
+    'confirmed' => 'Trường xác nhận :attribute không khớp.',
     'contains' => 'Trường :attribute thiếu giá trị bắt buộc.',
     'current_password' => 'Mật khẩu không chính xác.',
     'date' => 'Trường :attribute phải là một ngày hợp lệ.',
@@ -152,5 +152,14 @@ return [
     'custom' => [
     ],
     'attributes' => [
+        'name' => 'tên',
+        'email' => 'email',
+        'password' => 'mật khẩu',
+        'roles' => 'vai trò',
+        'current_password' => 'mật khẩu hiện tại',
+        'phone_number' => 'số điện thoại',
+        'birthday' => 'ngày sinh',
+        'gender' => 'giới tính',
+        'timezone' => 'múi giờ',
     ],
 ];

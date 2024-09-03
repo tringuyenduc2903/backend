@@ -9,7 +9,6 @@ use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Spatie\Permission\Models\Role;
 
 class CheckIfAdmin extends \Backpack\CRUD\app\Http\Middleware\CheckIfAdmin
 {
@@ -63,7 +62,7 @@ class CheckIfAdmin extends \Backpack\CRUD\app\Http\Middleware\CheckIfAdmin
         /** @var Employee $employee */
         $employee = backpack_user();
 
-        return ! Role::whereName(EmployeePermissionEnum::DASHBOARD)->exists() || $employee->hasPermissionTo(
+        return $employee->hasPermissionTo(
             EmployeePermissionEnum::DASHBOARD,
             config('backpack.base.guard')
         );
