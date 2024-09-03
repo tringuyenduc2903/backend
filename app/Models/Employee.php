@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User;
 use Spatie\Permission\Traits\HasRoles;
@@ -10,6 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 class Employee extends User
 {
     use CrudTrait;
+    use HasFactory;
     use HasRoles;
     use SoftDeletes;
 
