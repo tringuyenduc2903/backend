@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             ProvinceSeeder::class,
             DistrictSeeder::class,
             WardSeeder::class,
+            BranchSeeder::class,
             AdminSeeder::class,
             EmployeeSeeder::class,
             CustomerSeeder::class,
