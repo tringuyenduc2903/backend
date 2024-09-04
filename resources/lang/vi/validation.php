@@ -162,5 +162,11 @@ return [
         'gender' => 'giới tính',
         'timezone' => 'múi giờ',
         'permissions' => 'quyền truy cập',
+        'image' => 'hình ảnh',
+        'alt' => 'văn bản thay thế',
+        'province' => 'tỉnh',
+        'district' => 'huyện',
+        'ward' => 'phường',
+        'address_detail' => 'địa chỉ chi tiết',
     ],
 ];

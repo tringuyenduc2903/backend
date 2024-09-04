@@ -8,6 +8,21 @@
 
     $menu_items = [
         [
+            'title' => trans('Branches'),
+            'icon' => 'la la-shopping-cart',
+            'columns' => [
+                [
+                    'items' => [
+                        [
+                            'permission' => EmployeePermissionEnum::BRANCH_CRUD,
+                            'title' => trans('All branches'),
+                            'link' => backpack_url('branches'),
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        [
             'title' => trans('System'),
             'icon' => 'la la-gear',
             'columns' => [

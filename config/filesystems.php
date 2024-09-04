@@ -56,6 +56,14 @@ return [
             'throw' => false,
         ],
 
+        'branch' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/branch'),
+            'url' => env('APP_URL').'/storage/branch',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
     ],
 
     /*
