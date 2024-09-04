@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             EmployeeSeeder::class,
             AddBranchToEmployeeSeeder::class,
             CustomerSeeder::class,
+            AddAddressToCustomerSeeder::class,
         ]);
     }
 }

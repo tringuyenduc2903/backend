@@ -48,5 +48,10 @@
     "Customers": "Khách hàng",
     "All customers": "Tất cả khách hàng",
     "Birthday": "Ngày sinh",
-    "Gender": "Giới tính"
+    "Gender": "Giới tính",
+    "Timezone": "Múi giờ",
+    "Home": "Nhà riêng",
+    "Company": "Công ty",
+    "Set as default": "Đặt làm mặc định",
+    "Type": "Kiểu"
 }

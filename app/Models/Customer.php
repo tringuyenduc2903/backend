@@ -5,6 +5,7 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Notifications\Notifiable;
@@ -64,4 +65,15 @@ class Customer extends User implements MustVerifyEmail
         'password' => 'hashed',
         'remember_token' => 'hashed',
     ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+    */
+
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(Address::class);
+    }
 }

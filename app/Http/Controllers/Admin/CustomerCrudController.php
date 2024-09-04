@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\CustomerAddress;
 use App\Enums\CustomerGender;
 use App\Enums\EmployeePermissionEnum;
 use App\Http\Requests\Admin\CustomerRequest;
+use App\Models\District;
+use App\Models\Province;
+use App\Models\Ward;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -12,7 +16,9 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\Pro\Http\Controllers\Operations\BulkTrashOperation;
+use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use Backpack\Pro\Http\Controllers\Operations\TrashOperation;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class CustomerCrudController
@@ -23,6 +29,7 @@ class CustomerCrudController extends CrudController
 {
     use BulkTrashOperation;
     use CreateOperation;
+    use FetchOperation;
     use ListOperation;
     use TrashOperation;
     use UpdateOperation;
@@ -133,6 +140,115 @@ class CustomerCrudController extends CrudController
                 config('app.timezone'),
                 timezone_identifiers_list(),
             ),
+        ]);
+        CRUD::addField([
+            'name' => 'addresses',
+            'label' => trans('Address'),
+            'type' => 'repeatable',
+            'subfields' => [[
+                'name' => 'default',
+                'label' => trans('Set as default'),
+                'type' => 'switch',
+                'wrapper' => [
+                    'class' => 'form-group col-sm-12 d-flex justify-content-end',
+                ],
+            ], [
+                'name' => 'type',
+                'label' => trans('Type'),
+                'type' => 'select2_from_array',
+                'options' => CustomerAddress::values(),
+                'allows_null' => false,
+            ], [
+                'name' => 'customer_name',
+                'label' => trans('Name'),
+            ], [
+                'name' => 'customer_phone_number',
+                'label' => trans('Phone number'),
+                'type' => 'phone',
+            ], [
+                'name' => 'country',
+                'label' => trans('Country'),
+                'default' => 'Việt Nam',
+                'wrapper' => [
+                    'class' => 'form-group col-sm-12 col-md-6 mb-3',
+                ],
+            ], [
+                'name' => 'province',
+                'label' => trans('Province'),
+                'model' => Province::class,
+                'entity' => 'province',
+                'data_source' => route('customers.fetchProvinces'),
+                'minimum_input_length' => 0,
+                'method' => 'POST',
+                'wrapper' => [
+                    'class' => 'form-group col-sm-12 col-md-6',
+                ],
+            ], [
+                'name' => 'district',
+                'label' => trans('District'),
+                'model' => District::class,
+                'entity' => 'district',
+                'data_source' => route('customers.fetchDistricts'),
+                'minimum_input_length' => 0,
+                'method' => 'POST',
+                'dependencies' => 'province',
+                'include_all_form_fields' => true,
+                'wrapper' => [
+                    'class' => 'form-group col-sm-12 col-md-6',
+                ],
+            ], [
+                'name' => 'ward',
+                'label' => trans('Ward'),
+                'model' => Ward::class,
+                'entity' => 'ward',
+                'data_source' => route('customers.fetchWards'),
+                'minimum_input_length' => 0,
+                'method' => 'POST',
+                'dependencies' => ['province', 'district'],
+                'include_all_form_fields' => true,
+                'wrapper' => [
+                    'class' => 'form-group col-sm-12 col-md-6',
+                ],
+            ], [
+                'name' => 'address_detail',
+                'label' => trans('Address detail'),
+                'type' => 'textarea',
+            ]],
+            'max_rows' => 5,
+            'reorder' => false,
+        ]);
+    }
+
+    protected function fetchProvinces()
+    {
+        return $this->fetch(Province::class);
+    }
+
+    protected function fetchDistricts()
+    {
+        return $this->fetch([
+            'model' => District::class,
+            'query' => function (District $district): District|Builder {
+                $form = collect(request('form'))->pluck('value', 'name');
+
+                return isset($form['addresses[0][province]'])
+                    ? $district->whereProvinceId($form['addresses[0][province]'])
+                    : $district;
+            },
+        ]);
+    }
+
+    protected function fetchWards()
+    {
+        return $this->fetch([
+            'model' => Ward::class,
+            'query' => function (Ward $ward): Ward|Builder {
+                $form = collect(request('form'))->pluck('value', 'name');
+
+                return isset($form['addresses[0][district]'])
+                    ? $ward->whereDistrictId($form['addresses[0][district]'])
+                    : $ward;
+            },
         ]);
     }
 }
