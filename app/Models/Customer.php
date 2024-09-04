@@ -86,8 +86,8 @@ class Customer extends User implements MustVerifyEmail
 
     public function getGenderPreviewAttribute(): ?string
     {
-        return is_int($this->gender)
-            ? CustomerGender::valueForKey($this->gender)
-            : null;
+        return is_null($this->gender)
+            ? null
+            : CustomerGender::valueForKey($this->gender);
     }
 }
