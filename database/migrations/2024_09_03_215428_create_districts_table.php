@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100);
             $table->json('name_extensions');
-            $table->unsignedBigInteger('ghn_id');
+            $table->unsignedBigInteger('ghn_id')->unique();
             $table->foreignId('province_id')
                 ->constrained()
                 ->cascadeOnDelete();
