@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Models\Address;
 use App\Models\Customer;
+use App\Models\Identification;
 use App\Observers\CreateCustomer;
 use App\Observers\StoreAddress;
+use App\Observers\StoreIdentification;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\ServiceProvider;
 
@@ -33,12 +35,16 @@ class AppServiceProvider extends ServiceProvider
             );
         });
 
+        Customer::observe(
+            CreateCustomer::class,
+        );
+
         Address::observe(
             StoreAddress::class,
         );
 
-        Customer::observe(
-            CreateCustomer::class,
+        Identification::observe(
+            StoreIdentification::class,
         );
     }
 }

@@ -150,6 +150,13 @@ return [
     'uuid' => 'Trường :attribute phải là một UUID hợp lệ.',
     'phone' => 'Trường :attribute phải là một số điện thoại hợp lệ.',
     'custom' => [
+        'default' => [
+            'accepted' => 'Chưa chọn :attribute mặc định.',
+            'unique' => 'Chỉ được chọn tối đa 1 :attribute làm mặc định.',
+        ],
+        'size' => [
+            'strings' => 'Trường :attribute phải là :size1 ký tự hoặc :size2 ký tự.',
+        ],
     ],
     'attributes' => [
         'name' => 'tên',
@@ -170,7 +177,7 @@ return [
         'address_detail' => 'địa chỉ chi tiết',
         'branch' => 'chi nhánh',
         'addresses' => 'địa chỉ',
-        'addresses.*.default' => 'mặc định',
+        'addresses.*.default' => 'đặt làm mặc định',
         'addresses.*.type' => 'kiểu',
         'addresses.*.customer_name' => 'tên',
         'addresses.*.customer_phone_number' => 'số điện thoại',
@@ -179,5 +186,12 @@ return [
         'addresses.*.district' => 'huyện',
         'addresses.*.ward' => 'phường',
         'addresses.*.address_detail' => 'địa chỉ chi tiết',
+        'identifications' => 'hồ sơ',
+        'identifications.*.default' => 'đặt làm mặc định',
+        'identifications.*.type' => 'kiểu',
+        'identifications.*.number' => 'số',
+        'identifications.*.issued_name' => 'nơi cấp',
+        'identifications.*.issuance_date' => 'ngày phát hành',
+        'identifications.*.expiry_date' => 'ngày hết hạn',
     ],
 ];

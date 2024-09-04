@@ -78,6 +78,11 @@ class Customer extends User implements MustVerifyEmail
         return $this->hasMany(Address::class);
     }
 
+    public function identifications(): HasMany
+    {
+        return $this->hasMany(Identification::class);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS

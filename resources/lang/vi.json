@@ -42,6 +42,7 @@
     "All branches": "Tất cả chi nhánh",
     "Phone number": "Số điện thoại",
     "Image": "Hình ảnh",
+    "Addresses": "Địa chỉ",
     "Address": "Địa chỉ",
     "Alt text": "Văn bản thay thế",
     "Country": "Quốc gia",
@@ -58,5 +59,13 @@
     "Home": "Nhà riêng",
     "Company": "Công ty",
     "Set as default": "Đặt làm mặc định",
-    "Type": "Kiểu"
+    "Type": "Kiểu",
+    "Identity card": "Chứng minh nhân dân",
+    "Citizen identification": "Căn cước công dân",
+    "Passport": "Hộ chiếu",
+    "Identifications": "Hồ sơ",
+    "Number": "Số",
+    "Issued name": "Nơi cấp",
+    "Issued date": "Ngày phát hành",
+    "Expiry date": "Ngày hết hạn"
 }

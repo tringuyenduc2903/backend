@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\CustomerAddress;
 use App\Enums\CustomerGender;
+use App\Enums\CustomerIdentification;
 use App\Enums\EmployeePermissionEnum;
 use App\Http\Requests\Admin\CustomerRequest;
 use App\Models\District;
@@ -143,7 +144,7 @@ class CustomerCrudController extends CrudController
         ]);
         CRUD::addField([
             'name' => 'addresses',
-            'label' => trans('Address'),
+            'label' => trans('Addresses'),
             'type' => 'repeatable',
             'subfields' => [[
                 'name' => 'default',
@@ -213,6 +214,47 @@ class CustomerCrudController extends CrudController
                 'name' => 'address_detail',
                 'label' => trans('Address detail'),
                 'type' => 'textarea',
+            ]],
+            'max_rows' => 5,
+            'reorder' => false,
+        ]);
+        CRUD::addField([
+            'name' => 'identifications',
+            'label' => trans('Identifications'),
+            'type' => 'repeatable',
+            'subfields' => [[
+                'name' => 'default',
+                'label' => trans('Set as default'),
+                'type' => 'switch',
+                'wrapper' => [
+                    'class' => 'form-group col-sm-12 d-flex justify-content-end',
+                ],
+            ], [
+                'name' => 'type',
+                'label' => trans('Type'),
+                'type' => 'select2_from_array',
+                'options' => CustomerIdentification::values(),
+                'allows_null' => false,
+            ], [
+                'name' => 'number',
+                'label' => trans('Number'),
+            ], [
+                'name' => 'issued_name',
+                'label' => trans('Issued name'),
+            ], [
+                'name' => 'issuance_date',
+                'label' => trans('Issued date'),
+                'type' => 'date',
+                'wrapper' => [
+                    'class' => 'form-group col-sm-12 col-md-6 mb-3',
+                ],
+            ], [
+                'name' => 'expiry_date',
+                'label' => trans('Expiry date'),
+                'type' => 'date',
+                'wrapper' => [
+                    'class' => 'form-group col-sm-12 col-md-6 mb-3',
+                ],
             ]],
             'max_rows' => 5,
             'reorder' => false,

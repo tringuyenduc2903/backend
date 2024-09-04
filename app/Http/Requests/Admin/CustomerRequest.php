@@ -4,8 +4,10 @@ namespace App\Http\Requests\Admin;
 
 use App\Enums\CustomerAddress;
 use App\Enums\CustomerGender;
+use App\Enums\CustomerIdentification;
 use App\Models\Customer;
 use App\Models\District;
+use App\Models\Identification;
 use App\Models\Province;
 use App\Models\Ward;
 use Illuminate\Foundation\Http\FormRequest;
@@ -33,6 +35,7 @@ class CustomerRequest extends FormRequest
             ? timezone_identifiers_list()[Customer::findOrFail($id)->timezone]
             : config('app.timezone');
         $default_address = false;
+        $default_identification = false;
 
         return [
             'name' => [
@@ -88,7 +91,9 @@ class CustomerRequest extends FormRequest
                 function ($attribute, $value, $fail) use (&$default_address) {
                     if ($value) {
                         if ($default_address) {
-                            $fail(trans('validation.unique'));
+                            $fail(trans('validation.custom.default.unique', [
+                                'attribute' => trans('Addresses'),
+                            ]));
                         }
 
                         $default_address = true;
@@ -140,6 +145,96 @@ class CustomerRequest extends FormRequest
                 'string',
                 'max:255',
             ],
+            'identifications' => [
+                'nullable',
+                'array',
+                'max:5',
+                Rule::when(
+                    $this->input('identifications') &&
+                    ! in_array(
+                        true,
+                        array_column($this->input('identifications'), 'default')
+                    ),
+                    'accepted'
+                ),
+            ],
+            'identifications.*.default' => [
+                'required',
+                'boolean',
+                function ($attribute, $value, $fail) use (&$default_identification) {
+                    if ($value) {
+                        if ($default_identification) {
+                            $fail(trans('validation.custom.default.unique', [
+                                'attribute' => trans('Identifications'),
+                            ]));
+                        }
+
+                        $default_identification = true;
+                    }
+                },
+            ],
+            'identifications.*.type' => [
+                'required',
+                'integer',
+                Rule::in(CustomerIdentification::keys()),
+            ],
+            'identifications.*.number' => [
+                'required',
+                'string',
+                function ($attribute, $value, $fail) {
+                    $strlen = strlen($value);
+
+                    $type = request(
+                        str_replace('.number', '.type', $attribute)
+                    );
+
+                    switch ((int) $type) {
+                        case CustomerIdentification::IDENTITY_CARD:
+                            if (! in_array($strlen, [9, 12])) {
+                                $fail(trans('validation.custom.size.strings', [
+                                    'size1' => 9,
+                                    'size2' => 12,
+                                ]));
+                            }
+                            break;
+                        case CustomerIdentification::CITIZEN_IDENTIFICATION_CARD:
+                            if ($strlen !== 12) {
+                                $fail(trans('validation.size.string', [
+                                    'size' => 12,
+                                ]));
+                            }
+                            break;
+                    }
+                },
+                'max:100',
+                Rule::unique(Identification::class)->ignore($this->input('id'), 'customer_id'),
+            ],
+            'identifications.*.issued_name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'identifications.*.issuance_date' => [
+                'required',
+                'date',
+            ],
+            'identifications.*.expiry_date' => [
+                'required',
+                'date',
+                'after:identifications.*.issuance_date',
+                'after:'.Carbon::now($timezone),
+            ],
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     */
+    public function messages(): array
+    {
+        return [
+            'addresses.accepted' => trans('validation.custom.default.accepted'),
+            'identifications.accepted' => trans('validation.custom.default.accepted'),
         ];
     }
 }
