@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CustomerGender;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -75,5 +76,18 @@ class Customer extends User implements MustVerifyEmail
     public function addresses(): HasMany
     {
         return $this->hasMany(Address::class);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+    */
+
+    public function getGenderPreviewAttribute(): ?string
+    {
+        return is_int($this->gender)
+            ? CustomerGender::valueForKey($this->gender)
+            : null;
     }
 }
