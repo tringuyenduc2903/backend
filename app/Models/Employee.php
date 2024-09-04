@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User;
 use Spatie\Permission\Traits\HasRoles;
@@ -30,6 +31,7 @@ class Employee extends User
         'name',
         'email',
         'password',
+        'branch_id',
     ];
 
     /**
@@ -40,6 +42,7 @@ class Employee extends User
     protected $hidden = [
         'password',
         'remember_token',
+        'branch_id',
     ];
 
     /**
@@ -51,4 +54,15 @@ class Employee extends User
         'password' => 'hashed',
         'remember_token' => 'hashed',
     ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+    */
+
+    public function branch(): BelongsTo
+    {
+        return $this->belongsTo(Branch::class);
+    }
 }

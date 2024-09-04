@@ -168,5 +168,6 @@ return [
         'district' => 'huyện',
         'ward' => 'phường',
         'address_detail' => 'địa chỉ chi tiết',
+        'branch' => 'chi nhánh',
     ],
 ];

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use App\Actions\Fortify\PasswordValidationRules;
+use App\Models\Branch;
 use App\Models\Employee;
 use App\Models\Role;
 use Illuminate\Foundation\Http\FormRequest;
@@ -39,6 +40,11 @@ class EmployeeStoreCrudRequest extends FormRequest
                 Rule::unique(Employee::class),
             ],
             'password' => $this->passwordRules(),
+            'branch' => [
+                'required',
+                'integer',
+                Rule::exists(Branch::class, 'id'),
+            ],
             'roles' => [
                 'required',
                 'array',

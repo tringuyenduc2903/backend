@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\EmployeePermissionEnum;
 use App\Http\Requests\Admin\EmployeeStoreCrudRequest;
 use App\Http\Requests\Admin\EmployeeUpdateCrudRequest;
+use App\Models\Branch;
 use App\Models\Employee;
 use App\Models\Role;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -59,6 +60,8 @@ class EmployeeCrudController extends CrudController
             ->label(trans('Name'));
         CRUD::column('email')
             ->label(trans('Email'));
+        CRUD::column('branch')
+            ->label(trans('Branch'));
         CRUD::column('roles')
             ->label(trans('Roles'));
 
@@ -120,6 +123,17 @@ class EmployeeCrudController extends CrudController
             ->type('password')
             ->tab(trans('Employee info'));
         CRUD::addField([
+            'name' => 'branch',
+            'label' => trans('Branch'),
+            'inline_create' => [
+                'create_route' => route('branches-inline-create-save'),
+                'modal_route' => route('branches-inline-create'),
+            ],
+            'data_source' => route('employees.fetchBranches'),
+            'minimum_input_length' => 0,
+            'tab' => trans('Employee role'),
+        ]);
+        CRUD::addField([
             'name' => 'roles',
             'label' => trans('Roles'),
             'data_source' => route('employees.fetchRoles'),
@@ -144,6 +158,11 @@ class EmployeeCrudController extends CrudController
         CRUD::setValidation(EmployeeUpdateCrudRequest::class);
 
         $this->employeeFields();
+    }
+
+    protected function fetchBranches()
+    {
+        return $this->fetch(Branch::class);
     }
 
     protected function fetchRoles()
