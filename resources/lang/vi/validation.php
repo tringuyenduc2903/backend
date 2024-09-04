@@ -191,7 +191,7 @@ return [
         'identifications.*.type' => 'kiểu',
         'identifications.*.number' => 'số',
         'identifications.*.issued_name' => 'nơi cấp',
-        'identifications.*.issuance_date' => 'ngày phát hành',
+        'identifications.*.issuance_date' => 'ngày cấp',
         'identifications.*.expiry_date' => 'ngày hết hạn',
     ],
 ];

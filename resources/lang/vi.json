@@ -21,6 +21,10 @@
     "Female": "Nữ",
     "Not Specified": "Không xác định",
     "System": "Hệ thống",
+    "Store": "Cửa hàng",
+    "All settings": "Tất cả cài đặt",
+    "Setting": "Cài đặt",
+    "Settings": "Cài đặt",
     "Permissions": "Quyền truy cập",
     "All employees": "Tất cả nhân viên",
     "Name": "Tên",
@@ -66,6 +70,11 @@
     "Identifications": "Hồ sơ",
     "Number": "Số",
     "Issued name": "Nơi cấp",
-    "Issued date": "Ngày phát hành",
-    "Expiry date": "Ngày hết hạn"
+    "Issued date": "Ngày cấp",
+    "Expiry date": "Ngày hết hạn",
+    "Key": "Khóa",
+    "Active": "Hoạt động",
+    "Inactive": "Không hoạt động",
+    "Home page": "Trang chủ",
+    "Auth": "Xác thực"
 }

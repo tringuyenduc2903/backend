@@ -20,4 +20,5 @@ Route::prefix(config('backpack.base.route_prefix', 'admin'))
         Route::crud('roles', RoleCrudController::class);
         Route::crud('branches', BranchCrudController::class);
         Route::crud('customers', CustomerCrudController::class);
+        Route::crud('settings', SettingCrudController::class);
     });

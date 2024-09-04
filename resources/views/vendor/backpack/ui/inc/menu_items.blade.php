@@ -42,6 +42,16 @@
             'icon' => 'la la-gear',
             'columns' => [
                 [
+                    'title' => trans('Store'),
+                    'items' => [
+                        [
+                            'permission' => EmployeePermissionEnum::SETTING_CRUD,
+                            'title' => trans('All settings'),
+                            'link' => route('settings.index'),
+                        ],
+                    ],
+                ],
+                [
                     'title' => trans('Permissions'),
                     'items' => [
                         [

@@ -10,6 +10,9 @@ use Rexlabs\Enum\Enum;
  * @method static self DASHBOARD()
  * @method static self EMPLOYEE_CRUD()
  * @method static self ROLE_CRUD()
+ * @method static self BRANCH_CRUD()
+ * @method static self CUSTOMER_CRUD()
+ * @method static self SETTING_CRUD()
  */
 class EmployeePermissionEnum extends Enum
 {
@@ -22,4 +25,6 @@ class EmployeePermissionEnum extends Enum
     const BRANCH_CRUD = 'branch_crud';
 
     const CUSTOMER_CRUD = 'customer_crud';
+
+    const SETTING_CRUD = 'setting_crud';
 }
