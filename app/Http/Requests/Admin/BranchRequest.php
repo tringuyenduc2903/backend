@@ -26,6 +26,8 @@ class BranchRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = $this->input('id') ?? request()->route('id');
+
         return [
             'name' => [
                 'required',
@@ -35,7 +37,7 @@ class BranchRequest extends FormRequest
             'phone_number' => [
                 'nullable',
                 'phone:VN',
-                Rule::unique(Branch::class)->ignore($this->input('id')),
+                Rule::unique(Branch::class)->ignore($id),
             ],
             'image' => [
                 'sometimes',

@@ -19,6 +19,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      */
     public function update(Customer $user, array $input): void
     {
+        $timezone = timezone_identifiers_list()[$user->timezone];
+
         $validate = Validator::make($input, [
             'name' => [
                 'required',
@@ -41,8 +43,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'birthday' => [
                 'nullable',
                 'date',
-                'before_or_equal:'.Carbon::now($user->timezone)->subYears(16),
-                'after_or_equal:'.Carbon::now($user->timezone)->subYears(100),
+                'before_or_equal:'.Carbon::now($timezone)->subYears(16),
+                'after_or_equal:'.Carbon::now($timezone)->subYears(100),
             ],
             'gender' => [
                 'nullable',
@@ -51,9 +53,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             ],
             'timezone' => [
                 'required',
-                'string',
-                'max:30',
-                Rule::in(timezone_identifiers_list()),
+                'integer',
+                Rule::in(array_keys(timezone_identifiers_list())),
             ],
         ])->validate();
 

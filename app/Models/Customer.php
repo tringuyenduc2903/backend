@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,6 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Customer extends User implements MustVerifyEmail
 {
+    use CrudTrait;
     use HasApiTokens;
     use HasFactory;
     use Notifiable;

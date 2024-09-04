@@ -43,5 +43,10 @@
     "Province": "Tỉnh",
     "District": "Huyện",
     "Ward": "Phường",
-    "Address detail": "Địa chỉ chi tiết"
+    "Address detail": "Địa chỉ chi tiết",
+    "Customer": "Khách hàng",
+    "Customers": "Khách hàng",
+    "All customers": "Tất cả khách hàng",
+    "Birthday": "Ngày sinh",
+    "Gender": "Giới tính"
 }

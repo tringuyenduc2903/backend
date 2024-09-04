@@ -20,4 +20,6 @@ class EmployeePermissionEnum extends Enum
     const ROLE_CRUD = 'role_crud';
 
     const BRANCH_CRUD = 'branch_crud';
+
+    const CUSTOMER_CRUD = 'customer_crud';
 }

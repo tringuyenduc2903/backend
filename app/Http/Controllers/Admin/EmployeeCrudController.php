@@ -6,7 +6,6 @@ use App\Enums\EmployeePermissionEnum;
 use App\Http\Requests\Admin\EmployeeStoreCrudRequest;
 use App\Http\Requests\Admin\EmployeeUpdateCrudRequest;
 use App\Models\Branch;
-use App\Models\Employee;
 use App\Models\Role;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -40,7 +39,7 @@ class EmployeeCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(Employee::class);
+        CRUD::setModel(config('auth.providers.employees.model'));
         CRUD::setRoute(backpack_url('employees'));
         CRUD::setEntityNameStrings(trans('Employee'), trans('Employees'));
 

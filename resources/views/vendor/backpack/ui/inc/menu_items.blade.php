@@ -8,6 +8,21 @@
 
     $menu_items = [
         [
+            'title' => trans('Customers'),
+            'icon' => 'la la-user',
+            'columns' => [
+                [
+                    'items' => [
+                        [
+                            'permission' => EmployeePermissionEnum::CUSTOMER_CRUD,
+                            'title' => trans('All customers'),
+                            'link' => backpack_url('customers'),
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        [
             'title' => trans('Branches'),
             'icon' => 'la la-shopping-cart',
             'columns' => [
