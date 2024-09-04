@@ -43,7 +43,7 @@ class BranchCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(Branch::class);
-        CRUD::setRoute(backpack_url('branches'));
+        CRUD::setRoute(route('branches.index'));
         CRUD::setEntityNameStrings(trans('Branch'), trans('Branches'));
 
         deny_access(EmployeePermissionEnum::BRANCH_CRUD);

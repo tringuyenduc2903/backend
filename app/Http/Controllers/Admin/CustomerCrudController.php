@@ -43,7 +43,7 @@ class CustomerCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(config('auth.providers.users.model'));
-        CRUD::setRoute(backpack_url('customers'));
+        CRUD::setRoute(route('customers.index'));
         CRUD::setEntityNameStrings(trans('Customer'), trans('Customers'));
 
         deny_access(EmployeePermissionEnum::CUSTOMER_CRUD);

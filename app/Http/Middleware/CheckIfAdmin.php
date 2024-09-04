@@ -23,7 +23,6 @@ class CheckIfAdmin extends \Backpack\CRUD\app\Http\Middleware\CheckIfAdmin
             return $this->respondToUnauthorizedRequest($request);
         } elseif (! $this->checkIfUserIsAdmin()) {
             backpack_auth()->logout();
-            Alert::error(trans('backpack::base.unauthorized'))->flash();
 
             return $this->respondToUnauthorizedRequest($request);
         } else {
@@ -36,9 +35,11 @@ class CheckIfAdmin extends \Backpack\CRUD\app\Http\Middleware\CheckIfAdmin
      */
     private function respondToUnauthorizedRequest(Request $request): Response|RedirectResponse
     {
+        Alert::error(trans('backpack::base.unauthorized'))->flash();
+
         return $request->ajax() || $request->wantsJson()
             ? response(trans('backpack::base.unauthorized'), 401)
-            : redirect()->guest(backpack_url('login'));
+            : redirect()->route('backpack.auth.login');
     }
 
     /**

@@ -1,6 +1,6 @@
 <x-backpack::menu-item
     :title="trans('backpack::base.dashboard')"
-    :link="backpack_url('dashboard')"
+    :link="route('backpack.dashboard')"
     icon="la la-home nav-icon"
 />
 @php
@@ -16,7 +16,7 @@
                         [
                             'permission' => EmployeePermissionEnum::CUSTOMER_CRUD,
                             'title' => trans('All customers'),
-                            'link' => backpack_url('customers'),
+                            'link' => route('customers.index'),
                         ],
                     ],
                 ],
@@ -31,7 +31,7 @@
                         [
                             'permission' => EmployeePermissionEnum::BRANCH_CRUD,
                             'title' => trans('All branches'),
-                            'link' => backpack_url('branches'),
+                            'link' => route('branches.index'),
                         ],
                     ],
                 ],
@@ -47,12 +47,12 @@
                         [
                             'permission' => EmployeePermissionEnum::EMPLOYEE_CRUD,
                             'title' => trans('All employees'),
-                            'link' => backpack_url('employees'),
+                            'link' => route('employees.index'),
                         ],
                         [
                             'permission' => EmployeePermissionEnum::ROLE_CRUD,
                             'title' => trans('Employee roles'),
-                            'link' => backpack_url('roles'),
+                            'link' => route('roles.index'),
                         ],
                     ],
                 ],
