@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Branch;
 use App\Models\Setting;
 use Illuminate\Database\Seeder;
 
@@ -19,6 +20,7 @@ class SettingSeeder extends Seeder
             $this->headerMenu(),
             $this->footerAbout(),
             $this->footerServices(),
+            $this->footerBranch(),
         ] as $row) {
             Setting::updateOrCreate($row['attributes'], $row['values']);
         }
@@ -330,6 +332,34 @@ class SettingSeeder extends Seeder
                         'required',
                         'string',
                         'max:255',
+                    ],
+                ], JSON_UNESCAPED_UNICODE),
+            ],
+        ];
+    }
+
+    protected function footerBranch(): array
+    {
+        return [
+            'attributes' => [
+                'key' => 'footer_branch',
+            ],
+            'values' => [
+                'name' => trans('Branch'),
+                'fields' => json_encode([[
+                    'name' => 'value',
+                    'label' => trans('Value'),
+                    'type' => 'select2',
+                    'model' => Branch::class,
+                    'attribute' => 'name',
+                    'allows_null' => false,
+                ]], JSON_UNESCAPED_UNICODE),
+                'active' => true,
+                'validation_rules' => json_encode([
+                    'value' => [
+                        'required',
+                        'integer',
+                        sprintf('exists:%s,%s', Branch::class, 'id'),
                     ],
                 ], JSON_UNESCAPED_UNICODE),
             ],
