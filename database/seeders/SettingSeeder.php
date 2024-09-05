@@ -18,6 +18,7 @@ class SettingSeeder extends Seeder
             $this->homepageBanners(),
             $this->headerMenu(),
             $this->footerAbout(),
+            $this->footerServices(),
         ] as $row) {
             Setting::updateOrCreate($row['attributes'], $row['values']);
         }
@@ -279,6 +280,56 @@ class SettingSeeder extends Seeder
                         'required',
                         'string',
                         'max:50',
+                    ],
+                ], JSON_UNESCAPED_UNICODE),
+            ],
+        ];
+    }
+
+    protected function footerServices(): array
+    {
+        return [
+            'attributes' => [
+                'key' => 'footer_services',
+            ],
+            'values' => [
+                'name' => trans('Services'),
+                'fields' => json_encode([[
+                    'name' => 'value',
+                    'label' => trans('Value'),
+                    'type' => 'repeatable',
+                    'subfields' => [[
+                        'name' => 'title',
+                        'label' => trans('Title'),
+                        'wrapper' => [
+                            'class' => 'form-group col-sm-12 col-md-6',
+                        ],
+                    ], [
+                        'name' => 'link',
+                        'label' => trans('Link'),
+                        'wrapper' => [
+                            'class' => 'form-group col-sm-12 col-md-6',
+                        ],
+                    ]],
+                    'min_rows' => 1,
+                    'max_rows' => 5,
+                ]], JSON_UNESCAPED_UNICODE),
+                'active' => true,
+                'validation_rules' => json_encode([
+                    'value' => [
+                        'required',
+                        'array',
+                        'max:5',
+                    ],
+                    'value.*.title' => [
+                        'required',
+                        'string',
+                        'max:50',
+                    ],
+                    'value.*.link' => [
+                        'required',
+                        'string',
+                        'max:255',
                     ],
                 ], JSON_UNESCAPED_UNICODE),
             ],

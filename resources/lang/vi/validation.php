@@ -214,5 +214,8 @@ return [
         'work_schedules' => 'lịch làm việc',
         'work_schedules.*.title' => 'tiêu đề',
         'work_schedules.*.description' => 'mô tả',
+        'value' => 'giá trị',
+        'value.*.title' => 'tiêu đề',
+        'value.*.link' => 'liên kết',
     ],
 ];
