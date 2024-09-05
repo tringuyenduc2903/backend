@@ -34,7 +34,7 @@ class Setting extends Model
      */
     protected $hidden = [
         'fields',
-        'validate_rules',
+        'validation_rules',
     ];
 
     protected array $rows = [[
@@ -42,7 +42,7 @@ class Setting extends Model
         'name' => '',
         'value' => '',
         'fields' => '',
-        'validate_rules' => '',
+        'validation_rules' => '',
         'active' => '',
     ]];
 

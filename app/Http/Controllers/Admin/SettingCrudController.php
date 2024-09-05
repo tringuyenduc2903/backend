@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\EmployeePermissionEnum;
+use App\Http\Requests\Admin\SettingRequest;
 use App\Models\Setting;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -78,14 +79,25 @@ class SettingCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-        CRUD::field('active')
-            ->label(trans('Active'))
-            ->type('switch');
+        $setting = CRUD::getCurrentEntry();
+
+        CRUD::setValidation(SettingRequest::class);
+        CRUD::setValidation(json_decode(
+            $setting->getAttribute('validation_rules'),
+            true
+        ));
+
         CRUD::field('name')
-            ->label(trans('backpack::settings.name'))
+            ->label(trans('Name'))
             ->attributes([
                 'disabled' => true,
             ]);
-        CRUD::addFields(json_decode(CRUD::getCurrentEntry()->getAttribute('fields'), true));
+        CRUD::field('active')
+            ->label(trans('Active'))
+            ->type('switch');
+        CRUD::addFields(json_decode(
+            $setting->getAttribute('fields'),
+            true
+        ));
     }
 }

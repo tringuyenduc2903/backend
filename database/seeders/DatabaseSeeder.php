@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             CustomerSeeder::class,
             AddAddressToCustomerSeeder::class,
             AddIdentificationToCustomerSeeder::class,
+            SettingSeeder::class,
         ]);
     }
 }

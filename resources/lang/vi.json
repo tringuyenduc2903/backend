@@ -76,5 +76,17 @@
     "Active": "Hoạt động",
     "Inactive": "Không hoạt động",
     "Home page": "Trang chủ",
-    "Auth": "Xác thực"
+    "Auth": "Xác thực",
+    "Show navigation button": "Hiển thị nút điều hướng",
+    "Show page number": "Hiển thị số trang",
+    "Automatically switch banners": "Tự động chuyển đổi biểu ngữ",
+    "Time to automatically switch banners": "Thời gian tự động chuyển biểu ngữ",
+    "Banners": "Biểu ngữ",
+    "Subtitle": "Tiêu đề phụ",
+    "Title": "Tiêu đề",
+    "Description": "Mô tả",
+    "Page name": "Tên trang",
+    "Banner description": "Mô tả biểu ngữ",
+    "Actions": "Hành động",
+    "Link": "Liên kết"
 }
