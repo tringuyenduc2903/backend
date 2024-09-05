@@ -17,6 +17,7 @@ class SettingSeeder extends Seeder
         foreach ([
             $this->homepageBanners(),
             $this->headerMenu(),
+            $this->footerAbout(),
         ] as $row) {
             Setting::updateOrCreate($row['attributes'], $row['values']);
         }
@@ -215,6 +216,69 @@ class SettingSeeder extends Seeder
                         'required',
                         'string',
                         'max:255',
+                    ],
+                ], JSON_UNESCAPED_UNICODE),
+            ],
+        ];
+    }
+
+    protected function footerAbout(): array
+    {
+        return [
+            'attributes' => [
+                'key' => 'footer_about',
+            ],
+            'values' => [
+                'name' => trans('Time in works'),
+                'fields' => json_encode([[
+                    'name' => 'description',
+                    'label' => trans('Description'),
+                    'type' => 'textarea',
+                    'fake' => true,
+                    'store_in' => 'value',
+                ], [
+                    'name' => 'work_schedules',
+                    'label' => trans('Work schedules'),
+                    'fake' => true,
+                    'store_in' => 'value',
+                    'type' => 'repeatable',
+                    'subfields' => [[
+                        'name' => 'title',
+                        'label' => trans('Title'),
+                        'wrapper' => [
+                            'class' => 'form-group col-sm-12 col-md-6',
+                        ],
+                    ], [
+                        'name' => 'description',
+                        'label' => trans('Description'),
+                        'wrapper' => [
+                            'class' => 'form-group col-sm-12 col-md-6',
+                        ],
+                    ]],
+                    'min_rows' => 1,
+                    'max_rows' => 3,
+                ]], JSON_UNESCAPED_UNICODE),
+                'active' => true,
+                'validation_rules' => json_encode([
+                    'description' => [
+                        'required',
+                        'string',
+                        'max:255',
+                    ],
+                    'work_schedules' => [
+                        'required',
+                        'array',
+                        'max:3',
+                    ],
+                    'work_schedules.*.title' => [
+                        'required',
+                        'string',
+                        'max:50',
+                    ],
+                    'work_schedules.*.description' => [
+                        'required',
+                        'string',
+                        'max:50',
                     ],
                 ], JSON_UNESCAPED_UNICODE),
             ],

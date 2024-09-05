@@ -211,5 +211,8 @@ return [
         'actions.*.link' => 'liên kết',
         'title' => 'tiêu đề',
         'description' => 'mô tả',
+        'work_schedules' => 'lịch làm việc',
+        'work_schedules.*.title' => 'tiêu đề',
+        'work_schedules.*.description' => 'mô tả',
     ],
 ];
