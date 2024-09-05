@@ -22,6 +22,7 @@ class SettingSeeder extends Seeder
             $this->footerServices(),
             $this->footerBranch(),
             $this->authBanner('auth_small_banner'),
+            $this->authBanner('auth_large_banner'),
         ] as $row) {
             Setting::updateOrCreate($row['attributes'], $row['values']);
         }
