@@ -16,9 +16,9 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Backpack\Pro\Http\Controllers\Operations\BulkTrashOperation;
+use Backpack\Pro\Http\Controllers\Operations\BulkTrashOperation as V2;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
-use Backpack\Pro\Http\Controllers\Operations\TrashOperation;
+use Backpack\Pro\Http\Controllers\Operations\TrashOperation as V1;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -28,12 +28,12 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class CustomerCrudController extends CrudController
 {
-    use BulkTrashOperation;
     use CreateOperation;
     use FetchOperation;
     use ListOperation;
-    use TrashOperation;
     use UpdateOperation;
+    use V1;
+    use V2;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.

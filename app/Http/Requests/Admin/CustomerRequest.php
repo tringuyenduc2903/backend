@@ -228,7 +228,7 @@ class CustomerRequest extends FormRequest
     }
 
     /**
-     * Get custom messages for validator errors.
+     * Get the validation messages that apply to the request.
      */
     public function messages(): array
     {
