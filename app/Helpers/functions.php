@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Employee;
+use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Log;
 
 if (! function_exists('revoke_token')) {
     function revoke_token($token_name): mixed
@@ -39,5 +41,28 @@ if (! function_exists('mb_ucwords')) {
     function mb_ucwords(?string $string): string
     {
         return mb_convert_case($string, MB_CASE_TITLE, 'UTF-8');
+    }
+}
+
+if (! function_exists('handle_exception')) {
+    function handle_exception(Exception $exception, string $class, string $function): void
+    {
+        Log::debug($exception->getMessage(), [
+            'class' => $class,
+            'function' => $function,
+        ]);
+    }
+}
+
+if (! function_exists('handle_api_call_failure')) {
+    function handle_api_call_failure(Response $response, string $class, string $function): void
+    {
+        if ($response->failed()) {
+            Log::debug('Call to API failed!', [
+                'class' => $class,
+                'function' => $function,
+                'information' => $response->json(),
+            ]);
+        }
     }
 }

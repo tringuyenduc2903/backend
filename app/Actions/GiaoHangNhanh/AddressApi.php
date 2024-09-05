@@ -3,7 +3,6 @@
 namespace App\Actions\GiaoHangNhanh;
 
 use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Support\Facades\Log;
 
 class AddressApi extends Api
 {
@@ -16,14 +15,13 @@ class AddressApi extends Api
     public function getProvinces(): array
     {
         try {
-            return $this->http_client
-                ->get($this->province_path)
-                ->json('data');
+            $response = $this->http_client->get($this->province_path);
+
+            handle_api_call_failure($response, __CLASS__, __FUNCTION__);
+
+            return $response->json('data');
         } catch (ConnectionException $exception) {
-            Log::debug($exception->getMessage(), [
-                'class' => __CLASS__,
-                'function' => __FUNCTION__,
-            ]);
+            handle_exception($exception, __CLASS__, __FUNCTION__);
 
             return [];
         }
@@ -32,17 +30,16 @@ class AddressApi extends Api
     public function getDistricts(int $province_id): array
     {
         try {
-            return $this->http_client
-                ->post(
-                    $this->district_path, [
-                        'province_id' => $province_id,
-                    ])
-                ->json('data');
+            $response = $this->http_client->post(
+                $this->district_path, [
+                    'province_id' => $province_id,
+                ]);
+
+            handle_api_call_failure($response, __CLASS__, __FUNCTION__);
+
+            return $response->json('data');
         } catch (ConnectionException $exception) {
-            Log::debug($exception->getMessage(), [
-                'class' => __CLASS__,
-                'function' => __FUNCTION__,
-            ]);
+            handle_exception($exception, __CLASS__, __FUNCTION__);
 
             return [];
         }
@@ -51,17 +48,16 @@ class AddressApi extends Api
     public function getWards(int $district_id): ?array
     {
         try {
-            return $this->http_client
-                ->post(
-                    $this->ward_path, [
-                        'district_id' => $district_id,
-                    ])
-                ->json('data');
+            $response = $this->http_client->post(
+                $this->ward_path, [
+                    'district_id' => $district_id,
+                ]);
+
+            handle_api_call_failure($response, __CLASS__, __FUNCTION__);
+
+            return $response->json('data');
         } catch (ConnectionException $exception) {
-            Log::debug($exception->getMessage(), [
-                'class' => __CLASS__,
-                'function' => __FUNCTION__,
-            ]);
+            handle_exception($exception, __CLASS__, __FUNCTION__);
 
             return null;
         }
