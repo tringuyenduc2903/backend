@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Actions\GiaoHangNhanh\StoreCache;
 use App\Models\Branch;
 use App\Models\Setting;
 use Illuminate\Database\Seeder;
@@ -23,6 +24,7 @@ class SettingSeeder extends Seeder
             $this->footerBranch(),
             $this->authBanner('auth_small_banner'),
             $this->authBanner('auth_large_banner'),
+            $this->storeGhn(),
         ] as $row) {
             Setting::updateOrCreate($row['attributes'], $row['values']);
         }
@@ -403,6 +405,43 @@ class SettingSeeder extends Seeder
                         'required_with:image',
                         'string',
                         'max:50',
+                    ],
+                ], JSON_UNESCAPED_UNICODE),
+            ],
+        ];
+    }
+
+    protected function storeGhn(): array
+    {
+        $shops = [];
+
+        foreach (app(StoreCache::class)->stores()['shops'] as $shop) {
+            $key = json_encode([
+                'district_id' => $shop['district_id'],
+                'shop_id' => $shop['_id'],
+            ], JSON_UNESCAPED_UNICODE);
+
+            $shops[$key] = $shop['name'];
+        }
+
+        return [
+            'attributes' => [
+                'key' => 'store_ghn',
+            ],
+            'values' => [
+                'name' => trans('Shop at GHN'),
+                'fields' => json_encode([[
+                    'name' => 'value',
+                    'label' => trans('Value'),
+                    'type' => 'select2_from_array',
+                    'options' => $shops,
+                    'allows_null' => false,
+                ]], JSON_UNESCAPED_UNICODE),
+                'active' => true,
+                'validation_rules' => json_encode([
+                    'value' => [
+                        'required',
+                        'string',
                     ],
                 ], JSON_UNESCAPED_UNICODE),
             ],

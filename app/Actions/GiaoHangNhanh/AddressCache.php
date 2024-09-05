@@ -2,9 +2,7 @@
 
 namespace App\Actions\GiaoHangNhanh;
 
-use App\Actions\HandleCache;
-
-class AddressCache extends HandleCache
+class AddressCache
 {
     protected int $cache_time;
 
@@ -15,7 +13,7 @@ class AddressCache extends HandleCache
 
     public function getProvinces(): array
     {
-        return $this->handle(
+        return handle_cache(
             fn () => $this->address_api->getProvinces(),
             sprintf('%s_%s', __CLASS__, __METHOD__),
             $this->cache_time
@@ -24,7 +22,7 @@ class AddressCache extends HandleCache
 
     public function getDistricts(int $province_id): array
     {
-        return $this->handle(
+        return handle_cache(
             fn () => $this->address_api->getDistricts($province_id),
             sprintf('%s_%s_%s', __CLASS__, __METHOD__, $province_id),
             $this->cache_time
@@ -33,7 +31,7 @@ class AddressCache extends HandleCache
 
     public function getWards(int $district_id): ?array
     {
-        return $this->handle(
+        return handle_cache(
             fn () => $this->address_api->getWards($district_id),
             sprintf('%s_%s_%s', __CLASS__, __METHOD__, $district_id),
             $this->cache_time

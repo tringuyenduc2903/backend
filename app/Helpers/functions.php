@@ -2,6 +2,7 @@
 
 use App\Models\Employee;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 if (! function_exists('revoke_token')) {
@@ -64,5 +65,19 @@ if (! function_exists('handle_api_call_failure')) {
                 'information' => $response->json(),
             ]);
         }
+    }
+}
+
+if (! function_exists('handle_cache')) {
+    function handle_cache(callable $callback, string $cache_key, int $cache_time): mixed
+    {
+        return Cache::get(
+            $cache_key,
+            function () use ($callback, $cache_key, $cache_time) {
+                Cache::set($cache_key, $data = $callback(), $cache_time);
+
+                return $data;
+            }
+        );
     }
 }
