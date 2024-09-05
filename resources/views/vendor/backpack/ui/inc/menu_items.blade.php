@@ -8,6 +8,21 @@
 
     $menu_items = [
         [
+            'title' => trans('Catalog'),
+            'icon' => 'la la-puzzle-piece',
+            'columns' => [
+                [
+                    'items' => [
+                        [
+                            'permission' => EmployeePermissionEnum::PRODUCT_CRUD,
+                            'title' => trans('Products'),
+                            'link' => route('products.index'),
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        [
             'title' => trans('Customers'),
             'icon' => 'la la-user',
             'columns' => [
