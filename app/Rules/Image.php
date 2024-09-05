@@ -9,6 +9,8 @@ use Illuminate\Translation\PotentiallyTranslatedString;
 
 class Image implements ValidationRule
 {
+    use RuleExtenderTrait;
+
     /**
      * Run the validation rule.
      *

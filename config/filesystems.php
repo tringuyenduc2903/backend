@@ -64,6 +64,14 @@ return [
             'throw' => false,
         ],
 
+        'setting' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/setting'),
+            'url' => env('APP_URL').'/storage/setting',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
     ],
 
     /*

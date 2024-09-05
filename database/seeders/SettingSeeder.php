@@ -21,6 +21,7 @@ class SettingSeeder extends Seeder
             $this->footerAbout(),
             $this->footerServices(),
             $this->footerBranch(),
+            $this->authBanner('auth_small_banner'),
         ] as $row) {
             Setting::updateOrCreate($row['attributes'], $row['values']);
         }
@@ -360,6 +361,47 @@ class SettingSeeder extends Seeder
                         'required',
                         'integer',
                         sprintf('exists:%s,%s', Branch::class, 'id'),
+                    ],
+                ], JSON_UNESCAPED_UNICODE),
+            ],
+        ];
+    }
+
+    protected function authBanner(string $column): array
+    {
+        return [
+            'attributes' => [
+                'key' => $column,
+            ],
+            'values' => [
+                'name' => trans('Banner'),
+                'fields' => json_encode([[
+                    'name' => 'image',
+                    'label' => trans('Image'),
+                    'type' => 'image',
+                    'crop' => true,
+                    'withFiles' => [
+                        'disk' => 'setting',
+                    ],
+                    'fake' => true,
+                    'store_in' => 'value',
+                ], [
+                    'name' => 'alt',
+                    'label' => trans('Alt text'),
+                    'fake' => true,
+                    'store_in' => 'value',
+                ]]),
+                'active' => true,
+                'validation_rules' => json_encode([
+                    'image' => [
+                        'sometimes',
+                        'image_banner',
+                    ],
+                    'alt' => [
+                        'nullable',
+                        'required_with:image',
+                        'string',
+                        'max:50',
                     ],
                 ], JSON_UNESCAPED_UNICODE),
             ],
