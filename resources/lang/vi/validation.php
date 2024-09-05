@@ -217,5 +217,7 @@ return [
         'value' => 'giá trị',
         'value.*.title' => 'tiêu đề',
         'value.*.link' => 'liên kết',
+        'symbol' => 'biểu tượng',
+        'code' => 'mã',
     ],
 ];

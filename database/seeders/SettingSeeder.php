@@ -25,6 +25,7 @@ class SettingSeeder extends Seeder
             $this->authBanner('auth_small_banner'),
             $this->authBanner('auth_large_banner'),
             $this->storeGhn(),
+            $this->storeCurrency(),
         ] as $row) {
             Setting::updateOrCreate($row['attributes'], $row['values']);
         }
@@ -442,6 +443,53 @@ class SettingSeeder extends Seeder
                     'value' => [
                         'required',
                         'string',
+                    ],
+                ], JSON_UNESCAPED_UNICODE),
+            ],
+        ];
+    }
+
+    protected function storeCurrency(): array
+    {
+        $shops = [];
+
+        foreach (app(StoreCache::class)->stores()['shops'] as $shop) {
+            $key = json_encode([
+                'district_id' => $shop['district_id'],
+                'shop_id' => $shop['_id'],
+            ], JSON_UNESCAPED_UNICODE);
+
+            $shops[$key] = $shop['name'];
+        }
+
+        return [
+            'attributes' => [
+                'key' => 'store_currency',
+            ],
+            'values' => [
+                'name' => trans('Currency'),
+                'fields' => json_encode([[
+                    'name' => 'symbol',
+                    'label' => trans('Symbol'),
+                    'fake' => true,
+                    'store_in' => 'value',
+                ], [
+                    'name' => 'code',
+                    'label' => trans('Code'),
+                    'fake' => true,
+                    'store_in' => 'value',
+                ]], JSON_UNESCAPED_UNICODE),
+                'active' => true,
+                'validation_rules' => json_encode([
+                    'symbol' => [
+                        'required',
+                        'string',
+                        'max:3',
+                    ],
+                    'code' => [
+                        'required',
+                        'string',
+                        'max:3',
                     ],
                 ], JSON_UNESCAPED_UNICODE),
             ],
