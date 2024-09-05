@@ -16,11 +16,9 @@ class SettingSeeder extends Seeder
 
         foreach ([
             $this->homepageBanners(),
+            $this->headerMenu(),
         ] as $row) {
-            Setting::updateOrCreate(
-                $row['attributes'],
-                $row['values']
-            );
+            Setting::updateOrCreate($row['attributes'], $row['values']);
         }
     }
 
@@ -180,6 +178,43 @@ class SettingSeeder extends Seeder
                     ],
                     'banners.*.actions' => [
                         'actions',
+                    ],
+                ], JSON_UNESCAPED_UNICODE),
+            ],
+        ];
+    }
+
+    protected function headerMenu(): array
+    {
+        return [
+            'attributes' => [
+                'key' => 'header_menu',
+            ],
+            'values' => [
+                'name' => trans('Title'),
+                'fields' => json_encode([[
+                    'name' => 'title',
+                    'label' => trans('Title'),
+                    'fake' => true,
+                    'store_in' => 'value',
+                ], [
+                    'name' => 'description',
+                    'label' => trans('Description'),
+                    'type' => 'textarea',
+                    'fake' => true,
+                    'store_in' => 'value',
+                ]], JSON_UNESCAPED_UNICODE),
+                'active' => true,
+                'validation_rules' => json_encode([
+                    'title' => [
+                        'required',
+                        'string',
+                        'max:50',
+                    ],
+                    'description' => [
+                        'required',
+                        'string',
+                        'max:255',
                     ],
                 ], JSON_UNESCAPED_UNICODE),
             ],

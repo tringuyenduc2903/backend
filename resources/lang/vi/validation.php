@@ -209,5 +209,7 @@ return [
         'actions' => 'hành động',
         'actions.*.title' => 'tiêu đề',
         'actions.*.link' => 'liên kết',
+        'title' => 'tiêu đề',
+        'description' => 'mô tả',
     ],
 ];
