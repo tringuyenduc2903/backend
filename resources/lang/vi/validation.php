@@ -234,5 +234,6 @@ return [
         'videos.*.image' => 'hình ảnh',
         'videos.*.title' => 'tiêu đề',
         'videos.*.description' => 'mô tả',
+        'search_url' => 'liên kết tìm kiếm',
     ],
 ];

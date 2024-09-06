@@ -4,11 +4,12 @@ namespace App\Http\Requests\Admin;
 
 use App\Enums\ProductType;
 use App\Enums\ProductVisibility;
+use App\Models\Product;
 use App\Rules\Image;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ProductRequest extends FormRequest
+class ProductUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +25,8 @@ class ProductRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = $this->input('id') ?? request()->route('id');
+
         return [
             'enabled' => [
                 'required',
@@ -68,6 +71,12 @@ class ProductRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
+            ],
+            'search_url' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique(Product::class)->ignore($id),
             ],
             'images' => [
                 'nullable',

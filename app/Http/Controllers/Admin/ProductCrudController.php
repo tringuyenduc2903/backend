@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\EmployeePermissionEnum;
 use App\Enums\ProductType;
 use App\Enums\ProductVisibility;
-use App\Http\Requests\Admin\ProductRequest;
+use App\Http\Requests\Admin\ProductStoreRequest;
+use App\Http\Requests\Admin\ProductUpdateRequest;
 use App\Models\Product;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -33,10 +34,8 @@ class ProductCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     *
-     * @return void
      */
-    public function setup()
+    public function setup(): void
     {
         CRUD::setModel(Product::class);
         CRUD::setRoute(route('products.index'));
@@ -49,10 +48,8 @@ class ProductCrudController extends CrudController
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     *
-     * @return void
      */
-    protected function setupListOperation()
+    protected function setupListOperation(): void
     {
         CRUD::column('name')
             ->label(trans('Name'));
@@ -73,6 +70,8 @@ class ProductCrudController extends CrudController
         ]);
         CRUD::column('manufacturer')
             ->label(trans('Manufacturer'));
+        CRUD::column('search_url')
+            ->label(trans('Search URL'));
 
         CRUD::filter('name')
             ->label(trans('Name'))
@@ -99,25 +98,16 @@ class ProductCrudController extends CrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
-     *
-     * @return void
      */
-    protected function setupUpdateOperation()
+    protected function setupUpdateOperation(): void
     {
-        $this->setupCreateOperation();
+        CRUD::setValidation(ProductUpdateRequest::class);
+
+        $this->productFields();
     }
 
-    /**
-     * Define what happens when the Create operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-create
-     *
-     * @return void
-     */
-    protected function setupCreateOperation()
+    protected function productFields(): void
     {
-        CRUD::setValidation(ProductRequest::class);
-
         CRUD::field('enabled')
             ->label(trans('Enabled'))
             ->type('switch')
@@ -167,6 +157,13 @@ class ProductCrudController extends CrudController
                 ],
             ]],
             'max_rows' => 30,
+            'tab' => trans('Basic information'),
+        ]);
+        CRUD::addField([
+            'name' => 'search_url',
+            'label' => trans('Search URL'),
+            'type' => 'slug',
+            'target' => 'name',
             'tab' => trans('Basic information'),
         ]);
         CRUD::addField([
@@ -225,6 +222,18 @@ class ProductCrudController extends CrudController
             'max_rows' => 1,
             'tab' => trans('Media'),
         ]);
+    }
+
+    /**
+     * Define what happens when the Create operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-create
+     */
+    protected function setupCreateOperation(): void
+    {
+        CRUD::setValidation(ProductStoreRequest::class);
+
+        $this->productFields();
     }
 
     protected function fetchProducts()

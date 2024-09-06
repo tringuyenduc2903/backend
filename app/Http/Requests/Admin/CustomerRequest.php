@@ -207,7 +207,7 @@ class CustomerRequest extends FormRequest
                     }
                 },
                 'max:100',
-                Rule::unique(Identification::class)->ignore($this->input('id'), 'customer_id'),
+                Rule::unique(Identification::class)->ignore($id, 'customer_id'),
             ],
             'identifications.*.issued_name' => [
                 'required',
