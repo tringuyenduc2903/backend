@@ -56,7 +56,7 @@ class EmployeeUpdateCrudRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
-        if (is_null($this->input('password'))) {
+        if ($this->isEmptyString('password')) {
             $this->getInputSource()->remove('password');
         }
     }

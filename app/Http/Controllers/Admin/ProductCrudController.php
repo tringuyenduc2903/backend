@@ -167,6 +167,39 @@ class ProductCrudController extends CrudController
             'tab' => trans('Basic information'),
         ]);
         CRUD::addField([
+            'name' => 'seo',
+            'label' => trans('SEO'),
+            'subfields' => [[
+                'name' => 'title',
+                'label' => trans('Title'),
+            ], [
+                'name' => 'description',
+                'label' => trans('Description'),
+                'type' => 'textarea',
+            ], [
+                'name' => 'image',
+                'label' => trans('Image'),
+                'type' => 'image',
+                'crop' => true,
+                'withFiles' => [
+                    'disk' => 'product',
+                ],
+            ], [
+                'name' => 'author',
+                'label' => trans('Author'),
+            ], [
+                'name' => 'robots',
+                'label' => trans('Robot tags'),
+                'type' => 'table',
+                'columns' => [
+                    'name' => trans('Name'),
+                    'value' => trans('Value'),
+                ],
+                'max' => 5,
+            ]],
+            'tab' => trans('Basic information'),
+        ]);
+        CRUD::addField([
             'name' => 'images',
             'label' => trans('Images'),
             'type' => 'repeatable',

@@ -235,5 +235,13 @@ return [
         'videos.*.title' => 'tiêu đề',
         'videos.*.description' => 'mô tả',
         'search_url' => 'liên kết tìm kiếm',
+        'seo.*.title' => 'tiêu đề',
+        'seo.*.description' => 'mô tả',
+        'seo.*.image' => 'hình ảnh',
+        'seo.*.author' => 'tác giả',
+        'seo.*.robots' => 'thẻ robot',
+        'robots' => 'thẻ robot',
+        'robots.*.name' => 'tên',
+        'robots.*.value' => 'giá trị',
     ],
 ];

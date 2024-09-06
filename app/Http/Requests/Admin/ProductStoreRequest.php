@@ -7,6 +7,7 @@ use App\Enums\ProductVisibility;
 use App\Models\Product;
 use App\Rules\Image;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class ProductStoreRequest extends FormRequest
@@ -76,6 +77,60 @@ class ProductStoreRequest extends FormRequest
                 'max:255',
                 Rule::unique(Product::class),
             ],
+            'seo' => [
+                'nullable',
+                'array',
+                'max:1',
+            ],
+            'seo.*.title' => [
+                'nullable',
+                'string',
+                'max:60',
+            ],
+            'seo.*.description' => [
+                'nullable',
+                'required_with:description',
+                'string',
+                'max:160',
+            ],
+            'seo.*.image' => [
+                'nullable',
+                app(Image::class),
+            ],
+            'seo.*.author' => [
+                'nullable',
+                'string',
+                'max:50',
+            ],
+            'seo.*.robots' => [
+                function ($attribute, $value, $fail) {
+                    $items = json_decode($value, true);
+
+                    $validator = Validator::make([
+                        'robots' => $items,
+                    ], [
+                        'robots' => [
+                            'nullable',
+                            'array',
+                            'max:5',
+                        ],
+                        'robots.*.name' => [
+                            'required',
+                            'string',
+                            'max:50',
+                        ],
+                        'robots.*.value' => [
+                            'required',
+                            'string',
+                            'max:255',
+                        ],
+                    ]);
+
+                    if ($validator->fails()) {
+                        $fail($validator->errors()->first());
+                    }
+                },
+            ],
             'images' => [
                 'nullable',
                 'array',
@@ -121,7 +176,7 @@ class ProductStoreRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
-        if (is_null($this->input('search_url'))) {
+        if ($this->isEmptyString('search_url')) {
             $this->getInputSource()->remove('search_url');
         }
     }
