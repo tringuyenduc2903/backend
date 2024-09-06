@@ -193,7 +193,7 @@ class ProductCrudController extends CrudController
                 'name' => 'video',
                 'label' => trans('Video'),
                 'type' => 'video',
-                'youtube_api_key' => config('youtube.key'),
+                'youtube_api_key' => config('services.youtube.key'),
             ], [
                 'name' => 'image',
                 'label' => trans('Image'),
