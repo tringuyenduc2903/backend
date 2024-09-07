@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
+use App\Eloquent\Model;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Illuminate\Database\Eloquent\Model;
-use Sushi\Sushi;
 
 class Setting extends Model
 {
     use CrudTrait;
-    use Sushi;
 
     /*
     |--------------------------------------------------------------------------
@@ -37,16 +35,20 @@ class Setting extends Model
         'validation_rules',
     ];
 
-    protected array $rows = [[
-        'key' => '',
-        'name' => '',
-        'value' => '',
-        'fields' => '',
-        'validation_rules' => '',
-        'active' => '',
-    ]];
+    protected $connection = 'mongodb';
 
     protected array $fakeColumns = [
         'value',
     ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTIONS
+    |--------------------------------------------------------------------------
+    */
+
+    public static function get(string $key): Setting
+    {
+        return static::whereKey($key)->firstOrFail();
+    }
 }

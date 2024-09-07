@@ -112,6 +112,17 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'dsn' => sprintf(
+                'mongodb://%s:%s@%s/',
+                env('MDB_USERNAME'),
+                env('MDB_PASSWORD'),
+                env('MDB_HOST')
+            ),
+            'database' => env('MDB_DATABASE'),
+        ],
+
     ],
 
     /*

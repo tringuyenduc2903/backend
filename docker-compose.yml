@@ -1,7 +1,7 @@
 services:
     laravel.test:
         build:
-            context: ./vendor/laravel/sail/runtimes/8.3
+            context: ./docker/8.3
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
@@ -28,7 +28,7 @@ services:
             - meilisearch
             - mailpit
     mariadb:
-        image: 'mariadb:11'
+        image: mariadb
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
         environment:
@@ -51,8 +51,21 @@ services:
                 - '--innodb_initialized'
             retries: 3
             timeout: 5s
+    mongodb:
+        image: mongo
+        ports:
+            - '${FORWARD_MDB_PORT:-27017}:27017'
+        restart: always
+        environment:
+            MONGO_INITDB_DATABASE: '${MDB_DATABASE}'
+            MONGO_INITDB_ROOT_USERNAME: '${MDB_USERNAME}'
+            MONGO_INITDB_ROOT_PASSWORD: '${MDB_PASSWORD}'
+        volumes:
+            - 'sail-mongo:/data/db'
+        networks:
+            - sail
     redis:
-        image: 'redis:alpine'
+        image: redis
         ports:
             - '${FORWARD_REDIS_PORT:-6379}:6379'
         volumes:
@@ -67,7 +80,7 @@ services:
             retries: 3
             timeout: 5s
     meilisearch:
-        image: 'getmeili/meilisearch:latest'
+        image: getmeili/meilisearch
         ports:
             - '${FORWARD_MEILISEARCH_PORT:-7700}:7700'
         environment:
@@ -86,7 +99,7 @@ services:
             retries: 3
             timeout: 5s
     mailpit:
-        image: 'axllent/mailpit:latest'
+        image: axllent/mailpit
         ports:
             - '${FORWARD_MAILPIT_PORT:-1025}:1025'
             - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
@@ -97,6 +110,8 @@ networks:
         driver: bridge
 volumes:
     sail-mariadb:
+        driver: local
+    sail-mongo:
         driver: local
     sail-redis:
         driver: local

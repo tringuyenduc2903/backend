@@ -14,8 +14,6 @@ class SettingSeeder extends Seeder
      */
     public function run(): void
     {
-        Setting::whereName('')->first()?->delete();
-
         foreach ([
             $this->homepageBanners(),
             $this->headerMenu(),
