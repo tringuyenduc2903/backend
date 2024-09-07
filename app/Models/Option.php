@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use App\Eloquent\Model;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Setting extends Model
+class Option extends Model
 {
     use CrudTrait;
+    use SoftDeletes;
 
     /*
     |--------------------------------------------------------------------------
@@ -21,8 +23,22 @@ class Setting extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'value',
+        'sku',
+        'price',
+        'value_added_tax',
+        'images',
+        'color',
+        'version',
+        'volume',
+        'type',
+        'status',
+        'quantity',
+        'weight',
+        'length',
+        'width',
+        'height',
+        'specifications',
+        'product_id',
     ];
 
     /**
@@ -31,24 +47,6 @@ class Setting extends Model
      * @var array<int, string>
      */
     protected $hidden = [
-        'fields',
-        'validation_rules',
+        'product_id',
     ];
-
-    protected $connection = 'mongodb';
-
-    protected array $fakeColumns = [
-        'value',
-    ];
-
-    /*
-    |--------------------------------------------------------------------------
-    | FUNCTIONS
-    |--------------------------------------------------------------------------
-    */
-
-    public static function get(string $key): string
-    {
-        return static::where('key', $key)->firstOrFail()->value;
-    }
 }

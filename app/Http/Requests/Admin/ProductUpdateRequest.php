@@ -2,8 +2,11 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Enums\OptionStatus;
+use App\Enums\OptionType;
 use App\Enums\ProductType;
 use App\Enums\ProductVisibility;
+use App\Models\Option;
 use App\Models\Product;
 use App\Rules\Image;
 use Illuminate\Foundation\Http\FormRequest;
@@ -27,6 +30,7 @@ class ProductUpdateRequest extends FormRequest
     public function rules(): array
     {
         $id = $this->input('id') ?? request()->route('id');
+        $type = $this->input('type');
 
         return [
             'enabled' => [
@@ -122,6 +126,138 @@ class ProductUpdateRequest extends FormRequest
                             'max:50',
                         ],
                         'robots.*.value' => [
+                            'required',
+                            'string',
+                            'max:255',
+                        ],
+                    ]);
+
+                    if ($validator->fails()) {
+                        $fail($validator->errors()->first());
+                    }
+                },
+            ],
+            'options' => [
+                'required',
+                'array',
+            ],
+            'options.*.sku' => [
+                'required',
+                'string',
+                'max:50',
+                function ($attribute, $value, $fail) {
+                    $id = request(
+                        str_replace('.sku', '.id', $attribute)
+                    );
+
+                    $validator = Validator::make([
+                        'sku' => $value,
+                    ], [
+                        'sku' => Rule::unique(Option::class)->ignore($id),
+                    ]);
+
+                    if ($validator->fails()) {
+                        $fail($validator->errors()->first());
+                    }
+                },
+            ],
+            'options.*.price' => [
+                'required',
+                'decimal:0,2',
+                'between:0,9999999999',
+            ],
+            'options.*.value_added_tax' => [
+                'required',
+                'integer',
+                'between:0,10',
+            ],
+            'options.*.images' => [
+                'required',
+            ],
+            'options.*.color' => [
+                'nullable',
+                Rule::requiredIf($type == ProductType::MOTOR_CYCLE),
+                'string',
+                'max:50',
+            ],
+            'options.*.version' => [
+                'nullable',
+                Rule::requiredIf($type == ProductType::MOTOR_CYCLE),
+                'string',
+                'max:50',
+            ],
+            'options.*.volume' => [
+                'nullable',
+                'string',
+                'max:50',
+            ],
+            'options.*.type' => [
+                'required',
+                'integer',
+                Rule::in(OptionType::keys()),
+            ],
+            'options.*.status' => [
+                'required',
+                'integer',
+                Rule::in(OptionStatus::keys()),
+            ],
+            'options.*.quantity' => [
+                'required',
+                'integer',
+                'between:0,65535',
+            ],
+            'options.*.weight' => [
+                'nullable',
+                Rule::requiredIf(in_array(
+                    $type, [
+                        ProductType::SQUARE_PARTS, ProductType::ACCESSORIES,
+                    ])),
+                'integer',
+                'between:1,4294967295',
+            ],
+            'options.*.length' => [
+                'nullable',
+                Rule::requiredIf(in_array(
+                    $type, [
+                        ProductType::SQUARE_PARTS, ProductType::ACCESSORIES,
+                    ])),
+                'integer',
+                'between:1,4294967295',
+            ],
+            'options.*.width' => [
+                'nullable',
+                Rule::requiredIf(in_array(
+                    $type, [
+                        ProductType::SQUARE_PARTS, ProductType::ACCESSORIES,
+                    ])),
+                'integer',
+                'between:1,4294967295',
+            ],
+            'options.*.height' => [
+                'nullable',
+                Rule::requiredIf(in_array(
+                    $type, [
+                        ProductType::SQUARE_PARTS, ProductType::ACCESSORIES,
+                    ])),
+                'integer',
+                'between:1,4294967295',
+            ],
+            'options.*.specifications' => [
+                function ($attribute, $value, $fail) {
+                    $validator = Validator::make([
+                        'specifications' => json_decode($value, true),
+                    ], [
+                        'specifications' => [
+                            'nullable',
+                            'array',
+                            'max:30',
+                        ],
+                        'specifications.*.title' => [
+                            'required',
+                            'string',
+                            'max:50',
+                        ],
+                        'specifications.*.description' => [
                             'required',
                             'string',
                             'max:255',

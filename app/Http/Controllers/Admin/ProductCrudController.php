@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\EmployeePermissionEnum;
+use App\Enums\OptionStatus;
+use App\Enums\OptionType;
 use App\Enums\ProductType;
 use App\Enums\ProductVisibility;
 use App\Http\Requests\Admin\ProductStoreRequest;
@@ -14,7 +16,9 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Backpack\CRUD\app\Library\Widget;
 use Backpack\Pro\Http\Controllers\Operations\BulkTrashOperation as V2;
+use Backpack\Pro\Http\Controllers\Operations\DropzoneOperation;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use Backpack\Pro\Http\Controllers\Operations\TrashOperation as V1;
 
@@ -26,6 +30,7 @@ use Backpack\Pro\Http\Controllers\Operations\TrashOperation as V1;
 class ProductCrudController extends CrudController
 {
     use CreateOperation;
+    use DropzoneOperation;
     use FetchOperation;
     use ListOperation;
     use UpdateOperation;
@@ -108,6 +113,13 @@ class ProductCrudController extends CrudController
 
     protected function productFields(): void
     {
+        Widget::add([
+            'type' => 'script',
+            'content' => resource_path('assets/js/admin/forms/product.js'),
+        ]);
+
+        $code = current_currency_code();
+
         CRUD::field('enabled')
             ->label(trans('Enabled'))
             ->type('switch')
@@ -198,6 +210,126 @@ class ProductCrudController extends CrudController
                 'max' => 5,
             ]],
             'tab' => trans('Basic information'),
+        ]);
+        CRUD::addField([
+            'name' => 'options',
+            'label' => trans('Options'),
+            'type' => 'repeatable',
+            'subfields' => [[
+                'name' => 'sku',
+                'label' => trans('SKU'),
+            ], [
+                'name' => 'price',
+                'label' => trans('Price'),
+                'type' => 'number',
+                'prefix' => $code.' ',
+                'default' => 0,
+                'wrapper' => [
+                    'class' => 'form-group col-sm-12 col-md-6',
+                ],
+            ], [
+                'name' => 'price_preview',
+                'label' => trans('Price preview'),
+                'prefix' => $code.' ',
+                'attributes' => [
+                    'disabled' => true,
+                ],
+                'wrapper' => [
+                    'class' => 'form-group col-sm-12 col-md-6',
+                ],
+            ], [
+                'name' => 'value_added_tax',
+                'label' => trans('Value added tax'),
+                'type' => 'number',
+                'prefix' => '%',
+                'default' => 10,
+            ], [
+                'name' => 'images',
+                'label' => trans('Images'),
+                'type' => 'dropzone',
+                'withFiles' => [
+                    'disk' => 'product',
+                ],
+            ], [
+                'name' => 'color',
+                'label' => trans('Color'),
+                'wrapper' => [
+                    'class' => 'form-group col-sm-12 col-md-6 col-xl-4',
+                ],
+            ], [
+                'name' => 'version',
+                'label' => trans('Version'),
+                'wrapper' => [
+                    'class' => 'form-group col-sm-12 col-md-6 col-xl-4',
+                ],
+            ], [
+                'name' => 'volume',
+                'label' => trans('Volume'),
+                'wrapper' => [
+                    'class' => 'form-group col-sm-12 col-md-6 col-xl-4',
+                ],
+            ], [
+                'name' => 'type',
+                'label' => trans('Type'),
+                'type' => 'select2_from_array',
+                'options' => OptionType::values(),
+                'allows_null' => false,
+            ], [
+                'name' => 'quantity',
+                'label' => trans('Quantity'),
+                'type' => 'number',
+                'wrapper' => [
+                    'class' => 'form-group col-sm-12 col-md-6',
+                ],
+            ], [
+                'name' => 'status',
+                'label' => trans('Status'),
+                'type' => 'select2_from_array',
+                'options' => OptionStatus::values(),
+                'allows_null' => false,
+                'wrapper' => [
+                    'class' => 'form-group col-sm-12 col-md-6',
+                ],
+            ], [
+                'name' => 'weight',
+                'label' => trans('Weight'),
+                'type' => 'number',
+                'prefix' => 'gram',
+            ], [
+                'name' => 'length',
+                'label' => trans('Length'),
+                'type' => 'number',
+                'prefix' => 'cm',
+                'wrapper' => [
+                    'class' => 'form-group col-sm-12 col-md-6 col-xl-4',
+                ],
+            ], [
+                'name' => 'width',
+                'label' => trans('Width'),
+                'type' => 'number',
+                'prefix' => 'cm',
+                'wrapper' => [
+                    'class' => 'form-group col-sm-12 col-md-6 col-xl-4',
+                ],
+            ], [
+                'name' => 'height',
+                'label' => trans('Height'),
+                'type' => 'number',
+                'prefix' => 'cm',
+                'wrapper' => [
+                    'class' => 'form-group col-sm-12 col-md-6 col-xl-4',
+                ],
+            ], [
+                'name' => 'specifications',
+                'label' => trans('Specifications'),
+                'type' => 'table',
+                'columns' => [
+                    'title' => trans('Title'),
+                    'description' => trans('Description'),
+                ],
+            ]],
+            'min_rows' => 1,
+            'tab' => trans('Options'),
         ]);
         CRUD::addField([
             'name' => 'images',

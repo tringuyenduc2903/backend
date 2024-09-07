@@ -31,6 +31,8 @@ class CustomerRequest extends FormRequest
     public function rules(): array
     {
         $id = $this->input('id') ?? request()->route('id');
+        $addresses = $this->input('addresses');
+        $identifications = $this->input('identifications');
         $timezone = isset($id)
             ? timezone_identifiers_list()[Customer::findOrFail($id)->timezone]
             : config('app.timezone');
@@ -77,11 +79,7 @@ class CustomerRequest extends FormRequest
                 'array',
                 'max:5',
                 Rule::when(
-                    $this->input('addresses') &&
-                    ! in_array(
-                        true,
-                        array_column($this->input('addresses'), 'default')
-                    ),
+                    $addresses && ! in_array(true, array_column($addresses, 'default')),
                     'accepted'
                 ),
             ],
@@ -150,11 +148,7 @@ class CustomerRequest extends FormRequest
                 'array',
                 'max:5',
                 Rule::when(
-                    $this->input('identifications') &&
-                    ! in_array(
-                        true,
-                        array_column($this->input('identifications'), 'default')
-                    ),
+                    $identifications && ! in_array(true, array_column($identifications, 'default')),
                     'accepted'
                 ),
             ],

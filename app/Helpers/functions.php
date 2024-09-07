@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Employee;
+use App\Models\Setting;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -79,5 +80,23 @@ if (! function_exists('handle_cache')) {
                 return $data;
             }
         );
+    }
+}
+
+if (! function_exists('current_currency_symbol')) {
+    function current_currency_symbol(): mixed
+    {
+        $currency = Setting::get('store_currency');
+
+        return json_decode($currency)->symbol;
+    }
+}
+
+if (! function_exists('current_currency_code')) {
+    function current_currency_code(): mixed
+    {
+        $currency = Setting::get('store_currency');
+
+        return json_decode($currency)->code;
     }
 }
