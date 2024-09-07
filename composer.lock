@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e9a71e25f1fb6fbd0722afeeb7237ac7",
+    "content-hash": "87c79c8cf4f4a08bb2fbbe82cf22b6cb",
     "packages": [
         {
             "name": "backpack/basset",
@@ -176,17 +176,17 @@
         },
         {
             "name": "backpack/pro",
-            "version": "2.2.14",
+            "version": "2.2.15",
             "source": {
                 "type": "git",
                 "url": "git@github.com:Laravel-Backpack/PRO.git",
-                "reference": "79a1249fbe38118bfe703af0b24dd196bcfd7de5"
+                "reference": "f8a33aab7da9bc38a5b5790a463ce259ddd3c06f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://repo.backpackforlaravel.com/dist/backpack/pro/backpack-pro-79a1249fbe38118bfe703af0b24dd196bcfd7de5-zip-3c06bc.zip",
-                "reference": "79a1249fbe38118bfe703af0b24dd196bcfd7de5",
-                "shasum": "2fa446a08274a7610bdadb82ac1ffe9bf94998e6"
+                "url": "https://repo.backpackforlaravel.com/dist/backpack/pro/backpack-pro-f8a33aab7da9bc38a5b5790a463ce259ddd3c06f-zip-f42389.zip",
+                "reference": "f8a33aab7da9bc38a5b5790a463ce259ddd3c06f",
+                "shasum": "1003b403c844f45eb395a93e5c498a8e88e8b842"
             },
             "require": {
                 "backpack/crud": "^6.0.1"
@@ -238,10 +238,10 @@
                 "Pro"
             ],
             "support": {
-                "source": "https://github.com/Laravel-Backpack/PRO/tree/2.2.14",
+                "source": "https://github.com/Laravel-Backpack/PRO/tree/2.2.15",
                 "issues": "https://github.com/Laravel-Backpack/PRO/issues"
             },
-            "time": "2024-08-16T09:17:51+00:00"
+            "time": "2024-09-06T09:49:19+00:00"
         },
         {
             "name": "backpack/theme-tabler",
@@ -10047,7 +10047,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.2"
+        "php": "^8.2",
+        "ext-pdo": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.6.0"

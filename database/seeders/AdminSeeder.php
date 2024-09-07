@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\EmployeePermissionEnum;
 use App\Enums\EmployeeRoleEnum;
+use App\Models\Branch;
 use App\Models\Employee;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -57,6 +58,10 @@ class AdminSeeder extends Seeder
             'password' => 'admin',
             'remember_token' => Str::random(10),
         ]);
+
+        $admin->branch()
+            ->associate(Branch::inRandomOrder()->first())
+            ->save();
 
         $admin->assignRole(
             Role::whereName(EmployeeRoleEnum::ADMIN)->firstOrFail()
