@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SwaggerController;
 use App\Http\Responses\LoginResponse;
 use App\Http\Responses\LogoutResponse;
 use App\Http\Responses\TwoFactorEnabledResponse;
@@ -24,6 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
         \Laravel\Fortify\Http\Responses\LoginResponse::class => LoginResponse::class,
         \Laravel\Fortify\Http\Responses\LogoutResponse::class => LogoutResponse::class,
         \Laravel\Fortify\Http\Responses\TwoFactorEnabledResponse::class => TwoFactorEnabledResponse::class,
+        \L5Swagger\Http\Controllers\SwaggerController::class => SwaggerController::class,
     ])
     ->withExceptions(function (Exceptions $exceptions) {
         //

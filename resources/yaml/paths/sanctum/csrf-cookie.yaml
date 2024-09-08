@@ -1,0 +1,7 @@
+get:
+  description: Thiết lập Cookie CSRF
+  tags:
+    - CSRF
+  responses:
+    204:
+      description: Thiết lập Cookie CSRF thành công
