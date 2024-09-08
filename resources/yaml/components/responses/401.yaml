@@ -1,0 +1,11 @@
+description: Khách hàng chưa đăng nhập
+content:
+  application/json:
+    schema:
+      properties:
+        message:
+          title: Thông báo ngắn
+          description: Không được xác thực.
+          example: Unauthenticated.
+          type: string
+      type: object

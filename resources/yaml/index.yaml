@@ -15,3 +15,5 @@ paths:
     $ref: "./paths/api/register.yaml"
   /api/login:
     $ref: "./paths/api/login.yaml"
+  /api/logout:
+    $ref: "./paths/api/logout.yaml"

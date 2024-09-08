@@ -1,0 +1,13 @@
+post:
+  description: Đăng xuất tài khoản
+  tags:
+    - Xác thực
+  parameters:
+    - $ref: "../../components/parameters/X-Requested-With.yaml"
+  responses:
+    204:
+      description: Đăng xuất tài khoản thành công
+    401:
+      $ref: "../../components/responses/401.yaml"
+    419:
+      $ref: "../../components/responses/419.yaml"
