@@ -148,5 +148,7 @@
     "Sold": "Đã bán",
     "Storage": "Tồn kho",
     "Chassis number": "Số khung",
-    "Engine number": "Số máy"
+    "Engine number": "Số máy",
+    "(and :count more errors)": "(và :count lỗi khác)",
+    "(and :count more error)": "(và :count lỗi)"
 }

@@ -1,0 +1,11 @@
+description: Token CSRF bị thiếu, không hợp lệ hoặc đã hết hạn
+content:
+  application/json:
+    schema:
+      properties:
+        message:
+          title: Thông báo ngắn
+          description: Token CSRF không khớp.
+          example: CSRF token mismatch.
+          type: string
+      type: object

@@ -1,0 +1,86 @@
+post:
+  description: Đăng ký tài khoản
+  tags:
+    - Xác thực
+  parameters:
+    - $ref: "../../components/parameters/X-Requested-With.yaml"
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            name:
+              title: Tên
+              maxLength: 50
+              example: Nguyễn Văn Hải
+              type: string
+            email:
+              title: Email
+              maxLength: 100
+              example: nguyenvanhai@agilts.com
+              type: string
+            password:
+              title: Mật khẩu
+              description: Mật khẩu phải chứa chữ thường, chữ in hoa, ký tự đặc biệt và số. Ngoài ra, mật khẩu chưa bị rò rỉ trong các cuộc tấn công đã được công khai
+              maxLength: 20
+              minLength: 8
+              example: NguyenVanHai825!
+              type: string
+            password_confirmation:
+              title: Xác nhận lại mật khẩu
+              description: Nhập chính xác mật khẩu trước đó
+              maxLength: 20
+              minLength: 8
+              example: NguyenVanHai825!
+              type: string
+          type: object
+          required:
+            - name
+            - email
+            - password
+            - password_confirmation
+  responses:
+    201:
+      description: Đăng ký tài khoản thành công
+      content:
+        application/json:
+          schema:
+            description: Dữ liệu trả về
+            properties:
+              token:
+                title: Mã đăng nhập dành cho Ứng dụng
+                example: 1|tRmiiQiSJdy7IO9bhD1fDeLY5FFf8Y5OiKYhxZVscc8b762f
+                type: string
+            type: object
+    302:
+      $ref: "../../components/responses/302.yaml"
+    419:
+      $ref: "../../components/responses/419.yaml"
+    422:
+      description: Dữ liệu khách hàng đã nhập không được chấp nhận
+      content:
+        application/json:
+          schema:
+            properties:
+              message:
+                title: Thông báo ngắn
+                example: Trường tên là bắt buộc. (và 2 lỗi khác)
+                type: string
+              errors:
+                properties:
+                  name:
+                    title: Tên
+                    example:
+                      - Trường tên là bắt buộc.
+                    type: array
+                  email:
+                    title: Email
+                    example:
+                      - Trường email là bắt buộc.
+                    type: array
+                  password:
+                    title: Mật khẩu
+                    example:
+                      - Trường mật khẩu là bắt buộc.
+                    type: array
+                type: object
