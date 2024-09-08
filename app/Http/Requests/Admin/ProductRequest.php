@@ -13,7 +13,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class ProductUpdateRequest extends FormRequest
+class ProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -78,10 +78,10 @@ class ProductUpdateRequest extends FormRequest
                 'max:255',
             ],
             'search_url' => [
-                'required',
+                $id ? 'required' : 'sometimes',
                 'string',
                 'max:255',
-                Rule::unique(Product::class)->ignore($id),
+                Rule::unique(Product::class),
             ],
             'seo' => [
                 'sometimes',
@@ -146,14 +146,12 @@ class ProductUpdateRequest extends FormRequest
                 'string',
                 'max:50',
                 function ($attribute, $value, $fail) {
-                    $id = request(
-                        str_replace('.sku', '.id', $attribute)
-                    );
-
                     $validator = Validator::make([
                         'sku' => $value,
                     ], [
-                        'sku' => Rule::unique(Option::class)->ignore($id),
+                        'sku' => Rule::unique(Option::class)->ignore(
+                            $this->input('options.*.id')
+                        ),
                     ]);
 
                     if ($validator->fails()) {
@@ -314,18 +312,26 @@ class ProductUpdateRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
+        $id = $this->input('id') ?? request()->route('id');
+
         if ($this->isEmptyString('seo')) {
             $this->getInputSource()->remove('seo');
         }
 
-        if ($this->isNotFilled([
-            'seo.0.title',
-            'seo.0.description',
-            'seo.0.image',
-            'seo.0.author',
-            'seo.0.robots',
-        ])) {
-            $this->getInputSource()->remove('seo');
+        if (is_null($id)) {
+            if ($this->isEmptyString('search_url')) {
+                $this->getInputSource()->remove('search_url');
+            }
+        } else {
+            if ($this->isNotFilled([
+                'seo.0.title',
+                'seo.0.description',
+                'seo.0.image',
+                'seo.0.author',
+                'seo.0.robots',
+            ])) {
+                $this->getInputSource()->remove('seo');
+            }
         }
     }
 }

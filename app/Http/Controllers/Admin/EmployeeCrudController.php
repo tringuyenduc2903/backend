@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\EmployeePermissionEnum;
-use App\Http\Requests\Admin\EmployeeStoreCrudRequest;
-use App\Http\Requests\Admin\EmployeeUpdateCrudRequest;
+use App\Http\Requests\Admin\EmployeeCrudRequest;
 use App\Models\Branch;
 use App\Models\Role;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -84,19 +83,24 @@ class EmployeeCrudController extends CrudController
     }
 
     /**
+     * Define what happens when the Update operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-update
+     */
+    protected function setupUpdateOperation(): void
+    {
+        $this->setupCreateOperation();
+    }
+
+    /**
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      */
     protected function setupCreateOperation(): void
     {
-        CRUD::setValidation(EmployeeStoreCrudRequest::class);
+        CRUD::setValidation(EmployeeCrudRequest::class);
 
-        $this->employeeFields();
-    }
-
-    protected function employeeFields(): void
-    {
         CRUD::field('name')
             ->label(trans('Name'))
             ->tab(trans('Employee info'));
@@ -134,18 +138,6 @@ class EmployeeCrudController extends CrudController
             ],
             'tab' => trans('Employee role'),
         ]);
-    }
-
-    /**
-     * Define what happens when the Update operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-update
-     */
-    protected function setupUpdateOperation(): void
-    {
-        CRUD::setValidation(EmployeeUpdateCrudRequest::class);
-
-        $this->employeeFields();
     }
 
     protected function fetchBranches()

@@ -176,15 +176,9 @@ class CustomerRequest extends FormRequest
                 'required',
                 'string',
                 function ($attribute, $value, $fail) {
-                    $strlen = strlen($value);
-
-                    $type = request(
-                        str_replace('.number', '.type', $attribute)
-                    );
-
-                    switch ((int) $type) {
+                    switch ((int) $this->input('identifications.*.type')) {
                         case CustomerIdentification::IDENTITY_CARD:
-                            if (! in_array($strlen, [9, 12])) {
+                            if (! in_array(strlen($value), [9, 12])) {
                                 $fail(trans('validation.custom.size.strings', [
                                     'size1' => 9,
                                     'size2' => 12,
@@ -192,7 +186,7 @@ class CustomerRequest extends FormRequest
                             }
                             break;
                         case CustomerIdentification::CITIZEN_IDENTIFICATION_CARD:
-                            if ($strlen !== 12) {
+                            if (strlen($value) !== 12) {
                                 $fail(trans('validation.size.string', [
                                     'size' => 12,
                                 ]));

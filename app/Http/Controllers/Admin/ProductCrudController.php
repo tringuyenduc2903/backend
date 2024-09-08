@@ -7,8 +7,7 @@ use App\Enums\OptionStatus;
 use App\Enums\OptionType;
 use App\Enums\ProductType;
 use App\Enums\ProductVisibility;
-use App\Http\Requests\Admin\ProductStoreRequest;
-use App\Http\Requests\Admin\ProductUpdateRequest;
+use App\Http\Requests\Admin\ProductRequest;
 use App\Models\Product;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -21,6 +20,7 @@ use Backpack\Pro\Http\Controllers\Operations\BulkTrashOperation as V2;
 use Backpack\Pro\Http\Controllers\Operations\DropzoneOperation;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use Backpack\Pro\Http\Controllers\Operations\TrashOperation as V1;
+use Exception;
 
 /**
  * Class ProductCrudController
@@ -103,16 +103,25 @@ class ProductCrudController extends CrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
+     * @throws Exception
      */
     protected function setupUpdateOperation(): void
     {
-        CRUD::setValidation(ProductUpdateRequest::class);
-
-        $this->productFields();
+        $this->setupCreateOperation();
     }
 
-    protected function productFields(): void
+    /**
+     * Define what happens when the Create operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
+     * @throws Exception
+     */
+    protected function setupCreateOperation(): void
     {
+        CRUD::setValidation(ProductRequest::class);
+
         Widget::add([
             'type' => 'script',
             'content' => resource_path('assets/js/admin/forms/product.js'),
@@ -387,18 +396,6 @@ class ProductCrudController extends CrudController
             'max_rows' => 1,
             'tab' => trans('Media'),
         ]);
-    }
-
-    /**
-     * Define what happens when the Create operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-create
-     */
-    protected function setupCreateOperation(): void
-    {
-        CRUD::setValidation(ProductStoreRequest::class);
-
-        $this->productFields();
     }
 
     protected function fetchProducts()

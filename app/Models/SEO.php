@@ -8,6 +8,12 @@ class SEO extends \RalphJSmit\Laravel\SEO\Models\SEO
 {
     use CrudTrait;
 
+    /*
+    |--------------------------------------------------------------------------
+    | GLOBAL VARIABLES
+    |--------------------------------------------------------------------------
+    */
+
     /**
      * The attributes that should be cast.
      *

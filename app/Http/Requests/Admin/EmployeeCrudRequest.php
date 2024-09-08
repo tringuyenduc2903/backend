@@ -9,7 +9,7 @@ use App\Models\Role;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class EmployeeStoreCrudRequest extends FormRequest
+class EmployeeCrudRequest extends FormRequest
 {
     use PasswordValidationRules;
 
@@ -27,6 +27,8 @@ class EmployeeStoreCrudRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = $this->input('id') ?? request()->route('id');
+
         return [
             'name' => [
                 'required',
@@ -37,9 +39,13 @@ class EmployeeStoreCrudRequest extends FormRequest
                 'required',
                 'string',
                 'max:100',
-                Rule::unique(Employee::class),
+                Rule::unique(Employee::class)->ignore($id),
             ],
-            'password' => $this->passwordRules(),
+            'password' => $id
+                ? $this->passwordRules()
+                : array_merge([
+                    'sometimes',
+                ], $this->passwordRules()),
             'branch' => [
                 'required',
                 'integer',
@@ -51,5 +57,21 @@ class EmployeeStoreCrudRequest extends FormRequest
                 Rule::exists(Role::class, 'id'),
             ],
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        $id = $this->input('id') ?? request()->route('id');
+
+        if (is_null($id)) {
+            return;
+        }
+
+        if ($this->isEmptyString('password')) {
+            $this->getInputSource()->remove('password');
+        }
     }
 }
