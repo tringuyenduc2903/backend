@@ -23,4 +23,5 @@ Route::prefix(config('backpack.base.route_prefix', 'admin'))
         Route::crud('settings', SettingCrudController::class);
         Route::crud('products', ProductCrudController::class);
         Route::crud('categories', CategoryCrudController::class);
+        Route::crud('motor-cycles', MotorCycleCrudController::class);
     });

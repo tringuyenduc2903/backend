@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Models\Address;
 use App\Models\Customer;
 use App\Models\Identification;
+use App\Models\MotorCycle;
 use App\Observers\CreateCustomer;
 use App\Observers\StoreAddress;
 use App\Observers\StoreIdentification;
+use App\Observers\StoreMotorCycle;
 use App\Rules\Action;
 use App\Rules\Image;
 use Illuminate\Auth\Notifications\ResetPassword;
@@ -48,6 +50,10 @@ class AppServiceProvider extends ServiceProvider
 
         Identification::observe(
             StoreIdentification::class,
+        );
+
+        MotorCycle::observe(
+            StoreMotorCycle::class,
         );
 
         Validator::extend(

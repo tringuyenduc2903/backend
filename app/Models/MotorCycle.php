@@ -5,9 +5,9 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use MongoDB\Laravel\Eloquent\SoftDeletes;
 
-class Option extends Model
+class MotorCycle extends Model
 {
     use CrudTrait;
     use SoftDeletes;
@@ -24,22 +24,9 @@ class Option extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'sku',
-        'price',
-        'value_added_tax',
-        'images',
-        'color',
-        'version',
-        'volume',
-        'type',
-        'status',
-        'quantity',
-        'weight',
-        'length',
-        'width',
-        'height',
-        'specifications',
-        'product_id',
+        'chassis_number',
+        'engine_number',
+        'option_id',
     ];
 
     /**
@@ -48,16 +35,8 @@ class Option extends Model
      * @var array<int, string>
      */
     protected $hidden = [
-        'product_id',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'specifications' => 'array',
+        'option_id',
+        'branch_id',
     ];
 
     /*
@@ -66,8 +45,13 @@ class Option extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function product(): BelongsTo
+    public function branch(): BelongsTo
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Branch::class);
+    }
+
+    public function option(): BelongsTo
+    {
+        return $this->belongsTo(Option::class);
     }
 }

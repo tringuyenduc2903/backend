@@ -23,6 +23,11 @@
                             'title' => trans('Categories'),
                             'link' => route('categories.index'),
                         ],
+                        [
+                            'permission' => EmployeePermissionEnum::MOTOR_CYCLE_CRUD,
+                            'title' => trans('Motor cycles'),
+                            'link' => route('motor-cycles.index'),
+                        ],
                     ],
                 ],
             ],

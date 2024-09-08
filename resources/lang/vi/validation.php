@@ -263,5 +263,8 @@ return [
         'upsell' => 'sản phẩm bán thêm',
         'cross_sell' => 'sản phẩm bán kèm',
         'related_products' => 'sản phẩm liên quan',
+        'chassis_number' => 'số khung',
+        'engine_number' => 'số máy',
+        'option' => 'sản phẩm',
     ],
 ];

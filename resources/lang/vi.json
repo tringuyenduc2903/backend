@@ -102,6 +102,7 @@
     "Catalog": "Danh mục",
     "Search": "Tìm kiếm",
     "Catalog and Search": "Danh mục và Tìm kiếm",
+    "Motor cycles": "Xe máy",
     "Motor cycle": "Xe máy",
     "Square parts": "Phụ tùng",
     "Accessories": "Phụ kiện",
@@ -143,5 +144,9 @@
     "Upsell products": "Sản phẩm bán thêm",
     "Cross-sell products": "Sản phẩm bán kèm",
     "Related products": "Sản phẩm liên quan",
-    "Lists": "Danh sách"
+    "Lists": "Danh sách",
+    "Sold": "Đã bán",
+    "Storage": "Tồn kho",
+    "Chassis number": "Số khung",
+    "Engine number": "Số máy"
 }
