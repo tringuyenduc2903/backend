@@ -149,9 +149,9 @@ class ProductRequest extends FormRequest
                     $validator = Validator::make([
                         'sku' => $value,
                     ], [
-                        'sku' => Rule::unique(Option::class)->ignore(
-                            $this->input('options.*.id')
-                        ),
+                        'sku' => Rule::unique(Option::class)->ignore($this->input(
+                            str_replace('sku', 'id', $attribute)
+                        )),
                     ]);
 
                     if ($validator->fails()) {
