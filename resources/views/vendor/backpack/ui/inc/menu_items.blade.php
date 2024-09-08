@@ -18,6 +18,11 @@
                             'title' => trans('Products'),
                             'link' => route('products.index'),
                         ],
+                        [
+                            'permission' => EmployeePermissionEnum::CATEGORY_CRUD,
+                            'title' => trans('Categories'),
+                            'link' => route('categories.index'),
+                        ],
                     ],
                 ],
             ],

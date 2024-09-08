@@ -208,8 +208,8 @@ class ProductRequest extends FormRequest
                 'nullable',
                 Rule::requiredIf(in_array(
                     $type, [
-                    ProductType::SQUARE_PARTS, ProductType::ACCESSORIES,
-                ])),
+                        ProductType::SQUARE_PARTS, ProductType::ACCESSORIES,
+                    ])),
                 'integer',
                 'between:1,4294967295',
             ],
@@ -217,8 +217,8 @@ class ProductRequest extends FormRequest
                 'nullable',
                 Rule::requiredIf(in_array(
                     $type, [
-                    ProductType::SQUARE_PARTS, ProductType::ACCESSORIES,
-                ])),
+                        ProductType::SQUARE_PARTS, ProductType::ACCESSORIES,
+                    ])),
                 'integer',
                 'between:1,4294967295',
             ],
@@ -226,8 +226,8 @@ class ProductRequest extends FormRequest
                 'nullable',
                 Rule::requiredIf(in_array(
                     $type, [
-                    ProductType::SQUARE_PARTS, ProductType::ACCESSORIES,
-                ])),
+                        ProductType::SQUARE_PARTS, ProductType::ACCESSORIES,
+                    ])),
                 'integer',
                 'between:1,4294967295',
             ],
@@ -235,8 +235,8 @@ class ProductRequest extends FormRequest
                 'nullable',
                 Rule::requiredIf(in_array(
                     $type, [
-                    ProductType::SQUARE_PARTS, ProductType::ACCESSORIES,
-                ])),
+                        ProductType::SQUARE_PARTS, ProductType::ACCESSORIES,
+                    ])),
                 'integer',
                 'between:1,4294967295',
             ],

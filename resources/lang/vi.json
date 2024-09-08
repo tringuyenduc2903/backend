@@ -39,7 +39,7 @@
     "Employee role": "Vai trò của nhân viên",
     "Employee": "Nhân viên",
     "Employees": "Nhân viên",
-    "employee": "nhân viên",
+    "employee(s)": "nhân viên",
     "Employee roles": "Vai trò của nhân viên",
     "Branch": "Chi nhánh",
     "Branches": "Chi nhánh",
@@ -136,5 +136,7 @@
     "Weight": "Khối lượng",
     "Length": "Chiều dài",
     "Width": "Chiều rộng",
-    "Height": "Chiều cao"
+    "Height": "Chiều cao",
+    "Category": "Loại",
+    "Categories": "Thể loại"
 }
