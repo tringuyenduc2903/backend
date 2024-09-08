@@ -5,7 +5,6 @@ namespace App\Http\Responses;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Laravel\Fortify\Contracts\TwoFactorLoginResponse as TwoFactorLoginResponseContract;
-use Symfony\Component\HttpFoundation\Response;
 
 class TwoFactorEnabledResponse implements TwoFactorLoginResponseContract
 {
@@ -14,7 +13,7 @@ class TwoFactorEnabledResponse implements TwoFactorLoginResponseContract
      *
      * @param  Request  $request
      */
-    public function toResponse($request): JsonResponse|Response
+    public function toResponse($request): JsonResponse
     {
         return response()->json([
             'token' => regenerate_token('mobile'),

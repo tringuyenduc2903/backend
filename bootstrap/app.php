@@ -3,10 +3,16 @@
 use App\Http\Controllers\SwaggerController;
 use App\Http\Responses\LoginResponse;
 use App\Http\Responses\LogoutResponse;
+use App\Http\Responses\RegisterResponse;
 use App\Http\Responses\TwoFactorEnabledResponse;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use L5Swagger\Http\Controllers\SwaggerController as SwaggerControllerVendor;
+use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
+use Laravel\Fortify\Contracts\LogoutResponse as LogoutResponseContract;
+use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
+use Laravel\Fortify\Contracts\TwoFactorEnabledResponse as TwoFactorEnabledResponseContract;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -21,11 +27,14 @@ return Application::configure(basePath: dirname(__DIR__))
             EnsureFrontendRequestsAreStateful::class,
         ]);
     })
+    ->withSingletons([
+        RegisterResponseContract::class => RegisterResponse::class,
+        LoginResponseContract::class => LoginResponse::class,
+        LogoutResponseContract::class => LogoutResponse::class,
+        TwoFactorEnabledResponseContract::class => TwoFactorEnabledResponse::class,
+    ])
     ->withBindings([
-        \Laravel\Fortify\Http\Responses\LoginResponse::class => LoginResponse::class,
-        \Laravel\Fortify\Http\Responses\LogoutResponse::class => LogoutResponse::class,
-        \Laravel\Fortify\Http\Responses\TwoFactorEnabledResponse::class => TwoFactorEnabledResponse::class,
-        \L5Swagger\Http\Controllers\SwaggerController::class => SwaggerController::class,
+        SwaggerControllerVendor::class => SwaggerController::class,
     ])
     ->withExceptions(function (Exceptions $exceptions) {
         //

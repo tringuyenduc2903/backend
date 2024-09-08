@@ -4,9 +4,9 @@ namespace App\Http\Responses;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
+use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
 
-class LoginResponse implements LoginResponseContract
+class RegisterResponse implements RegisterResponseContract
 {
     /**
      * Create an HTTP response that represents the object.
@@ -16,8 +16,7 @@ class LoginResponse implements LoginResponseContract
     public function toResponse($request): JsonResponse
     {
         return response()->json([
-            'two_factor' => false,
             'token' => regenerate_token('mobile'),
-        ]);
+        ], 201);
     }
 }
