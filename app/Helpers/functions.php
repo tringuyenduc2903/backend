@@ -3,7 +3,10 @@
 use App\Models\Employee;
 use App\Models\Setting;
 use Illuminate\Http\Client\Response;
+use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 if (! function_exists('revoke_token')) {
@@ -112,5 +115,50 @@ if (! function_exists('currency_code')) {
         }
 
         return json_decode($currency)->code;
+    }
+}
+
+if (! function_exists('store_image')) {
+    function store_image(string $storage_path, string $url): bool
+    {
+        if (File::exists("$storage_path/$url")) {
+            return false;
+        }
+
+        make_directories($storage_path, $url);
+
+        return File::put(
+            "$storage_path/$url",
+            Http::get($url)->body()
+        );
+    }
+}
+
+if (! function_exists('make_directories')) {
+    function make_directories(string $storage_path, string $url): void
+    {
+        $directories = explode('/', $url);
+
+        for ($i = 0; $i < count($directories) - 1; $i++) {
+            $storage_path .= "/$directories[$i]";
+
+            if (! File::exists($storage_path)) {
+                File::makeDirectory($storage_path);
+            }
+        }
+    }
+}
+
+if (! function_exists('image_url')) {
+    function image_url(string $storage_path, string $path): string
+    {
+        return app(UrlGenerator::class)->assetFrom($storage_path, $path);
+    }
+}
+
+if (! function_exists('product_image_url')) {
+    function product_image_url(string $path): string
+    {
+        return image_url(config('filesystems.disks.product.url'), $path);
     }
 }

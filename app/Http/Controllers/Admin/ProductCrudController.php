@@ -60,6 +60,8 @@ class ProductCrudController extends CrudController
     {
         CRUD::column('name')
             ->label(trans('Name'));
+        CRUD::column('categories')
+            ->label(trans('Categories'));
         CRUD::column('enabled')
             ->label(trans('Enabled'))
             ->type('switch');
@@ -79,6 +81,8 @@ class ProductCrudController extends CrudController
             ->label(trans('Manufacturer'));
         CRUD::column('search_url')
             ->label(trans('Search URL'));
+        CRUD::column('manufacturer')
+            ->label(trans('Manufacturer'));
 
         CRUD::filter('name')
             ->label(trans('Name'))
