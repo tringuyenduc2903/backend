@@ -60,6 +60,19 @@ class CategoryCrudController extends CrudController
             ->withFiles(['disk' => 'category']);
         CRUD::column('search_url')
             ->label(trans('Search URL'));
+        CRUD::addColumn([
+            'name' => 'products',
+            'label' => trans('Products'),
+            'type' => 'relationship_count',
+            'wrapper' => [
+                'href' => fn ($_, $__, $entry): string => backpack_url(sprintf(
+                    'products?category_id=%s&category_id_text=%s',
+                    $entry->getKey(),
+                    $entry->name
+                )),
+            ],
+            'suffix' => ' '.trans('product(s)'),
+        ]);
 
         CRUD::filter('name')
             ->label(trans('Name'))

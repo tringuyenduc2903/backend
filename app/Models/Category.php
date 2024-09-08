@@ -5,6 +5,7 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use MongoDB\Laravel\Eloquent\SoftDeletes;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 
@@ -50,5 +51,16 @@ class Category extends Model
                 'source' => 'name',
             ],
         ];
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+    */
+
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'categories_products');
     }
 }
