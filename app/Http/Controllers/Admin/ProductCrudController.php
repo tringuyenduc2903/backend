@@ -373,6 +373,27 @@ class ProductCrudController extends CrudController
             'tab' => trans('Options'),
         ]);
         CRUD::addField([
+            'name' => 'upsell',
+            'label' => trans('Upsell products'),
+            'data_source' => route('products.fetchProducts'),
+            'minimum_input_length' => 0,
+            'tab' => trans('Lists'),
+        ]);
+        CRUD::addField([
+            'name' => 'cross_sell',
+            'label' => trans('Cross-sell products'),
+            'data_source' => route('products.fetchProducts'),
+            'minimum_input_length' => 0,
+            'tab' => trans('Lists'),
+        ]);
+        CRUD::addField([
+            'name' => 'related_products',
+            'label' => trans('Related products'),
+            'data_source' => route('products.fetchProducts'),
+            'minimum_input_length' => 0,
+            'tab' => trans('Lists'),
+        ]);
+        CRUD::addField([
             'name' => 'images',
             'label' => trans('Images'),
             'type' => 'repeatable',
@@ -430,13 +451,22 @@ class ProductCrudController extends CrudController
         ]);
     }
 
-    protected function fetchProducts()
-    {
-        return $this->fetch(Product::class);
-    }
-
     protected function fetchCategories()
     {
         return $this->fetch(Category::class);
+    }
+
+    protected function fetchProducts()
+    {
+        return $this->fetch([
+            'model' => Product::class,
+            'query' => function (Product $product): Product|Builder {
+                $form = collect(request('form'))->pluck('value', 'name');
+
+                return isset($form['id'])
+                    ? $product->whereNot('id', $form['id'])
+                    : $product;
+            },
+        ]);
     }
 }

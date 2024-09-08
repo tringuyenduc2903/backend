@@ -139,5 +139,9 @@
     "Width": "Chiều rộng",
     "Height": "Chiều cao",
     "Category": "Loại",
-    "Categories": "Thể loại"
+    "Categories": "Thể loại",
+    "Upsell products": "Sản phẩm bán thêm",
+    "Cross-sell products": "Sản phẩm bán kèm",
+    "Related products": "Sản phẩm liên quan",
+    "Lists": "Danh sách"
 }

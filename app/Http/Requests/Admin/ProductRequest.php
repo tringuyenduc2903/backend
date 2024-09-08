@@ -274,6 +274,24 @@ class ProductRequest extends FormRequest
                     }
                 },
             ],
+            'upsell' => [
+                'nullable',
+                'sometimes',
+                'array',
+                Rule::exists(Product::class, 'id')->whereNot('id', $id),
+            ],
+            'cross_sell' => [
+                'nullable',
+                'sometimes',
+                'array',
+                Rule::exists(Product::class, 'id')->whereNot('id', $id),
+            ],
+            'related_products' => [
+                'nullable',
+                'sometimes',
+                'array',
+                Rule::exists(Product::class, 'id')->whereNot('id', $id),
+            ],
             'images' => [
                 'nullable',
                 'array',

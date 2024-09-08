@@ -260,5 +260,8 @@ return [
         'options.*.height' => 'chiều cao',
         'options.*.specifications' => 'thông số kỹ thuật',
         'categories' => 'thể loại',
+        'upsell' => 'sản phẩm bán thêm',
+        'cross_sell' => 'sản phẩm bán kèm',
+        'related_products' => 'sản phẩm liên quan',
     ],
 ];
