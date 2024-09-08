@@ -47,7 +47,7 @@ class Setting extends Model
     |--------------------------------------------------------------------------
     */
 
-    public static function get(string $key): string
+    public static function get(string $key): mixed
     {
         return static::where('key', $key)->firstOrFail()->value;
     }

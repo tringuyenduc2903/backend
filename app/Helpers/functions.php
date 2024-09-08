@@ -83,19 +83,33 @@ if (! function_exists('handle_cache')) {
     }
 }
 
-if (! function_exists('current_currency_symbol')) {
-    function current_currency_symbol(): mixed
+if (! function_exists('currency_symbol')) {
+    /**
+     * @throws Exception
+     */
+    function currency_symbol(): string
     {
         $currency = Setting::get('store_currency');
+
+        if (is_null($currency)) {
+            throw new Exception('Currency symbol not configured.');
+        }
 
         return json_decode($currency)->symbol;
     }
 }
 
-if (! function_exists('current_currency_code')) {
-    function current_currency_code(): mixed
+if (! function_exists('currency_code')) {
+    /**
+     * @throws Exception
+     */
+    function currency_code(): string
     {
         $currency = Setting::get('store_currency');
+
+        if (is_null($currency)) {
+            throw new Exception('Currency code not configured.');
+        }
 
         return json_decode($currency)->code;
     }
