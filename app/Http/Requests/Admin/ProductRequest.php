@@ -208,8 +208,8 @@ class ProductRequest extends FormRequest
                 'nullable',
                 Rule::requiredIf(in_array(
                     $type, [
-                        ProductType::SQUARE_PARTS, ProductType::ACCESSORIES,
-                    ])),
+                    ProductType::SQUARE_PARTS, ProductType::ACCESSORIES,
+                ])),
                 'integer',
                 'between:1,4294967295',
             ],
@@ -217,8 +217,8 @@ class ProductRequest extends FormRequest
                 'nullable',
                 Rule::requiredIf(in_array(
                     $type, [
-                        ProductType::SQUARE_PARTS, ProductType::ACCESSORIES,
-                    ])),
+                    ProductType::SQUARE_PARTS, ProductType::ACCESSORIES,
+                ])),
                 'integer',
                 'between:1,4294967295',
             ],
@@ -226,8 +226,8 @@ class ProductRequest extends FormRequest
                 'nullable',
                 Rule::requiredIf(in_array(
                     $type, [
-                        ProductType::SQUARE_PARTS, ProductType::ACCESSORIES,
-                    ])),
+                    ProductType::SQUARE_PARTS, ProductType::ACCESSORIES,
+                ])),
                 'integer',
                 'between:1,4294967295',
             ],
@@ -235,8 +235,8 @@ class ProductRequest extends FormRequest
                 'nullable',
                 Rule::requiredIf(in_array(
                     $type, [
-                        ProductType::SQUARE_PARTS, ProductType::ACCESSORIES,
-                    ])),
+                    ProductType::SQUARE_PARTS, ProductType::ACCESSORIES,
+                ])),
                 'integer',
                 'between:1,4294967295',
             ],
@@ -322,16 +322,18 @@ class ProductRequest extends FormRequest
             if ($this->isEmptyString('search_url')) {
                 $this->getInputSource()->remove('search_url');
             }
-        } else {
-            if ($this->isNotFilled([
-                'seo.0.title',
-                'seo.0.description',
-                'seo.0.image',
-                'seo.0.author',
-                'seo.0.robots',
-            ])) {
-                $this->getInputSource()->remove('seo');
-            }
+
+            return;
+        }
+
+        if ($this->isNotFilled([
+            'seo.0.title',
+            'seo.0.description',
+            'seo.0.image',
+            'seo.0.author',
+            'seo.0.robots',
+        ])) {
+            $this->getInputSource()->remove('seo');
         }
     }
 }

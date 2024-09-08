@@ -42,10 +42,10 @@ class EmployeeCrudRequest extends FormRequest
                 Rule::unique(Employee::class)->ignore($id),
             ],
             'password' => $id
-                ? $this->passwordRules()
-                : array_merge([
+                ? array_merge([
                     'sometimes',
-                ], $this->passwordRules()),
+                ], $this->passwordRules())
+                : $this->passwordRules(),
             'branch' => [
                 'required',
                 'integer',
