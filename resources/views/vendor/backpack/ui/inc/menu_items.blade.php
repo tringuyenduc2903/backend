@@ -5,6 +5,7 @@
 />
 @php
     use App\Enums\EmployeePermissionEnum;
+    use App\Models\Employee;
 
     $menu_items = [
         [
@@ -105,7 +106,7 @@
             }
         }
 
-        /** @var \App\Models\Employee $employee */
+        /** @var Employee $employee */
         $employee = backpack_user();
     @endphp
     @if ($employee->hasAnyPermission($permissions, config('backpack.base.guard')))

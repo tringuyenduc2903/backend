@@ -1,0 +1,72 @@
+post:
+  description: Đăng nhập tài khoản
+  tags:
+    - Xác thực
+  parameters:
+    - $ref: "../../components/parameters/X-Requested-With.yaml"
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            email:
+              title: Email
+              example: nguyenvanhai@agilts.com
+              type: string
+            password:
+              title: Mật khẩu
+              example: NguyenVanHai825!
+              type: string
+            remember:
+              title: Ghi nhớ tôi
+              description: Tài khoản không bị đăng xuất
+              example: false
+              type: boolean
+          type: object
+          required:
+            - email
+            - password
+  responses:
+    200:
+      description: Đăng nhập tài khoản thành công
+      content:
+        application/json:
+          schema:
+            properties:
+              two_factor:
+                title: Xác thực 2 bước
+                description: Trạng thái xác thực 2 bước
+                example: false
+                type: boolean
+              token:
+                title: Mã đăng nhập dành cho Ứng dụng
+                example: 1|tRmiiQiSJdy7IO9bhD1fDeLY5FFf8Y5OiKYhxZVscc8b762f
+                type: string
+            type: object
+    302:
+      $ref: "../../components/responses/302.yaml"
+    419:
+      $ref: "../../components/responses/419.yaml"
+    422:
+      description: Dữ liệu khách hàng đã nhập không được chấp nhận
+      content:
+        application/json:
+          schema:
+            properties:
+              message:
+                title: Thông báo ngắn
+                example: Trường email là bắt buộc. (và 1 lỗi)
+                type: string
+              errors:
+                properties:
+                  email:
+                    title: Email
+                    example:
+                      - Trường email là bắt buộc.
+                    type: array
+                  password:
+                    title: Mật khẩu
+                    example:
+                      - Trường mật khẩu là bắt buộc.
+                    type: array
+            type: object

@@ -13,3 +13,5 @@ paths:
     $ref: "./paths/sanctum/csrf-cookie.yaml"
   /api/register:
     $ref: "./paths/api/register.yaml"
+  /api/login:
+    $ref: "./paths/api/login.yaml"
