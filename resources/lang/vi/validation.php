@@ -259,5 +259,6 @@ return [
         'options.*.width' => 'chiều rộng',
         'options.*.height' => 'chiều cao',
         'options.*.specifications' => 'thông số kỹ thuật',
+        'categories' => 'thể loại',
     ],
 ];

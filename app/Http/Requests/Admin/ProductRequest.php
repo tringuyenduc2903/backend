@@ -6,6 +6,7 @@ use App\Enums\OptionStatus;
 use App\Enums\OptionType;
 use App\Enums\ProductType;
 use App\Enums\ProductVisibility;
+use App\Models\Category;
 use App\Models\Option;
 use App\Models\Product;
 use App\Rules\Image;
@@ -47,6 +48,12 @@ class ProductRequest extends FormRequest
                 'string',
                 'max:4294967295',
             ],
+            'categories' => [
+                'nullable',
+                'sometimes',
+                'array',
+                Rule::exists(Category::class, 'id'),
+            ],
             'visibility' => [
                 'required',
                 'integer',
@@ -81,7 +88,7 @@ class ProductRequest extends FormRequest
                 $id ? 'required' : 'sometimes',
                 'string',
                 'max:255',
-                Rule::unique(Product::class),
+                Rule::unique(Product::class)->ignore($id),
             ],
             'seo' => [
                 'sometimes',

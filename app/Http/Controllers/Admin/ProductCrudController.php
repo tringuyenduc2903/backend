@@ -8,6 +8,7 @@ use App\Enums\OptionType;
 use App\Enums\ProductType;
 use App\Enums\ProductVisibility;
 use App\Http\Requests\Admin\ProductRequest;
+use App\Models\Category;
 use App\Models\Product;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -21,6 +22,7 @@ use Backpack\Pro\Http\Controllers\Operations\DropzoneOperation;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use Backpack\Pro\Http\Controllers\Operations\TrashOperation as V1;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ProductCrudController
@@ -81,6 +83,21 @@ class ProductCrudController extends CrudController
         CRUD::filter('name')
             ->label(trans('Name'))
             ->type('text');
+        CRUD::addFilter(
+            [
+                'name' => 'category_id',
+                'label' => trans('Categories'),
+                'type' => 'select2_ajax',
+                'minimum_input_length' => 0,
+                'method' => 'POST',
+            ],
+            route('products.fetchCategories'),
+            fn (string $values) => CRUD::addClause(
+                'whereHas',
+                'categories',
+                fn (Builder $query) => $query->where('category_id', json_decode($values))
+            )
+        );
         CRUD::filter('disabled')
             ->label(trans('Disabled'))
             ->type('simple')
@@ -141,6 +158,17 @@ class ProductCrudController extends CrudController
             ->label(trans('Description'))
             ->type('tinymce')
             ->tab(trans('Basic information'));
+        CRUD::addField([
+            'name' => 'categories',
+            'label' => trans('Categories'),
+            'inline_create' => [
+                'create_route' => route('categories-inline-create-save'),
+                'modal_route' => route('categories-inline-create'),
+            ],
+            'data_source' => route('products.fetchCategories'),
+            'minimum_input_length' => 0,
+            'tab' => trans('Basic information'),
+        ]);
         CRUD::addField([
             'name' => 'visibility',
             'label' => trans('Visibility'),
@@ -401,5 +429,10 @@ class ProductCrudController extends CrudController
     protected function fetchProducts()
     {
         return $this->fetch(Product::class);
+    }
+
+    protected function fetchCategories()
+    {
+        return $this->fetch(Category::class);
     }
 }

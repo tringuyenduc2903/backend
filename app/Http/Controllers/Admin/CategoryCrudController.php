@@ -12,6 +12,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\Pro\Http\Controllers\Operations\BulkTrashOperation as V2;
+use Backpack\Pro\Http\Controllers\Operations\InlineCreateOperation;
 use Backpack\Pro\Http\Controllers\Operations\TrashOperation as V1;
 
 /**
@@ -22,6 +23,7 @@ use Backpack\Pro\Http\Controllers\Operations\TrashOperation as V1;
 class CategoryCrudController extends CrudController
 {
     use CreateOperation;
+    use InlineCreateOperation;
     use ListOperation;
     use UpdateOperation;
     use V1;
