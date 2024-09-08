@@ -449,17 +449,6 @@ class SettingSeeder extends Seeder
 
     protected function storeCurrency(): array
     {
-        $shops = [];
-
-        foreach (app(StoreCache::class)->stores()['shops'] as $shop) {
-            $key = json_encode([
-                'district_id' => $shop['district_id'],
-                'shop_id' => $shop['_id'],
-            ], JSON_UNESCAPED_UNICODE);
-
-            $shops[$key] = $shop['name'];
-        }
-
         return [
             'attributes' => [
                 'key' => 'store_currency',
