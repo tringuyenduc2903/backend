@@ -83,6 +83,11 @@ class Customer extends User implements MustVerifyEmail
         return $this->hasMany(Identification::class);
     }
 
+    public function socials(): HasMany
+    {
+        return $this->hasMany(Social::class)->latest();
+    }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS
