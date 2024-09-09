@@ -1,0 +1,49 @@
+post:
+  description: Xác nhận mã xác thực hai bước
+  tags:
+    - Bật Xác thực hai bước
+  parameters:
+    - $ref: "../../../components/parameters/X-Requested-With.yaml"
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            code:
+              title: Mã
+              type: number
+              example: 931953
+          type: object
+          required:
+            - code
+  responses:
+    200:
+      description: Xác nhận mã xác thực hai bước thành công
+      content:
+        application/json:
+          schema:
+            $ref: "../../../components/schemas/Dữ liệu rỗng.yaml"
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    419:
+      $ref: "../../../components/responses/419.yaml"
+    422:
+      description: Dữ liệu khách hàng đã nhập không được chấp nhận
+      content:
+        application/json:
+          schema:
+            properties:
+              message:
+                title: Thông báo ngắn
+                type: string
+                example: Mã xác thực hai yếu tố được cung cấp không hợp lệ.
+              errors:
+                properties:
+                  code:
+                    title: Mã
+                    example:
+                      - Mã xác thực hai yếu tố được cung cấp không hợp lệ.
+                    type: array
+                type: object
+    423:
+      $ref: "../../../components/responses/423.yaml"
