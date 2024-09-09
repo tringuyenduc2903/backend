@@ -19,7 +19,7 @@ get:
                 type: string
               birthday:
                 title: Ngày sinh
-                example: 29/03/2003
+                example: 2003-03-29
                 type: string
               gender:
                 title: Giới tính
@@ -106,7 +106,7 @@ put:
               example: 2003-03-29
               type: string
             gender:
-              title: Giới tính
+              title: "Giới tính (0: Nam, 1: Nữ, 2: Không xác định)"
               type: number
               example: 0
             timezone:

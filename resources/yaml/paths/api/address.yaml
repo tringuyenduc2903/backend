@@ -1,0 +1,81 @@
+get:
+  description: "Lấy danh sách địa chỉ: Sắp xếp theo Địa chỉ mới nhất"
+  tags:
+    - Địa chỉ Khách hàng
+  responses:
+    200:
+      description: Lấy danh sách địa chỉ thành công
+      content:
+        application/json:
+          schema:
+            description: Dữ liệu trả về
+            example:
+              - id: 1
+                customer_name: Vũ Huy Mẫn
+                customer_phone_number: +84772543631
+                country: Việt Nam
+                province:
+                  id: 1
+                  name: Lào Cai
+                  ghn_id: 269
+                  name_extensions:
+                    - Lào Cai
+                    - Tỉnh Lào Cai
+                    - T.Lào Cai
+                    - lào cai
+                  created_at: 11:53:58 21/06/2024
+                  updated_at: 11:53:58 21/06/2024
+                district:
+                  id: 1
+                  name: Huyện Si Ma Cai
+                  ghn_id: 2264
+                  name_extensions:
+                    - Huyện Xi Ma Cai
+                    - Huyện Si Ma Cai
+                    - H.Xi Ma Cai
+                    - H Xi Ma Cai
+                    - Xi Ma Cai
+                    - Huyen Xi Ma Cai
+                    - ximacai
+                    - Si Ma Cai
+                  created_at: 11:53:58 21/06/2024
+                  updated_at: 11:53:58 21/06/2024
+                ward:
+                  id: 1
+                  name: Thị Trấn Si Ma Cai
+                  ghn_id: 90816
+                  name_extensions:
+                    - thị trấn si ma cai
+                    - thi tran si ma cai
+                    - Thi Tran Si Ma Cai
+                    - thị trấn xi ma cai
+                  created_at: 11:53:58 21/06/2024
+                  updated_at: 11:53:58 21/06/2024
+                address_detail: 774 Phố Âu Linh Thọ
+                address_preview: 774 Phố Âu Linh Thọ, Thị Trấn Si Ma Cai, Huyện Si Ma Cai, Lào Cai (Việt Nam)
+                type: 1
+                type_preview: Công ty
+                default: true
+                deleted_at: 11:53:58 21/06/2024
+                created_at: 11:53:58 21/06/2024
+                updated_at: 11:53:58 21/06/2024
+            type: array
+    401:
+      $ref: "../../components/responses/401.yaml"
+post:
+  description: Tạo địa chỉ mới
+  tags:
+    - Địa chỉ Khách hàng
+  requestBody:
+    $ref: "../../components/requestBodies/address.yaml"
+  responses:
+    201:
+      description: Tạo địa chỉ mới thành công
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/Dữ liệu rỗng.yaml"
+    401:
+      $ref: "../../components/responses/401.yaml"
+    422:
+      $ref: "../../components/responses/422/address.yaml"

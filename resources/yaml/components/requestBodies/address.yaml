@@ -1,0 +1,58 @@
+content:
+  application/json:
+    schema:
+      properties:
+        default:
+          title: Đặt làm mặc định
+          example: true
+          type: bool
+        type:
+          title: "Kiểu (0: Nhà riêng, 1: Công ty)"
+          example: 0
+          type: number
+        customer_name:
+          title: Tên
+          maxLength: 50
+          example: Nguyễn Văn Hải
+          type: string
+        customer_phone_number:
+          title: Số điện thoại
+          maxLength: 12
+          minLength: 12
+          example: +84982213854
+          type: string
+        country:
+          title: Quốc gia
+          example: Việt Nam
+          maxLength: 100
+          type: string
+        province_id:
+          title: Tỉnh
+          example: Hà Nội
+          maxLength: 100
+          type: string
+        district_id:
+          title: Huyện
+          example: Hai Bà Trưng
+          maxLength: 100
+          type: string
+        ward_id:
+          title: Phường
+          example: Phan Chu Trinh
+          maxLength: 100
+          type: string
+        address_detail:
+          title: Địa chỉ chi tiết
+          example: 25 Trần Khánh Dư
+          maxLength: 255
+          type: string
+      type: object
+      required:
+        - default
+        - type
+        - customer_name
+        - customer_phone_number
+        - country
+        - province_id
+        - district_id
+        - address_detail

@@ -5,7 +5,7 @@ get:
   parameters:
     - name: driver_name
       in: path
-      description: Tên Driver
+      description: "Tên driver (google: Google, facebook: Facebook)"
       example: google
       required: true
     - name: callback

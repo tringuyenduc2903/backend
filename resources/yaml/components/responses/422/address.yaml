@@ -1,0 +1,52 @@
+description: Dữ liệu khách hàng đã nhập không được chấp nhận
+content:
+  application/json:
+    schema:
+      properties:
+        message:
+          title: Thông báo ngắn
+          type: string
+          example: Trường đặt làm mặc định là bắt buộc. (và 7 lỗi khác)
+        errors:
+          properties:
+            default:
+              title: Đặt làm mặc định
+              example:
+                - Trường đặt làm mặc định là bắt buộc.
+              type: array
+            type:
+              title: Kiểu
+              example:
+                - Trường kiểu là bắt buộc.
+              type: array
+            customer_name:
+              title: Tên
+              example:
+                - Trường tên là bắt buộc.
+              type: array
+            customer_phone_number:
+              title: Số điện thoại
+              example:
+                - Trường số điện thoại là bắt buộc.
+              type: array
+            country:
+              title: Quốc gia
+              example:
+                - Trường quốc gia là bắt buộc.
+              type: array
+            province_id:
+              title: Tỉnh
+              example:
+                - Trường tỉnh là bắt buộc.
+              type: array
+            district_id:
+              title: Huyện
+              example:
+                - Trường huyện là bắt buộc.
+              type: array
+            address_detail:
+              title: Địa chỉ chi tiết
+              example:
+                - Trường địa chỉ chi tiết là bắt buộc.
+              type: array
+      type: object
