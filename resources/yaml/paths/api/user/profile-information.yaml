@@ -1,0 +1,83 @@
+put:
+  description: Đổi thông tin tài khoản
+  tags:
+    - Thông tin tài khoản
+  parameters:
+    - $ref: "../../../components/parameters/X-Requested-With.yaml"
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            name:
+              title: Tên
+              maxLength: 50
+              example: Nguyễn Văn Hải
+              type: string
+            email:
+              title: Email
+              maxLength: 100
+              example: nguyenvanhai@agilts.com
+              type: string
+            phone_number:
+              title: Số điện thoại
+              maxLength: 12
+              minLength: 12
+              example: +84982213854
+              type: string
+            birthday:
+              title: Ngày sinh
+              example: 2003-03-29
+              type: string
+            gender:
+              title: Giới tính
+              type: number
+              example: 0
+            timezone:
+              title: Múi giờ
+              type: number
+              example: 234
+          type: object
+          required:
+            - name
+            - email
+            - timezone
+  responses:
+    200:
+      description: Đổi thông tin tài khoản thành công
+      content:
+        application/json:
+          schema:
+            $ref: "../../../components/schemas/Dữ liệu rỗng.yaml"
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    419:
+      $ref: "../../../components/responses/419.yaml"
+    422:
+      description: Dữ liệu khách hàng đã nhập không được chấp nhận
+      content:
+        application/json:
+          schema:
+            properties:
+              message:
+                title: Thông báo ngắn
+                type: string
+                example: Trường tên là bắt buộc. (và 2 lỗi khác)
+              errors:
+                properties:
+                  name:
+                    title: Tên khách hàng
+                    example:
+                      - Trường tên là bắt buộc.
+                    type: array
+                  email:
+                    title: Email khách hàng
+                    example:
+                      - Trường email là bắt buộc.
+                    type: array
+                  timezone:
+                    title: Múi giờ
+                    example:
+                      - Trường múi giờ là bắt buộc.
+                    type: array
+            type: object
