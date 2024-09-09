@@ -2,9 +2,14 @@
 
 namespace Laravel\Fortify\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\RoutePath;
+
+Route::get(RoutePath::for('login', '/login'), fn (): RedirectResponse => redirect(config('app.frontend_url')))
+    ->middleware(['guest:'.config('fortify.guard')])
+    ->name('login');
 
 Route::middleware(config('fortify.middleware', 'web'))
     ->group(function () {
