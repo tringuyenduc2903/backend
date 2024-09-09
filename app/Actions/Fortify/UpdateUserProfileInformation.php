@@ -19,7 +19,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      */
     public function update(Customer $user, array $input): void
     {
-        $timezone = timezone_identifiers_list()[$user->timezone];
+        $timezone = $user->timezone_preview;
 
         $validate = Validator::make($input, [
             'name' => [

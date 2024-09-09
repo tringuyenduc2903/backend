@@ -34,7 +34,7 @@ class CustomerRequest extends FormRequest
         $addresses = $this->input('addresses');
         $identifications = $this->input('identifications');
         $timezone = isset($id)
-            ? timezone_identifiers_list()[Customer::findOrFail($id)->timezone]
+            ? Customer::findOrFail($id)->timezone_preview
             : config('app.timezone');
         $default_address = false;
         $default_identification = false;

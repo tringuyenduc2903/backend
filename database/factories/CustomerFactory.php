@@ -7,7 +7,6 @@ use App\Models\Customer;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use Random\RandomException;
 
 /**
  * @extends Factory<Customer>
@@ -23,8 +22,6 @@ class CustomerFactory extends Factory
      * Define the model's default state.
      *
      * @return array<string, mixed>
-     *
-     * @throws RandomException
      */
     public function definition(): array
     {
@@ -43,7 +40,9 @@ class CustomerFactory extends Factory
             ),
             'gender' => fake()->randomElement(CustomerGender::keys()),
             'password' => $this->password,
-            'timezone' => random_int(0, count(timezone_identifiers_list()) - 1),
+            'timezone' => fake()->randomElement(
+                array_keys(timezone_identifiers_list())
+            ),
             'remember_token' => Str::random(10),
         ];
     }

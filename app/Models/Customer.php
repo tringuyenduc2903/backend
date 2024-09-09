@@ -20,6 +20,7 @@ class Customer extends User implements MustVerifyEmail
     use HasFactory;
     use Notifiable;
     use SoftDeletes;
+    use SwitchTimezoneTrait;
     use TwoFactorAuthenticatable;
 
     /*
@@ -67,6 +68,11 @@ class Customer extends User implements MustVerifyEmail
         'remember_token' => 'hashed',
     ];
 
+    protected $appends = [
+        'gender_preview',
+        'timezone_preview',
+    ];
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
@@ -99,5 +105,10 @@ class Customer extends User implements MustVerifyEmail
         return is_null($this->gender)
             ? null
             : CustomerGender::valueForKey($this->gender);
+    }
+
+    public function getTimezonePreviewAttribute(): string
+    {
+        return timezone_identifiers_list()[$this->timezone];
     }
 }
