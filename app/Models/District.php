@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class District extends Model
 {
     use CrudTrait;
+    use SwitchTimezoneTrait;
 
     /*
     |--------------------------------------------------------------------------
@@ -35,6 +36,15 @@ class District extends Model
      */
     protected $hidden = [
         'province_id',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'name_extensions' => 'array',
     ];
 
     /*
