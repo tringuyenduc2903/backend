@@ -1,0 +1,44 @@
+get:
+  description: Lấy danh sách mã xác thực hai bước dự phòng
+  tags:
+    - Quản lý Xác thực hai bước
+  responses:
+    200:
+      description: Lấy danh sách mã xác thực hai bước dự phòng thành công
+      content:
+        application/json:
+          schema:
+            description: Danh sách mã xác thực hai bước dự phòng
+            example:
+              - lnfv0FSGRz-aafVt8Y4PN
+              - RlWrQ3zlMG-jbSwz1k4It
+              - kuf52Zgcem-UefFl10mVZ
+              - aL3zjWgWKN-7NgXeU9eME
+              - ZJo2XaYZ34-qhRwQFMz2L
+              - 5gf3QyLYb9-iMsBR9vmWW
+              - PqotW9NPR7-WCqz8Bc5oj
+              - OatR3evuHP-zGJG8BP79V
+            type: array
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    423:
+      $ref: "../../../components/responses/423.yaml"
+post:
+  description: Tạo danh sách mã xác thực hai bước dự phòng mới
+  tags:
+    - Quản lý Xác thực hai bước
+  parameters:
+    - $ref: "../../../components/parameters/X-Requested-With.yaml"
+  responses:
+    200:
+      description: Tạo danh sách mã xác thực hai bước dự phòng mới thành công
+      content:
+        application/json:
+          schema:
+            $ref: "../../../components/schemas/Dữ liệu rỗng.yaml"
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    419:
+      $ref: "../../../components/responses/419.yaml"
+    423:
+      $ref: "../../../components/responses/423.yaml"
