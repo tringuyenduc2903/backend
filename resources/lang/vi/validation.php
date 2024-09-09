@@ -276,5 +276,9 @@ return [
         'province_id' => 'tỉnh',
         'district_id' => 'huyện',
         'ward_id' => 'phường',
+        'number' => 'số',
+        'issued_name' => 'nơi cấp',
+        'issuance_date' => 'ngày cấp',
+        'expiry_date' => 'ngày hết hạn',
     ],
 ];

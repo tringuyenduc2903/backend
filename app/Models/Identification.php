@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CustomerIdentification;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,7 @@ class Identification extends Model
     use CrudTrait;
     use HasFactory;
     use SoftDeletes;
+    use SwitchTimezoneTrait;
 
     /*
     |--------------------------------------------------------------------------
@@ -42,4 +44,28 @@ class Identification extends Model
     protected $hidden = [
         'customer_id',
     ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'default' => 'boolean',
+    ];
+
+    protected $appends = [
+        'type_preview',
+    ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+    */
+
+    protected function getTypePreviewAttribute(): string
+    {
+        return CustomerIdentification::valueForKey($this->type);
+    }
 }

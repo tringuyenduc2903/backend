@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user/profile-information', fn (Request $request): Customer => $request->user());
 
-    Route::apiResource('address', AddressController::class);
+    Route::apiResources([
+        'address' => AddressController::class,
+        'identification' => IdentificationController::class,
+    ]);
 });
 
 Route::apiResource('province', ProvinceController::class)
