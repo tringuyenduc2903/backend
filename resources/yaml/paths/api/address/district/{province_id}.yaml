@@ -1,0 +1,60 @@
+get:
+  description: Lấy danh sách huyện
+  tags:
+    - Địa chỉ
+  parameters:
+    - name: province_id
+      in: path
+      description: ProvinceID
+      example: 1
+      required: true
+  responses:
+    200:
+      description: Lấy danh sách huyện thành công
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                title: Dữ liệu
+                example:
+                  - id: 1
+                    name: Huyện Si Ma Cai
+                    ghn_id: 2264
+                    name_extensions:
+                      - Huyện Xi Ma Cai
+                      - Huyện Si Ma Cai
+                      - H.Xi Ma Cai
+                      - H Xi Ma Cai
+                      - Xi Ma Cai
+                      - Huyen Xi Ma Cai
+                      - ximacai
+                      - Si Ma Cai
+                    created_at: 11:53:58 21/06/2024
+                    updated_at: 11:53:58 21/06/2024
+                type: array
+              total_pages:
+                title: Tổng trang
+                example: 7
+                type: number
+              from:
+                title: Vị trí dữ liệu đầu tiên của trang
+                example: 76
+                type: number
+              to:
+                title: Vị trí dữ liệu cuối cùng của trang
+                example: 90
+                type: number
+              per_page:
+                title: Tổng dữ liệu mỗi trang
+                example: 15
+                type: number
+              current_page:
+                title: Vị trí trang hiện tại
+                example: 6
+                type: number
+              total:
+                title: Tổng dữ liệu
+                example: 100
+                type: number
+            type: object

@@ -47,3 +47,5 @@ paths:
     $ref: "./paths/api/user/profile-information.yaml"
   /api/address/province:
     $ref: "./paths/api/address/province.yaml"
+  /api/address/district/{province_id}:
+    $ref: "./paths/api/address/district/{province_id}.yaml"
