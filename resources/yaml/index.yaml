@@ -35,3 +35,5 @@ paths:
     $ref: "./paths/api/email/verification-notification.yaml"
   /api/user/confirm-password:
     $ref: "./paths/api/user/confirm-password.yaml"
+  /api/user/confirmed-password-status:
+    $ref: "./paths/api/user/confirmed-password-status.yaml"
