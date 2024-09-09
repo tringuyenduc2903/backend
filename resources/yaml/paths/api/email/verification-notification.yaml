@@ -1,0 +1,19 @@
+post:
+  description: Gửi email xác minh địa chỉ email
+  tags:
+    - Xác minh Email
+  parameters:
+    - $ref: "../../../components/parameters/X-Requested-With.yaml"
+  responses:
+    202:
+      description: Đã gửi email thành công
+      content:
+        application/json:
+          schema:
+            $ref: "../../../components/schemas/Dữ liệu rỗng.yaml"
+    204:
+      description: Khách hàng đã xác minh địa chỉ email trước đó
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    419:
+      $ref: "../../../components/responses/419.yaml"
