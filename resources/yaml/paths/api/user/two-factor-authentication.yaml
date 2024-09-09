@@ -10,7 +10,7 @@ post:
         schema:
           properties:
             force:
-              title: Hiệu lực
+              title: Ghi đè giá trị cũ
               example: true
               type: boolean
               default: true
@@ -21,7 +21,12 @@ post:
       content:
         application/json:
           schema:
-            $ref: "../../../components/schemas/Dữ liệu rỗng.yaml"
+            properties:
+              token:
+                title: Mã đăng nhập dành cho Ứng dụng
+                example: 1|tRmiiQiSJdy7IO9bhD1fDeLY5FFf8Y5OiKYhxZVscc8b762f
+                type: string
+            type: object
     401:
       $ref: "../../../components/responses/401.yaml"
     419:

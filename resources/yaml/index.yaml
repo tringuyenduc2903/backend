@@ -33,3 +33,5 @@ paths:
     $ref: "./paths/api/user/two-factor-secret-key.yaml"
   /api/email/verification-notification:
     $ref: "./paths/api/email/verification-notification.yaml"
+  /api/user/confirm-password:
+    $ref: "./paths/api/user/confirm-password.yaml"

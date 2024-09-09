@@ -45,7 +45,6 @@ post:
       content:
         application/json:
           schema:
-            description: Dữ liệu trả về
             properties:
               token:
                 title: Mã đăng nhập dành cho Ứng dụng
