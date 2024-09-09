@@ -23,3 +23,5 @@ paths:
     $ref: "./paths/api/two-factor-challenge.yaml"
   /api/user/two-factor-authentication:
     $ref: "./paths/api/user/two-factor-authentication.yaml"
+  /api/user/two-factor-qr-code:
+    $ref: "./paths/api/user/two-factor-qr-code.yaml"
