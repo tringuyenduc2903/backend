@@ -19,3 +19,5 @@ paths:
     $ref: "./paths/api/logout.yaml"
   /auth/redirect/{driver_name}:
     $ref: "./paths/auth/redirect/{driver_name}.yaml"
+  /api/two-factor-challenge:
+    $ref: "./paths/api/two-factor-challenge.yaml"
