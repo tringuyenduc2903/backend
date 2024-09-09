@@ -21,3 +21,5 @@ paths:
     $ref: "./paths/auth/redirect/{driver_name}.yaml"
   /api/two-factor-challenge:
     $ref: "./paths/api/two-factor-challenge.yaml"
+  /api/user/two-factor-authentication:
+    $ref: "./paths/api/user/two-factor-authentication.yaml"

@@ -1,0 +1,49 @@
+post:
+  description: Bật tính năng xác thực hai bước
+  tags:
+    - Bật Xác thực hai bước
+  parameters:
+    - $ref: "../../../components/parameters/X-Requested-With.yaml"
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            force:
+              title: Hiệu lực
+              example: true
+              type: boolean
+              default: true
+          type: object
+  responses:
+    200:
+      description: Bật tính năng xác thực hai bước thành công
+      content:
+        application/json:
+          schema:
+            $ref: "../../../components/schemas/Dữ liệu rỗng.yaml"
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    419:
+      $ref: "../../../components/responses/419.yaml"
+    423:
+      $ref: "../../../components/responses/423.yaml"
+delete:
+  description: Tắt tính năng xác thực hai bước
+  tags:
+    - Tắt Xác thực hai bước
+  parameters:
+    - $ref: "../../../components/parameters/X-Requested-With.yaml"
+  responses:
+    200:
+      description: Tắt tính năng xác thực hai bước thành công
+      content:
+        application/json:
+          schema:
+            $ref: "../../../components/schemas/Dữ liệu rỗng.yaml"
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    419:
+      $ref: "../../../components/responses/419.yaml"
+    423:
+      $ref: "../../../components/responses/423.yaml"

@@ -1,0 +1,11 @@
+description: Khách hàng chưa xác nhận mật khẩu
+content:
+  application/json:
+    schema:
+      properties:
+        message:
+          title: Thông báo ngắn
+          description: Yêu cầu xác nhận mật khẩu.
+          example: Password confirmation required.
+          type: string
+      type: object
