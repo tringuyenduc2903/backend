@@ -37,3 +37,5 @@ paths:
     $ref: "./paths/api/user/confirm-password.yaml"
   /api/user/confirmed-password-status:
     $ref: "./paths/api/user/confirmed-password-status.yaml"
+  /api/forgot-password:
+    $ref: "./paths/api/forgot-password.yaml"
