@@ -10,15 +10,20 @@ class Register
 {
     public function handle(User $user, string $provider_name): void
     {
-        $customer = Customer::create([
+        $customer = Customer::make([
             'name' => $user->getName(),
             'email' => $user->getEmail(),
-            'password' => Str::password(20),
             'timezone' => array_search(
                 config('app.timezone'),
                 timezone_identifiers_list()
             ),
         ]);
+
+        $customer->forceFill([
+            'password' => Str::password(20),
+        ]);
+
+        $customer->save();
 
         $customer->socials()->updateOrCreate([
             'provider_id' => $user->getId(),
@@ -28,10 +33,5 @@ class Register
         $customer->markEmailAsVerified();
 
         auth()->login($customer, true);
-
-        if (request()->hasSession()) {
-            session()->invalidate();
-            session()->regenerate();
-        }
     }
 }

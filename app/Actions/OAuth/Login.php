@@ -22,7 +22,5 @@ class Login
         }
 
         auth()->login($customer, true);
-
-        session()->regenerate();
     }
 }

@@ -28,7 +28,7 @@ return [
     'change_password' => 'Đổi mật khẩu',
     'unauthorized' => 'Truy cập trái phép.',
     'dashboard' => 'Bảng điều khiển',
-    'handcrafted_by' => 'Thủ công bởi',
+    'handcrafted_by' => 'Thiết kế bởi',
     'powered_by' => 'Cung cấp bởi',
     'my_account' => 'Tài khoản của tôi',
     'update_account_info' => 'Cập nhật thông tin tài khoản',

@@ -11,12 +11,19 @@ use App\Models\Social;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 
 class OAuthController extends Controller
 {
-    public function redirect(CustomerProviderEnum $driver_name): RedirectResponse
+    public function redirect(CustomerProviderEnum $driver_name, Request $request): RedirectResponse
     {
+        if ($request->exists('callback')) {
+            session([
+                'callback' => request('callback'),
+            ]);
+        }
+
         return Socialite::driver($driver_name->value)->redirect();
     }
 
@@ -43,6 +50,9 @@ class OAuthController extends Controller
             ? app(Login::class)->handle($customer, $user, $provider_name)
             : app(Register::class)->handle($user, $provider_name);
 
-        return redirect(config('app.frontend_url'));
+        return redirect(session(
+            'callback',
+            config('app.frontend_url')
+        ));
     }
 }
