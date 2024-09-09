@@ -34,8 +34,8 @@ post:
           schema:
             properties:
               two_factor:
-                title: Xác thực 2 bước
-                description: Trạng thái xác thực 2 bước
+                title: Xác thực hai bước
+                description: Trạng thái xác thực hai bước
                 example: false
                 type: boolean
               token:

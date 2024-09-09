@@ -1,3 +1,79 @@
+get:
+  description: Lấy thông tin tài khoản
+  tags:
+    - Thông tin tài khoản
+  responses:
+    200:
+      description: Lấy thông tin về Khách hàng thành công
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                title: Id
+                example: 1
+                type: number
+              name:
+                title: Tên
+                example: Nguyễn Văn Hải
+                type: string
+              birthday:
+                title: Ngày sinh
+                example: 29/03/2003
+                type: string
+              gender:
+                title: Giới tính
+                example: 0
+                type: number
+              gender_preview:
+                title: Giới tính
+                description: Hiển thị dưới dạng văn bản
+                example: Nam
+                type: string
+              email:
+                title: Email
+                example: nguyenvanhai@agilts.com
+                type: string
+              email_verified_at:
+                title: Thời gian xác thực email
+                example: 11:53:58 21/06/2024
+                type: string
+              phone_number:
+                title: Số điện thoại
+                example: +84982213854
+                type: string
+              phone_number_verified_at:
+                title: Thời gian xác thực số điện thoại
+                example: 11:53:58 21/06/2024
+                type: string
+              timezone:
+                title: Múi giờ
+                example: 234
+                type: number
+              timezone_preview:
+                title: Múi giờ
+                description: Hiển thị dưới dạng văn bản
+                example: Asia/Ho_Chi_Minh
+                type: string
+              two_factor_confirmed_at:
+                title: Thời gian bật xác thực hai bước
+                example: 11:53:58 21/06/2024
+                type: string
+              deleted_at:
+                title: Thời gian xoá
+                example: 11:53:58 21/06/2024
+                type: string
+              created_at:
+                title: Thời gian tạo
+                example: 11:53:58 21/06/2024
+                type: string
+              updated_at:
+                title: Thời gian cập nhật thông tin
+                example: 11:53:58 21/06/2024
+                type: string
+            type: object
+    401:
+      $ref: "../../../components/responses/401.yaml"
 put:
   description: Đổi thông tin tài khoản
   tags:
