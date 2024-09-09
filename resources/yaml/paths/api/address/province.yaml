@@ -1,0 +1,50 @@
+get:
+  description: Lấy danh sách tỉnh
+  tags:
+    - Địa chỉ
+  responses:
+    200:
+      description: Lấy danh sách tỉnh thành công
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                title: Dữ liệu
+                example:
+                  - id: 1
+                    name: Lào Cai
+                    ghn_id: 269
+                    name_extensions:
+                      - Lào Cai
+                      - Tỉnh Lào Cai
+                      - T.Lào Cai
+                      - lào cai
+                    created_at: 11:53:58 21/06/2024
+                    updated_at: 11:53:58 21/06/2024
+                type: array
+              total_pages:
+                title: Tổng trang
+                example: 7
+                type: number
+              from:
+                title: Vị trí dữ liệu đầu tiên của trang
+                example: 76
+                type: number
+              to:
+                title: Vị trí dữ liệu cuối cùng của trang
+                example: 90
+                type: number
+              per_page:
+                title: Tổng dữ liệu mỗi trang
+                example: 15
+                type: number
+              current_page:
+                title: Vị trí trang hiện tại
+                example: 6
+                type: number
+              total:
+                title: Tổng dữ liệu
+                example: 100
+                type: number
+            type: object

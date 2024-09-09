@@ -45,3 +45,5 @@ paths:
     $ref: "./paths/api/user/password.yaml"
   /api/user/profile-information:
     $ref: "./paths/api/user/profile-information.yaml"
+  /api/address/province:
+    $ref: "./paths/api/address/province.yaml"
