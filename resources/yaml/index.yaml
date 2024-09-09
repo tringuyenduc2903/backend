@@ -43,3 +43,5 @@ paths:
     $ref: "./paths/api/reset-password.yaml"
   /api/user/profile-information:
     $ref: "./paths/api/user/profile-information.yaml"
+  /api/user/password:
+    $ref: "./paths/api/user/password.yaml"
