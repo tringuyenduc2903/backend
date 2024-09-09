@@ -157,6 +157,9 @@ return [
         'size' => [
             'strings' => 'Trường :attribute phải là :size1 ký tự hoặc :size2 ký tự.',
         ],
+        'max' => [
+            'entity' => 'Chỉ chứa tối đa 5 :attribute.',
+        ],
     ],
     'attributes' => [
         'name' => 'tên',
@@ -266,5 +269,12 @@ return [
         'chassis_number' => 'số khung',
         'engine_number' => 'số máy',
         'option' => 'sản phẩm',
+        'default' => 'đặt làm mặc định',
+        'customer_name' => 'tên',
+        'customer_phone_number' => 'số điện thoại',
+        'country' => 'quốc gia',
+        'province_id' => 'tỉnh',
+        'district_id' => 'huyện',
+        'ward_id' => 'phường',
     ],
 ];

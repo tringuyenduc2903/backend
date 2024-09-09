@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CustomerAddress;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,7 @@ class Address extends Model
     use CrudTrait;
     use HasFactory;
     use SoftDeletes;
+    use SwitchTimezoneTrait;
 
     /*
     |--------------------------------------------------------------------------
@@ -50,6 +52,20 @@ class Address extends Model
         'customer_id',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'default' => 'boolean',
+    ];
+
+    protected $appends = [
+        'type_preview',
+        'address_preview',
+    ];
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
@@ -69,5 +85,28 @@ class Address extends Model
     public function ward(): BelongsTo
     {
         return $this->belongsTo(Ward::class);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+    */
+
+    protected function getTypePreviewAttribute(): string
+    {
+        return CustomerAddress::valueForKey($this->type);
+    }
+
+    protected function getAddressPreviewAttribute(): string
+    {
+        return sprintf(
+            '%s, %s, %s, %s (%s)',
+            $this->address_detail,
+            $this->ward?->name,
+            $this->district?->name,
+            $this->province?->name,
+            $this->country
+        );
     }
 }
