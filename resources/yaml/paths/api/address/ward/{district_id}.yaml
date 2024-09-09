@@ -1,16 +1,16 @@
 get:
-  description: Lấy danh sách huyện
+  description: Lấy danh sách phường
   tags:
     - Địa chỉ
   parameters:
-    - name: province_id
+    - name: district_id
       in: path
-      description: Id tỉnh
+      description: Id huyện
       example: 1
       required: true
   responses:
     200:
-      description: Lấy danh sách huyện thành công
+      description: Lấy danh sách phường thành công
       content:
         application/json:
           schema:
@@ -19,17 +19,13 @@ get:
                 title: Dữ liệu
                 example:
                   - id: 1
-                    name: Huyện Si Ma Cai
-                    ghn_id: 2264
+                    name: Thị Trấn Si Ma Cai
+                    ghn_id: 90816
                     name_extensions:
-                      - Huyện Xi Ma Cai
-                      - Huyện Si Ma Cai
-                      - H.Xi Ma Cai
-                      - H Xi Ma Cai
-                      - Xi Ma Cai
-                      - Huyen Xi Ma Cai
-                      - ximacai
-                      - Si Ma Cai
+                      - thị trấn si ma cai
+                      - thi tran si ma cai
+                      - Thi Tran Si Ma Cai
+                      - thị trấn xi ma cai
                     created_at: 11:53:58 21/06/2024
                     updated_at: 11:53:58 21/06/2024
                 type: array

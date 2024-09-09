@@ -49,3 +49,5 @@ paths:
     $ref: "./paths/api/address/province.yaml"
   /api/address/district/{province_id}:
     $ref: "./paths/api/address/district/{province_id}.yaml"
+  /api/address/ward/{district_id}:
+    $ref: "./paths/api/address/ward/{district_id}.yaml"
