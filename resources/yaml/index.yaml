@@ -29,3 +29,5 @@ paths:
     $ref: "./paths/api/user/confirmed-two-factor-authentication.yaml"
   /api/user/two-factor-recovery-codes:
     $ref: "./paths/api/user/two-factor-recovery-codes.yaml"
+  /api/user/two-factor-secret-key:
+    $ref: "./paths/api/user/two-factor-secret-key.yaml"
