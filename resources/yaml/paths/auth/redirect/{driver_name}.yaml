@@ -1,0 +1,17 @@
+get:
+  description: Thực hiện xác thực OAuth
+  tags:
+    - OAuth
+  parameters:
+    - name: driver_name
+      in: path
+      description: Tên Driver
+      example: google
+      required: true
+    - name: callback
+      in: query
+      description: URL chuyển hướng sau khi đăng nhập thành công
+      example: https://agilts.com/order
+  responses:
+    302:
+      description: Thực hiện xác thực thông qua OAuth thành công
