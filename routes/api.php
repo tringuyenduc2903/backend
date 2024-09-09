@@ -11,7 +11,11 @@ Route::middleware('auth:sanctum')
 
 Route::apiResource('province', ProvinceController::class)
     ->only('index');
-Route::apiResource('district', DistrictController::class)
-    ->only('show');
+Route::apiResources([
+    'district' => DistrictController::class,
+    'ward' => WardController::class,
+], [
+    'only' => 'show',
+]);
 
 require __DIR__.'/auth.php';

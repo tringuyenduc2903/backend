@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Ward extends Model
 {
     use CrudTrait;
+    use SwitchTimezoneTrait;
 
     /*
     |--------------------------------------------------------------------------
@@ -34,5 +35,14 @@ class Ward extends Model
      */
     protected $hidden = [
         'district_id',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'name_extensions' => 'array',
     ];
 }
