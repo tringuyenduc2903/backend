@@ -1,0 +1,5 @@
+name: identification_id
+in: path
+description: Id hồ sơ
+example: 1
+required: true

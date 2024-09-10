@@ -1,0 +1,111 @@
+get:
+  description: Lấy thông tin hồ sơ
+  tags:
+    - Hồ sơ Khách hàng
+  parameters:
+    - $ref: "../../../components/parameters/identification.yaml"
+  responses:
+    200:
+      description: Lấy thông tin hồ sơ thành công
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                title: Id
+                example: 1
+                type: number
+              number:
+                title: Số
+                example: 012345678
+                type: string
+              issued_name:
+                title: Nơi cấp
+                example: CA TP. Hà Nội
+                type: string
+              issuance_date:
+                title: Ngày cấp
+                example: 2024-06-21
+                type: string
+              expiry_date:
+                title: Ngày hết hạn
+                example: 2024-06-21
+                type: string
+              type:
+                title: Kiểu
+                example: 0
+                type: number
+              type_preview:
+                title: Kiểu
+                description: Hiển thị dưới dạng văn bản
+                example: Chứng minh nhân dân
+                type: string
+              default:
+                title: Đặt làm mặc định
+                example: true
+                type: boolean
+              deleted_at:
+                title: Thời gian xoá
+                example: 11:53:58 21/06/2024
+                type: string
+              created_at:
+                title: Thời gian tạo
+                example: 11:53:58 21/06/2024
+                type: string
+              updated_at:
+                title: Thời gian cập nhật thông tin
+                example: 11:53:58 21/06/2024
+                type: string
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    404:
+      $ref: "../../../components/responses/404/identification.yaml"
+put:
+  description: Đổi thông tin hồ sơ
+  tags:
+    - Hồ sơ Khách hàng
+  parameters:
+    - $ref: "../../../components/parameters/identification.yaml"
+  requestBody:
+    $ref: "../../../components/requestBodies/identification.yaml"
+  responses:
+    200:
+      description: Đổi thông tin hồ sơ thành công
+      content:
+        application/json:
+          schema:
+            $ref: "../../../components/schemas/Dữ liệu rỗng.yaml"
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    404:
+      $ref: "../../../components/responses/404/identification.yaml"
+    422:
+      $ref: "../../../components/responses/422/identification.yaml"
+delete:
+  description: Xoá hồ sơ cũ
+  tags:
+    - Hồ sơ Khách hàng
+  parameters:
+    - $ref: "../../../components/parameters/identification.yaml"
+  responses:
+    200:
+      description: Xoá hồ sơ cũ thành công
+      content:
+        application/json:
+          schema:
+            $ref: "../../../components/schemas/Dữ liệu rỗng.yaml"
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    403:
+      description: Không thể xóa hồ sơ mặc định
+      content:
+        application/json:
+          schema:
+            properties:
+              message:
+                title: Thông báo ngắn
+                type: string
+                example: Không thể xóa hồ sơ mặc định.
+            type: object
+    404:
+      $ref: "../../../components/responses/404/identification.yaml"

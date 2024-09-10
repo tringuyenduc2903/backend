@@ -11,12 +11,12 @@ get:
             description: Dữ liệu trả về
             example:
               - id: 1
-                type: 0
-                type_preview: Chứng minh nhân dân
                 number: 012345678
                 issued_name: CA TP. Hà Nội
                 issuance_date: 2024-06-21
                 expiry_date: 2024-06-21
+                type: 0
+                type_preview: Chứng minh nhân dân
                 default: false
                 deleted_at: 11:53:58 21/06/2024
                 created_at: 11:53:58 21/06/2024
