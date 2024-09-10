@@ -13,6 +13,9 @@ Route::middleware('auth:sanctum')->group(function () {
         'address' => AddressController::class,
         'identification' => IdentificationController::class,
     ]);
+
+    Route::apiResource('social', SocialController::class)
+        ->only(['index', 'show']);
 });
 
 Route::apiResource('province', ProvinceController::class)

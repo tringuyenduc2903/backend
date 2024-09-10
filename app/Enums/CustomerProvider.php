@@ -22,8 +22,8 @@ class CustomerProvider extends Enum
     public static function map(): array
     {
         return [
-            static::GOOGLE => CustomerProviderEnum::GOOGLE,
-            static::FACEBOOK => CustomerProviderEnum::FACEBOOK,
+            static::GOOGLE => CustomerProviderEnum::GOOGLE->value,
+            static::FACEBOOK => CustomerProviderEnum::FACEBOOK->value,
         ];
     }
 }

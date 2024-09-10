@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Enums\CustomerProvider;
 use Illuminate\Database\Eloquent\Model;
 
 class Social extends Model
 {
+    use SwitchTimezoneTrait;
+
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
@@ -31,4 +34,15 @@ class Social extends Model
     protected $hidden = [
         'customer_id',
     ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+    */
+
+    protected function getProviderNameAttribute(int $provider_name): string
+    {
+        return CustomerProvider::valueForKey($provider_name);
+    }
 }
