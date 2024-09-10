@@ -1,0 +1,49 @@
+put:
+  description: Đổi thông tin địa chỉ
+  tags:
+    - Địa chỉ Khách hàng
+  parameters:
+    - $ref: "../../../components/parameters/address.yaml"
+  requestBody:
+    $ref: '../../../components/requestBodies/address.yaml'
+  responses:
+    200:
+      description: Đổi thông tin địa chỉ thành công
+      content:
+        application/json:
+          schema:
+            $ref: "../../../components/schemas/Dữ liệu rỗng.yaml"
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    404:
+      $ref: "../../../components/responses/404/address.yaml"
+    422:
+      $ref: "../../../components/responses/422/address.yaml"
+delete:
+  description: Xoá địa chỉ cũ
+  tags:
+    - Địa chỉ Khách hàng
+  parameters:
+    - $ref: "../../../components/parameters/address.yaml"
+  responses:
+    200:
+      description: Xoá địa chỉ cũ thành công
+      content:
+        application/json:
+          schema:
+            $ref: "../../../components/schemas/Dữ liệu rỗng.yaml"
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    403:
+      description: Không thể xóa địa chỉ mặc định
+      content:
+        application/json:
+          schema:
+            properties:
+              message:
+                title: Thông báo ngắn
+                type: string
+                example: Không thể xóa địa chỉ mặc định.
+            type: object
+    404:
+      $ref: "../../../components/responses/404/address.yaml"
