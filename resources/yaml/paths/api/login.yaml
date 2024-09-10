@@ -58,6 +58,7 @@ post:
                 example: Trường email là bắt buộc. (và 1 lỗi)
                 type: string
               errors:
+                title: Các trường không hợp lệ
                 properties:
                   email:
                     title: Email

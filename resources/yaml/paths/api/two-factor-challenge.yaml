@@ -45,6 +45,7 @@ post:
                 example: Mã xác thực hai yếu tố được cung cấp không hợp lệ.
                 type: string
               errors:
+                title: Các trường không hợp lệ
                 properties:
                   code:
                     title: Mã

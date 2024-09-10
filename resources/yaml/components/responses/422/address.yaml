@@ -8,6 +8,7 @@ content:
           type: string
           example: Trường đặt làm mặc định là bắt buộc. (và 7 lỗi khác)
         errors:
+          title: Các trường không hợp lệ
           properties:
             default:
               title: Đặt làm mặc định

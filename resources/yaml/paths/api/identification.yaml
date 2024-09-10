@@ -1,0 +1,43 @@
+get:
+  description: "Lấy danh sách hồ sơ: Sắp xếp theo Hồ sơ mới nhất"
+  tags:
+    - Hồ sơ Khách hàng
+  responses:
+    200:
+      description: Lấy danh sách hồ sơ thành công
+      content:
+        application/json:
+          schema:
+            description: Dữ liệu trả về
+            example:
+              - id: 1
+                type: 0
+                type_preview: Chứng minh nhân dân
+                number: 012345678
+                issued_name: CA TP. Hà Nội
+                issuance_date: 2024-06-21
+                expiry_date: 2024-06-21
+                default: false
+                deleted_at: 11:53:58 21/06/2024
+                created_at: 11:53:58 21/06/2024
+                updated_at: 11:53:58 21/06/2024
+            type: array
+    401:
+      $ref: "../../components/responses/401.yaml"
+post:
+  description: Tạo hồ sơ mới
+  tags:
+    - Hồ sơ Khách hàng
+  requestBody:
+    $ref: "../../components/requestBodies/identification.yaml"
+  responses:
+    201:
+      description: Tạo hồ sơ mới thành công
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/Dữ liệu rỗng.yaml"
+    401:
+      $ref: "../../components/responses/401.yaml"
+    422:
+      $ref: "../../components/responses/422/identification.yaml"

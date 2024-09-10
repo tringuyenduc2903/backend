@@ -1,3 +1,115 @@
+get:
+  description: Lấy thông tin địa chỉ
+  tags:
+    - Địa chỉ Khách hàng
+  parameters:
+    - $ref: "../../../components/parameters/address.yaml"
+  responses:
+    200:
+      description: Lấy thông tin địa chỉ thành công
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                title: Id
+                example: 1
+                type: number
+              customer_name:
+                title: Tên
+                example: Vũ Huy Mẫn
+                type: string
+              customer_phone_number:
+                title: Số điện thoại
+                example: +84772543631
+                type: string
+              country:
+                title: Quốc gia
+                example: Việt Nam
+                type: string
+              province:
+                title: Tỉnh
+                example:
+                  id: 1
+                  name: Lào Cai
+                  ghn_id: 269
+                  name_extensions:
+                    - Lào Cai
+                    - Tỉnh Lào Cai
+                    - T.Lào Cai
+                    - lào cai
+                  created_at: 11:53:58 21/06/2024
+                  updated_at: 11:53:58 21/06/2024
+                type: object
+              district:
+                title: Huyện
+                example:
+                  id: 1
+                  name: Huyện Si Ma Cai
+                  ghn_id: 2264
+                  name_extensions:
+                    - Huyện Xi Ma Cai
+                    - Huyện Si Ma Cai
+                    - H.Xi Ma Cai
+                    - H Xi Ma Cai
+                    - Xi Ma Cai
+                    - Huyen Xi Ma Cai
+                    - ximacai
+                    - Si Ma Cai
+                  created_at: 11:53:58 21/06/2024
+                  updated_at: 11:53:58 21/06/2024
+                type: object
+              ward:
+                title: Phường
+                example:
+                  id: 1
+                  name: Thị Trấn Si Ma Cai
+                  ghn_id: 90816
+                  name_extensions:
+                    - thị trấn si ma cai
+                    - thi tran si ma cai
+                    - Thi Tran Si Ma Cai
+                    - thị trấn xi ma cai
+                  created_at: 11:53:58 21/06/2024
+                  updated_at: 11:53:58 21/06/2024
+                type: object
+              address_detail:
+                title: Địa chỉ chi tiết
+                example: 774 Phố Âu Linh Thọ
+                type: string
+              address_preview:
+                title: Địa chỉ
+                example: 774 Phố Âu Linh Thọ, Thị Trấn Si Ma Cai, Huyện Si Ma Cai, Lào Cai (Việt Nam)
+                type: string
+              type:
+                title: Kiểu
+                example: 1
+                type: number
+              type_preview:
+                title: Kiểu
+                description: Hiển thị dưới dạng văn bản
+                example: Công ty
+                type: string
+              default:
+                title: Đặt làm mặc định
+                example: true
+                type: boolean
+              deleted_at:
+                title: Thời gian xoá
+                example: 11:53:58 21/06/2024
+                type: string
+              created_at:
+                title: Thời gian tạo
+                example: 11:53:58 21/06/2024
+                type: string
+              updated_at:
+                title: Thời gian cập nhật thông tin
+                example: 11:53:58 21/06/2024
+                type: string
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    404:
+      $ref: "../../../components/responses/404/address.yaml"
 put:
   description: Đổi thông tin địa chỉ
   tags:
