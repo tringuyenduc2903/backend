@@ -1,0 +1,20 @@
+get:
+  description: "Lấy danh sách mạng xã hội: Sắp xếp theo Mạng xã hội mới nhất"
+  tags:
+    - Mạng xã hội
+  responses:
+    200:
+      description: Lấy danh sách mạng xã hội thành công
+      content:
+        application/json:
+          schema:
+            description: Dữ liệu trả về
+            example:
+              - id: 1
+                provider_id: 113394258790169712732
+                provider_name: google
+                created_at: 11:53:58 21/06/2024
+                updated_at: 11:53:58 21/06/2024
+            type: array
+    401:
+      $ref: "../../components/responses/401.yaml"

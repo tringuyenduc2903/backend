@@ -1,0 +1,54 @@
+get:
+  description: Lấy thông tin mạng xã hội
+  tags:
+    - Mạng xã hội
+  parameters:
+    - $ref: "../../../components/parameters/social.yaml"
+  responses:
+    200:
+      description: Lấy thông tin mạng xã hội thành công
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                title: Id
+                example: 1
+                type: number
+              provider_id:
+                title: Id mạng xã hội
+                example: 113394258790169712732
+                type: string
+              provider_name:
+                title: Tên mạng xã hội
+                example: google
+                type: string
+              created_at:
+                title: Thời gian tạo
+                example: 11:53:58 21/06/2024
+                type: string
+              updated_at:
+                title: Thời gian cập nhật thông tin
+                example: 11:53:58 21/06/2024
+                type: string
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    404:
+      $ref: "../../../components/responses/404/social.yaml"
+delete:
+  description: Xoá mạng xã hội cũ
+  tags:
+    - Mạng xã hội
+  parameters:
+    - $ref: "../../../components/parameters/social.yaml"
+  responses:
+    200:
+      description: Xoá mạng xã hội cũ thành công
+      content:
+        application/json:
+          schema:
+            $ref: "../../../components/schemas/Dữ liệu rỗng.yaml"
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    404:
+      $ref: "../../../components/responses/404/social.yaml"

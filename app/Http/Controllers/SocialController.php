@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Social;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class SocialController extends Controller
@@ -18,6 +19,18 @@ class SocialController extends Controller
             ->socials()
             ->latest()
             ->get();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $social_id, Request $request): JsonResponse
+    {
+        $this
+            ->show($social_id, $request)
+            ->delete();
+
+        return response()->json('');
     }
 
     /**

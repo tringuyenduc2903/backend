@@ -15,7 +15,7 @@ Route::middleware('auth:sanctum')->group(function () {
     ]);
 
     Route::apiResource('social', SocialController::class)
-        ->only(['index', 'show']);
+        ->except(['store', 'update']);
 });
 
 Route::apiResource('province', ProvinceController::class)

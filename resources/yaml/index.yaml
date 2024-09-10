@@ -59,3 +59,7 @@ paths:
     $ref: "./paths/api/identification.yaml"
   /api/identification/{identification_id}:
     $ref: "./paths/api/identification/{identification_id}.yaml"
+  /api/social:
+    $ref: "./paths/api/social.yaml"
+  /api/social/{social_id}:
+    $ref: "./paths/api/social/{social_id}.yaml"
