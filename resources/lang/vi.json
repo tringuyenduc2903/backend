@@ -159,5 +159,11 @@
     "The provided two factor authentication code was invalid.": "Mã xác thực hai yếu tố được cung cấp không hợp lệ.",
     "The provided two factor recovery code was invalid.": "Mã dự phòng xác thực hai yếu tố được cung cấp không hợp lệ.",
     "The provided password was incorrect.": "Mật khẩu được cung cấp không chính xác.",
-    "Default :name cannot be deleted.": "Không thể xóa :name mặc định."
+    "Default :name cannot be deleted.": "Không thể xóa :name mặc định.",
+    "See details": "Xem chi tiết",
+    "See more products": "Xem thêm sản phẩm",
+    "Monday - Friday": "Thứ Hai - Thứ Sáu",
+    "9am to 5pm": "9 giờ đến 17 giờ",
+    "Saturday": "Thứ bảy",
+    "10am to 2pm": "10 giờ đến 14 giờ"
 }

@@ -21,7 +21,6 @@ use Backpack\Pro\Http\Controllers\Operations\BulkTrashOperation as V2;
 use Backpack\Pro\Http\Controllers\Operations\DropzoneOperation;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use Backpack\Pro\Http\Controllers\Operations\TrashOperation as V1;
-use Exception;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -124,8 +123,6 @@ class ProductCrudController extends CrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
-     *
-     * @throws Exception
      */
     protected function setupUpdateOperation(): void
     {
@@ -136,8 +133,6 @@ class ProductCrudController extends CrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
-     *
-     * @throws Exception
      */
     protected function setupCreateOperation(): void
     {
@@ -148,7 +143,7 @@ class ProductCrudController extends CrudController
             'content' => resource_path('assets/js/admin/forms/product.js'),
         ]);
 
-        $code = currency_code();
+        $code = current_currency();
 
         CRUD::field('enabled')
             ->label(trans('Enabled'))
@@ -209,7 +204,7 @@ class ProductCrudController extends CrudController
                     'class' => 'form-group col-sm-12 col-md-7',
                 ],
             ]],
-            'max_rows' => 30,
+            'max_rows' => 40,
             'tab' => trans('Basic information'),
         ]);
         CRUD::addField([
@@ -368,6 +363,7 @@ class ProductCrudController extends CrudController
                     'title' => trans('Title'),
                     'description' => trans('Description'),
                 ],
+                'max' => 40,
             ]],
             'min_rows' => 1,
             'tab' => trans('Options'),

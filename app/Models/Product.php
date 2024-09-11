@@ -3,20 +3,26 @@
 namespace App\Models;
 
 use App\Enums\ProductListsType;
+use App\Enums\ProductTypeEnum;
+use App\Enums\ProductVisibility;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 
 class Product extends Model
 {
     use CrudTrait;
     use HasSEO;
+    use Searchable;
     use Sluggable;
     use SoftDeletes;
+    use SwitchTimezoneTrait;
 
     /*
     |--------------------------------------------------------------------------
@@ -48,7 +54,13 @@ class Product extends Model
      * @var array<string, string>
      */
     protected $casts = [
+        'enabled' => 'boolean',
         'specifications' => 'array',
+    ];
+
+    protected $with = [
+        'options',
+        'categories',
     ];
 
     /*
@@ -67,6 +79,19 @@ class Product extends Model
                 'source' => 'name',
             ],
         ];
+    }
+
+    /**
+     * Determine if the model should be searchable.
+     */
+    public function shouldBeSearchable(): bool
+    {
+        return $this->enabled &&
+            in_array(
+                $this->getRawOriginal('visibility'), [
+                    ProductVisibility::SEARCH,
+                    ProductVisibility::CATALOG_AND_SEARCH,
+                ]);
     }
 
     /*
@@ -117,5 +142,95 @@ class Product extends Model
             'type',
             ProductListsType::RELATED_PRODUCTS
         );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+    */
+
+    protected function getImagesAttribute(string|array|null $images = null): string|array|null
+    {
+        if (backpack_auth()->check()) {
+            return $images;
+        }
+
+        $items = json_decode($images);
+
+        foreach ($items as &$item) {
+            $item = image_preview(
+                product_image_url($item->image),
+                $item->alt
+            );
+        }
+
+        return array_values($items);
+    }
+
+    protected function getVideosAttribute(string|array|null $videos): string|array|null
+    {
+        if (backpack_auth()->check()) {
+            return $videos;
+        }
+
+        $items = json_decode($videos);
+
+        foreach ($items as $item) {
+            $item->video = json_decode($item->video);
+
+            if ($item->title) {
+                $item->video->title = $item->title;
+            }
+
+            if ($item->description) {
+                $item->video->description = $item->description;
+            }
+
+            $item->video->image = image_preview(
+                $item->image
+                    ? product_image_url($item->image)
+                    : $item->video->image,
+                $item->video->title
+            );
+
+            unset($item->title, $item->description, $item->image);
+        }
+
+        return $items;
+    }
+
+    protected function getVisibilityAttribute(int $visibility): int|string
+    {
+        return backpack_auth()->check()
+            ? $visibility
+            : ProductVisibility::valueForKey($visibility);
+    }
+
+    protected function getTypeAttribute(int $type): int|string
+    {
+        return backpack_auth()->check()
+            ? $type
+            : ProductTypeEnum::valueForKey($type);
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function getOptionsMinPriceAttribute(float $price): float|array
+    {
+        return backpack_auth()->check()
+            ? $price
+            : price_preview($price);
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function getOptionsMaxPriceAttribute(float $price): float|array
+    {
+        return backpack_auth()->check()
+            ? $price
+            : price_preview($price);
     }
 }

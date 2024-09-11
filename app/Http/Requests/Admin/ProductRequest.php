@@ -72,7 +72,7 @@ class ProductRequest extends FormRequest
             'specifications' => [
                 'nullable',
                 'array',
-                'max:30',
+                'max:40',
             ],
             'specifications.*.title' => [
                 'required',
@@ -255,7 +255,7 @@ class ProductRequest extends FormRequest
                         'specifications' => [
                             'nullable',
                             'array',
-                            'max:30',
+                            'max:40',
                         ],
                         'specifications.*.title' => [
                             'required',

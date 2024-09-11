@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\OptionStatus;
+use App\Enums\OptionType;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,6 +13,7 @@ class Option extends Model
 {
     use CrudTrait;
     use SoftDeletes;
+    use SwitchTimezoneTrait;
 
     /*
     |--------------------------------------------------------------------------
@@ -69,5 +72,61 @@ class Option extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+    */
+
+    protected function getPriceAttribute(float $price): float|array
+    {
+        return backpack_auth()->check()
+            ? $price
+            : price_preview($price);
+    }
+
+    protected function getValueAddedTaxAttribute(float $value_added_tax): float|array
+    {
+        return backpack_auth()->check()
+            ? $value_added_tax
+            : percent_preview($value_added_tax);
+    }
+
+    protected function getImagesAttribute(string|array|null $images = null): string|array|null
+    {
+        if (backpack_auth()->check()) {
+            return $images;
+        }
+
+        $items = json_decode($images);
+
+        if (! $images) {
+            return $images;
+        }
+
+        foreach ($items as &$item) {
+            $item = image_preview(
+                product_image_url($item),
+                $this->sku
+            );
+        }
+
+        return array_values($items);
+    }
+
+    protected function getTypeAttribute(int $type): int|string
+    {
+        return backpack_auth()->check()
+            ? $type
+            : OptionType::valueForKey($type);
+    }
+
+    protected function getStatusAttribute(int $status): int|string
+    {
+        return backpack_auth()->check()
+            ? $status
+            : OptionStatus::valueForKey($status);
     }
 }

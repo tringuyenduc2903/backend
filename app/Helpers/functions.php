@@ -86,35 +86,10 @@ if (! function_exists('handle_cache')) {
     }
 }
 
-if (! function_exists('currency_symbol')) {
-    /**
-     * @throws Exception
-     */
-    function currency_symbol(): string
+if (! function_exists('current_currency')) {
+    function current_currency(): string
     {
-        $currency = Setting::get('store_currency');
-
-        if (is_null($currency)) {
-            throw new Exception('Currency symbol not configured.');
-        }
-
-        return json_decode($currency)->symbol;
-    }
-}
-
-if (! function_exists('currency_code')) {
-    /**
-     * @throws Exception
-     */
-    function currency_code(): string
-    {
-        $currency = Setting::get('store_currency');
-
-        if (is_null($currency)) {
-            throw new Exception('Currency code not configured.');
-        }
-
-        return json_decode($currency)->code;
+        return json_decode(Setting::get('store_currency'))->value;
     }
 }
 
@@ -125,7 +100,17 @@ if (! function_exists('store_image')) {
             return false;
         }
 
-        make_directories($storage_path, $url);
+        $directories = explode('/', $url);
+
+        $temp_storage_path = $storage_path;
+
+        for ($i = 0; $i < count($directories) - 1; $i++) {
+            $temp_storage_path .= "/$directories[$i]";
+
+            if (! File::exists($temp_storage_path)) {
+                File::makeDirectory($temp_storage_path);
+            }
+        }
 
         return File::put(
             "$storage_path/$url",
@@ -134,31 +119,60 @@ if (! function_exists('store_image')) {
     }
 }
 
-if (! function_exists('make_directories')) {
-    function make_directories(string $storage_path, string $url): void
-    {
-        $directories = explode('/', $url);
-
-        for ($i = 0; $i < count($directories) - 1; $i++) {
-            $storage_path .= "/$directories[$i]";
-
-            if (! File::exists($storage_path)) {
-                File::makeDirectory($storage_path);
-            }
-        }
-    }
-}
-
 if (! function_exists('image_url')) {
     function image_url(string $storage_path, string $path): string
     {
-        return app(UrlGenerator::class)->assetFrom($storage_path, $path);
+        return app(UrlGenerator::class)
+            ->assetFrom($storage_path, $path);
     }
 }
 
 if (! function_exists('product_image_url')) {
     function product_image_url(string $path): string
     {
-        return image_url(config('filesystems.disks.product.url'), $path);
+        return image_url(
+            config('filesystems.disks.product.url'),
+            $path
+        );
+    }
+}
+
+if (! function_exists('category_image_url')) {
+    function category_image_url(string $path): string
+    {
+        return image_url(
+            config('filesystems.disks.category.url'),
+            $path
+        );
+    }
+}
+
+if (! function_exists('image_preview')) {
+    function image_preview(string $image, string $alt): array
+    {
+        return [
+            'url' => $image,
+            'alt' => $alt,
+        ];
+    }
+}
+
+if (! function_exists('price_preview')) {
+    function price_preview(float $price): array
+    {
+        return [
+            'raw' => $price,
+            'preview' => Number::currency($price, current_currency(), app()->currentLocale()),
+        ];
+    }
+}
+
+if (! function_exists('percent_preview')) {
+    function percent_preview(float $percent): array
+    {
+        return [
+            'raw' => $percent,
+            'preview' => Number::percentage($percent),
+        ];
     }
 }

@@ -3,9 +3,14 @@
 namespace Database\Seeders;
 
 use App\Actions\GiaoHangNhanh\StoreCache;
+use App\Enums\ProductType;
+use App\Enums\ProductTypeEnum;
+use App\Enums\ProductVisibility;
 use App\Models\Branch;
+use App\Models\Product;
 use App\Models\Setting;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
 
 class SettingSeeder extends Seeder
 {
@@ -14,14 +19,25 @@ class SettingSeeder extends Seeder
      */
     public function run(): void
     {
+        $product = Product::inRandomOrder()
+            ->whereType(ProductType::MOTOR_CYCLE)
+            ->whereEnabled(true)
+            ->whereNot('visibility', ProductVisibility::NOT_VISIBLE_INDIVIDUALLY)
+            ->whereJsonLength('images', '>=', 2)
+            ->inRandomOrder();
+
+        $products = $product->clone()->take(5)->get();
+        $banner = $product->clone()->first()->images;
+        $auth_small_banner = $banner[0];
+        $auth_large_banner = $banner[1];
+
         foreach ([
-            $this->homepageBanners(),
-            $this->headerMenu(),
+            $this->homepageBanners($products),
             $this->footerAbout(),
             $this->footerServices(),
             $this->footerBranch(),
-            $this->authBanner('auth_small_banner'),
-            $this->authBanner('auth_large_banner'),
+            $this->authBanner('auth_small_banner', $auth_small_banner),
+            $this->authBanner('auth_large_banner', $auth_large_banner),
             $this->storeGhn(),
             $this->storeCurrency(),
         ] as $row) {
@@ -29,7 +45,7 @@ class SettingSeeder extends Seeder
         }
     }
 
-    protected function homepageBanners(): array
+    protected function homepageBanners(Collection $products): array
     {
         return [
             'attributes' => [
@@ -37,7 +53,7 @@ class SettingSeeder extends Seeder
             ],
             'values' => [
                 'name' => trans('Banners'),
-                'fields' => json_encode([[
+                'fields' => [[
                     'name' => 'show_navigation_button',
                     'label' => trans('Show navigation button'),
                     'type' => 'switch',
@@ -121,9 +137,47 @@ class SettingSeeder extends Seeder
                     ]],
                     'min_rows' => 1,
                     'max_rows' => 15,
-                ]], JSON_UNESCAPED_UNICODE),
+                ]],
+                'value' => json_encode([
+                    'show_navigation_button' => true,
+                    'show_page_number' => true,
+                    'automatically_switch_banners' => true,
+                    'time_to_automatically_switch_banners' => 5000,
+                    'banners' => $products->map(
+                        function (Product $product): array {
+                            $image = $product->images[1];
+
+                            return [
+                                'image' => $image['url'],
+                                'alt' => $image['alt'],
+                                'subtitle' => $product->manufacturer,
+                                'title' => $product->name,
+                                'description' => $product->seo->description,
+                                'page_name' => ProductType::valueForKey($product->getRawOriginal('type')),
+                                'banner_description' => implode(' | ', $product->categories()->pluck('name')->toArray()),
+                                'actions' => [[
+                                    'title' => trans('See details'),
+                                    'link' => sprintf(
+                                        'products/%s/%s',
+                                        ProductTypeEnum::MOTOR_CYCLE->value,
+                                        $product->search_url
+                                    ),
+                                ], [
+                                    'title' => trans('See more products', [
+                                        'name' => $product->manufacturer,
+                                    ]),
+                                    'link' => sprintf(
+                                        'products/%s?manufacturer=%s',
+                                        ProductTypeEnum::MOTOR_CYCLE->value,
+                                        $product->manufacturer
+                                    ),
+                                ]],
+                            ];
+                        }
+                    ),
+                ], JSON_UNESCAPED_UNICODE),
                 'active' => true,
-                'validation_rules' => json_encode([
+                'validation_rules' => [
                     'show_navigation_button' => [
                         'required',
                         'boolean',
@@ -150,7 +204,7 @@ class SettingSeeder extends Seeder
                     'banners.*.image' => [
                         'nullable',
                         'string',
-                        'max:100',
+                        'max:500',
                     ],
                     'banners.*.alt' => [
                         'nullable',
@@ -186,44 +240,7 @@ class SettingSeeder extends Seeder
                     'banners.*.actions' => [
                         'actions',
                     ],
-                ], JSON_UNESCAPED_UNICODE),
-            ],
-        ];
-    }
-
-    protected function headerMenu(): array
-    {
-        return [
-            'attributes' => [
-                'key' => 'header_menu',
-            ],
-            'values' => [
-                'name' => trans('Title'),
-                'fields' => json_encode([[
-                    'name' => 'title',
-                    'label' => trans('Title'),
-                    'fake' => true,
-                    'store_in' => 'value',
-                ], [
-                    'name' => 'description',
-                    'label' => trans('Description'),
-                    'type' => 'textarea',
-                    'fake' => true,
-                    'store_in' => 'value',
-                ]], JSON_UNESCAPED_UNICODE),
-                'active' => true,
-                'validation_rules' => json_encode([
-                    'title' => [
-                        'required',
-                        'string',
-                        'max:50',
-                    ],
-                    'description' => [
-                        'required',
-                        'string',
-                        'max:255',
-                    ],
-                ], JSON_UNESCAPED_UNICODE),
+                ],
             ],
         ];
     }
@@ -236,7 +253,7 @@ class SettingSeeder extends Seeder
             ],
             'values' => [
                 'name' => trans('Time in works'),
-                'fields' => json_encode([[
+                'fields' => [[
                     'name' => 'description',
                     'label' => trans('Description'),
                     'type' => 'textarea',
@@ -263,9 +280,23 @@ class SettingSeeder extends Seeder
                     ]],
                     'min_rows' => 1,
                     'max_rows' => 3,
-                ]], JSON_UNESCAPED_UNICODE),
+                ]],
+                'value' => json_encode([
+                    'description' => mb_substr(
+                        vnfaker()->paragraphs(2, glue: ' '),
+                        0,
+                        254
+                    ),
+                    'work_schedules' => [[
+                        'title' => trans('Monday - Friday'),
+                        'description' => trans('9am to 5pm'),
+                    ], [
+                        'title' => trans('Saturday'),
+                        'description' => trans('10am to 2pm'),
+                    ]],
+                ], JSON_UNESCAPED_UNICODE),
                 'active' => true,
-                'validation_rules' => json_encode([
+                'validation_rules' => [
                     'description' => [
                         'required',
                         'string',
@@ -286,7 +317,7 @@ class SettingSeeder extends Seeder
                         'string',
                         'max:50',
                     ],
-                ], JSON_UNESCAPED_UNICODE),
+                ],
             ],
         ];
     }
@@ -299,7 +330,7 @@ class SettingSeeder extends Seeder
             ],
             'values' => [
                 'name' => trans('Services'),
-                'fields' => json_encode([[
+                'fields' => [[
                     'name' => 'value',
                     'label' => trans('Value'),
                     'type' => 'repeatable',
@@ -318,9 +349,19 @@ class SettingSeeder extends Seeder
                     ]],
                     'min_rows' => 1,
                     'max_rows' => 5,
+                ]],
+                'value' => json_encode([[
+                    'title' => trans('Motor cycle'),
+                    'link' => 'products/'.ProductTypeEnum::MOTOR_CYCLE->value,
+                ], [
+                    'title' => trans('Square parts'),
+                    'link' => 'products/'.ProductTypeEnum::SQUARE_PARTS->value,
+                ], [
+                    'title' => trans('Accessories'),
+                    'link' => 'products/'.ProductTypeEnum::ACCESSORIES->value,
                 ]], JSON_UNESCAPED_UNICODE),
                 'active' => true,
-                'validation_rules' => json_encode([
+                'validation_rules' => [
                     'value' => [
                         'required',
                         'array',
@@ -336,7 +377,7 @@ class SettingSeeder extends Seeder
                         'string',
                         'max:255',
                     ],
-                ], JSON_UNESCAPED_UNICODE),
+                ],
             ],
         ];
     }
@@ -349,27 +390,29 @@ class SettingSeeder extends Seeder
             ],
             'values' => [
                 'name' => trans('Branch'),
-                'fields' => json_encode([[
+                'fields' => [[
                     'name' => 'value',
                     'label' => trans('Value'),
-                    'type' => 'select2',
+                    'type' => 'select2_from_ajax',
                     'model' => Branch::class,
-                    'attribute' => 'name',
-                    'allows_null' => false,
-                ]], JSON_UNESCAPED_UNICODE),
+                    'data_source' => route('employees.fetchBranches'),
+                    'minimum_input_length' => 0,
+                    'method' => 'POST',
+                ]],
+                'value' => Branch::inRandomOrder()->first()->id,
                 'active' => true,
-                'validation_rules' => json_encode([
+                'validation_rules' => [
                     'value' => [
                         'required',
                         'integer',
                         sprintf('exists:%s,%s', Branch::class, 'id'),
                     ],
-                ], JSON_UNESCAPED_UNICODE),
+                ],
             ],
         ];
     }
 
-    protected function authBanner(string $column): array
+    protected function authBanner(string $column, array $image): array
     {
         return [
             'attributes' => [
@@ -377,7 +420,7 @@ class SettingSeeder extends Seeder
             ],
             'values' => [
                 'name' => trans('Banner'),
-                'fields' => json_encode([[
+                'fields' => [[
                     'name' => 'image',
                     'label' => trans('Image'),
                     'type' => 'image',
@@ -392,9 +435,13 @@ class SettingSeeder extends Seeder
                     'label' => trans('Alt text'),
                     'fake' => true,
                     'store_in' => 'value',
-                ]]),
+                ]],
+                'value' => json_encode([
+                    'image' => $image['url'],
+                    'alt' => $image['alt'],
+                ], JSON_UNESCAPED_UNICODE),
                 'active' => true,
-                'validation_rules' => json_encode([
+                'validation_rules' => [
                     'image' => [
                         'sometimes',
                         'image_banner',
@@ -405,7 +452,7 @@ class SettingSeeder extends Seeder
                         'string',
                         'max:50',
                     ],
-                ], JSON_UNESCAPED_UNICODE),
+                ],
             ],
         ];
     }
@@ -429,20 +476,23 @@ class SettingSeeder extends Seeder
             ],
             'values' => [
                 'name' => trans('Shop at GHN'),
-                'fields' => json_encode([[
+                'fields' => [[
                     'name' => 'value',
                     'label' => trans('Value'),
                     'type' => 'select2_from_array',
                     'options' => $shops,
                     'allows_null' => false,
-                ]], JSON_UNESCAPED_UNICODE),
+                ]],
+                'value' => json_encode([
+                    'value' => array_key_first($shops),
+                ], JSON_UNESCAPED_UNICODE),
                 'active' => true,
-                'validation_rules' => json_encode([
+                'validation_rules' => [
                     'value' => [
                         'required',
                         'string',
                     ],
-                ], JSON_UNESCAPED_UNICODE),
+                ],
             ],
         ];
     }
@@ -455,30 +505,23 @@ class SettingSeeder extends Seeder
             ],
             'values' => [
                 'name' => trans('Currency'),
-                'fields' => json_encode([[
-                    'name' => 'symbol',
-                    'label' => trans('Symbol'),
+                'fields' => [[
+                    'name' => 'value',
+                    'label' => trans('Value'),
                     'fake' => true,
                     'store_in' => 'value',
-                ], [
-                    'name' => 'code',
-                    'label' => trans('Code'),
-                    'fake' => true,
-                    'store_in' => 'value',
-                ]], JSON_UNESCAPED_UNICODE),
-                'active' => true,
-                'validation_rules' => json_encode([
-                    'symbol' => [
-                        'required',
-                        'string',
-                        'max:3',
-                    ],
-                    'code' => [
-                        'required',
-                        'string',
-                        'max:3',
-                    ],
+                ]],
+                'value' => json_encode([
+                    'value' => 'VND',
                 ], JSON_UNESCAPED_UNICODE),
+                'active' => true,
+                'validation_rules' => [
+                    'value' => [
+                        'required',
+                        'string',
+                        'max:3',
+                    ],
+                ],
             ],
         ];
     }

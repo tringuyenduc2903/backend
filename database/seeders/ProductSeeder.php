@@ -44,7 +44,7 @@ class ProductSeeder extends Seeder
                     'color' => $option->color ?? null,
                     'version' => $option->version ?? null,
                     'volume' => $option->volume ?? null,
-                    'type' => fake()->randomElement(OptionType::keys()),
+                    'type' => OptionType::keyForValue($option->type),
                     'status' => OptionStatus::keyForValue($option->status),
                     'quantity' => $option->quantity,
                     'weight' => $option->weight ?? null,
@@ -58,6 +58,15 @@ class ProductSeeder extends Seeder
             $product_db->categories()->saveMany(
                 Category::whereIn('name', $product->categories)->get()
             );
+
+            $description = $product->description[0]->description;
+
+            if ($description) {
+                $product_db->seo()->updateOrCreate([
+                ], [
+                    'description' => mb_substr($description, 0, 159),
+                ]);
+            }
         }
     }
 
@@ -136,6 +145,9 @@ class ProductSeeder extends Seeder
             array_map(
                 function (object $video): array {
                     $video->video = json_encode($video->video, JSON_UNESCAPED_UNICODE);
+                    $video->image = null;
+                    $video->title = null;
+                    $video->description = null;
 
                     return (array) $video;
                 },

@@ -27,4 +27,11 @@ Route::apiResources([
     'only' => 'show',
 ]);
 
+Route::prefix('product/{product_type}')->group(function () {
+    Route::get('/', [ProductController::class, 'index'])
+        ->name('product.index');
+    Route::get('{product}', [ProductController::class, 'show'])
+        ->name('product.show');
+});
+
 require __DIR__.'/auth.php';

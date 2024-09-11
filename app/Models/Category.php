@@ -15,6 +15,7 @@ class Category extends Model
     use HasSEO;
     use Sluggable;
     use SoftDeletes;
+    use SwitchTimezoneTrait;
 
     /*
     |--------------------------------------------------------------------------
@@ -32,6 +33,15 @@ class Category extends Model
         'name',
         'description',
         'image',
+        'alt',
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
         'alt',
     ];
 
@@ -62,5 +72,22 @@ class Category extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'categories_products');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+    */
+
+    protected function getImageAttribute(string|array|null $image = null): array|string|null
+    {
+        if (backpack_auth()->check()) {
+            return $image;
+        }
+
+        return $image
+            ? image_preview(category_image_url($image), $this->alt)
+            : null;
     }
 }

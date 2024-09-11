@@ -19,9 +19,9 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             EmployeeSeeder::class,
             CustomerSeeder::class,
-            SettingSeeder::class,
             CategorySeeder::class,
             ProductSeeder::class,
+            SettingSeeder::class,
             ProductListSeeder::class,
             MotorCycleSeeder::class,
         ]);

@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\EmployeePermissionEnum;
 use App\Http\Requests\Admin\SettingRequest;
+use App\Models\Branch;
 use App\Models\Setting;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 
 /**
  * Class SettingCrudController
@@ -18,6 +20,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  */
 class SettingCrudController extends CrudController
 {
+    use FetchOperation;
     use ListOperation;
     use UpdateOperation;
 
@@ -76,10 +79,7 @@ class SettingCrudController extends CrudController
         $setting = CRUD::getCurrentEntry();
 
         CRUD::setValidation(SettingRequest::class);
-        CRUD::setValidation(json_decode(
-            $setting->getAttribute('validation_rules'),
-            true
-        ));
+        CRUD::setValidation($setting->getAttribute('validation_rules'));
 
         CRUD::field('name')
             ->label(trans('Name'))
@@ -89,9 +89,11 @@ class SettingCrudController extends CrudController
         CRUD::field('active')
             ->label(trans('Active'))
             ->type('switch');
-        CRUD::addFields(json_decode(
-            $setting->getAttribute('fields'),
-            true
-        ));
+        CRUD::addFields($setting->getAttribute('fields'));
+    }
+
+    protected function fetchBranches()
+    {
+        return $this->fetch(Branch::class);
     }
 }
