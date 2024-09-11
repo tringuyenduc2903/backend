@@ -26,8 +26,8 @@ class StoreIdentification
 
         if (backpack_auth()->check()) {
             $user = backpack_user();
-        } elseif (auth()->check()) {
-            $user = auth()->user();
+        } elseif (auth('sanctum')->check()) {
+            $user = auth('sanctum')->user();
         } else {
             $user = Customer::findOrFail($identification->customer_id);
         }

@@ -13,6 +13,7 @@ class Branch extends Model
     use CrudTrait;
     use HasFactory;
     use SoftDeletes;
+    use SwitchTimezoneTrait;
 
     /*
     |--------------------------------------------------------------------------
@@ -47,6 +48,12 @@ class Branch extends Model
         'province_id',
         'district_id',
         'ward_id',
+    ];
+
+    protected $with = [
+        'province',
+        'district',
+        'ward',
     ];
 
     /*
@@ -85,6 +92,18 @@ class Branch extends Model
             $this->district?->name,
             $this->province?->name,
             $this->country
+        );
+    }
+
+    protected function getImageAttribute(?string $image): array|string|null
+    {
+        if (backpack_auth()->check()) {
+            return $image;
+        }
+
+        return image_preview(
+            branch_image_url($image),
+            $this->alt
         );
     }
 }

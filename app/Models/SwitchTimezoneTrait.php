@@ -13,8 +13,8 @@ trait SwitchTimezoneTrait
             return $date;
         }
 
-        $timezone = auth()->check()
-            ? auth()->user()->timezone_preview
+        $timezone = auth('sanctum')->check()
+            ? auth('sanctum')->user()->timezone_preview
             : config('app.timezone');
 
         // If this value is already a Carbon instance, we shall just return it as is.

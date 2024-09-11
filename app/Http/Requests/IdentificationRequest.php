@@ -19,7 +19,7 @@ class IdentificationRequest extends FormRequest
     public function rules(): array
     {
         $id = request()->route('identification');
-        $time_zone = auth()->user()->timezone_preview;
+        $time_zone = auth('sanctum')->user()->timezone_preview;
 
         return [
             'default' => [

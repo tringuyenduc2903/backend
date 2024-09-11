@@ -34,4 +34,7 @@ Route::prefix('product/{product_type}')->group(function () {
         ->name('product.show');
 });
 
+Route::apiResource('branch', BranchController::class)
+    ->only(['index', 'show']);
+
 require __DIR__.'/auth.php';
