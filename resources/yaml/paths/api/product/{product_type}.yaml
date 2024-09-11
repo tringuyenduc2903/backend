@@ -1,0 +1,128 @@
+get:
+  description: "Lấy danh sách sản phẩm: Chỉ hiển thị sản phẩm enabled: 'true', visibility: 'Danh mục/Tìm kiếm/Danh mục và Tìm kiếm' và status: 'Còn hàng'. Lấy thêm các trường bộ lọc tại API Filter(/docs#/Sản%20phẩm/get_api_filter_product)"
+  tags:
+    - Sản phẩm
+  parameters:
+    - $ref: "../../../components/parameters/productType.yaml"
+    - $ref: "../../../components/parameters/page.yaml"
+    - $ref: "../../../components/parameters/perPage.yaml"
+    - name: sortColumn
+      in: query
+      description: "Cột cần sắp xếp (giá trị: name, price, review, latest, oldest)"
+      example: price
+    - name: sortDirection
+      in: query
+      description: "Thứ tự sắp xếp (giá trị: asc, desc. Không khả dụng với cột: review, latest, oldest)"
+      example: desc
+    - name: search
+      in: query
+      description: Từ khoá tìm kiếm sản phẩm
+      example: SH
+  responses:
+    200:
+      description: Lấy danh sách sản phẩm thành công
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                title: Dữ liệu
+                example:
+                  - id: 1
+                    search_url: africa-twin-adventure-sports
+                    name: AFRICA TWIN ADVENTURE SPORTS
+                    description: <p>Cả Thế Giới Đang Chờ Bạn Tới Khám Phá Những Chuyến Đi Thôi Thúc Bạn Dịch Chuyển. Thay Đổi Bạn. Đưa Bạn Đến Những Địa Điểm Mới. Gặp Gỡ Những Con Người Mới. Thu Nạp Kinh Nghiệm Mới. Và Những Kỉ Niệm Cả Đời Không Quên. Mọi Cuộc Hành Trình Đều Bắt Đầu Với Khát Khao Di Chuyển, Lên Kế Hoạch Cho Chuyến Đi, Cảm Giác Mong Đợi Những Gì Sắp Xảy Đến Và Kết Thúc. Với Những Tính Năng Toàn Diện, Africa Twin Adventure Sports Mở Ra Cho Bạn Cả Một Thế Giới Mới, Để Bạn Cầm Lái Và Chinh Phục.</p>
+                    images:
+                      - url: http://localhost/storage/product/https://cdn.honda.com.vn/motorbikes/October2023/7rOlMfg1nces2UVvpdYz.png
+                        alt: AFRICA TWIN ADVENTURE SPORTS
+                    videos:
+                      - video:
+                          provider: youtube
+                          id: a3VBrgtYKTs
+                          title: XE TAY GA YAMAHA FREEGO – THOẢ CHÍ TUNG HOÀNH
+                          image:
+                            url: https://i.ytimg.com/vi/a3VBrgtYKTs/maxresdefault.jpg
+                            alt: XE TAY GA YAMAHA FREEGO – THOẢ CHÍ TUNG HOÀNH
+                          url: https://www.youtube.com/watch?v=a3VBrgtYKTs
+                    enabled: true
+                    visibility: Danh mục và Tìm kiếm
+                    type: motor-cycle
+                    manufacturer: Honda
+                    specifications:
+                      - title: Khối Lượng Bản Thân
+                        description: 250kg
+                    options_min_price:
+                      raw: 720990000
+                      preview: 720.990.000 ₫
+                    options_max_price:
+                      raw: 720990000
+                      preview: 720.990.000 ₫
+                    options:
+                      - id: 1
+                        sku: AFRICA_TWIN_ADVENTURE_SPORTS_TRẮNG_X_SẢN_PHẨM_MỚI
+                        price:
+                          raw: 720990000
+                          preview: 720.990.000 ₫
+                        value_added_tax:
+                          raw: 10
+                          preview: 10%
+                        images:
+                          - url: http://localhost/storage/product/https://cdn.honda.com.vn/motorbike-versions/October2023/jf26qCibiRyaA9hFGOed.png
+                            alt: AFRICA_TWIN_ADVENTURE_SPORTS_TRẮNG_X_SẢN_PHẨM_MỚI
+                        color: Trắng xanh đen
+                        version: Adventure sports
+                        volume: null
+                        type: Sản phẩm mới
+                        status: Còn hàng
+                        quantity: 22
+                        weight: null
+                        length: null
+                        width: null
+                        height: null
+                        specifications:
+                          - title: Khối Lượng Bản Thân
+                            description: 250kg
+                        deleted_at: 11:53:58 21/06/2024
+                        created_at: 11:53:58 21/06/2024
+                        updated_at: 11:53:58 21/06/2024
+                    categories:
+                      - id: 7
+                        search_url: xe-phan-khoi-lon
+                        name: Xe phân khối lớn
+                        description: null
+                        image: null
+                        deleted_at: 11:53:58 21/06/2024
+                        created_at: 11:53:58 21/06/2024
+                        updated_at: 11:53:58 21/06/2024
+                        pivot:
+                          product_id: 1
+                          category_id: 7
+                    deleted_at: 11:53:58 21/06/2024
+                    created_at: 11:53:58 21/06/2024
+                    updated_at: 11:53:58 21/06/2024
+                type: array
+              total_pages:
+                title: Tổng trang
+                example: 7
+                type: number
+              from:
+                title: Vị trí dữ liệu đầu tiên của trang
+                example: 76
+                type: number
+              to:
+                title: Vị trí dữ liệu cuối cùng của trang
+                example: 90
+                type: number
+              per_page:
+                title: Tổng dữ liệu mỗi trang
+                example: 15
+                type: number
+              current_page:
+                title: Vị trí trang hiện tại
+                example: 6
+                type: number
+              total:
+                title: Tổng dữ liệu
+                example: 100
+                type: number
+            type: object

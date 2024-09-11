@@ -12,9 +12,8 @@ class CatalogList
 {
     public Builder $catalog;
 
-    public function __construct(
-        protected int $product_type
-    ) {
+    public function __construct(protected int $product_type)
+    {
         $this->catalog = Product::query();
 
         $this->prerequisites($this->catalog);

@@ -1,0 +1,4 @@
+name: page
+description: Số trang
+in: query
+example: 1

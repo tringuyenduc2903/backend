@@ -12,9 +12,8 @@ class OptionList
 {
     public Builder $option;
 
-    public function __construct(
-        protected int $product_type
-    ) {
+    public function __construct(protected int $product_type)
+    {
         $this->option = Option::query();
 
         $this->active();

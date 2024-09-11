@@ -13,9 +13,8 @@ class CategoryList
 {
     public Builder $category;
 
-    public function __construct(
-        protected int $product_type
-    ) {
+    public function __construct(protected int $product_type)
+    {
         $this->category = Category::query();
 
         $this->active();

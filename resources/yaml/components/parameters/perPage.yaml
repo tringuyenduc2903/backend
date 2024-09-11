@@ -1,0 +1,4 @@
+name: perPage
+description: Số kết quả mỗi trang
+in: query
+example: 15

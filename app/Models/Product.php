@@ -120,12 +120,15 @@ class Product extends Model
 
     public function product_lists(): BelongsToMany
     {
-        return $this->belongsToMany(
-            Product::class,
-            'product_lists',
-            'parent_id',
-            'children_id'
-        );
+        return $this
+            ->belongsToMany(
+                Product::class,
+                'product_lists',
+                'parent_id',
+                'children_id'
+            )
+            ->withMin('options', 'price')
+            ->withMax('options', 'price');
     }
 
     public function cross_sell(): BelongsToMany

@@ -1,0 +1,5 @@
+name: product_type
+in: path
+description: "Loại sản phẩm (motor-cycle: Xe máy, square-parts: Phụ tùng, accessories: Phụ kiện)"
+example: motor-cycle
+required: true
