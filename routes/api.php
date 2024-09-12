@@ -16,6 +16,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('social', SocialController::class)
         ->except(['store', 'update']);
+
+    Route::apiResource('wishlist', WishlistController::class);
 });
 
 Route::apiResource('province', ProvinceController::class)

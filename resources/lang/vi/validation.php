@@ -280,5 +280,6 @@ return [
         'issued_name' => 'nơi cấp',
         'issuance_date' => 'ngày cấp',
         'expiry_date' => 'ngày hết hạn',
+        'option_id' => 'sản phẩm',
     ],
 ];

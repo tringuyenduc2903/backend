@@ -94,6 +94,11 @@ class Customer extends User implements MustVerifyEmail
         return $this->hasMany(Social::class)->latest();
     }
 
+    public function wishlists(): HasMany
+    {
+        return $this->hasMany(Wishlist::class)->latest();
+    }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS
