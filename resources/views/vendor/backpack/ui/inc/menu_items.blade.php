@@ -29,6 +29,11 @@
                             'title' => trans('Motor cycles'),
                             'link' => route('motor-cycles.index'),
                         ],
+                        [
+                            'permission' => EmployeePermissionEnum::REVIEW_CRUD,
+                            'title' => trans('Reviews'),
+                            'link' => route('reviews.index'),
+                        ],
                     ],
                 ],
             ],

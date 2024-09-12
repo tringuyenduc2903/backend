@@ -16,6 +16,7 @@ use Rexlabs\Enum\Enum;
  * @method static self PRODUCT_CRUD()
  * @method static self CATEGORY_CRUD()
  * @method static self MOTOR_CYCLE_CRUD()
+ * @method static self REVIEW_CRUD()
  */
 class EmployeePermissionEnum extends Enum
 {
@@ -36,4 +37,6 @@ class EmployeePermissionEnum extends Enum
     const CATEGORY_CRUD = 'category_crud';
 
     const MOTOR_CYCLE_CRUD = 'motor_cycle_crud';
+
+    const REVIEW_CRUD = 'review_crud';
 }
