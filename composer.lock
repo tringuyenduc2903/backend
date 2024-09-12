@@ -61,16 +61,16 @@
         },
         {
             "name": "algolia/algoliasearch-client-php",
-            "version": "4.4.0",
+            "version": "4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algolia/algoliasearch-client-php.git",
-                "reference": "833d0053779dc863e079cc8fde7b5cdd8878d8bb"
+                "reference": "42b49bd41f34db3bfbac71675f264af865187e16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algolia/algoliasearch-client-php/zipball/833d0053779dc863e079cc8fde7b5cdd8878d8bb",
-                "reference": "833d0053779dc863e079cc8fde7b5cdd8878d8bb",
+                "url": "https://api.github.com/repos/algolia/algoliasearch-client-php/zipball/42b49bd41f34db3bfbac71675f264af865187e16",
+                "reference": "42b49bd41f34db3bfbac71675f264af865187e16",
                 "shasum": ""
             },
             "require": {
@@ -124,9 +124,9 @@
             ],
             "support": {
                 "issues": "https://github.com/algolia/algoliasearch-client-php/issues",
-                "source": "https://github.com/algolia/algoliasearch-client-php/tree/4.4.0"
+                "source": "https://github.com/algolia/algoliasearch-client-php/tree/4.4.1"
             },
-            "time": "2024-09-06T13:37:54+00:00"
+            "time": "2024-09-12T08:26:17+00:00"
         },
         {
             "name": "aws/aws-crt-php",
@@ -3984,16 +3984,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v11.23.2",
+            "version": "v11.23.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "d38bf0fd3a8936e1cb9ca8eb8d7304a564f790f3"
+                "reference": "08b46ae7be52f71688196f98556d21cb2ec799b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/d38bf0fd3a8936e1cb9ca8eb8d7304a564f790f3",
-                "reference": "d38bf0fd3a8936e1cb9ca8eb8d7304a564f790f3",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/08b46ae7be52f71688196f98556d21cb2ec799b6",
+                "reference": "08b46ae7be52f71688196f98556d21cb2ec799b6",
                 "shasum": ""
             },
             "require": {
@@ -4188,7 +4188,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-09-11T21:59:23+00:00"
+            "time": "2024-09-12T14:57:48+00:00"
         },
         {
             "name": "laravel/prompts",
