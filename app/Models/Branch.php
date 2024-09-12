@@ -50,6 +50,10 @@ class Branch extends Model
         'ward_id',
     ];
 
+    protected $appends = [
+        'address_preview',
+    ];
+
     protected $with = [
         'province',
         'district',

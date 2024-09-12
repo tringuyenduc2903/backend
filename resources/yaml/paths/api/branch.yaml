@@ -1,0 +1,108 @@
+get:
+  description: Lấy danh sách chi nhánh
+  tags:
+    - Chi nhánh
+  parameters:
+    - $ref: "../../components/parameters/page.yaml"
+    - $ref: "../../components/parameters/perPage.yaml"
+    - name: country
+      description: Quốc gia
+      in: query
+      example: Việt Nam
+    - name: province_id
+      description: Id tỉnh
+      in: query
+      example: 1
+    - name: district_id
+      description: Id huyện
+      in: query
+      example: 1
+    - name: ward_id
+      description: Id phường
+      in: query
+      example: 1
+  responses:
+    200:
+      description: Lấy danh sách chi nhánh thành công
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                title: Dữ liệu
+                example:
+                  - id: 1
+                    name: Agilts 1
+                    phone_number: 0943535245
+                    image:
+                      url: http://localhost/storage/branch/52dffb85b772ba100c838dfb2fb13d0a.png
+                      alt: Tập Đoàn Bảo Việt
+                    country: Việt Nam
+                    province:
+                      id: 1
+                      name: Lào Cai
+                      ghn_id: 269
+                      name_extensions:
+                        - Lào Cai
+                        - Tỉnh Lào Cai
+                        - T.Lào Cai
+                        - lào cai
+                      created_at: 11:53:58 21/06/2024
+                      updated_at: 11:53:58 21/06/2024
+                    district:
+                      id: 1
+                      name: Huyện Si Ma Cai
+                      ghn_id: 2264
+                      name_extensions:
+                        - Huyện Xi Ma Cai
+                        - Huyện Si Ma Cai
+                        - H.Xi Ma Cai
+                        - H Xi Ma Cai
+                        - Xi Ma Cai
+                        - Huyen Xi Ma Cai
+                        - ximacai
+                        - Si Ma Cai
+                      created_at: 11:53:58 21/06/2024
+                      updated_at: 11:53:58 21/06/2024
+                    ward:
+                      id: 1
+                      name: Thị Trấn Si Ma Cai
+                      ghn_id: 90816
+                      name_extensions:
+                        - thị trấn si ma cai
+                        - thi tran si ma cai
+                        - Thi Tran Si Ma Cai
+                        - thị trấn xi ma cai
+                      created_at: 11:53:58 21/06/2024
+                      updated_at: 11:53:58 21/06/2024
+                    address_detail: 774 Phố Âu Linh Thọ
+                    address_preview: 774 Phố Âu Linh Thọ, Thị Trấn Si Ma Cai, Huyện Si Ma Cai, Lào Cai (Việt Nam)
+                    deleted_at: 11:53:58 21/06/2024
+                    created_at: 11:53:58 21/06/2024
+                    updated_at: 11:53:58 21/06/2024
+                type: array
+              total_pages:
+                title: Tổng trang
+                example: 7
+                type: number
+              from:
+                title: Vị trí dữ liệu đầu tiên của trang
+                example: 76
+                type: number
+              to:
+                title: Vị trí dữ liệu cuối cùng của trang
+                example: 90
+                type: number
+              per_page:
+                title: Tổng dữ liệu mỗi trang
+                example: 15
+                type: number
+              current_page:
+                title: Vị trí trang hiện tại
+                example: 6
+                type: number
+              total:
+                title: Tổng dữ liệu
+                example: 100
+                type: number
+            type: object
