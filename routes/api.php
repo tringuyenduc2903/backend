@@ -12,12 +12,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResources([
         'address' => AddressController::class,
         'identification' => IdentificationController::class,
+        'cart' => CartController::class,
     ]);
 
     Route::apiResource('social', SocialController::class)
         ->except(['store', 'update']);
 
-    Route::apiResource('wishlist', WishlistController::class);
+    Route::apiResource('wishlist', WishlistController::class)
+        ->except('update');
 });
 
 Route::apiResource('province', ProvinceController::class)

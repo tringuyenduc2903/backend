@@ -160,6 +160,11 @@ return [
         'max' => [
             'entity' => 'Chỉ chứa tối đa 5 :attribute.',
         ],
+        'product' => [
+            'enabled' => 'Sản phẩm không khả dụng.',
+            'out_of_stock' => 'Sản phẩm đã hết hàng.',
+            'motor_cycle' => 'Sản phẩm chỉ có thể mua trực tiếp.',
+        ],
     ],
     'attributes' => [
         'name' => 'tên',
@@ -281,5 +286,6 @@ return [
         'issuance_date' => 'ngày cấp',
         'expiry_date' => 'ngày hết hạn',
         'option_id' => 'sản phẩm',
+        'amount' => 'số lượng',
     ],
 ];

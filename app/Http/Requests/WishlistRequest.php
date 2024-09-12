@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\OptionStatus;
 use App\Models\Option;
 use App\Models\Wishlist;
 use Illuminate\Foundation\Http\FormRequest;
@@ -29,8 +30,25 @@ class WishlistRequest extends FormRequest
                 'required',
                 'integer',
                 Rule::exists(Option::class, 'id'),
-                Rule::unique(Wishlist::class, 'option_id')
-                    ->where('customer_id', request()->user()->id),
+                function ($attribute, $value, $fail) {
+                    if (! $value) {
+                        return;
+                    }
+
+                    $option = Option::find($value);
+
+                    if (! $option) {
+                        return;
+                    } elseif (! $option->product->getRawOriginal('enabled')) {
+                        $fail(trans('validation.custom.product.enabled'));
+                    } elseif ($option->getRawOriginal('status') === OptionStatus::OUT_OF_STOCK) {
+                        $fail(trans('validation.custom.product.out_of_stock'));
+                    }
+                },
+                Rule::unique(Wishlist::class)->where(
+                    'customer_id',
+                    request()->user()->id
+                ),
             ],
         ];
     }
