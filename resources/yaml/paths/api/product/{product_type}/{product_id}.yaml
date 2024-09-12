@@ -104,7 +104,7 @@ get:
                     updated_at: 11:53:58 21/06/2024
                 type: array
               categories:
-                title: Danh sách danh mục
+                title: Danh sách thể loại
                 example:
                   - id: 7
                     search_url: xe-phan-khoi-lon
