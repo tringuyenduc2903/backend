@@ -40,7 +40,6 @@
     "Employee role": "Vai trò của nhân viên",
     "Employee": "Nhân viên",
     "Employees": "Nhân viên",
-    "employee(s)": "nhân viên",
     "Employee roles": "Vai trò của nhân viên",
     "Branch": "Chi nhánh",
     "Branches": "Chi nhánh",
@@ -49,8 +48,6 @@
     "Image": "Hình ảnh",
     "Addresses": "Địa chỉ",
     "Address": "Địa chỉ",
-    "address(s)": "địa chỉ",
-    "address": "địa chỉ",
     "Alt text": "Văn bản thay thế",
     "Country": "Quốc gia",
     "Province": "Tỉnh",
@@ -71,8 +68,7 @@
     "Citizen identification": "Căn cước công dân",
     "Passport": "Hộ chiếu",
     "Identifications": "Hồ sơ",
-    "identification(s)": "hồ sơ",
-    "identification": "hồ sơ",
+    "Identification": "Hồ sơ",
     "Number": "Số",
     "Issued name": "Nơi cấp",
     "Issued date": "Ngày cấp",
@@ -113,7 +109,6 @@
     "Accessories": "Phụ kiện",
     "Products": "Sản phẩm",
     "Product": "Sản phẩm",
-    "product(s)": "sản phẩm",
     "Enabled": "Đã bật",
     "Visibility": "Khả năng hiển thị",
     "Manufacturer": "Nhà sản xuất",
@@ -165,5 +160,7 @@
     "Monday - Friday": "Thứ Hai - Thứ Sáu",
     "9am to 5pm": "9 giờ đến 17 giờ",
     "Saturday": "Thứ bảy",
-    "10am to 2pm": "10 giờ đến 14 giờ"
+    "10am to 2pm": "10 giờ đến 14 giờ",
+    "The product is already in :list": "Sản phẩm đã có trong :list",
+    "Wishlist": "Danh sách mong muốn"
 }

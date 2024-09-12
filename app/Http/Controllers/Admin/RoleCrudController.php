@@ -60,7 +60,7 @@ class RoleCrudController extends CrudController
                     $entry->name
                 )),
             ],
-            'suffix' => ' '.trans('employee(s)'),
+            'suffix' => ' '.trans('Employee'),
         ]);
         CRUD::column('permissions')
             ->label(trans('Permissions'));

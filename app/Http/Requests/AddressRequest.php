@@ -13,6 +13,14 @@ use Illuminate\Validation\Rule;
 class AddressRequest extends FormRequest
 {
     /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return auth()->check();
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, ValidationRule|array|string>
@@ -38,7 +46,7 @@ class AddressRequest extends FormRequest
 
                     if (request()->user()->addresses()->count() > 4) {
                         $fail(trans('validation.custom.max.entity', [
-                            'attribute' => trans('address(s)'),
+                            'attribute' => trans('Address'),
                         ]));
                     }
                 },
@@ -98,7 +106,7 @@ class AddressRequest extends FormRequest
     {
         return [
             'default.accepted' => trans('validation.custom.default.accepted', [
-                'attribute' => trans('address'),
+                'attribute' => trans('Address'),
             ]),
         ];
     }

@@ -12,6 +12,14 @@ use Illuminate\Validation\Rule;
 class IdentificationRequest extends FormRequest
 {
     /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return auth()->check();
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, ValidationRule|array|string>
@@ -38,7 +46,7 @@ class IdentificationRequest extends FormRequest
 
                     if (request()->user()->identifications()->count() > 4) {
                         $fail(trans('validation.custom.max.entity', [
-                            'attribute' => trans('identification(s)'),
+                            'attribute' => trans('Identification'),
                         ]));
                     }
                 },
@@ -100,7 +108,7 @@ class IdentificationRequest extends FormRequest
     {
         return [
             'default.accepted' => trans('validation.custom.default.accepted', [
-                'attribute' => trans('identification'),
+                'attribute' => trans('Identification'),
             ]),
         ];
     }

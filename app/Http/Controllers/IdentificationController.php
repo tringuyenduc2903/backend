@@ -68,7 +68,7 @@ class IdentificationController extends Controller
         if ($identification->default) {
             abort(
                 403,
-                trans('Default :name cannot be deleted.', ['name' => trans('identification')])
+                trans('Default :name cannot be deleted.', ['name' => trans('Identification')])
             );
         }
 

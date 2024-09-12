@@ -71,7 +71,7 @@ class CategoryCrudController extends CrudController
                     $entry->name
                 )),
             ],
-            'suffix' => ' '.trans('product(s)'),
+            'suffix' => ' '.trans('Product'),
         ]);
 
         CRUD::filter('name')

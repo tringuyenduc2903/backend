@@ -68,7 +68,7 @@ class AddressController extends Controller
         if ($address->default) {
             abort(
                 403,
-                trans('Default :name cannot be deleted.', ['name' => trans('address')])
+                trans('Default :name cannot be deleted.', ['name' => trans('Address')])
             );
         }
 
