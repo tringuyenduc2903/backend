@@ -63,6 +63,8 @@ paths:
     $ref: "./paths/api/social.yaml"
   /api/social/{social_id}:
     $ref: "./paths/api/social/{social_id}.yaml"
+  /api/product/{product_type}/filter:
+    $ref: "./paths/api/product/{product_type}/filter.yaml"
   /api/product/{product_type}:
     $ref: "./paths/api/product/{product_type}.yaml"
   /api/product/{product_type}/{product_id}:

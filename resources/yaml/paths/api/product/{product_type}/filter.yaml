@@ -1,0 +1,108 @@
+get:
+  description: Lấy danh sách bộ lọc sản phẩm
+  tags:
+    - Sản phẩm
+  parameters:
+    - $ref: "../../../../components/parameters/productType.yaml"
+  responses:
+    200:
+      description: Lấy danh sách bộ lọc sản phẩm thành công
+      content:
+        application/json:
+          schema:
+            description: Dữ liệu trả về
+            example:
+              - name: type
+                label: Kiểu
+                data:
+                  - Sản phẩm mới
+                  - Sản phẩm cũ
+                  - Sản phẩm tân trang
+              - name: minPrice
+                label: Giá thấp nhất
+                data:
+                  raw: 17859273
+                  preview: 17.859.273 ₫
+              - name: maxPrice
+                label: Giá cao nhất
+                data:
+                  raw: 1231500000
+                  preview: 1.231.500.000 ₫
+              - name: category
+                label: Loại
+                data:
+                  6: Xe côn tay
+                  7: Xe phân khối lớn
+                  8: Xe số
+                  9: Xe tay ga
+              - name: manufacturer
+                label: Nhà sản xuất
+                data:
+                  Honda: Honda
+                  Yamaha: Yamaha
+              - name: version
+                label: Phiên bản
+                data:
+                  Abs: Abs
+                  Adventure sports: Adventure sports
+                  Black edition: Black edition
+                  Cao cấp: Cao cấp
+                  Cổ điển: Cổ điển
+                  Dct: Dct
+                  Đặc biệt: Đặc biệt
+                  Giới hạn: Giới hạn
+                  Thể thao: Thể thao
+                  Tiêu chuẩn: Tiêu chuẩn
+              - name: color
+                label: Màu sắc
+                data:
+                  Bạc: Bạc
+                  Bạc ánh kim: Bạc ánh kim
+                  Bạc đen: Bạc đen
+                  Bạc đỏ đen: Bạc đỏ đen
+                  Bạc trắng: Bạc trắng
+                  Bạc xanh đen: Bạc xanh đen
+                  Đen: Đen
+                  Đen bạc: Đen bạc
+                  Đen đỏ: Đen đỏ
+                  Đen hồng: Đen hồng
+                  Đen nhám: Đen nhám
+                  Đen vàng: Đen vàng
+                  Đen xám: Đen xám
+                  Đen xanh: Đen xanh
+                  Đỏ: Đỏ
+                  Đỏ ánh kim: Đỏ ánh kim
+                  Đỏ đen: Đỏ đen
+                  Đỏ đen bạc: Đỏ đen bạc
+                  Đỏ đen trắng: Đỏ đen trắng
+                  Đỏ đen xám: Đỏ đen xám
+                  Đỏ trắng: Đỏ trắng
+                  Đỏ xám: Đỏ xám
+                  Đỏ xanh trắng: Đỏ xanh trắng
+                  Hồng ánh đồng: Hồng ánh đồng
+                  Hồng đen: Hồng đen
+                  Trắng: Trắng
+                  Trắng đen: Trắng đen
+                  Trắng đen bạc: Trắng đen bạc
+                  Trắng hồng: Trắng hồng
+                  Trắng xám: Trắng xám
+                  Trắng xanh đen: Trắng xanh đen
+                  Vàng đen bạc: Vàng đen bạc
+                  Vàng trắng: Vàng trắng
+                  Xám đen: Xám đen
+                  Xám đen bạc: Xám đen bạc
+                  Xám đỏ đen: Xám đỏ đen
+                  Xám nhám: Xám nhám
+                  Xám trắng: Xám trắng
+                  Xám xanh: Xám xanh
+                  Xanh: Xanh
+                  Xanh dương nhám: Xanh dương nhám
+                  Xanh đen: Xanh đen
+                  Xanh đen bạc: Xanh đen bạc
+                  Xanh đen vàng: Xanh đen vàng
+                  Xanh lam đen: Xanh lam đen
+                  Xanh lam trắng: Xanh lam trắng
+                  Xanh rêu nhám: Xanh rêu nhám
+                  Xanh trắng: Xanh trắng
+                  Xanh xám: Xanh xám
+            type: array
