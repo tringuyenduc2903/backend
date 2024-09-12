@@ -1,0 +1,5 @@
+name: wishlist_id
+in: path
+description: Id danh sách mong muốn
+example: 1
+required: true

@@ -71,3 +71,7 @@ paths:
     $ref: "./paths/api/branch.yaml"
   /api/branch/{branch_id}:
     $ref: "./paths/api/branch/{branch_id}.yaml"
+  /api/wishlist:
+    $ref: "./paths/api/wishlist.yaml"
+  /api/wishlist/{wishlist_id}:
+    $ref: "./paths/api/wishlist/{wishlist_id}.yaml"
