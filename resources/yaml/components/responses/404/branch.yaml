@@ -1,0 +1,11 @@
+description: Id không trùng khớp với chi nhánh nào
+content:
+  application/json:
+    schema:
+      properties:
+        message:
+          title: Thông báo ngắn
+          type: string
+          description: Không có kết quả truy vấn nào cho mô hình [App\Models\Branch] 1
+          example: No query results for model [App\Models\Branch] 1
+      type: object

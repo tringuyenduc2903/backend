@@ -69,3 +69,5 @@ paths:
     $ref: "./paths/api/product/{product_type}/{product_id}.yaml"
   /api/branch:
     $ref: "./paths/api/branch.yaml"
+  /api/branch/{branch_id}:
+    $ref: "./paths/api/branch/{branch_id}.yaml"
