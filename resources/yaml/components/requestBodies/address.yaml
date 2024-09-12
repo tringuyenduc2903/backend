@@ -5,7 +5,7 @@ content:
         default:
           title: Đặt làm mặc định
           example: true
-          type: bool
+          type: boolean
         type:
           title: "Kiểu (0: Nhà riêng, 1: Công ty)"
           example: 0

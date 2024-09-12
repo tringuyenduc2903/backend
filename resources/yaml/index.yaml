@@ -75,3 +75,7 @@ paths:
     $ref: "./paths/api/wishlist.yaml"
   /api/wishlist/{wishlist_id}:
     $ref: "./paths/api/wishlist/{wishlist_id}.yaml"
+  /api/cart:
+    $ref: "./paths/api/cart.yaml"
+  /api/cart/{cart_id}:
+    $ref: "./paths/api/cart/{cart_id}.yaml"

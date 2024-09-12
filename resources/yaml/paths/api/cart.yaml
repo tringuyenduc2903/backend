@@ -1,16 +1,17 @@
 get:
-  description: "Lấy sản phẩm trong danh sách mong muốn: Sắp xếp theo Thời gian thêm vào danh sách"
+  description: "Lấy danh sách sản phẩm trong giỏ hàng: Sắp xếp theo Thời gian thêm vào giỏ hàng"
   tags:
-    - Danh sách mong muốn
+    - Giỏ hàng
   responses:
     200:
-      description: Lấy sản phẩm trong danh sách mong muốn thành công
+      description: Lấy danh sách sản phẩm trong giỏ hàng thành công
       content:
         application/json:
           schema:
             description: Dữ liệu trả về
             example:
               - id: 1
+                amount: 1
                 option:
                   id: 1
                   sku: AFRICA_TWIN_ADVENTURE_SPORTS_TRẮNG_X_SẢN_PHẨM_MỚI
@@ -112,9 +113,9 @@ get:
     401:
       $ref: "../../components/responses/401.yaml"
 post:
-  description: Thêm sản phẩm mới vào danh sách mong muốn
+  description: Thêm sản phẩm mới vào giỏ hàng
   tags:
-    - Danh sách mong muốn
+    - Giỏ hàng
   requestBody:
     content:
       application/json:
@@ -124,12 +125,17 @@ post:
               title: Sản phẩm
               example: 1
               type: number
+            amount:
+              title: Số lượng
+              example: 1
+              type: number
           type: object
           required:
             - option_id
+            - amount
   responses:
     201:
-      description: Thêm sản phẩm mới vào danh sách mong muốn thành công
+      description: Thêm sản phẩm mới vào giỏ hàng thành công
       content:
         application/json:
           schema:
@@ -145,7 +151,7 @@ post:
               message:
                 title: Thông báo ngắn
                 type: string
-                example: Trường sản phẩm là bắt buộc.
+                example: Trường sản phẩm là bắt buộc. (và 1 lỗi)
               errors:
                 title: Các trường không hợp lệ
                 properties:
@@ -153,5 +159,10 @@ post:
                     title: Sản phẩm
                     example:
                       - Trường sản phẩm là bắt buộc.
+                    type: array
+                  amount:
+                    title: Số lượng
+                    example:
+                      - Trường số lượng là bắt buộc.
                     type: array
             type: object

@@ -15,148 +15,104 @@ get:
                 title: Id
                 example: 1
                 type: number
-              sku:
-                title: SKU
-                example: AFRICA_TWIN_ADVENTURE_SPORTS_TRẮNG_X_SẢN_PHẨM_MỚI
-                type: string
-              price:
-                title: Giá
-                example:
-                  raw: 720990000
-                  preview: 720.990.000 ₫
-                type: object
-              value_added_tax:
-                title: Thuế Giá trị gia tăng (VAT)
-                example:
-                  raw: 10
-                  preview: 10%
-                type: object
-              images:
-                title: Danh sách ảnh
-                example:
-                  - url: http://localhost/storage/product/https://cdn.honda.com.vn/motorbike-versions/October2023/jf26qCibiRyaA9hFGOed.png
-                    alt: AFRICA_TWIN_ADVENTURE_SPORTS_TRẮNG_X_SẢN_PHẨM_MỚI
-                type: array
-              color:
-                title: Màu sắc
-                example: Trắng xanh đen
-                type: string
-              version:
-                title: Phiên bản
-                example: Adventure sports
-                type: string
-              volume:
-                title: Thể tích
-                example: null
-                type: string
-              type:
-                title: Kiểu
-                example: Sản phẩm mới
-                type: string
-              status:
-                title: Trạng thái
-                example: Còn hàng
-                type: string
-              quantity:
-                title: Số lượng
-                example: 22
-                type: number
-              weight:
-                title: Khối lượng
-                example: null
-                type: number
-              length:
-                title: Chiều dài
-                example: null
-                type: number
-              width:
-                title: Chiều rộng
-                example: null
-                type: number
-              height:
-                title: Chiều cao
-                example: null
-                type: number
-              specifications:
-                title: Thông số kỹ thuật
-                example:
-                  - title: Khối Lượng Bản Thân
-                    description: 250kg
-                type: array
-              product:
+              option:
                 title: Sản phẩm
                 example:
                   id: 1
-                  search_url: africa-twin-adventure-sports
-                  name: AFRICA TWIN ADVENTURE SPORTS
-                  description: <p>Cả Thế Giới Đang Chờ Bạn Tới Khám Phá Những Chuyến Đi Thôi Thúc Bạn Dịch Chuyển. Thay Đổi Bạn. Đưa Bạn Đến Những Địa Điểm Mới. Gặp Gỡ Những Con Người Mới. Thu Nạp Kinh Nghiệm Mới. Và Những Kỉ Niệm Cả Đời Không Quên. Mọi Cuộc Hành Trình Đều Bắt Đầu Với Khát Khao Di Chuyển, Lên Kế Hoạch Cho Chuyến Đi, Cảm Giác Mong Đợi Những Gì Sắp Xảy Đến Và Kết Thúc. Với Những Tính Năng Toàn Diện, Africa Twin Adventure Sports Mở Ra Cho Bạn Cả Một Thế Giới Mới, Để Bạn Cầm Lái Và Chinh Phục.</p>
+                  sku: AFRICA_TWIN_ADVENTURE_SPORTS_TRẮNG_X_SẢN_PHẨM_MỚI
+                  price:
+                    raw: 720990000
+                    preview: 720.990.000 ₫
+                  value_added_tax:
+                    raw: 10
+                    preview: 10%
                   images:
-                    - url: http://localhost/storage/product/https://cdn.honda.com.vn/motorbikes/October2023/7rOlMfg1nces2UVvpdYz.png
-                      alt: AFRICA TWIN ADVENTURE SPORTS
-                  videos:
-                    - video:
-                        provider: youtube
-                        id: a3VBrgtYKTs
-                        title: XE TAY GA YAMAHA FREEGO – THOẢ CHÍ TUNG HOÀNH
-                        image:
-                          url: https://i.ytimg.com/vi/a3VBrgtYKTs/maxresdefault.jpg
-                          alt: XE TAY GA YAMAHA FREEGO – THOẢ CHÍ TUNG HOÀNH
-                        url: https://www.youtube.com/watch?v=a3VBrgtYKTs
-                  enabled: true
-                  visibility: Danh mục và Tìm kiếm
-                  type: motor-cycle
-                  manufacturer: Honda
+                    - url: http://localhost/storage/product/https://cdn.honda.com.vn/motorbike-versions/October2023/jf26qCibiRyaA9hFGOed.png
+                      alt: AFRICA_TWIN_ADVENTURE_SPORTS_TRẮNG_X_SẢN_PHẨM_MỚI
+                  color: Trắng xanh đen
+                  version: Adventure sports
+                  volume: null
+                  type: Sản phẩm mới
+                  status: Còn hàng
+                  quantity: 22
+                  weight: null
+                  length: null
+                  width: null
+                  height: null
                   specifications:
                     - title: Khối Lượng Bản Thân
                       description: 250kg
-                  options:
-                    - id: 1
-                      sku: AFRICA_TWIN_ADVENTURE_SPORTS_TRẮNG_X_SẢN_PHẨM_MỚI
-                      price:
-                        raw: 720990000
-                        preview: 720.990.000 ₫
-                      value_added_tax:
-                        raw: 10
-                        preview: 10%
-                      images:
-                        - url: http://localhost/storage/product/https://cdn.honda.com.vn/motorbike-versions/October2023/jf26qCibiRyaA9hFGOed.png
-                          alt: AFRICA_TWIN_ADVENTURE_SPORTS_TRẮNG_X_SẢN_PHẨM_MỚI
-                      color: Trắng xanh đen
-                      version: Adventure sports
-                      volume: null
-                      type: Sản phẩm mới
-                      status: Còn hàng
-                      quantity: 22
-                      weight: null
-                      length: null
-                      width: null
-                      height: null
-                      specifications:
-                        - title: Khối Lượng Bản Thân
-                          description: 250kg
-                      deleted_at: 11:53:58 21/06/2024
-                      created_at: 11:53:58 21/06/2024
-                      updated_at: 11:53:58 21/06/2024
-                  categories:
-                    - id: 7
-                      search_url: xe-phan-khoi-lon
-                      name: Xe phân khối lớn
-                      description: null
-                      image: null
-                      deleted_at: 11:53:58 21/06/2024
-                      created_at: 11:53:58 21/06/2024
-                      updated_at: 11:53:58 21/06/2024
-                      pivot:
-                        product_id: 1
-                        category_id: 7
+                  product:
+                    id: 1
+                    search_url: africa-twin-adventure-sports
+                    name: AFRICA TWIN ADVENTURE SPORTS
+                    description: <p>Cả Thế Giới Đang Chờ Bạn Tới Khám Phá Những Chuyến Đi Thôi Thúc Bạn Dịch Chuyển. Thay Đổi Bạn. Đưa Bạn Đến Những Địa Điểm Mới. Gặp Gỡ Những Con Người Mới. Thu Nạp Kinh Nghiệm Mới. Và Những Kỉ Niệm Cả Đời Không Quên. Mọi Cuộc Hành Trình Đều Bắt Đầu Với Khát Khao Di Chuyển, Lên Kế Hoạch Cho Chuyến Đi, Cảm Giác Mong Đợi Những Gì Sắp Xảy Đến Và Kết Thúc. Với Những Tính Năng Toàn Diện, Africa Twin Adventure Sports Mở Ra Cho Bạn Cả Một Thế Giới Mới, Để Bạn Cầm Lái Và Chinh Phục.</p>
+                    images:
+                      - url: http://localhost/storage/product/https://cdn.honda.com.vn/motorbikes/October2023/7rOlMfg1nces2UVvpdYz.png
+                        alt: AFRICA TWIN ADVENTURE SPORTS
+                    videos:
+                      - video:
+                          provider: youtube
+                          id: a3VBrgtYKTs
+                          title: XE TAY GA YAMAHA FREEGO – THOẢ CHÍ TUNG HOÀNH
+                          image:
+                            url: https://i.ytimg.com/vi/a3VBrgtYKTs/maxresdefault.jpg
+                            alt: XE TAY GA YAMAHA FREEGO – THOẢ CHÍ TUNG HOÀNH
+                          url: https://www.youtube.com/watch?v=a3VBrgtYKTs
+                    enabled: true
+                    visibility: Danh mục và Tìm kiếm
+                    type: motor-cycle
+                    manufacturer: Honda
+                    specifications:
+                      - title: Khối Lượng Bản Thân
+                        description: 250kg
+                    options:
+                      - id: 1
+                        sku: AFRICA_TWIN_ADVENTURE_SPORTS_TRẮNG_X_SẢN_PHẨM_MỚI
+                        price:
+                          raw: 720990000
+                          preview: 720.990.000 ₫
+                        value_added_tax:
+                          raw: 10
+                          preview: 10%
+                        images:
+                          - url: http://localhost/storage/product/https://cdn.honda.com.vn/motorbike-versions/October2023/jf26qCibiRyaA9hFGOed.png
+                            alt: AFRICA_TWIN_ADVENTURE_SPORTS_TRẮNG_X_SẢN_PHẨM_MỚI
+                        color: Trắng xanh đen
+                        version: Adventure sports
+                        volume: null
+                        type: Sản phẩm mới
+                        status: Còn hàng
+                        quantity: 22
+                        weight: null
+                        length: null
+                        width: null
+                        height: null
+                        specifications:
+                          - title: Khối Lượng Bản Thân
+                            description: 250kg
+                        deleted_at: 11:53:58 21/06/2024
+                        created_at: 11:53:58 21/06/2024
+                        updated_at: 11:53:58 21/06/2024
+                    categories:
+                      - id: 7
+                        search_url: xe-phan-khoi-lon
+                        name: Xe phân khối lớn
+                        description: null
+                        image: null
+                        deleted_at: 11:53:58 21/06/2024
+                        created_at: 11:53:58 21/06/2024
+                        updated_at: 11:53:58 21/06/2024
+                        pivot:
+                          product_id: 1
+                          category_id: 7
+                    deleted_at: 11:53:58 21/06/2024
+                    created_at: 11:53:58 21/06/2024
+                    updated_at: 11:53:58 21/06/2024
                   deleted_at: 11:53:58 21/06/2024
                   created_at: 11:53:58 21/06/2024
                   updated_at: 11:53:58 21/06/2024
                 type: object
-              deleted_at:
-                title: Thời gian xoá
-                example: 11:53:58 21/06/2024
-                type: string
               created_at:
                 title: Thời gian tạo
                 example: 11:53:58 21/06/2024

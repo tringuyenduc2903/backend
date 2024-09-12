@@ -1,0 +1,5 @@
+name: cart_id
+in: path
+description: Id giỏ hàng
+example: 1
+required: true

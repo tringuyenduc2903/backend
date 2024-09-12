@@ -5,7 +5,7 @@ content:
         default:
           title: Đặt làm mặc định
           example: true
-          type: bool
+          type: boolean
         type:
           title: "Kiểu (0: Chứng minh nhân dân, 1: Căn cước công dân, 2: Hộ chiếu)"
           example: 0
