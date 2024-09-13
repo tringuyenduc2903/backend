@@ -1,5 +1,5 @@
 get:
-  description: "Lấy danh sách địa chỉ: Sắp xếp theo Địa chỉ mới nhất"
+  description: "Lấy danh sách địa chỉ: Sắp xếp theo Thời gian tạo địa chỉ"
   tags:
     - Địa chỉ Khách hàng
   responses:

@@ -1,5 +1,5 @@
 get:
-  description: "Lấy danh sách mạng xã hội: Sắp xếp theo Mạng xã hội mới nhất"
+  description: "Lấy danh sách mạng xã hội: Sắp xếp theo Thời gian liên kết mạng xã hội"
   tags:
     - Mạng xã hội
   responses:

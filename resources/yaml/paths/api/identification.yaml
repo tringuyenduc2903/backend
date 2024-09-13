@@ -1,5 +1,5 @@
 get:
-  description: "Lấy danh sách hồ sơ: Sắp xếp theo Hồ sơ mới nhất"
+  description: "Lấy danh sách hồ sơ: Sắp xếp theo Thời gian tạo hồ sơ"
   tags:
     - Hồ sơ Khách hàng
   responses:

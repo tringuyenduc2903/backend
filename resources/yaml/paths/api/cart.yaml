@@ -1,5 +1,5 @@
 get:
-  description: "Lấy danh sách sản phẩm trong giỏ hàng: Sắp xếp theo Thời gian thêm vào giỏ hàng"
+  description: "Lấy danh sách sản phẩm trong giỏ hàng: Sắp xếp theo Thời gian thêm sản phẩm vào giỏ hàng"
   tags:
     - Giỏ hàng
   responses:

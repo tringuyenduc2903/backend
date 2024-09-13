@@ -1,5 +1,5 @@
 get:
-  description: "Lấy sản phẩm trong danh sách mong muốn: Sắp xếp theo Thời gian thêm vào danh sách"
+  description: "Lấy sản phẩm trong danh sách mong muốn: Sắp xếp theo Thời gian thêm sản phẩm vào danh sách mong muốn"
   tags:
     - Danh sách mong muốn
   responses:
