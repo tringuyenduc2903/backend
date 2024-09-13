@@ -34,7 +34,7 @@ class ProductRequest extends FormRequest
         $type = $this->input('type');
 
         return [
-            'enabled' => [
+            'published' => [
                 'required',
                 'boolean',
             ],

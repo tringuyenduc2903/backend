@@ -43,7 +43,7 @@ class ProductController extends Controller
             ->where(fn (Builder $query): Builder => $query
                 ->orWhere('id', $product_id)
                 ->orWhere('search_url', $product_id))
-            ->whereEnabled(true)
+            ->wherePublished(true)
             ->whereType($product_type->getKey())
             ->firstOrFail();
     }

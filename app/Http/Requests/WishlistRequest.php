@@ -40,8 +40,8 @@ class WishlistRequest extends FormRequest
 
                     if (! $option) {
                         return;
-                    } elseif (! $option->product->getRawOriginal('enabled')) {
-                        $fail(trans('validation.custom.product.enabled'));
+                    } elseif (! $option->product->getRawOriginal('published')) {
+                        $fail(trans('validation.custom.product.published'));
                     } elseif ($option->getRawOriginal('status') === OptionStatus::OUT_OF_STOCK) {
                         $fail(trans('validation.custom.product.out_of_stock'));
                     }

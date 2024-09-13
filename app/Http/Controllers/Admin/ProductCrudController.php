@@ -61,8 +61,8 @@ class ProductCrudController extends CrudController
             ->label(trans('Name'));
         CRUD::column('categories')
             ->label(trans('Categories'));
-        CRUD::column('enabled')
-            ->label(trans('Enabled'))
+        CRUD::column('published')
+            ->label(trans('Publish'))
             ->type('switch');
         CRUD::addColumn([
             'name' => 'visibility',
@@ -101,11 +101,11 @@ class ProductCrudController extends CrudController
                 fn (Builder $query) => $query->where('category_id', json_decode($values))
             )
         );
-        CRUD::filter('disabled')
-            ->label(trans('Disabled'))
+        CRUD::filter('draft')
+            ->label(trans('Draft'))
             ->type('simple')
-            ->whenActive(fn () => CRUD::addClause('whereEnabled', false))
-            ->whenInactive(fn () => CRUD::addClause('whereEnabled', true));
+            ->whenActive(fn () => CRUD::addClause('wherePublished', false))
+            ->whenInactive(fn () => CRUD::addClause('wherePublished', true));
         CRUD::filter('visibility')
             ->label(trans('Visibility'))
             ->type('dropdown')
@@ -147,8 +147,8 @@ class ProductCrudController extends CrudController
 
         $code = current_currency();
 
-        CRUD::field('enabled')
-            ->label(trans('Enabled'))
+        CRUD::field('published')
+            ->label(trans('Publish'))
             ->type('switch')
             ->default(true)
             ->tab(trans('Basic information'));

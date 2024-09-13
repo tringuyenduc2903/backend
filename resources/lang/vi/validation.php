@@ -161,7 +161,7 @@ return [
             'entity' => 'Chỉ chứa tối đa 5 :attribute.',
         ],
         'product' => [
-            'enabled' => 'Sản phẩm không khả dụng.',
+            'published' => 'Sản phẩm không khả dụng.',
             'out_of_stock' => 'Sản phẩm đã hết hàng.',
             'motor_cycle' => 'Sản phẩm chỉ có thể mua trực tiếp.',
         ],
@@ -227,7 +227,7 @@ return [
         'value.*.link' => 'liên kết',
         'symbol' => 'biểu tượng',
         'code' => 'mã',
-        'enabled' => 'đã bật',
+        'published' => 'đã bật',
         'visibility' => 'khả năng hiển thị',
         'type' => 'kiểu',
         'manufacturer' => 'nhà sản xuất',

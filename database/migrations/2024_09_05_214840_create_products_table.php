@@ -17,7 +17,7 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->json('images')->nullable()->default(json_encode([]));
             $table->json('videos')->nullable()->default(json_encode([]));
-            $table->boolean('enabled');
+            $table->boolean('published');
             $table->unsignedTinyInteger('visibility');
             $table->unsignedTinyInteger('type');
             $table->string('manufacturer', 50)->nullable();

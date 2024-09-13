@@ -32,7 +32,7 @@ class CatalogList
     protected function active(): void
     {
         $this->catalog
-            ->whereEnabled(true)
+            ->wherePublished(true)
             ->whereIn(
                 'visibility',
                 request()->exists('search') ? [

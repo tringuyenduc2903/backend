@@ -6,6 +6,7 @@ use App\Enums\OptionStatus;
 use App\Enums\ProductType;
 use App\Models\Cart;
 use App\Models\Option;
+use App\Models\Product;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
@@ -44,8 +45,8 @@ class CartRequest extends FormRequest
 
                     if (! $option) {
                         return;
-                    } elseif (! $option->product->getRawOriginal('enabled')) {
-                        $fail(trans('validation.custom.product.enabled'));
+                    } elseif (! $option->product->getRawOriginal('published')) {
+                        $fail(trans('validation.custom.product.published'));
                     } elseif ($option->getRawOriginal('status') === OptionStatus::OUT_OF_STOCK) {
                         $fail(trans('validation.custom.product.out_of_stock'));
                     } elseif ($option->product->getRawOriginal('type') === ProductType::MOTOR_CYCLE) {
@@ -77,9 +78,12 @@ class CartRequest extends FormRequest
                         ->whereStatus(OptionStatus::IN_STOCK)
                         ->whereHas(
                             'product',
-                            fn (Builder $query): Builder => $query
-                                ->where('enabled', true)
-                                ->whereNot('type', ProductType::MOTOR_CYCLE)
+                            function (Builder $query) {
+                                /** @var Product $query */
+                                return $query
+                                    ->wherePublished(true)
+                                    ->whereNot('type', ProductType::MOTOR_CYCLE);
+                            }
                         )
                         ->first();
 

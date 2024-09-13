@@ -1,5 +1,5 @@
 get:
-  description: "Lấy danh sách sản phẩm: Chỉ hiển thị sản phẩm enabled: 'true', visibility: 'Danh mục/Tìm kiếm/Danh mục và Tìm kiếm' và status: 'Còn hàng'. Lấy thêm các trường bộ lọc tại API Filter(/docs#/Sản%20phẩm/get_api_filter_product)"
+  description: "Lấy danh sách sản phẩm: Chỉ hiển thị sản phẩm published: 'true', visibility: 'Danh mục/Tìm kiếm/Danh mục và Tìm kiếm' và status: 'Còn hàng'. Lấy thêm các trường bộ lọc tại API Filter(/docs#/Sản%20phẩm/get_api_filter_product)"
   tags:
     - Sản phẩm
   parameters:
@@ -44,7 +44,7 @@ get:
                             url: https://i.ytimg.com/vi/a3VBrgtYKTs/maxresdefault.jpg
                             alt: XE TAY GA YAMAHA FREEGO – THOẢ CHÍ TUNG HOÀNH
                           url: https://www.youtube.com/watch?v=a3VBrgtYKTs
-                    enabled: true
+                    published: true
                     visibility: Danh mục và Tìm kiếm
                     type: motor-cycle
                     manufacturer: Honda

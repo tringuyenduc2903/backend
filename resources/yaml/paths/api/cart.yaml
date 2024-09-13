@@ -54,7 +54,7 @@ get:
                             url: https://i.ytimg.com/vi/a3VBrgtYKTs/maxresdefault.jpg
                             alt: XE TAY GA YAMAHA FREEGO – THOẢ CHÍ TUNG HOÀNH
                           url: https://www.youtube.com/watch?v=a3VBrgtYKTs
-                    enabled: true
+                    published: true
                     visibility: Danh mục và Tìm kiếm
                     type: motor-cycle
                     manufacturer: Honda

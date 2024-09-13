@@ -40,7 +40,7 @@ class Product extends Model
         'description',
         'images',
         'videos',
-        'enabled',
+        'published',
         'visibility',
         'type',
         'manufacturer',
@@ -53,7 +53,7 @@ class Product extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'enabled' => 'boolean',
+        'published' => 'boolean',
         'specifications' => 'array',
     ];
 
@@ -85,7 +85,7 @@ class Product extends Model
      */
     public function shouldBeSearchable(): bool
     {
-        return $this->enabled &&
+        return $this->published &&
             in_array(
                 $this->getRawOriginal('visibility'), [
                     ProductVisibility::SEARCH,

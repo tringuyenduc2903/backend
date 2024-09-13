@@ -29,7 +29,7 @@ class CategoryList
                 function (Builder $query) {
                     /** @var Product $query */
                     return $query
-                        ->whereEnabled(true)
+                        ->wherePublished(true)
                         ->whereIn(
                             'visibility',
                             request()->exists('search') ? [

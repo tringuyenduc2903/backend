@@ -21,7 +21,7 @@ class SettingSeeder extends Seeder
     {
         $product = Product::inRandomOrder()
             ->whereType(ProductType::MOTOR_CYCLE)
-            ->whereEnabled(true)
+            ->wherePublished(true)
             ->whereNot('visibility', ProductVisibility::NOT_VISIBLE_INDIVIDUALLY)
             ->whereJsonLength('images', '>=', 2)
             ->inRandomOrder();

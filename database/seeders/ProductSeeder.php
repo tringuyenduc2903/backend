@@ -27,7 +27,7 @@ class ProductSeeder extends Seeder
                 'description' => $this->description($product->description),
                 'images' => $this->images($product->images, $product->name),
                 'videos' => $this->videos($product->videos),
-                'enabled' => $product->enabled,
+                'published' => $product->published,
                 'visibility' => ProductVisibility::keyForValue($product->visibility),
                 'type' => ProductType::keyForValue($product->type),
                 'manufacturer' => $product->manufacturer,
