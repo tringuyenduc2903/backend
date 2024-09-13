@@ -13,12 +13,21 @@ class StoreMotorCycle
      */
     public function creating(MotorCycle $motor_cycle): void
     {
-        $this->storeBranch($motor_cycle);
+        if (backpack_auth()->guest()) {
+            return;
+        }
 
+        /** @var Employee $employee */
+        $employee = backpack_user();
+
+        $motor_cycle->branch_id = $employee->branch_id;
         $motor_cycle->status = MotorCycleStatus::STORAGE;
     }
 
-    protected function storeBranch(MotorCycle $motor_cycle): void
+    /**
+     * Handle the Vehicle "updating" event.
+     */
+    public function updating(MotorCycle $motor_cycle): void
     {
         if (backpack_auth()->guest()) {
             return;
@@ -28,13 +37,5 @@ class StoreMotorCycle
         $employee = backpack_user();
 
         $motor_cycle->branch_id = $employee->branch_id;
-    }
-
-    /**
-     * Handle the Vehicle "updating" event.
-     */
-    public function updating(MotorCycle $motor_cycle): void
-    {
-        $this->storeBranch($motor_cycle);
     }
 }

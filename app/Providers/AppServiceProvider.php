@@ -6,7 +6,9 @@ use App\Models\Address;
 use App\Models\Customer;
 use App\Models\Identification;
 use App\Models\MotorCycle;
+use App\Models\Review;
 use App\Observers\CreateCustomer;
+use App\Observers\ReplyReview;
 use App\Observers\StoreAddress;
 use App\Observers\StoreIdentification;
 use App\Observers\StoreMotorCycle;
@@ -54,6 +56,10 @@ class AppServiceProvider extends ServiceProvider
 
         MotorCycle::observe(
             StoreMotorCycle::class,
+        );
+
+        Review::observe(
+            ReplyReview::class,
         );
 
         Validator::extend(

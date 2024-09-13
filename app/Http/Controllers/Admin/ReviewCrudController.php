@@ -9,6 +9,7 @@ use App\Models\Option;
 use App\Models\Review;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -23,8 +24,10 @@ use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 class ReviewCrudController extends CrudController
 {
     use DropzoneOperation;
+    use DropzoneOperation;
     use FetchOperation;
     use ListOperation;
+    use ShowOperation;
     use UpdateOperation;
 
     /**
@@ -54,6 +57,10 @@ class ReviewCrudController extends CrudController
             'type' => 'number',
             'suffix' => ' ★',
         ]);
+        CRUD::column('images')
+            ->label(trans('Images'))
+            ->type('dropzone')
+            ->withFiles(['disk' => 'review']);
         CRUD::column('parent.sku')
             ->label(trans('Product'));
         CRUD::column('reviewable.name')
@@ -99,13 +106,52 @@ class ReviewCrudController extends CrudController
     }
 
     /**
+     * Define what happens when the Show operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-update
+     */
+    protected function setupShowOperation(): void
+    {
+        CRUD::column('content')
+            ->label(trans('Content'))
+            ->type('textarea');
+        CRUD::addColumn([
+            'name' => 'rate',
+            'label' => trans('Rate'),
+            'type' => 'number',
+            'suffix' => ' ★',
+        ]);
+        CRUD::column('images')
+            ->label(trans('Images'))
+            ->type('dropzone')
+            ->withFiles(['disk' => 'review']);
+    }
+
+    /**
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      */
     protected function setupUpdateOperation(): void
     {
+        CRUD::setSubheading(trans('Reply this review'));
+
         CRUD::setValidation(ReviewRequest::class);
+
+        CRUD::field('reply')
+            ->label(trans('Reply'))
+            ->subfields([[
+                'name' => 'content',
+                'label' => trans('Content'),
+                'type' => 'textarea',
+            ], [
+                'name' => 'images',
+                'label' => trans('Images'),
+                'type' => 'dropzone',
+                'withFiles' => [
+                    'disk' => 'review',
+                ],
+            ]]);
     }
 
     protected function fetchOptions()

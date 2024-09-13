@@ -65,7 +65,7 @@ class Review extends Model
     public function reply(): MorphOne
     {
         return $this->morphOne(Review::class, 'parent')
-            ->where('parent_type', Review::class)
-            ->where('reviewable_type', User::class);
+            ->where('reviewable_type', Employee::class)
+            ->where('parent_type', Review::class);
     }
 }

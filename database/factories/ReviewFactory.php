@@ -23,25 +23,12 @@ class ReviewFactory extends Factory
      */
     public function definition(): array
     {
-        $content = mb_substr(
-            vnfaker()->paragraphs(2, glue: ' '),
-            0,
-            254
-        );
-
-        $images = [];
-
-        for ($i = 0; $i < random_int(0, 3); $i++) {
-            $images[] = fake()->image(
-                dir: config('filesystems.disks.review.root'),
-                fullPath: false,
-                word: "$content $i"
-            );
-        }
-
         return [
-            'content' => $content,
-            'images' => json_encode($images, JSON_UNESCAPED_UNICODE),
+            'content' => mb_substr(
+                vnfaker()->paragraphs(2, glue: ' '),
+                0,
+                254
+            ),
         ];
     }
 
@@ -50,12 +37,22 @@ class ReviewFactory extends Factory
      */
     public function review(): static
     {
+        $images = [];
+
+        for ($i = 0; $i < random_int(0, 3); $i++) {
+            $images[] = fake()->image(
+                dir: config('filesystems.disks.review.root'),
+                fullPath: false,
+            );
+        }
+
         return $this->state(fn (array $attributes) => [
             'reviewable_id' => Customer::inRandomOrder()->first()->id,
             'reviewable_type' => Customer::class,
             'parent_id' => Option::inRandomOrder()->first()->id,
             'parent_type' => Option::class,
             'rate' => random_int(1, 5),
+            'images' => json_encode($images, JSON_UNESCAPED_UNICODE),
         ]);
     }
 
@@ -67,8 +64,6 @@ class ReviewFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'reviewable_id' => Employee::inRandomOrder()->first()->id,
             'reviewable_type' => Employee::class,
-            'parent_id' => Review::inRandomOrder()->first()->id,
-            'parent_type' => Review::class,
         ]);
     }
 }

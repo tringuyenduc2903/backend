@@ -21,6 +21,18 @@ class ReviewRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'reply' => [
+                'nullable',
+                'array',
+            ],
+            'reply.*.content' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'reply.*.images' => [
+                'nullable',
+            ],
         ];
     }
 }
