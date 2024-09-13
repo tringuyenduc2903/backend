@@ -15,6 +15,7 @@ class Employee extends User
     use HasFactory;
     use HasRoles;
     use SoftDeletes;
+    use SwitchTimezoneTrait;
 
     /*
     |--------------------------------------------------------------------------

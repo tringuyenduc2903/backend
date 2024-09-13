@@ -18,6 +18,10 @@ class CreateCustomer
             return;
         }
 
+        if (auth()->check()) {
+            auth()->logout();
+        }
+
         $customer->password = $password = Str::password(20);
 
         $mail = app(CustomerCreated::class, [

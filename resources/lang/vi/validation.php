@@ -159,6 +159,8 @@ return [
         ],
         'max' => [
             'entity' => 'Chỉ chứa tối đa 5 :attribute.',
+            'review' => 'Đã đánh giá :attribute này.',
+            'time' => 'Hết thời gian cho phép sửa thông tin :attribute.',
         ],
         'product' => [
             'published' => 'Sản phẩm không khả dụng.',
@@ -287,5 +289,8 @@ return [
         'expiry_date' => 'ngày hết hạn',
         'option_id' => 'sản phẩm',
         'amount' => 'số lượng',
+        'content' => 'nội dung',
+        'rate' => 'đánh giá',
+        'images.*' => 'hình ảnh',
     ],
 ];

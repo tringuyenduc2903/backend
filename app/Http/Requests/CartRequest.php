@@ -31,7 +31,7 @@ class CartRequest extends FormRequest
     {
         $id = request()->route('cart');
 
-        $option_id = [
+        $create = [
             'option_id' => [
                 'required',
                 'integer',
@@ -60,7 +60,7 @@ class CartRequest extends FormRequest
             ],
         ];
 
-        $amount = [
+        $update = [
             'amount' => [
                 'required',
                 'integer',
@@ -105,8 +105,8 @@ class CartRequest extends FormRequest
         ];
 
         return $id
-            ? $amount
-            : array_merge($option_id, $amount);
+            ? $update
+            : array_merge($create, $update);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use RalphJSmit\Helpers\Laravel\Concerns\HasFactory;
@@ -12,6 +13,7 @@ class Review extends Model
 {
     use CrudTrait;
     use HasFactory;
+    use SwitchTimezoneTrait;
 
     /*
     |--------------------------------------------------------------------------
@@ -44,6 +46,7 @@ class Review extends Model
         'reviewable_type',
         'parent_id',
         'parent_type',
+        'customer',
     ];
 
     /*
@@ -67,5 +70,48 @@ class Review extends Model
         return $this->morphOne(Review::class, 'parent')
             ->where('reviewable_type', Employee::class)
             ->where('parent_type', Review::class);
+    }
+
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class, 'reviewable_id');
+    }
+
+    public function employee(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class, 'reviewable_id');
+    }
+
+    public function option(): BelongsTo
+    {
+        return $this->belongsTo(Option::class, 'parent_id');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+    */
+
+    protected function getImagesAttribute(string|array|null $images = null): string|array|null
+    {
+        if (backpack_auth()->check()) {
+            return $images;
+        }
+
+        $items = json_decode($images);
+
+        foreach ($items as &$item) {
+            $item = image_preview(
+                review_image_url($item ?? ''),
+                match ($this->reviewable_type) {
+                    Customer::class => $this->customer->name,
+                    Employee::class => $this->employee->name,
+                    default => '',
+                }
+            );
+        }
+
+        return array_values($items);
     }
 }

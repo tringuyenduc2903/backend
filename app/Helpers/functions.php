@@ -168,8 +168,18 @@ if (! function_exists('branch_image_url')) {
     }
 }
 
+if (! function_exists('review_image_url')) {
+    function review_image_url(string $path): string
+    {
+        return image_url(
+            config('filesystems.disks.review.url'),
+            $path
+        );
+    }
+}
+
 if (! function_exists('image_preview')) {
-    function image_preview(string $image, string $alt): array
+    function image_preview(string $image, string $alt = ''): array
     {
         return [
             'url' => $image,

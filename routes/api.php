@@ -13,6 +13,7 @@ Route::middleware('auth:sanctum')->group(function () {
         'address' => AddressController::class,
         'identification' => IdentificationController::class,
         'cart' => CartController::class,
+        'review' => ReviewCustomerController::class,
     ]);
 
     Route::apiResource('social', SocialController::class)
