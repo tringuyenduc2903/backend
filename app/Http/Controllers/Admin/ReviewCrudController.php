@@ -39,6 +39,14 @@ class ReviewCrudController extends CrudController
         CRUD::setRoute(route('reviews.index'));
         CRUD::setEntityNameStrings(trans('Review'), trans('Reviews'));
 
+        CRUD::operation(
+            ['list', 'show'],
+            function () {
+                CRUD::addButton('line', 'show', 'view', 'crud.buttons.review.show', 'beginning');
+                CRUD::addButton('line', 'update', 'view', 'crud.buttons.review.update', 'end');
+            }
+        );
+
         deny_access(EmployeePermissionEnum::REVIEW_CRUD);
     }
 
@@ -112,6 +120,8 @@ class ReviewCrudController extends CrudController
      */
     protected function setupShowOperation(): void
     {
+        CRUD::setSubheading(trans('See details'));
+
         CRUD::column('content')
             ->label(trans('Content'))
             ->type('textarea');
