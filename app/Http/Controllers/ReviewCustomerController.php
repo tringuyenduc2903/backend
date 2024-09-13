@@ -18,6 +18,8 @@ class ReviewCustomerController extends Controller
 
         $paginator = $reviews->paginate(request('perPage'));
 
+        $paginator->makeHidden('customer');
+
         return $this->getCustomPaginate($paginator);
     }
 

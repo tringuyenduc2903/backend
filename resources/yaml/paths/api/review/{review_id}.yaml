@@ -1,0 +1,256 @@
+get:
+  description: Lấy đánh giá
+  tags:
+    - Đánh giá (Khách hàng)
+  parameters:
+    - $ref: "../../../components/parameters/review.yaml"
+  responses:
+    200:
+      description: Lấy đánh giá thành công
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                title: Id
+                example: 1
+                type: number
+              content:
+                title: Nội dung
+                example: Một giáo sư của trường Hampden-Sydney College (bang Virginia - Mỹ) quan tâm tới một trong những từ la-tinh khó hiểu nhất, \consectetur\ trích từ một đoạn của Lorem Ipsum, và đã nghiên cứu tất cả các ứng dụng của từ này trong văn học cổ điển, để từ đó tì
+                type: string
+              rate:
+                title: Đánh giá
+                example: 5
+                type: number
+              images:
+                title: Danh sách ảnh
+                example:
+                  - url: http://localhost/storage/review/cd8144a93bdab8c6ac4fff344060145e.png
+                    alt: Phi Diệu Mao
+                type: array
+              customer:
+                title: Khách hàng viết đánh giá
+                example:
+                  id: 1
+                  name: Nguyễn Văn Hải
+                  gender: 0
+                  gender_preview: Nam
+                  timezone: 234
+                  timezone_preview: Asia/Ho_Chi_Minh
+                  deleted_at: 11:53:58 21/06/2024
+                  created_at: 11:53:58 21/06/2024
+                  updated_at: 11:53:58 21/06/2024
+                type: object
+              reply:
+                title: Trả lời
+                example:
+                  id: 1
+                  content: Một giáo sư của trường Hampden-Sydney College (bang Virginia - Mỹ) quan tâm tới một trong những từ la-tinh khó hiểu nhất, \consectetur\ trích từ một đoạn của Lorem Ipsum, và đã nghiên cứu tất cả các ứng dụng của từ này trong văn học cổ điển, để từ đó tì
+                  images:
+                    - url: http://localhost/storage/review/cd8144a93bdab8c6ac4fff344060145e.png
+                      alt: Phi Diệu Mao
+                  employee:
+                    id: 1
+                    name: Nguyễn Văn Hải
+                    deleted_at: 11:53:58 21/06/2024
+                    created_at: 11:53:58 21/06/2024
+                    updated_at: 11:53:58 21/06/2024
+                  created_at: 11:53:58 21/06/2024
+                  updated_at: 11:53:58 21/06/2024
+                type: object
+              option:
+                title: Sản phẩm
+                example:
+                  id: 1
+                  sku: AFRICA_TWIN_ADVENTURE_SPORTS_TRẮNG_X_SẢN_PHẨM_MỚI
+                  price:
+                    raw: 720990000
+                    preview: 720.990.000 ₫
+                  value_added_tax:
+                    raw: 10
+                    preview: 10%
+                  images:
+                    - url: http://localhost/storage/product/https://cdn.honda.com.vn/motorbike-versions/October2023/jf26qCibiRyaA9hFGOed.png
+                      alt: AFRICA_TWIN_ADVENTURE_SPORTS_TRẮNG_X_SẢN_PHẨM_MỚI
+                  color: Trắng xanh đen
+                  version: Adventure sports
+                  volume: null
+                  type: Sản phẩm mới
+                  status: Còn hàng
+                  quantity: 22
+                  weight: null
+                  length: null
+                  width: null
+                  height: null
+                  specifications:
+                    - title: Khối Lượng Bản Thân
+                      description: 250kg
+                  product:
+                    id: 1
+                    search_url: africa-twin-adventure-sports
+                    name: AFRICA TWIN ADVENTURE SPORTS
+                    description: <p>Cả Thế Giới Đang Chờ Bạn Tới Khám Phá Những Chuyến Đi Thôi Thúc Bạn Dịch Chuyển. Thay Đổi Bạn. Đưa Bạn Đến Những Địa Điểm Mới. Gặp Gỡ Những Con Người Mới. Thu Nạp Kinh Nghiệm Mới. Và Những Kỉ Niệm Cả Đời Không Quên. Mọi Cuộc Hành Trình Đều Bắt Đầu Với Khát Khao Di Chuyển, Lên Kế Hoạch Cho Chuyến Đi, Cảm Giác Mong Đợi Những Gì Sắp Xảy Đến Và Kết Thúc. Với Những Tính Năng Toàn Diện, Africa Twin Adventure Sports Mở Ra Cho Bạn Cả Một Thế Giới Mới, Để Bạn Cầm Lái Và Chinh Phục.</p>
+                    images:
+                      - url: http://localhost/storage/product/https://cdn.honda.com.vn/motorbikes/October2023/7rOlMfg1nces2UVvpdYz.png
+                        alt: AFRICA TWIN ADVENTURE SPORTS
+                    videos:
+                      - video:
+                          provider: youtube
+                          id: a3VBrgtYKTs
+                          title: XE TAY GA YAMAHA FREEGO – THOẢ CHÍ TUNG HOÀNH
+                          image:
+                            url: https://i.ytimg.com/vi/a3VBrgtYKTs/maxresdefault.jpg
+                            alt: XE TAY GA YAMAHA FREEGO – THOẢ CHÍ TUNG HOÀNH
+                          url: https://www.youtube.com/watch?v=a3VBrgtYKTs
+                    published: true
+                    visibility: Danh mục và Tìm kiếm
+                    type: motor-cycle
+                    manufacturer: Honda
+                    specifications:
+                      - title: Khối Lượng Bản Thân
+                        description: 250kg
+                    options:
+                      - id: 1
+                        sku: AFRICA_TWIN_ADVENTURE_SPORTS_TRẮNG_X_SẢN_PHẨM_MỚI
+                        price:
+                          raw: 720990000
+                          preview: 720.990.000 ₫
+                        value_added_tax:
+                          raw: 10
+                          preview: 10%
+                        images:
+                          - url: http://localhost/storage/product/https://cdn.honda.com.vn/motorbike-versions/October2023/jf26qCibiRyaA9hFGOed.png
+                            alt: AFRICA_TWIN_ADVENTURE_SPORTS_TRẮNG_X_SẢN_PHẨM_MỚI
+                        color: Trắng xanh đen
+                        version: Adventure sports
+                        volume: null
+                        type: Sản phẩm mới
+                        status: Còn hàng
+                        quantity: 22
+                        weight: null
+                        length: null
+                        width: null
+                        height: null
+                        specifications:
+                          - title: Khối Lượng Bản Thân
+                            description: 250kg
+                        deleted_at: 11:53:58 21/06/2024
+                        created_at: 11:53:58 21/06/2024
+                        updated_at: 11:53:58 21/06/2024
+                    categories:
+                      - id: 7
+                        search_url: xe-phan-khoi-lon
+                        name: Xe phân khối lớn
+                        description: null
+                        image: null
+                        deleted_at: 11:53:58 21/06/2024
+                        created_at: 11:53:58 21/06/2024
+                        updated_at: 11:53:58 21/06/2024
+                        pivot:
+                          product_id: 1
+                          category_id: 7
+                    deleted_at: 11:53:58 21/06/2024
+                    created_at: 11:53:58 21/06/2024
+                    updated_at: 11:53:58 21/06/2024
+                  deleted_at: 11:53:58 21/06/2024
+                  created_at: 11:53:58 21/06/2024
+                  updated_at: 11:53:58 21/06/2024
+                type: object
+              created_at:
+                title: Thời gian tạo
+                example: 11:53:58 21/06/2024
+                type: string
+              updated_at:
+                title: Thời gian cập nhật thông tin
+                example: 11:53:58 21/06/2024
+                type: string
+            type: object
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    404:
+      $ref: "../../../components/responses/404/review.yaml"
+put:
+  description: Đổi thông tin đánh giá
+  tags:
+    - Đánh giá (Khách hàng)
+  parameters:
+    - $ref: "../../../components/parameters/review.yaml"
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            content:
+              title: Nội dung
+              example: Một giáo sư của trường Hampden-Sydney College (bang Virginia - Mỹ) quan tâm tới một trong những từ la-tinh khó hiểu nhất, \consectetur\ trích từ một đoạn của Lorem Ipsum, và đã nghiên cứu tất cả các ứng dụng của từ này trong văn học cổ điển, để từ đó tì
+              type: string
+            rate:
+              title: Đánh giá
+              example: 1
+              maximum: 5
+              minimum: 1
+              type: number
+            images:
+              title: Danh sách ảnh
+              example:
+                - 4aGDXHdy5E8wKcEQif0X.png
+                - xVWcnTXB3PlylzRmZuSB.png
+              maximum: 5
+              type: array
+          type: object
+          required:
+            - content
+            - rate
+  responses:
+    200:
+      description: Đổi thông tin đánh giá thành công
+      content:
+        application/json:
+          schema:
+            $ref: "../../../components/schemas/Dữ liệu rỗng.yaml"
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    404:
+      $ref: "../../../components/responses/404/review.yaml"
+    422:
+      description: Dữ liệu khách hàng đã nhập không được chấp nhận
+      content:
+        application/json:
+          schema:
+            properties:
+              message:
+                title: Thông báo ngắn
+                type: string
+                example: Trường nội dung là bắt buộc. (và 1 lỗi khác)
+              errors:
+                title: Các trường không hợp lệ
+                properties:
+                  content:
+                    title: Nội dung
+                    example:
+                      - Trường nội dung là bắt buộc.
+                    type: array
+                  rate:
+                    title: Đánh giá
+                    example:
+                      - Trường đánh giá là bắt buộc.
+                    type: array
+            type: object
+delete:
+  description: Xoá đánh giá cũ
+  tags:
+    - Đánh giá (Khách hàng)
+  parameters:
+    - $ref: "../../../components/parameters/review.yaml"
+  responses:
+    200:
+      description: Xoá đánh giá cũ thành công
+      content:
+        application/json:
+          schema:
+            $ref: "../../../components/schemas/Dữ liệu rỗng.yaml"
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    404:
+      $ref: "../../../components/responses/404/review.yaml"

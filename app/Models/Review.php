@@ -46,7 +46,6 @@ class Review extends Model
         'reviewable_type',
         'parent_id',
         'parent_type',
-        'customer',
     ];
 
     /*
@@ -74,12 +73,36 @@ class Review extends Model
 
     public function customer(): BelongsTo
     {
-        return $this->belongsTo(Customer::class, 'reviewable_id');
+        return $this
+            ->belongsTo(
+                Customer::class,
+                'reviewable_id'
+            )
+            ->select([
+                'id',
+                'name',
+                'gender',
+                'timezone',
+                'deleted_at',
+                'created_at',
+                'updated_at',
+            ]);
     }
 
     public function employee(): BelongsTo
     {
-        return $this->belongsTo(Employee::class, 'reviewable_id');
+        return $this
+            ->belongsTo(
+                Employee::class,
+                'reviewable_id'
+            )
+            ->select([
+                'id',
+                'name',
+                'deleted_at',
+                'created_at',
+                'updated_at',
+            ]);
     }
 
     public function option(): BelongsTo

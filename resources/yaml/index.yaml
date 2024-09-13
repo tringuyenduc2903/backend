@@ -81,3 +81,7 @@ paths:
     $ref: "./paths/api/cart.yaml"
   /api/cart/{cart_id}:
     $ref: "./paths/api/cart/{cart_id}.yaml"
+  /api/review:
+    $ref: "./paths/api/review.yaml"
+  /api/review/{review_id}:
+    $ref: "./paths/api/review/{review_id}.yaml"

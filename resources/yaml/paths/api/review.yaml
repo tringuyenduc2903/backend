@@ -1,0 +1,126 @@
+get:
+  description: "Lấy danh sách đánh giá của khách hàng: Sắp xếp theo Thời gian tạo đánh giá"
+  tags:
+    - Đánh giá (Khách hàng)
+  parameters:
+    - $ref: "../../components/parameters/page.yaml"
+    - $ref: "../../components/parameters/perPage.yaml"
+  responses:
+    200:
+      description: Lấy danh sách đánh giá của khách hàng thành công
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                title: Dữ liệu
+                example:
+                  - id: 1
+                    content: Một giáo sư của trường Hampden-Sydney College (bang Virginia - Mỹ) quan tâm tới một trong những từ la-tinh khó hiểu nhất, \consectetur\ trích từ một đoạn của Lorem Ipsum, và đã nghiên cứu tất cả các ứng dụng của từ này trong văn học cổ điển, để từ đó tì
+                    rate: 5
+                    images:
+                      - url: http://localhost/storage/review/cd8144a93bdab8c6ac4fff344060145e.png
+                        alt: Phi Diệu Mao
+                    created_at: 11:53:58 21/06/2024
+                    updated_at: 11:53:58 21/06/2024
+                type: array
+              total_pages:
+                title: Tổng trang
+                example: 7
+                type: number
+              from:
+                title: Vị trí dữ liệu đầu tiên của trang
+                example: 76
+                type: number
+              to:
+                title: Vị trí dữ liệu cuối cùng của trang
+                example: 90
+                type: number
+              per_page:
+                title: Tổng dữ liệu mỗi trang
+                example: 15
+                type: number
+              current_page:
+                title: Vị trí trang hiện tại
+                example: 6
+                type: number
+              total:
+                title: Tổng dữ liệu
+                example: 100
+                type: number
+            type: object
+    401:
+      $ref: "../../components/responses/401.yaml"
+post:
+  description: Tạo đánh giá mới
+  tags:
+    - Đánh giá (Khách hàng)
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            option_id:
+              title: Sản phẩm
+              example: 1
+              type: number
+            content:
+              title: Nội dung
+              example: Một giáo sư của trường Hampden-Sydney College (bang Virginia - Mỹ) quan tâm tới một trong những từ la-tinh khó hiểu nhất, \consectetur\ trích từ một đoạn của Lorem Ipsum, và đã nghiên cứu tất cả các ứng dụng của từ này trong văn học cổ điển, để từ đó tì
+              type: string
+            rate:
+              title: Đánh giá
+              example: 1
+              maximum: 5
+              minimum: 1
+              type: number
+            images:
+              title: Danh sách ảnh
+              example:
+                - 4aGDXHdy5E8wKcEQif0X.png
+                - xVWcnTXB3PlylzRmZuSB.png
+              maximum: 5
+              type: array
+          type: object
+          required:
+            - option_id
+            - content
+            - rate
+  responses:
+    201:
+      description: Tạo đánh giá mới thành công
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/Dữ liệu rỗng.yaml"
+    401:
+      $ref: "../../components/responses/401.yaml"
+    422:
+      description: Dữ liệu khách hàng đã nhập không được chấp nhận
+      content:
+        application/json:
+          schema:
+            properties:
+              message:
+                title: Thông báo ngắn
+                type: string
+                example: Trường sản phẩm là bắt buộc. (và 2 lỗi khác)
+              errors:
+                title: Các trường không hợp lệ
+                properties:
+                  option_id:
+                    title: Sản phẩm
+                    example:
+                      - Trường sản phẩm là bắt buộc.
+                    type: array
+                  content:
+                    title: Nội dung
+                    example:
+                      - Trường nội dung là bắt buộc.
+                    type: array
+                  rate:
+                    title: Đánh giá
+                    example:
+                      - Trường đánh giá là bắt buộc.
+                    type: array
+            type: object
