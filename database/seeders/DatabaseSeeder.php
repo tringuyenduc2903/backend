@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
             ProductListSeeder::class,
             MotorCycleSeeder::class,
+            ReviewSeeder::class,
         ]);
     }
 }

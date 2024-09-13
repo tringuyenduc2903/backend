@@ -33,7 +33,7 @@ class OAuthController extends Controller
     public function callback(CustomerProviderEnum $driver_name): RedirectResponse
     {
         $user = Socialite::driver($driver_name->value)->user();
-        $provider_name = CustomerProvider::keyForValue($driver_name);
+        $provider_name = CustomerProvider::keyForValue($driver_name->value);
 
         $customer = Customer::orWhere('email', $user->getEmail())
             ->orWhereHas(

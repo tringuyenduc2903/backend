@@ -5,10 +5,13 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use RalphJSmit\Helpers\Laravel\Concerns\HasFactory;
 
 class Review extends Model
 {
     use CrudTrait;
+    use HasFactory;
 
     /*
     |--------------------------------------------------------------------------
@@ -42,6 +45,22 @@ class Review extends Model
         'parent_id',
         'parent_type',
     ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+    */
+
+    public function reviewable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    public function parent(): MorphTo
+    {
+        return $this->morphTo();
+    }
 
     public function reply(): MorphOne
     {

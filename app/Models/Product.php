@@ -7,7 +7,6 @@ use App\Enums\ProductTypeEnum;
 use App\Enums\ProductVisibility;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
-use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -217,9 +216,6 @@ class Product extends Model
             : ProductTypeEnum::valueForKey($type);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function getOptionsMinPriceAttribute(float $price): float|array
     {
         return backpack_auth()->check()
@@ -227,9 +223,6 @@ class Product extends Model
             : price_preview($price);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function getOptionsMaxPriceAttribute(float $price): float|array
     {
         return backpack_auth()->check()

@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\EmployeePermissionEnum;
 use App\Http\Requests\Admin\ReviewRequest;
+use App\Models\Customer;
+use App\Models\Option;
 use App\Models\Review;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
-use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -22,11 +22,9 @@ use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
  */
 class ReviewCrudController extends CrudController
 {
-    use DeleteOperation;
     use DropzoneOperation;
     use FetchOperation;
     use ListOperation;
-    use ShowOperation;
     use UpdateOperation;
 
     /**
@@ -60,6 +58,44 @@ class ReviewCrudController extends CrudController
             ->label(trans('Product'));
         CRUD::column('reviewable.name')
             ->label(trans('Customer'));
+
+        CRUD::filter('content')
+            ->label(trans('Content'))
+            ->type('text');
+        CRUD::filter('rate')
+            ->label(trans('Rate'))
+            ->type('text');
+        CRUD::addFilter(
+            [
+                'name' => 'parent_id',
+                'label' => trans('Product'),
+                'type' => 'select2_ajax',
+                'minimum_input_length' => 0,
+                'method' => 'POST',
+                'select_attribute' => 'sku',
+            ],
+            route('reviews.fetchOptions'),
+            function (int $sku) {
+                CRUD::addClause('whereParentId', $sku);
+                CRUD::addClause('whereParentType', Option::class);
+            },
+            fn () => CRUD::addClause('whereParentType', Option::class)
+        );
+        CRUD::addFilter(
+            [
+                'name' => 'reviewable_id',
+                'label' => trans('Customer'),
+                'type' => 'select2_ajax',
+                'minimum_input_length' => 0,
+                'method' => 'POST',
+            ],
+            route('reviews.fetchCustomers'),
+            function (int $sku) {
+                CRUD::addClause('whereReviewableId', $sku);
+                CRUD::addClause('whereReviewableType', Customer::class);
+            },
+            fn () => CRUD::addClause('whereReviewableType', Customer::class)
+        );
     }
 
     /**
@@ -70,5 +106,18 @@ class ReviewCrudController extends CrudController
     protected function setupUpdateOperation(): void
     {
         CRUD::setValidation(ReviewRequest::class);
+    }
+
+    protected function fetchOptions()
+    {
+        return $this->fetch([
+            'model' => Option::class,
+            'searchable_attributes' => ['sku'],
+        ]);
+    }
+
+    protected function fetchCustomers()
+    {
+        return $this->fetch(Customer::class);
     }
 }
