@@ -81,15 +81,12 @@ class SettingCrudController extends CrudController
         CRUD::setValidation(SettingRequest::class);
         CRUD::setValidation($setting->getAttribute('validation_rules'));
 
-        CRUD::field('name')
-            ->label(trans('Name'))
-            ->attributes([
-                'disabled' => true,
-            ]);
         CRUD::field('active')
             ->label(trans('Active'))
             ->type('switch');
         CRUD::addFields($setting->getAttribute('fields'));
+
+        set_title();
     }
 
     protected function fetchBranches()

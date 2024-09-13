@@ -74,6 +74,8 @@ class RoleCrudController extends CrudController
     protected function setupUpdateOperation(): void
     {
         $this->setupCreateOperation();
+
+        set_title();
     }
 
     /**

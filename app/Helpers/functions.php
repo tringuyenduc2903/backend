@@ -2,6 +2,7 @@
 
 use App\Models\Employee;
 use App\Models\Setting;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Client\Response;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Cache;
@@ -39,6 +40,16 @@ if (! function_exists('deny_access')) {
         }
 
         CRUD::denyAllAccess();
+    }
+}
+
+if (! function_exists('set_title')) {
+    function set_title(string $column = 'name'): void
+    {
+        $value = CRUD::getCurrentEntry()->getAttribute('name');
+
+        CRUD::setTitle($value);
+        CRUD::setHeading($value);
     }
 }
 
