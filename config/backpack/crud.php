@@ -4,8 +4,8 @@
  * Backpack\CRUD preferences.
  */
 
+use App\Library\Uploaders\SingleBase64Image;
 use Backpack\CRUD\app\Library\Uploaders\MultipleFiles;
-use Backpack\CRUD\app\Library\Uploaders\SingleBase64Image;
 use Backpack\CRUD\app\Library\Uploaders\SingleFile;
 use Backpack\CRUD\app\Library\Uploaders\Support\FileNameGenerator;
 

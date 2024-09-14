@@ -40,12 +40,11 @@ class ReviewCrudController extends CrudController
         CRUD::setEntityNameStrings(trans('Review'), trans('Reviews'));
 
         CRUD::operation(
+            'list',
+            fn () => CRUD::addButton('line', 'show', 'view', 'crud.buttons.review.show', 'beginning'));
+        CRUD::operation(
             ['list', 'show'],
-            function () {
-                CRUD::addButton('line', 'show', 'view', 'crud.buttons.review.show', 'beginning');
-                CRUD::addButton('line', 'update', 'view', 'crud.buttons.review.update', 'end');
-            }
-        );
+            fn () => CRUD::addButton('line', 'update', 'view', 'crud.buttons.review.update', 'end'));
 
         deny_access(EmployeePermissionEnum::REVIEW_CRUD);
     }
