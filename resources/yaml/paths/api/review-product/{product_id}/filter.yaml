@@ -1,0 +1,28 @@
+get:
+  description: "Lấy danh sách bộ lọc đánh giá (Tiêu cực: Từ 1 -> 3 sao, Tích cực: Từ 4 -> 5 sao)"
+  tags:
+    - Đánh giá (Sản phẩm)
+  parameters:
+    - $ref: "../../../../components/parameters/product.yaml"
+  responses:
+    200:
+      description: Lấy danh sách bộ lọc đánh giá thành công
+      content:
+        application/json:
+          schema:
+            description: Dữ liệu trả về
+            example:
+              - name: rate
+                label: Đánh giá
+                data:
+                  1: 1 Sao (0)
+                  2: 2 Sao (0)
+                  3: 3 Sao (0)
+                  4: 4 Sao (0)
+                  5: 5 Sao (0)
+                  negative: Tiêu cực (0)
+                  positive: Tích cực (0)
+                  with_image: Có hình ảnh (0)
+            type: array
+    404:
+      $ref: "../../../../components/responses/404/product.yaml"
