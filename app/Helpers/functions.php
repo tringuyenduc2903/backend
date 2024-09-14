@@ -4,6 +4,7 @@ use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\Setting;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Auth\RequestGuard;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Factory;
 use Illuminate\Contracts\Auth\StatefulGuard;
@@ -32,7 +33,7 @@ if (! function_exists('regenerate_token')) {
 }
 
 if (! function_exists('fortify_auth')) {
-    function fortify_auth(): Factory|StatefulGuard|Application
+    function fortify_auth(): Factory|StatefulGuard|Application|RequestGuard
     {
         return auth(config('fortify.guard_auth'));
     }
@@ -65,7 +66,11 @@ if (! function_exists('deny_access')) {
 if (! function_exists('set_title')) {
     function set_title(string $column = 'name'): void
     {
-        $value = CRUD::getCurrentEntry()->getAttribute($column);
+        if (! $entry = CRUD::getCurrentEntry()) {
+            return;
+        }
+
+        $value = $entry->getAttribute($column);
 
         CRUD::setTitle($value);
         CRUD::setHeading($value);

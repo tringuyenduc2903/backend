@@ -177,7 +177,26 @@ class ProductRequest extends FormRequest
                 'between:0,10',
             ],
             'options.*.images' => [
-                'required',
+                function ($attribute, $value, $fail) {
+                    $items = json_decode($value, true);
+
+                    $validator = Validator::make([
+                        'images' => $items,
+                    ], [
+                        'images' => [
+                            'array',
+                            'max:10',
+                        ],
+                        'images.*' => [
+                            'string',
+                            'max:255',
+                        ],
+                    ]);
+
+                    if ($validator->fails()) {
+                        $fail($validator->errors()->first());
+                    }
+                },
             ],
             'options.*.color' => [
                 'nullable',
@@ -337,6 +356,16 @@ class ProductRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
+        $options = $this->input('options');
+
+        foreach ($options as &$option) {
+            if (is_null($option['images'])) {
+                $option['images'] = json_encode([]);
+            }
+        }
+
+        $this->merge(['options' => $options]);
+
         $id = $this->input('id') ?? request()->route('id');
 
         if ($this->isEmptyString('seo')) {

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Validator;
 
 class ReviewRequest extends FormRequest
 {
@@ -31,8 +32,43 @@ class ReviewRequest extends FormRequest
                 'max:255',
             ],
             'reply.*.images' => [
-                'nullable',
+                function ($attribute, $value, $fail) {
+                    $items = json_decode($value, true);
+
+                    $validator = Validator::make([
+                        'images' => $items,
+                    ], [
+                        'images' => [
+                            'array',
+                            'max:5',
+                        ],
+                        'images.*' => [
+                            'string',
+                            'max:255',
+                        ],
+                    ]);
+
+                    if ($validator->fails()) {
+                        $fail($validator->errors()->first());
+                    }
+                },
             ],
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        $reply = $this->input('reply');
+
+        foreach ($reply as &$item) {
+            if (is_null($item['images'])) {
+                $item['images'] = json_encode([]);
+            }
+        }
+
+        $this->merge(['reply' => $reply]);
     }
 }
