@@ -100,7 +100,11 @@ if (! function_exists('handle_cache')) {
 if (! function_exists('current_currency')) {
     function current_currency(): string
     {
-        return json_decode(Setting::get('store_currency'))->value;
+        return json_decode(
+            Setting::where('key', 'store_currency')
+                ->firstOrFail()
+                ->getAttribute('value')
+        )->value;
     }
 }
 

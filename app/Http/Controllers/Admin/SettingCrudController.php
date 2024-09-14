@@ -56,7 +56,6 @@ class SettingCrudController extends CrudController
             ->type('select2')
             ->values([
                 'homepage' => trans('Home page'),
-                'header' => trans('Header'),
                 'footer' => trans('Footer'),
                 'auth' => trans('Auth'),
                 'store' => trans('Store'),

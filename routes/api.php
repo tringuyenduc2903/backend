@@ -49,4 +49,6 @@ Route::prefix('review-product/{product}')->group(function () {
 Route::apiResource('branch', BranchController::class)
     ->only(['index', 'show']);
 
+Route::get('setting/{setting_type}', SettingController::class);
+
 require __DIR__.'/auth.php';

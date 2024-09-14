@@ -8,6 +8,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 class Setting extends Model
 {
     use CrudTrait;
+    use SwitchTimezoneTrait;
 
     /*
     |--------------------------------------------------------------------------
@@ -43,12 +44,76 @@ class Setting extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | FUNCTIONS
+    | MUTATORS
     |--------------------------------------------------------------------------
     */
 
-    public static function get(string $key): mixed
+    protected function getValueAttribute(string $value): mixed
     {
-        return static::where('key', $key)->firstOrFail()->value;
+        if (backpack_auth()->check()) {
+            return $value;
+        }
+
+        switch ($this->key) {
+            case 'homepage_banners':
+                $reformat = json_decode($value);
+
+                foreach ([
+                    'show_navigation_button',
+                    'show_page_number',
+                    'automatically_switch_banners',
+                ] as $item) {
+                    $reformat->$item = (bool) $reformat->$item;
+                }
+
+                $reformat->time_to_automatically_switch_banners = (int) $reformat->time_to_automatically_switch_banners;
+
+                foreach ($reformat->banners as &$banner) {
+                    $banner->image = image_preview(
+                        $banner->image,
+                        $banner->alt
+                    );
+
+                    unset($banner->alt);
+
+                    $banner->actions = json_decode($banner->actions);
+                }
+
+                return $reformat;
+            case 'footer_about':
+            case 'footer_services':
+                return json_decode($value);
+            case 'footer_branch':
+                return Branch::findOrFail($value);
+            case 'auth_small_banner':
+            case 'auth_large_banner':
+                $reformat = json_decode($value);
+
+                $reformat->image = image_preview(
+                    $reformat->image,
+                    $reformat->alt
+                );
+
+                unset($reformat->alt);
+
+                return $reformat;
+            case 'store_ghn':
+                $reformat = json_decode($value);
+
+                $reformat = json_decode($reformat->value);
+
+                $reformat->district = District::whereGhnId($reformat->district_id)->firstOrFail();
+
+                unset(
+                    $reformat->district_id,
+                    $reformat->shop_id,
+                );
+
+                return $reformat;
+            case 'store_currency':
+                return json_decode($value)->value;
+            default:
+                return $value;
+        }
     }
 }
