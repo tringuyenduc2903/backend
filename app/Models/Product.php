@@ -10,6 +10,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
@@ -144,6 +145,21 @@ class Product extends Model
             'type',
             ProductListsType::RELATED_PRODUCTS
         );
+    }
+
+    public function reviews(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Review::class,
+            Option::class,
+            'product_id',
+            'parent_id',
+            'id',
+            'id'
+        )->where(
+            'parent_type',
+            Option::class
+        )->latest();
     }
 
     /*
