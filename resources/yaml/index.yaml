@@ -89,3 +89,5 @@ paths:
     $ref: "./paths/api/review-product/{product_id}/filter.yaml"
   /api/review-product/{product_id}:
     $ref: "./paths/api/review-product/{product_id}.yaml"
+  /api/setting/{setting_type}:
+    $ref: "./paths/api/setting/{setting_type}.yaml"

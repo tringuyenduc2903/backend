@@ -1,0 +1,41 @@
+get:
+  description: Lấy danh sách cấu hình
+  tags:
+    - Cấu hình
+  parameters:
+    - name: setting_type
+      description: homepage, footer, auth, store
+      in: path
+      example: homepage
+  responses:
+    200:
+      description: Lấy danh sách cấu hình thành công
+      content:
+        application/json:
+          schema:
+            description: Dữ liệu trả về
+            example:
+              - _id: 66e407fe337d1d456d03b2c2
+                key: homepage_banners
+                name: Biểu ngữ
+                value:
+                  show_navigation_button: false
+                  show_page_number: true
+                  automatically_switch_banners: false
+                  time_to_automatically_switch_banners: 5000
+                  banners:
+                    - image:
+                        url: http://localhost/storage/product/https://cdn.honda.com.vn/motorbikes/May2023/KCe6HxbpH2uSryhd2P1p.jpg
+                        alt: AFRICA TWIN ADVENTURE SPORTS
+                      subtitle: Honda
+                      title: AFRICA TWIN ADVENTURE SPORTS
+                      description: Cả Thế Giới Đang Chờ Bạn Tới Khám Phá Những Chuyến Đi Thôi Thúc Bạn Dịch Chuyển. Thay Đổi Bạn. Đưa Bạn Đến Những Địa Điểm Mới. Gặp Gỡ Những Con Người Mới. Thu
+                      page_name: Xe máy
+                      banner_description: Xe phân khối lớn
+                      actions:
+                        - title: Xem chi tiết
+                          link: products/motor-cycle/africa-twin-adventure-sports
+                active: true
+                created_at: 11:53:58 21/06/2024
+                updated_at: 11:53:58 21/06/2024
+            type: array
