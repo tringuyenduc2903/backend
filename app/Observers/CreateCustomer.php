@@ -14,12 +14,8 @@ class CreateCustomer
      */
     public function creating(Customer $customer): void
     {
-        if (backpack_auth()->guest()) {
+        if (backpack_auth()->guest() || fortify_auth()->check()) {
             return;
-        }
-
-        if (auth()->check()) {
-            auth()->logout();
         }
 
         $customer->password = $password = Str::password(20);

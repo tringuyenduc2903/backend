@@ -12,9 +12,9 @@ class ReviewCustomerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): array
+    public function index(): array
     {
-        $reviews = $request->user()->reviews();
+        $reviews = fortify_user()->reviews();
 
         $paginator = $reviews->paginate(request('perPage'));
 

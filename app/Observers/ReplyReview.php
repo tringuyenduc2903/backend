@@ -13,21 +13,19 @@ class ReplyReview
      */
     public function creating(Review $review): void
     {
-        if (backpack_auth()->guest()) {
-            if (auth()->check()) {
-                $review->parent_type = Option::class;
-            }
-        } else {
-            if (auth()->check()) {
-                auth()->logout();
-            }
+        if (fortify_auth()->check()) {
+            $review->parent_type = Option::class;
 
-            /** @var Employee $employee */
-            $employee = backpack_user();
-
-            $review->reviewable_id = $employee->id;
-            $review->reviewable_type = Employee::class;
+            return;
+        } elseif (backpack_auth()->guest()) {
+            return;
         }
+
+        /** @var Employee $employee */
+        $employee = backpack_user();
+
+        $review->reviewable_id = $employee->id;
+        $review->reviewable_type = Employee::class;
     }
 
     /**
@@ -35,12 +33,8 @@ class ReplyReview
      */
     public function updating(Review $review): void
     {
-        if (backpack_auth()->guest()) {
+        if (backpack_auth()->guest() || fortify_auth()->check()) {
             return;
-        }
-
-        if (auth()->check()) {
-            auth()->logout();
         }
 
         /** @var Employee $employee */

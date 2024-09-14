@@ -1,8 +1,13 @@
 <?php
 
+use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\Setting;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Factory;
+use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Client\Response;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Cache;
@@ -13,7 +18,7 @@ use Illuminate\Support\Facades\Log;
 if (! function_exists('revoke_token')) {
     function revoke_token($token_name): mixed
     {
-        return request()->user()->tokens()->whereName($token_name)->delete();
+        return fortify_user()->tokens()->whereName($token_name)->delete();
     }
 }
 
@@ -22,7 +27,21 @@ if (! function_exists('regenerate_token')) {
     {
         revoke_token($token_name);
 
-        return request()->user()->createToken($token_name)->plainTextToken;
+        return fortify_user()->createToken($token_name)->plainTextToken;
+    }
+}
+
+if (! function_exists('fortify_auth')) {
+    function fortify_auth(): Factory|StatefulGuard|Application
+    {
+        return auth(config('fortify.guard_auth'));
+    }
+}
+
+if (! function_exists('fortify_user')) {
+    function fortify_user(): Customer|Authenticatable
+    {
+        return fortify_auth()->user();
     }
 }
 
@@ -46,7 +65,7 @@ if (! function_exists('deny_access')) {
 if (! function_exists('set_title')) {
     function set_title(string $column = 'name'): void
     {
-        $value = CRUD::getCurrentEntry()->getAttribute('name');
+        $value = CRUD::getCurrentEntry()->getAttribute($column);
 
         CRUD::setTitle($value);
         CRUD::setHeading($value);

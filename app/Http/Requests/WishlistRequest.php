@@ -16,7 +16,7 @@ class WishlistRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        return fortify_auth()->check();
     }
 
     /**
@@ -48,7 +48,7 @@ class WishlistRequest extends FormRequest
                 },
                 Rule::unique(Wishlist::class)->where(
                     'customer_id',
-                    request()->user()->id
+                    fortify_user()->id
                 ),
             ],
         ];

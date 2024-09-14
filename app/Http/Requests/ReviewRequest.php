@@ -16,7 +16,7 @@ class ReviewRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        return fortify_auth()->check();
     }
 
     /**
@@ -35,7 +35,7 @@ class ReviewRequest extends FormRequest
                 Rule::exists(Option::class, 'id'),
                 Rule::unique(Review::class, 'parent_id')
                     ->where('parent_type', Option::class)
-                    ->where('reviewable_id', request()->user()->id)
+                    ->where('reviewable_id', fortify_user()->id)
                     ->where('reviewable_type', Customer::class),
             ],
         ];

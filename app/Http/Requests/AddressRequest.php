@@ -17,7 +17,7 @@ class AddressRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        return fortify_auth()->check();
     }
 
     /**
@@ -35,8 +35,8 @@ class AddressRequest extends FormRequest
                 'boolean',
                 Rule::when(
                     $id
-                        ? request()->user()->addresses()->findOrFail($id)->default
-                        : ! request()->user()->addresses()->whereDefault(true)->exists(),
+                        ? fortify_user()->addresses()->findOrFail($id)->default
+                        : ! fortify_user()->addresses()->whereDefault(true)->exists(),
                     'accepted'
                 ),
                 function ($attribute, $value, $fail) use ($id) {
@@ -44,7 +44,7 @@ class AddressRequest extends FormRequest
                         return;
                     }
 
-                    if (request()->user()->addresses()->count() > 4) {
+                    if (fortify_user()->addresses()->count() > 4) {
                         $fail(trans('validation.custom.max.entity', [
                             'attribute' => trans('Address'),
                         ]));

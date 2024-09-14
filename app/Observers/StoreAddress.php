@@ -26,8 +26,8 @@ class StoreAddress
 
         if (backpack_auth()->check()) {
             $user = backpack_user();
-        } elseif (auth('sanctum')->check()) {
-            $user = auth('sanctum')->user();
+        } elseif (fortify_auth()->check()) {
+            $user = fortify_user();
         } else {
             $user = Customer::findOrFail($address->customer_id);
         }

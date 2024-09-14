@@ -21,6 +21,6 @@ class Login
             $customer->markEmailAsVerified();
         }
 
-        auth()->login($customer, true);
+        fortify_auth()->login($customer, true);
     }
 }

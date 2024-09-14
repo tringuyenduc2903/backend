@@ -16,7 +16,7 @@ class IdentificationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        return fortify_auth()->check();
     }
 
     /**
@@ -27,7 +27,7 @@ class IdentificationRequest extends FormRequest
     public function rules(): array
     {
         $id = request()->route('identification');
-        $time_zone = auth('sanctum')->user()->timezone_preview;
+        $time_zone = fortify_user()->timezone_preview;
 
         return [
             'default' => [
@@ -35,8 +35,8 @@ class IdentificationRequest extends FormRequest
                 'boolean',
                 Rule::when(
                     $id
-                        ? request()->user()->identifications()->findOrFail($id)->default
-                        : ! request()->user()->identifications()->whereDefault(true)->exists(),
+                        ? fortify_user()->identifications()->findOrFail($id)->default
+                        : ! fortify_user()->identifications()->whereDefault(true)->exists(),
                     'accepted'
                 ),
                 function ($attribute, $value, $fail) use ($id) {
@@ -44,7 +44,7 @@ class IdentificationRequest extends FormRequest
                         return;
                     }
 
-                    if (request()->user()->identifications()->count() > 4) {
+                    if (fortify_user()->identifications()->count() > 4) {
                         $fail(trans('validation.custom.max.entity', [
                             'attribute' => trans('Identification'),
                         ]));

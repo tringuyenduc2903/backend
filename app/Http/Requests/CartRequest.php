@@ -19,7 +19,7 @@ class CartRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        return fortify_auth()->check();
     }
 
     /**
@@ -55,7 +55,7 @@ class CartRequest extends FormRequest
                 },
                 Rule::unique(Cart::class)->where(
                     'customer_id',
-                    request()->user()->id
+                    fortify_user()->id
                 ),
             ],
         ];
