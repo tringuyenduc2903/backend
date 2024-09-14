@@ -12,6 +12,7 @@ use App\Models\Category;
 use App\Models\Option;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductFilterController extends Controller
 {
@@ -59,26 +60,44 @@ class ProductFilterController extends Controller
             'name' => 'category',
             'label' => trans('Category'),
             'data' => $category->clone()
+                ->withCount('products')
                 ->orderBy('id')
-                ->pluck('name', 'id'),
+                ->get()
+                ->map(fn (Category $category): array => [
+                    $category->id => "$category->name ($category->products_count)",
+                ]),
         ], [
             'name' => 'manufacturer',
             'label' => trans('Manufacturer'),
             'data' => $product->clone()
                 ->whereNotNull('manufacturer')
-                ->select('manufacturer')
+                ->select('manufacturer', DB::raw('COUNT(manufacturer) as manufacturer_count'))
                 ->groupBy('manufacturer')
                 ->orderBy('manufacturer')
-                ->pluck('manufacturer', 'manufacturer'),
+                ->get()
+                ->map(fn (Product $product): array => [
+                    $product->manufacturer => sprintf(
+                        '%s (%d)',
+                        $product->manufacturer,
+                        $product->getAttribute('manufacturer_count')
+                    ),
+                ]),
         ], [
             'name' => 'version',
             'label' => trans('Version'),
             'data' => $option->clone()
                 ->whereNotNull('version')
-                ->select('version')
+                ->select('version', DB::raw('COUNT(version) as version_count'))
                 ->groupBy('version')
                 ->orderBy('version')
-                ->pluck('version', 'version'),
+                ->get()
+                ->map(fn (Option $option): array => [
+                    $option->version => sprintf(
+                        '%s (%d)',
+                        $option->version,
+                        $option->getAttribute('version_count')
+                    ),
+                ]),
         ]];
 
         if ($type == ProductType::MOTOR_CYCLE) {
@@ -87,10 +106,17 @@ class ProductFilterController extends Controller
                 'label' => trans('Color'),
                 'data' => $option->clone()
                     ->whereNotNull('color')
-                    ->select('color')
+                    ->select('color', DB::raw('COUNT(color) as color_count'))
                     ->groupBy('color')
                     ->orderBy('color')
-                    ->pluck('color', 'color'),
+                    ->get()
+                    ->map(fn (Option $option): array => [
+                        $option->color => sprintf(
+                            '%s (%d)',
+                            $option->color,
+                            $option->getAttribute('color_count')
+                        ),
+                    ]),
             ];
         } else {
             $items[] = [
@@ -98,10 +124,17 @@ class ProductFilterController extends Controller
                 'label' => trans('Volume'),
                 'data' => $option->clone()
                     ->whereNotNull('volume')
-                    ->select('volume')
+                    ->select('volume', DB::raw('COUNT(volume) as volume_count'))
                     ->groupBy('volume')
                     ->orderBy('volume')
-                    ->pluck('volume', 'volume'),
+                    ->get()
+                    ->map(fn (Option $option): array => [
+                        $option->volume => sprintf(
+                            '%s (%d)',
+                            $option->volume,
+                            $option->getAttribute('volume_count')
+                        ),
+                    ]),
             ];
         }
 

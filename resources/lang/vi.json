@@ -171,5 +171,9 @@
     "Content": "Nội dung",
     "Rate": "Đánh giá",
     "Reply this review": "Trả lời đánh giá này",
-    "Reply": "Trả lời"
+    "Reply": "Trả lời",
+    ":number Star (:count)": ":number Sao (:count)",
+    "Negative": "Tiêu cực",
+    "Positive": "Tích cực",
+    "With image": "Có hình ảnh"
 }

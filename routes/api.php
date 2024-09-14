@@ -40,9 +40,10 @@ Route::prefix('product/{product_type}')->group(function () {
         ->name('product.show');
 });
 
-Route::prefix('review-product')->group(function () {
-    Route::get('{product}', [ReviewProductController::class, 'index'])
+Route::prefix('review-product/{product}')->group(function () {
+    Route::get('/', [ReviewProductController::class, 'index'])
         ->name('review-product.index');
+    Route::get('filter', ReviewFilterController::class);
 });
 
 Route::apiResource('branch', BranchController::class)

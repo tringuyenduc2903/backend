@@ -45,12 +45,12 @@ paths:
     $ref: "./paths/api/user/password.yaml"
   /api/user/profile-information:
     $ref: "./paths/api/user/profile-information.yaml"
-  /api/address/province:
-    $ref: "./paths/api/address/province.yaml"
-  /api/address/district/{province_id}:
-    $ref: "./paths/api/address/district/{province_id}.yaml"
-  /api/address/ward/{district_id}:
-    $ref: "./paths/api/address/ward/{district_id}.yaml"
+  /api/province:
+    $ref: "./paths/api/province.yaml"
+  /api/district/{province_id}:
+    $ref: "./paths/api/district/{province_id}.yaml"
+  /api/ward/{district_id}:
+    $ref: "./paths/api/ward/{district_id}.yaml"
   /api/address:
     $ref: "./paths/api/address.yaml"
   /api/address/{address_id}:
