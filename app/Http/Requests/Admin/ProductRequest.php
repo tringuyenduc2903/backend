@@ -356,11 +356,11 @@ class ProductRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
-        $options = $this->input('options');
-
-        foreach ($options as &$option) {
-            if (is_null($option['images'])) {
-                $option['images'] = json_encode([]);
+        if ($options = $this->input('options')) {
+            foreach ($options as &$option) {
+                if (is_null($option['images'])) {
+                    $option['images'] = json_encode([]);
+                }
             }
         }
 

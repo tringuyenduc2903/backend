@@ -249,11 +249,9 @@ class ProductCrudController extends CrudController
             ]],
             'tab' => trans('Basic information'),
         ]);
-        CRUD::addField([
-            'name' => 'options',
-            'label' => trans('Options'),
-            'type' => 'repeatable',
-            'subfields' => [[
+        CRUD::field('options')
+            ->label(trans('Options'))
+            ->subfields([[
                 'name' => 'sku',
                 'label' => trans('SKU'),
             ], [
@@ -366,10 +364,8 @@ class ProductCrudController extends CrudController
                     'description' => trans('Description'),
                 ],
                 'max' => 40,
-            ]],
-            'min_rows' => 1,
-            'tab' => trans('Options'),
-        ]);
+            ]])
+            ->tab(trans('Options'));
         CRUD::addField([
             'name' => 'upsell',
             'label' => trans('Upsell products'),

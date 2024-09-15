@@ -10,7 +10,6 @@ use Illuminate\Contracts\Auth\Factory;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Client\Response;
-use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
@@ -124,11 +123,9 @@ if (! function_exists('handle_cache')) {
 if (! function_exists('current_currency')) {
     function current_currency(): string
     {
-        return json_decode(
-            Setting::where('key', 'store_currency')
-                ->firstOrFail()
-                ->getAttribute('value')
-        )->value;
+        return Setting::where('key', 'store_currency')
+            ->firstOrFail()
+            ->getAttribute('value');
     }
 }
 
@@ -158,51 +155,47 @@ if (! function_exists('store_image')) {
     }
 }
 
-if (! function_exists('image_url')) {
-    function image_url(string $storage_path, string $path): string
-    {
-        return app(UrlGenerator::class)
-            ->assetFrom($storage_path, $path);
-    }
-}
-
 if (! function_exists('product_image_url')) {
     function product_image_url(string $path): string
     {
-        return image_url(
+        return asset(sprintf(
+            '%s/%s',
             config('filesystems.disks.product.url'),
             $path
-        );
+        ));
     }
 }
 
 if (! function_exists('category_image_url')) {
     function category_image_url(string $path): string
     {
-        return image_url(
+        return asset(sprintf(
+            '%s/%s',
             config('filesystems.disks.category.url'),
             $path
-        );
+        ));
     }
 }
 
 if (! function_exists('branch_image_url')) {
     function branch_image_url(string $path): string
     {
-        return image_url(
+        return asset(sprintf(
+            '%s/%s',
             config('filesystems.disks.branch.url'),
             $path
-        );
+        ));
     }
 }
 
 if (! function_exists('review_image_url')) {
     function review_image_url(string $path): string
     {
-        return image_url(
+        return asset(sprintf(
+            '%s/%s',
             config('filesystems.disks.review.url'),
             $path
-        );
+        ));
     }
 }
 
