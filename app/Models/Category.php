@@ -80,7 +80,7 @@ class Category extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected function getImageAttribute(string|array|null $image = null): array|string|null
+    protected function getImageAttribute(string|array|null $image = null): string|array|null
     {
         if (backpack_auth()->check()) {
             return $image;

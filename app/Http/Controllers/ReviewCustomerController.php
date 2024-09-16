@@ -28,13 +28,17 @@ class ReviewCustomerController extends Controller
      */
     public function store(ReviewRequest $request): JsonResponse
     {
+        $validated = $request->validated();
+
+        $validated['parent_id'] = $validated['option_id'];
+        $validated['images'] = json_encode($validated['images'], JSON_UNESCAPED_UNICODE);
+
+        unset($validated['option_id']);
+
         $request
             ->user()
             ->reviews()
-            ->create(array_merge([
-                'parent_id' => $request->validated('option_id'),
-            ], $request->validated()
-            ));
+            ->create($validated);
 
         return response()->json('', 201);
     }
@@ -44,11 +48,15 @@ class ReviewCustomerController extends Controller
      */
     public function update(ReviewRequest $request, string $review_id): JsonResponse
     {
+        $validated = $request->validated();
+
+        $validated['images'] = json_encode($validated['images'], JSON_UNESCAPED_UNICODE);
+
         $request
             ->user()
             ->reviews()
             ->findOrFail($review_id)
-            ->update($request->validated());
+            ->update($validated);
 
         return response()->json('');
 

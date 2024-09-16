@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Admin;
 
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ReviewRequest extends FormRequest
@@ -43,8 +45,17 @@ class ReviewRequest extends FormRequest
                             'max:5',
                         ],
                         'images.*' => [
+                            'required',
                             'string',
-                            'max:255',
+                            function ($attribute, $value, $fail) {
+                                if (str_contains($value, CRUD::get('dropzone.temporary_folder'))) {
+                                    if (! Storage::disk(CRUD::get('dropzone.temporary_disk'))->exists($value)) {
+                                        $fail(trans('validation.image'));
+                                    }
+                                } elseif (! Storage::disk('review')->exists($value)) {
+                                    $fail(trans('validation.image'));
+                                }
+                            },
                         ],
                     ]);
 

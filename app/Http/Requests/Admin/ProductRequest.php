@@ -10,7 +10,9 @@ use App\Models\Category;
 use App\Models\Option;
 use App\Models\Product;
 use App\Rules\Image;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -188,8 +190,17 @@ class ProductRequest extends FormRequest
                             'max:10',
                         ],
                         'images.*' => [
+                            'required',
                             'string',
-                            'max:255',
+                            function ($attribute, $value, $fail) {
+                                if (str_contains($value, CRUD::get('dropzone.temporary_folder'))) {
+                                    if (! Storage::disk(CRUD::get('dropzone.temporary_disk'))->exists($value)) {
+                                        $fail(trans('validation.image'));
+                                    }
+                                } elseif (! Storage::disk('product')->exists($value)) {
+                                    $fail(trans('validation.image'));
+                                }
+                            },
                         ],
                     ]);
 

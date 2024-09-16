@@ -15,6 +15,8 @@ Route::middleware('auth:sanctum')->group(function () {
         'review-customer' => ReviewCustomerController::class,
     ]);
 
+    Route::post('review-customer/image', ReviewImageController::class);
+
     Route::apiResource('social', SocialController::class)
         ->except(['store', 'update']);
 

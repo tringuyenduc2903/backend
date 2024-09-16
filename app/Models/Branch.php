@@ -99,7 +99,7 @@ class Branch extends Model
         );
     }
 
-    protected function getImageAttribute(?string $image): array|string|null
+    protected function getImageAttribute(?string $image): string|array|null
     {
         if (backpack_auth()->check()) {
             return $image;

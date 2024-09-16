@@ -7,6 +7,7 @@ use App\Models\Option;
 use App\Models\Review;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class ReviewRequest extends FormRequest
@@ -72,7 +73,11 @@ class ReviewRequest extends FormRequest
             'images.*' => [
                 'required',
                 'string',
-                'max:255',
+                function ($attribute, $value, $fail) {
+                    if (! Storage::disk('review')->exists($value)) {
+                        $fail(trans('validation.image'));
+                    }
+                },
             ],
         ];
 
