@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\Option;
 use App\Models\Review;
@@ -13,19 +14,15 @@ class ReplyReview
      */
     public function creating(Review $review): void
     {
-        if (fortify_auth()->check()) {
+        if ($review->reviewable_type === Customer::class) {
             $review->parent_type = Option::class;
+        } else {
+            /** @var Employee $employee */
+            $employee = backpack_user();
 
-            return;
-        } elseif (backpack_auth()->guest()) {
-            return;
+            $review->reviewable_id = $employee->id;
+            $review->reviewable_type = Employee::class;
         }
-
-        /** @var Employee $employee */
-        $employee = backpack_user();
-
-        $review->reviewable_id = $employee->id;
-        $review->reviewable_type = Employee::class;
     }
 
     /**
@@ -33,7 +30,7 @@ class ReplyReview
      */
     public function updating(Review $review): void
     {
-        if (backpack_auth()->guest() || fortify_auth()->check()) {
+        if ($review->reviewable_type === Customer::class) {
             return;
         }
 

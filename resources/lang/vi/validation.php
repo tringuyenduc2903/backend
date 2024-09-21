@@ -162,9 +162,6 @@ return [
             'review' => 'Đã đánh giá :attribute này.',
             'time' => 'Hết thời gian cho phép sửa thông tin :attribute.',
         ],
-        'product' => [
-            'published' => 'Sản phẩm không khả dụng.',
-        ],
     ],
     'attributes' => [
         'name' => 'tên',

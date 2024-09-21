@@ -31,7 +31,7 @@ class WishlistRequest extends FormRequest
                 'required',
                 'integer',
                 Rule::exists(Option::class, 'id')
-                    ->whereNot('status', OptionStatus::OUT_OF_STOCK),
+                    ->where('status', OptionStatus::IN_STOCK),
                 function ($attribute, $value, $fail) {
                     if (! $value) {
                         return;
@@ -42,7 +42,7 @@ class WishlistRequest extends FormRequest
                     if (! $option) {
                         return;
                     } elseif (! $option->product->published) {
-                        $fail(trans('validation.custom.product.published'));
+                        $fail(trans('validation.exists'));
                     }
                 },
                 Rule::unique(Wishlist::class)->where(
