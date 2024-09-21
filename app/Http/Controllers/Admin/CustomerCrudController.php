@@ -18,6 +18,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\Pro\Http\Controllers\Operations\BulkTrashOperation as V2;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
+use Backpack\Pro\Http\Controllers\Operations\InlineCreateOperation;
 use Backpack\Pro\Http\Controllers\Operations\TrashOperation as V1;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -30,6 +31,7 @@ class CustomerCrudController extends CrudController
 {
     use CreateOperation;
     use FetchOperation;
+    use InlineCreateOperation;
     use ListOperation;
     use UpdateOperation;
     use V1;

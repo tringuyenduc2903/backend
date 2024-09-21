@@ -129,6 +129,32 @@ if (! function_exists('current_currency')) {
     }
 }
 
+if (! function_exists('current_store')) {
+    function current_store(): int
+    {
+        $value = json_decode(
+            Setting::where('key', 'store_ghn')
+                ->firstOrFail()
+                ->getAttribute('value')
+        )->value;
+
+        return json_decode($value)->shop_id;
+    }
+}
+
+if (! function_exists('current_store_district')) {
+    function current_store_district(): int
+    {
+        $value = json_decode(
+            Setting::where('key', 'store_ghn')
+                ->firstOrFail()
+                ->getAttribute('value')
+        )->value;
+
+        return json_decode($value)->district_id;
+    }
+}
+
 if (! function_exists('store_image')) {
     function store_image(string $storage_path, string $url): bool
     {

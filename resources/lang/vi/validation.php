@@ -287,5 +287,12 @@ return [
         'content' => 'nội dung',
         'rate' => 'đánh giá',
         'images.*' => 'hình ảnh',
+        'options.*.option' => 'sản phẩm',
+        'options.*.amount' => 'số lượng',
+        'shipping_type' => 'loại vận chuyển',
+        'transaction_type' => 'loại thanh toán',
+        'customer' => 'khách hàng',
+        'address' => 'địa chỉ',
+        'note' => 'ghi chú',
     ],
 ];

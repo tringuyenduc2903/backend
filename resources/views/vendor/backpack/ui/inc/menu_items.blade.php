@@ -9,6 +9,21 @@
 
     $menu_items = [
         [
+            'title' => trans('Sales'),
+            'icon' => 'la la-dollar',
+            'columns' => [
+                [
+                    'items' => [
+                        [
+                            'permission' => EmployeePermissionEnum::ORDER_CRUD,
+                            'title' => trans('Orders'),
+                            'link' => route('orders.index'),
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        [
             'title' => trans('Catalog'),
             'icon' => 'la la-puzzle-piece',
             'columns' => [

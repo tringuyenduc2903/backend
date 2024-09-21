@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Actions\GiaoHangNhanh\StoreCache;
+use App\Actions\GiaoHangNhanh\ShopCache;
 use App\Enums\ProductType;
 use App\Enums\ProductTypeEnum;
 use App\Enums\ProductVisibility;
@@ -461,7 +461,7 @@ class SettingSeeder extends Seeder
     {
         $shops = [];
 
-        foreach (app(StoreCache::class)->stores()['shops'] as $shop) {
+        foreach (app(ShopCache::class)->shops()['shops'] as $shop) {
             $key = json_encode([
                 'district_id' => $shop['district_id'],
                 'shop_id' => $shop['_id'],

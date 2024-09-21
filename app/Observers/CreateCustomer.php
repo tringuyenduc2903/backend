@@ -14,7 +14,7 @@ class CreateCustomer
      */
     public function creating(Customer $customer): void
     {
-        if (backpack_auth()->guest() || fortify_auth()->check()) {
+        if (! $customer->password) {
             return;
         }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReviewRequest;
+use App\Models\Option;
 use App\Models\Review;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -30,6 +31,7 @@ class ReviewCustomerController extends Controller
     {
         $validated = $request->validated();
 
+        $validated['parent_type'] = Option::class;
         $validated['parent_id'] = $validated['option_id'];
         $validated['images'] = json_encode($validated['images'], JSON_UNESCAPED_UNICODE);
 

@@ -2,19 +2,19 @@
 
 namespace App\Actions\GiaoHangNhanh;
 
-class StoreCache
+class ShopCache
 {
     protected int $cache_time;
 
-    public function __construct(protected StoreApi $store_api)
+    public function __construct(protected ShopApi $store_api)
     {
         $this->cache_time = config('services.giaohangnhanh.cache_time.store');
     }
 
-    public function stores(int $limit = 200, ?int $offset = null, ?string $client_phone = null): array
+    public function shops(int $limit = 200, ?int $offset = null, ?string $client_phone = null): array
     {
         return handle_cache(
-            fn () => $this->store_api->stores($limit, $offset, $client_phone),
+            fn () => $this->store_api->shops($limit, $offset, $client_phone),
             sprintf('%s_%s', __CLASS__, __METHOD__),
             $this->cache_time
         );
