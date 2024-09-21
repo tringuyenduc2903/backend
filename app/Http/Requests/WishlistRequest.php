@@ -30,7 +30,8 @@ class WishlistRequest extends FormRequest
             'option_id' => [
                 'required',
                 'integer',
-                Rule::exists(Option::class, 'id'),
+                Rule::exists(Option::class, 'id')
+                    ->whereNot('status', OptionStatus::OUT_OF_STOCK),
                 function ($attribute, $value, $fail) {
                     if (! $value) {
                         return;
@@ -40,10 +41,8 @@ class WishlistRequest extends FormRequest
 
                     if (! $option) {
                         return;
-                    } elseif (! $option->product->getRawOriginal('published')) {
+                    } elseif (! $option->product->published) {
                         $fail(trans('validation.custom.product.published'));
-                    } elseif ($option->getRawOriginal('status') === OptionStatus::OUT_OF_STOCK) {
-                        $fail(trans('validation.custom.product.out_of_stock'));
                     }
                 },
                 Rule::unique(Wishlist::class)->where(

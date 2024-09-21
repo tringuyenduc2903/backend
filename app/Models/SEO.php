@@ -34,6 +34,13 @@ class SEO extends \RalphJSmit\Laravel\SEO\Models\SEO
         'model_type',
         'model_id',
         'product',
+        'title',
+        'image',
+    ];
+
+    protected $appends = [
+        'title_preview',
+        'image_preview',
     ];
 
     /*
@@ -58,33 +65,25 @@ class SEO extends \RalphJSmit\Laravel\SEO\Models\SEO
     |--------------------------------------------------------------------------
     */
 
-    protected function getTitleAttribute(?string $title): ?string
+    protected function getTitlePreviewAttribute(): ?string
     {
-        if (backpack_auth()->check()) {
-            return $title;
-        }
-
-        return match ($this->model_type) {
-            Product::class => $title ?: $this->product->name,
-            Category::class => $title ?: $this->category->name,
-            default => $title,
+        return $this->title ?: match ($this->model_type) {
+            Product::class => $this->product->name,
+            Category::class => $this->category->name,
+            default => $this->title,
         };
     }
 
-    protected function getImageAttribute(?string $image): ?string
+    protected function getImagePreviewAttribute(): ?string
     {
-        if (backpack_auth()->check()) {
-            return $image;
-        }
-
         return match ($this->model_type) {
-            Product::class => $image
-                ? product_image_url($image)
-                : $this->product->images[0]['url'],
-            Category::class => $image
-                ? product_image_url($image)
-                : $this->category->image,
-            default => product_image_url($image),
+            Product::class => product_image_url(
+                $this->image ?: ($this->product->images[0]['url'] ?? '')
+            ),
+            Category::class => category_image_url(
+                $this->image ?: ($this->category->image ?? '')
+            ),
+            default => $this->image,
         };
     }
 }

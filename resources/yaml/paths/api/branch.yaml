@@ -34,7 +34,7 @@ get:
                   - id: 1
                     name: Agilts 1
                     phone_number: 0943535245
-                    image:
+                    image_preview:
                       url: http://localhost/storage/branch/52dffb85b772ba100c838dfb2fb13d0a.png
                       alt: Tập Đoàn Bảo Việt
                     country: Việt Nam

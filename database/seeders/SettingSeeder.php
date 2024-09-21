@@ -27,7 +27,7 @@ class SettingSeeder extends Seeder
             ->inRandomOrder();
 
         $products = $product->clone()->take(5)->get();
-        $banner = $product->clone()->first()->images;
+        $banner = $product->clone()->first()->images_preview;
         $auth_small_banner = $banner[0];
         $auth_large_banner = $banner[1];
 
@@ -145,7 +145,7 @@ class SettingSeeder extends Seeder
                     'time_to_automatically_switch_banners' => 5000,
                     'banners' => $products->map(
                         function (Product $product): array {
-                            $image = $product->images[1];
+                            $image = $product->images_preview[1];
 
                             return [
                                 'image' => $image['url'],
@@ -155,7 +155,7 @@ class SettingSeeder extends Seeder
                                 'description' => $product->seo->description,
                                 'page_name' => ProductType::valueForKey($product->getRawOriginal('type')),
                                 'banner_description' => implode(' | ', $product->categories()->pluck('name')->toArray()),
-                                'actions' => [[
+                                'actions' => json_encode([[
                                     'title' => trans('See details'),
                                     'link' => sprintf(
                                         'products/%s/%s',
@@ -171,7 +171,7 @@ class SettingSeeder extends Seeder
                                         ProductTypeEnum::MOTOR_CYCLE->value,
                                         $product->manufacturer
                                     ),
-                                ]],
+                                ]], JSON_UNESCAPED_UNICODE),
                             ];
                         }
                     ),

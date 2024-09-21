@@ -52,6 +52,11 @@ class Option extends Model
      * @var array<int, string>
      */
     protected $hidden = [
+        'price',
+        'value_added_tax',
+        'images',
+        'type',
+        'status',
         'product_id',
     ];
 
@@ -62,6 +67,14 @@ class Option extends Model
      */
     protected $casts = [
         'specifications' => 'array',
+    ];
+
+    protected $appends = [
+        'price_preview',
+        'value_added_tax_preview',
+        'images_preview',
+        'type_preview',
+        'status_preview',
     ];
 
     /*
@@ -86,31 +99,19 @@ class Option extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected function getPriceAttribute(float $price): float|array
+    protected function getPricePreviewAttribute(): array
     {
-        return backpack_auth()->check()
-            ? $price
-            : price_preview($price);
+        return price_preview($this->price);
     }
 
-    protected function getValueAddedTaxAttribute(float $value_added_tax): float|array
+    protected function getValueAddedTaxPreviewAttribute(): array
     {
-        return backpack_auth()->check()
-            ? $value_added_tax
-            : percent_preview($value_added_tax);
+        return percent_preview($this->value_added_tax);
     }
 
-    protected function getImagesAttribute(string|array|null $images = null): string|array|null
+    protected function getImagesPreviewAttribute(): array
     {
-        if (backpack_auth()->check()) {
-            return $images;
-        }
-
-        $items = json_decode($images);
-
-        if (! $images) {
-            return $images;
-        }
+        $items = json_decode($this->images);
 
         foreach ($items as &$item) {
             $item = image_preview(
@@ -122,17 +123,13 @@ class Option extends Model
         return array_values($items);
     }
 
-    protected function getTypeAttribute(int $type): int|string
+    protected function getTypePreviewAttribute(): string
     {
-        return backpack_auth()->check()
-            ? $type
-            : OptionType::valueForKey($type);
+        return OptionType::valueForKey($this->type);
     }
 
-    protected function getStatusAttribute(int $status): int|string
+    protected function getStatusPreviewAttribute(): string
     {
-        return backpack_auth()->check()
-            ? $status
-            : OptionStatus::valueForKey($status);
+        return OptionStatus::valueForKey($this->status);
     }
 }

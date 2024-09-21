@@ -18,7 +18,7 @@ get:
                   - id: 1
                     content: Một giáo sư của trường Hampden-Sydney College (bang Virginia - Mỹ) quan tâm tới một trong những từ la-tinh khó hiểu nhất, \consectetur\ trích từ một đoạn của Lorem Ipsum, và đã nghiên cứu tất cả các ứng dụng của từ này trong văn học cổ điển, để từ đó tì
                     rate: 5
-                    images:
+                    images_preview:
                       - url: http://localhost/storage/review/cd8144a93bdab8c6ac4fff344060145e.png
                         alt: Phi Diệu Mao
                     created_at: 11:53:58 21/06/2024
@@ -74,7 +74,7 @@ post:
               maximum: 5
               minimum: 1
               type: number
-            images:
+            images_preview:
               title: Danh sách ảnh
               example:
                 - 4aGDXHdy5E8wKcEQif0X.png

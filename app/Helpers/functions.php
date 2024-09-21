@@ -123,13 +123,9 @@ if (! function_exists('handle_cache')) {
 if (! function_exists('current_currency')) {
     function current_currency(): string
     {
-        $store_currency = Setting::where('key', 'store_currency')
+        return Setting::where('key', 'store_currency')
             ->firstOrFail()
-            ->getAttribute('value');
-
-        return backpack_auth()->check()
-            ? json_decode($store_currency)->value
-            : $store_currency;
+            ->getAttribute('value_preview');
     }
 }
 

@@ -42,7 +42,12 @@ class Category extends Model
      * @var array<int, string>
      */
     protected $hidden = [
+        'image',
         'alt',
+    ];
+
+    protected $appends = [
+        'image_preview',
     ];
 
     /*
@@ -80,14 +85,13 @@ class Category extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected function getImageAttribute(string|array|null $image = null): string|array|null
+    protected function getImagePreviewAttribute(): ?array
     {
-        if (backpack_auth()->check()) {
-            return $image;
-        }
-
-        return $image
-            ? image_preview(category_image_url($image), $this->alt)
+        return $this->image
+            ? image_preview(
+                category_image_url($this->image),
+                $this->alt
+            )
             : null;
     }
 }

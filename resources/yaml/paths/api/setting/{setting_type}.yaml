@@ -18,7 +18,7 @@ get:
               - _id: 66e407fe337d1d456d03b2c2
                 key: homepage_banners
                 name: Biểu ngữ
-                value:
+                value_preview:
                   show_navigation_button: false
                   show_page_number: true
                   automatically_switch_banners: false

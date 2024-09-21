@@ -46,6 +46,11 @@ class Review extends Model
         'reviewable_type',
         'parent_id',
         'parent_type',
+        'images',
+    ];
+
+    protected $appends = [
+        'images_preview',
     ];
 
     /*
@@ -136,13 +141,9 @@ class Review extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected function getImagesAttribute(string|array|null $images = null): string|array|null
+    protected function getImagesPreviewAttribute(): array
     {
-        if (backpack_auth()->check()) {
-            return $images;
-        }
-
-        $items = json_decode($images);
+        $items = json_decode($this->images);
 
         foreach ($items as &$item) {
             $item = image_preview(

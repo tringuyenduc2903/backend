@@ -44,6 +44,7 @@ class Branch extends Model
      * @var array<int, string>
      */
     protected $hidden = [
+        'image',
         'alt',
         'province_id',
         'district_id',
@@ -51,6 +52,7 @@ class Branch extends Model
     ];
 
     protected $appends = [
+        'image_preview',
         'address_preview',
     ];
 
@@ -99,15 +101,13 @@ class Branch extends Model
         );
     }
 
-    protected function getImageAttribute(?string $image): string|array|null
+    protected function getImagePreviewAttribute(): ?array
     {
-        if (backpack_auth()->check()) {
-            return $image;
-        }
-
-        return image_preview(
-            branch_image_url($image),
-            $this->alt
-        );
+        return $this->image
+            ? image_preview(
+                branch_image_url($this->image),
+                $this->alt
+            )
+            : null;
     }
 }

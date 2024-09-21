@@ -23,7 +23,7 @@ get:
                 title: Số điện thoại
                 example: 0943535245
                 type: string
-              image:
+              image_preview:
                 title: Ảnh
                 example:
                   url: http://localhost/storage/branch/52dffb85b772ba100c838dfb2fb13d0a.png

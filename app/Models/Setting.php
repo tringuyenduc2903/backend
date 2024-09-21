@@ -32,8 +32,13 @@ class Setting extends Model
      * @var array<int, string>
      */
     protected $hidden = [
+        'value',
         'fields',
         'validation_rules',
+    ];
+
+    protected $appends = [
+        'value_preview',
     ];
 
     protected $connection = 'mongodb';
@@ -48,15 +53,11 @@ class Setting extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected function getValueAttribute(string $value): mixed
+    protected function getValuePreviewAttribute(): mixed
     {
-        if (backpack_auth()->check()) {
-            return $value;
-        }
-
         switch ($this->key) {
             case 'homepage_banners':
-                $reformat = json_decode($value);
+                $reformat = json_decode($this->value);
 
                 foreach ([
                     'show_navigation_button',
@@ -68,7 +69,7 @@ class Setting extends Model
 
                 $reformat->time_to_automatically_switch_banners = (int) $reformat->time_to_automatically_switch_banners;
 
-                foreach ($reformat->banners as &$banner) {
+                foreach ($reformat->banners as $banner) {
                     $banner->image = image_preview(
                         $banner->image,
                         $banner->alt
@@ -82,12 +83,12 @@ class Setting extends Model
                 return $reformat;
             case 'footer_about':
             case 'footer_services':
-                return json_decode($value);
+                return json_decode($this->value);
             case 'footer_branch':
-                return Branch::findOrFail($value);
+                return Branch::findOrFail($this->value);
             case 'auth_small_banner':
             case 'auth_large_banner':
-                $reformat = json_decode($value);
+                $reformat = json_decode($this->value);
 
                 $reformat->image = image_preview(
                     $reformat->image,
@@ -98,7 +99,7 @@ class Setting extends Model
 
                 return $reformat;
             case 'store_ghn':
-                $reformat = json_decode($value);
+                $reformat = json_decode($this->value);
 
                 $reformat = json_decode($reformat->value);
 
@@ -111,9 +112,9 @@ class Setting extends Model
 
                 return $reformat;
             case 'store_currency':
-                return json_decode($value)->value;
+                return json_decode($this->value)->value;
             default:
-                return $value;
+                return $this->value;
         }
     }
 }

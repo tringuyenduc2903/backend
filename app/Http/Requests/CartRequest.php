@@ -35,7 +35,9 @@ class CartRequest extends FormRequest
             'option_id' => [
                 'required',
                 'integer',
-                Rule::exists(Option::class, 'id'),
+                Rule::exists(Option::class, 'id')
+                    ->whereNot('status', OptionStatus::OUT_OF_STOCK)
+                    ->whereNot('type', ProductType::MOTOR_CYCLE),
                 function ($attribute, $value, $fail) {
                     if (! $value) {
                         return;
@@ -45,12 +47,8 @@ class CartRequest extends FormRequest
 
                     if (! $option) {
                         return;
-                    } elseif (! $option->product->getRawOriginal('published')) {
+                    } elseif (! $option->product->published) {
                         $fail(trans('validation.custom.product.published'));
-                    } elseif ($option->getRawOriginal('status') === OptionStatus::OUT_OF_STOCK) {
-                        $fail(trans('validation.custom.product.out_of_stock'));
-                    } elseif ($option->product->getRawOriginal('type') === ProductType::MOTOR_CYCLE) {
-                        $fail(trans('validation.custom.product.motor_cycle'));
                     }
                 },
                 Rule::unique(Cart::class)->where(

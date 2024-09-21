@@ -49,6 +49,18 @@ class Product extends Model
     ];
 
     /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'images',
+        'videos',
+        'visibility',
+        'type',
+    ];
+
+    /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
@@ -61,6 +73,13 @@ class Product extends Model
     protected $with = [
         'options',
         'categories',
+    ];
+
+    protected $appends = [
+        'images_preview',
+        'videos_preview',
+        'visibility_preview',
+        'type_preview',
     ];
 
     /*
@@ -168,13 +187,9 @@ class Product extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected function getImagesAttribute(string|array|null $images = null): string|array|null
+    protected function getImagesPreviewAttribute(): array
     {
-        if (backpack_auth()->check()) {
-            return $images;
-        }
-
-        $items = json_decode($images);
+        $items = json_decode($this->images);
 
         foreach ($items as &$item) {
             $item = image_preview(
@@ -186,13 +201,9 @@ class Product extends Model
         return array_values($items);
     }
 
-    protected function getVideosAttribute(string|array|null $videos): string|array|null
+    protected function getVideosPreviewAttribute(): array
     {
-        if (backpack_auth()->check()) {
-            return $videos;
-        }
-
-        $items = json_decode($videos);
+        $items = json_decode($this->videos);
 
         foreach ($items as $item) {
             $item->video = json_decode($item->video);
@@ -218,31 +229,23 @@ class Product extends Model
         return $items;
     }
 
-    protected function getVisibilityAttribute(int $visibility): int|string
+    protected function getVisibilityPreviewAttribute(): string
     {
-        return backpack_auth()->check()
-            ? $visibility
-            : ProductVisibility::valueForKey($visibility);
+        return ProductVisibility::valueForKey($this->visibility);
     }
 
-    protected function getTypeAttribute(int $type): int|string
+    protected function getTypePreviewAttribute(): string
     {
-        return backpack_auth()->check()
-            ? $type
-            : ProductTypeEnum::valueForKey($type);
+        return ProductTypeEnum::valueForKey($this->type);
     }
 
-    protected function getOptionsMinPriceAttribute(float $price): float|array
+    protected function getOptionsMinPriceAttribute(float $price): array
     {
-        return backpack_auth()->check()
-            ? $price
-            : price_preview($price);
+        return price_preview($price);
     }
 
-    protected function getOptionsMaxPriceAttribute(float $price): float|array
+    protected function getOptionsMaxPriceAttribute(float $price): array
     {
-        return backpack_auth()->check()
-            ? $price
-            : price_preview($price);
+        return price_preview($price);
     }
 }
