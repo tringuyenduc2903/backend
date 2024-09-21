@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\EmployeePermissionEnum;
 use App\Enums\OptionStatus;
 use App\Enums\OrderShippingType;
+use App\Enums\OrderStatus;
 use App\Enums\OrderTransactionType;
 use App\Enums\ProductType;
 use App\Http\Requests\Admin\OrderRequest;
@@ -55,6 +56,54 @@ class OrderCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        CRUD::column('customer.phone_number')
+            ->label(trans('Customer'))
+            ->type('phone')
+            ->searchLogic(
+                fn (Builder $query, array $_, string $search_term): Builder => phone_number_search_logic($query, $search_term)
+            );
+        CRUD::addColumn([
+            'name' => 'shipping_type',
+            'label' => trans('Shipping type'),
+            'type' => 'select2_from_array',
+            'options' => OrderShippingType::values(),
+        ]);
+        CRUD::addColumn([
+            'name' => 'transaction_type',
+            'label' => trans('Transaction type'),
+            'type' => 'select2_from_array',
+            'options' => OrderTransactionType::values(),
+        ]);
+        CRUD::addColumn([
+            'name' => 'status',
+            'label' => trans('Status'),
+            'type' => 'select2_from_array',
+            'options' => OrderStatus::values(),
+        ]);
+
+        CRUD::addFilter(
+            [
+                'name' => 'customer_id',
+                'label' => trans('Customer'),
+                'type' => 'select2_ajax',
+                'minimum_input_length' => 0,
+                'method' => 'POST',
+                'select_attribute' => 'phone_number',
+            ],
+            route('orders.fetchCustomers')
+        );
+        CRUD::filter('shipping_type')
+            ->label(trans('Shipping type'))
+            ->type('dropdown')
+            ->values(OrderShippingType::values());
+        CRUD::filter('transaction_type')
+            ->label(trans('Transaction type'))
+            ->type('dropdown')
+            ->values(OrderTransactionType::values());
+        CRUD::filter('status')
+            ->label(trans('Status'))
+            ->type('dropdown')
+            ->values(OrderStatus::values());
     }
 
     /**
@@ -64,9 +113,7 @@ class OrderCrudController extends CrudController
      *
      * @return void
      */
-    protected function setupUpdateOperation()
-    {
-    }
+    protected function setupUpdateOperation() {}
 
     /**
      * Define what happens when the Create operation is loaded.
@@ -98,7 +145,7 @@ class OrderCrudController extends CrudController
                 'attributes' => [
                     'disabled' => true,
                 ],
-                'prefix' => $code . ' ',
+                'prefix' => $code.' ',
                 'wrapper' => [
                     'class' => 'form-group col-sm-12 col-md-4 col-xl-2',
                 ],
@@ -118,7 +165,7 @@ class OrderCrudController extends CrudController
                 'attributes' => [
                     'disabled' => true,
                 ],
-                'prefix' => $code . ' ',
+                'prefix' => $code.' ',
                 'wrapper' => [
                     'class' => 'form-group col-sm-12 col-md-4 col-xl-2',
                 ],
@@ -141,7 +188,7 @@ class OrderCrudController extends CrudController
                 'attributes' => [
                     'disabled' => true,
                 ],
-                'prefix' => $code . ' ',
+                'prefix' => $code.' ',
                 'wrapper' => [
                     'class' => 'form-group col-sm-12 col-md-4 col-xl-2',
                 ],
@@ -153,7 +200,7 @@ class OrderCrudController extends CrudController
                 'attributes' => [
                     'disabled' => true,
                 ],
-                'prefix' => $code . ' ',
+                'prefix' => $code.' ',
                 'wrapper' => [
                     'class' => 'form-group col-sm-12 col-md-4 col-xl-2',
                 ],
@@ -182,7 +229,7 @@ class OrderCrudController extends CrudController
             ->attributes([
                 'readonly' => true,
             ])
-            ->prefix($code . ' ')
+            ->prefix($code.' ')
             ->hint(10)
             ->tab(trans('Price quote'));
         CRUD::field('shipping_fee')
@@ -190,7 +237,7 @@ class OrderCrudController extends CrudController
             ->attributes([
                 'readonly' => true,
             ])
-            ->prefix($code . ' ')
+            ->prefix($code.' ')
             ->hint(11)
             ->tab(trans('Price quote'));
         CRUD::field('handling_fee')
@@ -198,7 +245,7 @@ class OrderCrudController extends CrudController
             ->attributes([
                 'readonly' => true,
             ])
-            ->prefix($code . ' ')
+            ->prefix($code.' ')
             ->hint('12 = 7 + 8 + 9')
             ->tab(trans('Price quote'));
         CRUD::field('total')
@@ -206,7 +253,7 @@ class OrderCrudController extends CrudController
             ->attributes([
                 'readonly' => true,
             ])
-            ->prefix($code . ' ')
+            ->prefix($code.' ')
             ->hint('13 = 6 + 11 + 12 + 13')
             ->tab(trans('Price quote'));
         CRUD::addField([
@@ -241,7 +288,7 @@ class OrderCrudController extends CrudController
     {
         return $this->fetch([
             'model' => Option::class,
-            'query' => fn(Option $option): Builder|Option => $option
+            'query' => fn (Option $option): Builder|Option => $option
                 ->whereStatus(OptionStatus::IN_STOCK)
                 ->whereHas(
                     'product',

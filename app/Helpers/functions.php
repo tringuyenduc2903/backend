@@ -8,6 +8,7 @@ use Illuminate\Auth\RequestGuard;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Factory;
 use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Cache;
@@ -252,5 +253,18 @@ if (! function_exists('percent_preview')) {
             'raw' => $percent,
             'preview' => Number::percentage($percent),
         ];
+    }
+}
+
+if (! function_exists('phone_number_search_logic')) {
+    function phone_number_search_logic(Builder $query, string $search_term): Builder
+    {
+        return $query->orWhereHas(
+            'customer',
+            fn (Builder $query): Builder => $query->whereLike(
+                'phone_number',
+                "%$search_term%"
+            )
+        );
     }
 }

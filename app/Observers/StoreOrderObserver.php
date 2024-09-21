@@ -14,7 +14,7 @@ class StoreOrderObserver
      */
     public function creating(Order $order): void
     {
-        $order->status = match ($order->shipping_type) {
+        $order->status = match ((int) $order->shipping_type) {
             OrderShippingType::PICKUP_AT_STORE => OrderStatus::TO_PAY,
             OrderShippingType::DOOR_TO_DOOR_DELIVERY => OrderStatus::TO_SHIP,
             default => OrderStatus::CANCELLED,
