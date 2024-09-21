@@ -69,7 +69,7 @@ class OrderRequest extends FormRequest
 
                     $field = str_replace('.amount', '.option', $attribute);
 
-                    if (request()->exists($field)) {
+                    if ($this->isNotFilled($field)) {
                         return;
                     }
 

@@ -201,5 +201,7 @@
     "Cancelled": "Đã huỷ",
     "Return/Refund": "Trả hàng/Hoàn tiền",
     "Created at": "Đã tạo lúc",
-    "Updated at": "Đã cập nhật lúc"
+    "Updated at": "Đã cập nhật lúc",
+    "Cancel order": "Hủy đơn hàng",
+    "Confirm cancellation of this order?": "Xác nhận hủy đơn hàng này?"
 }

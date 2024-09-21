@@ -8,6 +8,7 @@ use App\Enums\OrderShippingType;
 use App\Enums\OrderStatus;
 use App\Enums\OrderTransactionType;
 use App\Enums\ProductType;
+use App\Http\Controllers\Admin\Operations\CancelOrderOperation;
 use App\Http\Requests\Admin\OrderRequest;
 use App\Models\Address;
 use App\Models\Customer;
@@ -30,6 +31,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class OrderCrudController extends CrudController
 {
+    use CancelOrderOperation;
     use CreateOperation;
     use FetchOperation;
     use ListOperation;
@@ -45,6 +47,14 @@ class OrderCrudController extends CrudController
         CRUD::setModel(Order::class);
         CRUD::setRoute(route('orders.index'));
         CRUD::setEntityNameStrings(trans('Order'), trans('Orders'));
+
+        CRUD::operation(
+            ['list', 'show'],
+            fn () => CRUD::addButton('line', 'cancel_order', 'view', 'crud.buttons.order.cancel_order', 'end'));
+        CRUD::setAccessCondition(
+            'cancel_order',
+            fn (object $entry) => $entry->status === OrderStatus::TO_PAY
+        );
 
         deny_access(EmployeePermissionEnum::ORDER_CRUD);
     }
@@ -207,15 +217,6 @@ class OrderCrudController extends CrudController
                 ->label(trans('Updated at'));
         }
     }
-
-    /**
-     * Define what happens when the Update operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-update
-     *
-     * @return void
-     */
-    protected function setupUpdateOperation() {}
 
     /**
      * Define what happens when the Create operation is loaded.
