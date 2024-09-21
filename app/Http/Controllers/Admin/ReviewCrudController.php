@@ -56,6 +56,10 @@ class ReviewCrudController extends CrudController
      */
     protected function setupListOperation(): void
     {
+        CRUD::column('parent.sku')
+            ->label(trans('Product'));
+        CRUD::column('customer')
+            ->label(trans('Customer'));
         CRUD::column('content')
             ->label(trans('Content'));
         CRUD::addColumn([
@@ -68,17 +72,7 @@ class ReviewCrudController extends CrudController
             ->label(trans('Images'))
             ->type('dropzone')
             ->withFiles(['disk' => 'review']);
-        CRUD::column('parent.sku')
-            ->label(trans('Product'));
-        CRUD::column('reviewable.name')
-            ->label(trans('Customer'));
 
-        CRUD::filter('content')
-            ->label(trans('Content'))
-            ->type('text');
-        CRUD::filter('rate')
-            ->label(trans('Rate'))
-            ->type('text');
         CRUD::addFilter(
             [
                 'name' => 'parent_id',
@@ -110,6 +104,12 @@ class ReviewCrudController extends CrudController
             },
             fn () => CRUD::addClause('whereReviewableType', Customer::class)
         );
+        CRUD::filter('content')
+            ->label(trans('Content'))
+            ->type('text');
+        CRUD::filter('rate')
+            ->label(trans('Rate'))
+            ->type('text');
     }
 
     /**
