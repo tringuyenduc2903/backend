@@ -17,6 +17,7 @@ use App\Models\Product;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
@@ -32,6 +33,7 @@ class OrderCrudController extends CrudController
     use CreateOperation;
     use FetchOperation;
     use ListOperation;
+    use ShowOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -107,6 +109,106 @@ class OrderCrudController extends CrudController
     }
 
     /**
+     * Define what happens when the Show operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-update
+     */
+    protected function setupShowOperation(): void
+    {
+        $code = current_currency();
+
+        CRUD::column('customer')
+            ->label(trans('Customer'));
+        CRUD::column('customer.email')
+            ->label(trans('Email'));
+        CRUD::column('customer.phone_number')
+            ->label(trans('Phone number'))
+            ->type('phone');
+        CRUD::column('address.address_preview')
+            ->label(trans('Address'));
+        CRUD::addColumn([
+            'name' => 'options',
+            'label' => trans('Products'),
+            'type' => 'repeatable',
+            'subfields' => [[
+                'name' => 'option',
+                'label' => trans('Product'),
+                'minimum_input_length' => 0,
+                'data_source' => route('orders.fetchOptions'),
+                'attribute' => 'sku',
+            ], [
+                'name' => 'price',
+                'label' => trans('Price'),
+                'type' => 'number',
+                'suffix' => ' '.$code,
+            ], [
+                'name' => 'amount',
+                'label' => trans('Amount'),
+                'type' => 'number',
+            ], [
+                'name' => 'value_added_tax',
+                'label' => trans('Value added tax'),
+                'type' => 'number',
+                'suffix' => '%',
+            ]],
+            'reorder' => false,
+        ]);
+        CRUD::addColumn([
+            'name' => 'tax',
+            'label' => trans('Tax'),
+            'type' => 'number',
+            'suffix' => ' '.$code,
+        ]);
+        CRUD::addColumn([
+            'name' => 'shipping_fee',
+            'label' => trans('Shipping fee'),
+            'type' => 'number',
+            'suffix' => ' '.$code,
+        ]);
+        CRUD::addColumn([
+            'name' => 'handling_fee',
+            'label' => trans('Handling fee'),
+            'type' => 'number',
+            'suffix' => ' '.$code,
+        ]);
+        CRUD::addColumn([
+            'name' => 'total',
+            'label' => trans('Total'),
+            'type' => 'number',
+            'suffix' => ' '.$code,
+        ]);
+        CRUD::column('note')
+            ->label(trans('Note'))
+            ->type('textarea');
+        CRUD::addColumn([
+            'name' => 'shipping_type',
+            'label' => trans('Shipping type'),
+            'type' => 'select2_from_array',
+            'options' => OrderShippingType::values(),
+        ]);
+        CRUD::addColumn([
+            'name' => 'transaction_type',
+            'label' => trans('Transaction type'),
+            'type' => 'select2_from_array',
+            'options' => OrderTransactionType::values(),
+        ]);
+        CRUD::addColumn([
+            'name' => 'status',
+            'label' => trans('Status'),
+            'type' => 'select2_from_array',
+            'options' => OrderStatus::values(),
+        ]);
+
+        // if the model has timestamps, add columns for created_at and updated_at
+        if (CRUD::get('show.timestamps') && CRUD::getModel()->usesTimestamps()) {
+            CRUD::column(CRUD::getModel()->getCreatedAtColumn())
+                ->label(trans('Created at'));
+            CRUD::column(CRUD::getModel()->getUpdatedAtColumn())
+                ->label(trans('Updated at'));
+        }
+    }
+
+    /**
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
@@ -173,7 +275,7 @@ class OrderCrudController extends CrudController
                 'name' => 'value_added_tax',
                 'label' => trans('Value added tax'),
                 'type' => 'number',
-                'hint' => '4',
+                'hint' => 4,
                 'attributes' => [
                     'disabled' => true,
                 ],
@@ -195,7 +297,6 @@ class OrderCrudController extends CrudController
             ], [
                 'name' => 'price_after_tax',
                 'label' => trans('Price after tax'),
-                'type' => 'text',
                 'hint' => '6 = 3 + 5',
                 'attributes' => [
                     'disabled' => true,

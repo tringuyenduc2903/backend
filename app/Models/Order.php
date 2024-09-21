@@ -24,11 +24,6 @@ class Order extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'tax',
-        'shipping_fee',
-        'handling_fee',
-        'other_fees',
-        'total',
         'status',
         'note',
         'shipping_type',
