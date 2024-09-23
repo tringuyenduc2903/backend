@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\OrderShippingType;
+use App\Enums\OrderStatus;
+use App\Enums\OrderTransactionType;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -69,5 +72,26 @@ class Order extends Model
     public function address(): BelongsTo
     {
         return $this->belongsTo(Address::class)->withTrashed();
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+    */
+
+    protected function getShippingTypePreviewAttribute(): string
+    {
+        return OrderShippingType::valueForKey($this->shipping_type);
+    }
+
+    protected function getTransactionTypePreviewAttribute(): string
+    {
+        return OrderTransactionType::valueForKey($this->transaction_type);
+    }
+
+    protected function getStatusPreviewAttribute(): string
+    {
+        return OrderStatus::valueForKey($this->status);
     }
 }

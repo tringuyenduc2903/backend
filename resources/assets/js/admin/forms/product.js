@@ -5,9 +5,7 @@ crud.field("options")
 
         if (isNaN(value)) value = 0;
 
-        crud
-            .field("options")
-            .subfield("price_preview", field.rowNumber).input.value =
+        crud.field("options").subfield("preview", field.rowNumber).input.value =
             parseInt(value).toLocaleString();
     })
     .change();

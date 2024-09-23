@@ -41,18 +41,12 @@ class CustomerRegistered extends Mailable
             with: [
                 'level' => '',
                 'introLines' => [
-                    trans('The account was successfully registered at :time.', [
+                    trans('The account was successfully registered at **:time**.', [
                         'time' => Carbon::now()->isoFormat(config('backpack.ui.default_datetime_format')),
                     ]),
                     trans('Registration information:'),
-                    trans(':attribute: :value', [
-                        'attribute' => trans('Name'),
-                        'value' => $this->customer->name,
-                    ]),
-                    trans(':attribute: :value', [
-                        'attribute' => trans('Email'),
-                        'value' => $this->customer->email,
-                    ]),
+                    sprintf('**%s**: %s', trans('Name'), $this->customer->name),
+                    sprintf('**%s**: %s', trans('Email'), $this->customer->email),
                 ],
                 'outroLines' => [
                 ],

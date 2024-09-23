@@ -20,7 +20,7 @@ class CustomerCreated extends Mailable
      */
     public function __construct(
         protected Customer $customer,
-        protected Employee $admin,
+        protected Employee $employee,
         protected string $password
     ) {}
 
@@ -44,35 +44,17 @@ class CustomerCreated extends Mailable
             with: [
                 'level' => '',
                 'introLines' => [
-                    trans('Account was successfully created by Employee :name at :time.', [
-                        'name' => $this->admin->name,
+                    trans('Account was successfully created by Employee **:name** at **:time**.', [
+                        'name' => $this->employee->name,
                         'time' => Carbon::now()->isoFormat(config('backpack.ui.default_datetime_format')),
                     ]),
                     trans('Please review the information and access your account for the first time:'),
-                    trans(':attribute: :value', [
-                        'attribute' => trans('Name'),
-                        'value' => $this->customer->name,
-                    ]),
-                    trans(':attribute: :value', [
-                        'attribute' => trans('Email'),
-                        'value' => $this->customer->email,
-                    ]),
-                    trans(':attribute: :value', [
-                        'attribute' => trans('Phone number'),
-                        'value' => $this->customer->phone_number,
-                    ]),
-                    trans(':attribute: :value', [
-                        'attribute' => trans('Birthday'),
-                        'value' => $this->customer->birthday,
-                    ]),
-                    trans(':attribute: :value', [
-                        'attribute' => trans('Gender'),
-                        'value' => $this->customer->gender_preview,
-                    ]),
-                    trans(':attribute: :value', [
-                        'attribute' => trans('Password'),
-                        'value' => $this->password,
-                    ]),
+                    sprintf('**%s**: %s', trans('Name'), $this->customer->name),
+                    sprintf('**%s**: %s', trans('Email'), $this->customer->email),
+                    sprintf('**%s**: %s', trans('Phone number'), $this->customer->phone_number),
+                    sprintf('**%s**: %s', trans('Birthday'), $this->customer->birthday),
+                    sprintf('**%s**: %s', trans('Gender'), $this->customer->gender_preview),
+                    sprintf('**%s**: %s', trans('Password'), $this->password),
                 ],
                 'outroLines' => [
                     trans('The password is randomly generated and can only be viewed by you via email.'),

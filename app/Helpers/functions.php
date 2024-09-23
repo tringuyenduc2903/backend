@@ -197,47 +197,52 @@ if (! function_exists('store_image')) {
     }
 }
 
+if (! function_exists('image_url')) {
+    function image_url(string $base_url, string $path): string
+    {
+        return asset(
+            sprintf('%s/%s', $base_url, $path)
+        );
+    }
+}
+
 if (! function_exists('product_image_url')) {
     function product_image_url(string $path): string
     {
-        return asset(sprintf(
-            '%s/%s',
+        return image_url(
             config('filesystems.disks.product.url'),
             $path
-        ));
+        );
     }
 }
 
 if (! function_exists('category_image_url')) {
     function category_image_url(string $path): string
     {
-        return asset(sprintf(
-            '%s/%s',
+        return image_url(
             config('filesystems.disks.category.url'),
             $path
-        ));
+        );
     }
 }
 
 if (! function_exists('branch_image_url')) {
     function branch_image_url(string $path): string
     {
-        return asset(sprintf(
-            '%s/%s',
+        return image_url(
             config('filesystems.disks.branch.url'),
             $path
-        ));
+        );
     }
 }
 
 if (! function_exists('review_image_url')) {
     function review_image_url(string $path): string
     {
-        return asset(sprintf(
-            '%s/%s',
+        return image_url(
             config('filesystems.disks.review.url'),
             $path
-        ));
+        );
     }
 }
 
@@ -251,12 +256,23 @@ if (! function_exists('image_preview')) {
     }
 }
 
+if (! function_exists('price')) {
+    function price(float $price): string
+    {
+        return Number::currency(
+            $price,
+            current_currency(),
+            app()->currentLocale()
+        );
+    }
+}
+
 if (! function_exists('price_preview')) {
     function price_preview(float $price): array
     {
         return [
             'raw' => $price,
-            'preview' => Number::currency($price, current_currency(), app()->currentLocale()),
+            'preview' => price($price),
         ];
     }
 }
@@ -278,6 +294,19 @@ if (! function_exists('phone_number_search_logic')) {
             'customer',
             fn (Builder $query): Builder => $query->whereLike(
                 'phone_number',
+                "%$search_term%"
+            )
+        );
+    }
+}
+
+if (! function_exists('customer_phone_number_search_logic')) {
+    function customer_phone_number_search_logic(Builder $query, string $search_term): Builder
+    {
+        return $query->orWhereHas(
+            'address',
+            fn (Builder $query): Builder => $query->whereLike(
+                'customer_phone_number',
                 "%$search_term%"
             )
         );

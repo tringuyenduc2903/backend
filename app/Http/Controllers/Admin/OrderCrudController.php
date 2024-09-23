@@ -10,6 +10,7 @@ use App\Enums\OrderTransactionType;
 use App\Enums\ProductType;
 use App\Http\Controllers\Admin\Operations\CancelOrderOperation;
 use App\Http\Requests\Admin\OrderRequest;
+use App\Mail\OrderCreated;
 use App\Models\Address;
 use App\Models\Customer;
 use App\Models\Option;
@@ -23,6 +24,8 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * Class OrderCrudController
@@ -32,7 +35,9 @@ use Illuminate\Database\Eloquent\Builder;
 class OrderCrudController extends CrudController
 {
     use CancelOrderOperation;
-    use CreateOperation;
+    use CreateOperation {
+        store as traitStore;
+    }
     use FetchOperation;
     use ListOperation;
     use ShowOperation;
@@ -60,6 +65,26 @@ class OrderCrudController extends CrudController
     }
 
     /**
+     * Store a newly created resource in the database.
+     */
+    public function store(): RedirectResponse
+    {
+        $response = $this->traitStore();
+
+        /** @var Order $order */
+        $order = CRUD::getCurrentEntry();
+
+        Mail::to($order->customer)->send(
+            app(OrderCreated::class, [
+                'order' => $order,
+                'employee' => backpack_user(),
+            ])
+        );
+
+        return $response;
+    }
+
+    /**
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
@@ -68,11 +93,19 @@ class OrderCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        CRUD::column('id')
+            ->label(trans('Id'));
         CRUD::column('customer.phone_number')
             ->label(trans('Customer'))
             ->type('phone')
             ->searchLogic(
                 fn (Builder $query, array $_, string $search_term): Builder => phone_number_search_logic($query, $search_term)
+            );
+        CRUD::column('address.customer_phone_number')
+            ->label(trans('Phone number'))
+            ->type('phone')
+            ->searchLogic(
+                fn (Builder $query, array $_, string $search_term): Builder => customer_phone_number_search_logic($query, $search_term)
             );
         CRUD::addColumn([
             'name' => 'shipping_type',
@@ -127,11 +160,14 @@ class OrderCrudController extends CrudController
     {
         $code = current_currency();
 
-        CRUD::column('customer')
-            ->label(trans('Customer'));
-        CRUD::column('customer.email')
-            ->label(trans('Email'));
+        CRUD::column('id')
+            ->label(trans('Id'));
         CRUD::column('customer.phone_number')
+            ->label(trans('Customer'))
+            ->type('phone');
+        CRUD::column('address.customer_name')
+            ->label(trans('Name'));
+        CRUD::column('address.customer_phone_number')
             ->label(trans('Phone number'))
             ->type('phone');
         CRUD::column('address.address_preview')

@@ -264,7 +264,7 @@ class ProductCrudController extends CrudController
                     'class' => 'form-group col-sm-12 col-md-6',
                 ],
             ], [
-                'name' => 'price_preview',
+                'name' => 'preview',
                 'label' => trans('Price preview'),
                 'prefix' => $code.' ',
                 'attributes' => [

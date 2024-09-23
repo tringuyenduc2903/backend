@@ -268,7 +268,7 @@ class CustomerCrudController extends CrudController
             Mail::to($customer)->send(
                 app(CustomerCreated::class, [
                     'customer' => $customer,
-                    'admin' => backpack_user(),
+                    'employee' => backpack_user(),
                     'password' => $password,
                 ])
             );
