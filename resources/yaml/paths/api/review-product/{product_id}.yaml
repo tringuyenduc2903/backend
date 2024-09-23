@@ -1,5 +1,5 @@
 get:
-  description: "Lấy danh sách đánh giá của sản phẩm: Sắp xếp theo Thời gian tạo đánh giá. Lấy thêm các trường bộ lọc tại [API Review Filter](/docs#/Đánh%20giá/get_api_review_product__product_id__filter)"
+  description: "Lấy danh sách đánh giá của sản phẩm: Sắp xếp theo Thời gian tạo đánh giá. Lấy thêm các trường bộ lọc tại [API Review Filter](/docs#/Đánh%20giá%20(Sản%20phẩm)/get_api_review_product__product_id__filter)"
   tags:
     - Đánh giá (Sản phẩm)
   parameters:
