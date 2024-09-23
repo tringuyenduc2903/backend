@@ -13,7 +13,7 @@ class ReplyReview
      */
     public function creating(Review $review): void
     {
-        if ($review->reviewable_type === Customer::class) {
+        if ($review->reviewable_type === Customer::class || backpack_auth()->guest()) {
             return;
         }
 
@@ -29,7 +29,7 @@ class ReplyReview
      */
     public function updating(Review $review): void
     {
-        if ($review->reviewable_type === Customer::class) {
+        if ($review->reviewable_type === Customer::class || backpack_auth()->guest()) {
             return;
         }
 
