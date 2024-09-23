@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\EmployeePermissionEnum;
 use App\Http\Requests\Admin\ReviewRequest;
 use App\Models\Customer;
+use App\Models\Employee;
 use App\Models\Option;
 use App\Models\Review;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -161,6 +162,14 @@ class ReviewCrudController extends CrudController
                     'disk' => 'review',
                 ],
             ]]);
+
+        Review::saving(function (Review $review) {
+            /** @var Employee $employee */
+            $employee = backpack_user();
+
+            $review->reviewable_id = $employee->id;
+            $review->reviewable_type = Employee::class;
+        });
     }
 
     protected function fetchOptions()

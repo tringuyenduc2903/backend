@@ -7,6 +7,8 @@ use App\Enums\CustomerGender;
 use App\Enums\CustomerIdentification;
 use App\Enums\EmployeePermissionEnum;
 use App\Http\Requests\Admin\CustomerRequest;
+use App\Mail\CustomerCreated;
+use App\Models\Customer;
 use App\Models\District;
 use App\Models\Province;
 use App\Models\Ward;
@@ -21,6 +23,8 @@ use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use Backpack\Pro\Http\Controllers\Operations\InlineCreateOperation;
 use Backpack\Pro\Http\Controllers\Operations\TrashOperation as V1;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 /**
  * Class CustomerCrudController
@@ -255,6 +259,20 @@ class CustomerCrudController extends CrudController
             'max_rows' => 5,
             'reorder' => false,
         ]);
+
+        Customer::creating(function (Customer $customer) {
+            $password = Str::password(20);
+
+            $customer->password = $password;
+
+            Mail::to($customer)->send(
+                app(CustomerCreated::class, [
+                    'customer' => $customer,
+                    'admin' => backpack_user(),
+                    'password' => $password,
+                ])
+            );
+        });
     }
 
     protected function fetchProvinces()

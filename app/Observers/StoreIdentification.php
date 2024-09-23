@@ -2,37 +2,20 @@
 
 namespace App\Observers;
 
-use App\Models\Customer;
 use App\Models\Identification;
 
 class StoreIdentification
 {
     /**
-     * Handle the Identification "updating" event.
+     * Handle the Identification "saving" event.
      */
-    public function updating(Identification $identification): void
-    {
-        $this->creating($identification);
-    }
-
-    /**
-     * Handle the Identification "creating" event.
-     */
-    public function creating(Identification $identification): void
+    public function saving(Identification $identification): void
     {
         if (! $identification->default) {
             return;
         }
 
-        if (backpack_auth()->check()) {
-            $user = backpack_user();
-        } elseif (fortify_auth()->check()) {
-            $user = fortify_auth()->user();
-        } else {
-            $user = Customer::findOrFail($identification->customer_id);
-        }
-
-        $user->identifications()
+        current_user($identification->customer_id)->identifications()
             ->whereDefault(true)
             ->update(['default' => false]);
     }

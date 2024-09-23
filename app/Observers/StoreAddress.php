@@ -3,36 +3,19 @@
 namespace App\Observers;
 
 use App\Models\Address;
-use App\Models\Customer;
 
 class StoreAddress
 {
     /**
-     * Handle the Address "updating" event.
+     * Handle the Address "saving" event.
      */
-    public function updating(Address $address): void
-    {
-        $this->creating($address);
-    }
-
-    /**
-     * Handle the Address "creating" event.
-     */
-    public function creating(Address $address): void
+    public function saving(Address $address): void
     {
         if (! $address->default) {
             return;
         }
 
-        if (backpack_auth()->check()) {
-            $user = backpack_user();
-        } elseif (fortify_auth()->check()) {
-            $user = fortify_user();
-        } else {
-            $user = Customer::findOrFail($address->customer_id);
-        }
-
-        $user->addresses()
+        current_user($address->customer_id)->addresses()
             ->whereDefault(true)
             ->update(['default' => false]);
     }

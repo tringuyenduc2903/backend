@@ -121,6 +121,21 @@ if (! function_exists('handle_cache')) {
     }
 }
 
+if (! function_exists('current_user')) {
+    function current_user(int $customer_id): Customer|Employee
+    {
+        if (backpack_auth()->check()) {
+            $customer = backpack_user();
+        } elseif (fortify_auth()->check()) {
+            $customer = fortify_user();
+        } else {
+            $customer = Customer::findOrFail($customer_id);
+        }
+
+        return $customer;
+    }
+}
+
 if (! function_exists('current_currency')) {
     function current_currency(): string
     {

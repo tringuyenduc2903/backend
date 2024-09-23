@@ -7,6 +7,7 @@ use App\Enums\MotorCycleStatus;
 use App\Enums\ProductType;
 use App\Http\Requests\Admin\MotorCycleRequest;
 use App\Models\Branch;
+use App\Models\Employee;
 use App\Models\MotorCycle;
 use App\Models\Option;
 use App\Models\Product;
@@ -110,6 +111,13 @@ class MotorCycleCrudController extends CrudController
     protected function setupUpdateOperation(): void
     {
         $this->setupCreateOperation();
+
+        MotorCycle::updating(function (MotorCycle $motor_cycle) {
+            /** @var Employee $employee */
+            $employee = backpack_user();
+
+            $motor_cycle->branch_id = $employee->branch_id;
+        });
     }
 
     /**
@@ -132,6 +140,14 @@ class MotorCycleCrudController extends CrudController
             'minimum_input_length' => 0,
             'attribute' => 'sku',
         ]);
+
+        MotorCycle::creating(function (MotorCycle $motor_cycle) {
+            /** @var Employee $employee */
+            $employee = backpack_user();
+
+            $motor_cycle->branch_id = $employee->branch_id;
+            $motor_cycle->status = MotorCycleStatus::STORAGE;
+        });
     }
 
     protected function fetchBranches()
