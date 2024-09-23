@@ -44,7 +44,7 @@ class CustomerCreated extends Mailable
             with: [
                 'level' => '',
                 'introLines' => [
-                    trans('Account successfully created by Staff :name at :time.', [
+                    trans('Account was successfully created by Employee :name at :time.', [
                         'name' => $this->admin->name,
                         'time' => Carbon::now()->isoFormat(config('backpack.ui.default_datetime_format')),
                     ]),
