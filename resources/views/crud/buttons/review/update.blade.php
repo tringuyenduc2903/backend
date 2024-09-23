@@ -2,15 +2,14 @@
     @if (!$crud->model->translationEnabled())
 
         {{-- Single edit button --}}
-        <a href="{{ url($crud->route.'/'.$entry->getKey().'/edit') }}" bp-button="update" class="btn btn-sm btn-link">
+        <a href="{{ url($crud->route . '/' . $entry->getKey() . '/edit') }}" bp-button="update"
+           class="btn btn-sm btn-link">
             <i class="la la-edit"></i> <span>{{ trans('Reply this review') }}</span>
         </a>
-
     @else
-
         {{-- Edit button group --}}
         <div class="btn-group">
-            <a href="{{ url($crud->route.'/'.$entry->getKey().'/edit') }}" class="btn btn-sm btn-link pr-0">
+            <a href="{{ url($crud->route . '/' . $entry->getKey() . '/edit') }}" class="btn btn-sm btn-link pr-0">
                 <span><i class="la la-edit"></i> {{ trans('Reply this review') }}</span>
             </a>
             <a class="btn btn-sm btn-link dropdown-toggle text-primary pl-1" data-toggle="dropdown"
@@ -21,7 +20,7 @@
                 <li class="dropdown-header">{{ trans('Reply this review') }}:</li>
                 @foreach ($crud->model->getAvailableLocales() as $key => $locale)
                     <a class="dropdown-item"
-                       href="{{ url($crud->route.'/'.$entry->getKey().'/edit') }}?_locale={{ $key }}">{{ $locale }}</a>
+                       href="{{ url($crud->route . '/' . $entry->getKey() . '/edit') }}?_locale={{ $key }}">{{ $locale }}</a>
                 @endforeach
             </ul>
         </div>

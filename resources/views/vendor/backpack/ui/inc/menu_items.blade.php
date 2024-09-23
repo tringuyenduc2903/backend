@@ -1,8 +1,5 @@
-<x-backpack::menu-item
-    :title="trans('backpack::base.dashboard')"
-    :link="route('backpack.dashboard')"
-    icon="la la-home nav-icon"
-/>
+<x-backpack::menu-item :title="trans('backpack::base.dashboard')" :link="route('backpack.dashboard')"
+                       icon="la la-home nav-icon"/>
 @php
     use App\Enums\EmployeePermissionEnum;
     use App\Models\Employee;

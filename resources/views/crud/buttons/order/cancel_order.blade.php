@@ -1,6 +1,5 @@
 @if ($crud->hasAccess('cancel_order', $entry))
-    <a bp-button="update" class="btn btn-sm btn-link"
-       href="javascript:void(0)" onclick="cancelOrder()">
+    <a bp-button="update" class="btn btn-sm btn-link" href="javascript:void(0)" onclick="cancelOrder()">
         <i class="la la-trash"></i> <span>{{ trans('Cancel order') }}</span>
     </a>
 
@@ -40,8 +39,6 @@
                             entry: {{ $entry->getKey() }}
                         },
                         success: (result) => {
-                            console.log(result)
-
                             // Show an alert with the result
                             new Noty({
                                 type: "success",
@@ -51,7 +48,9 @@
                             crud.checkedItems = [];
                             crud.table.draw(false);
                         },
-                        error: ({responseJSON}) => {
+                        error: ({
+                                    responseJSON
+                                }) => {
                             // Show an alert with the result
                             new Noty({
                                 type: "danger",
@@ -63,5 +62,4 @@
             }
         }
     </script>
-
 @endif
