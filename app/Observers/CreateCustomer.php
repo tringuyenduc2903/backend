@@ -14,7 +14,7 @@ class CreateCustomer
      */
     public function creating(Customer $customer): void
     {
-        if (! $customer->password) {
+        if ($customer->password) {
             return;
         }
 
