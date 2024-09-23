@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
 class Employee extends User
@@ -14,6 +15,7 @@ class Employee extends User
     use CrudTrait;
     use HasFactory;
     use HasRoles;
+    use Notifiable;
     use SoftDeletes;
     use SwitchTimezoneTrait;
 
