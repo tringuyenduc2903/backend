@@ -117,7 +117,7 @@ return [
             'dsn' => sprintf(
                 'mongodb://%s:%s@%s/',
                 env('MDB_USERNAME'),
-                env('MDB_PASSWORD'),
+                urlencode(env('MDB_PASSWORD')),
                 env('MDB_HOST')
             ),
             'database' => env('MDB_DATABASE'),
@@ -158,7 +158,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [
