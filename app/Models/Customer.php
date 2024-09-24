@@ -118,9 +118,9 @@ class Customer extends User implements MustVerifyEmail
 
     public function getGenderPreviewAttribute(): ?string
     {
-        return is_null($this->gender)
-            ? null
-            : CustomerGender::valueForKey($this->gender);
+        return $this->gender
+            ? CustomerGender::valueForKey($this->gender)
+            : null;
     }
 
     public function getTimezonePreviewAttribute(): string
