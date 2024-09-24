@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\OptionStatus;
-use App\Models\Option;
 use App\Models\Wishlist;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -30,18 +28,8 @@ class WishlistRequest extends FormRequest
             'option_id' => [
                 'required',
                 'integer',
-                Rule::exists(Option::class, 'id')
-                    ->where('status', OptionStatus::IN_STOCK),
                 function ($attribute, $value, $fail) {
-                    if (! $value) {
-                        return;
-                    }
-
-                    $option = Option::find($value);
-
-                    if (! $option) {
-                        return;
-                    } elseif (! $option->product->published) {
+                    if (! get_product($value, false)) {
                         $fail(trans('validation.exists'));
                     }
                 },

@@ -177,7 +177,7 @@ class CustomerRequest extends FormRequest
                 'string',
                 function ($attribute, $value, $fail) {
                     switch ((int) $this->input(
-                        str_replace('number', 'type', $attribute)
+                        str_replace('.number', '.type', $attribute)
                     )) {
                         case CustomerIdentification::IDENTITY_CARD:
                             if (! in_array(strlen($value), [9, 12])) {

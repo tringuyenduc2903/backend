@@ -153,7 +153,7 @@ class SettingSeeder extends Seeder
                                 'subtitle' => $product->manufacturer,
                                 'title' => $product->name,
                                 'description' => $product->seo->description,
-                                'page_name' => ProductType::valueForKey($product->getRawOriginal('type')),
+                                'page_name' => ProductType::valueForKey($product->type),
                                 'banner_description' => implode(' | ', $product->categories()->pluck('name')->toArray()),
                                 'actions' => json_encode([[
                                     'title' => trans('See details'),

@@ -2,15 +2,10 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Enums\OptionStatus;
 use App\Enums\OrderShippingType;
 use App\Enums\OrderTransactionType;
-use App\Enums\ProductType;
 use App\Models\Address;
 use App\Models\Customer;
-use App\Models\Option;
-use App\Models\Product;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -38,22 +33,8 @@ class OrderRequest extends FormRequest
             'options.*.option' => [
                 'required',
                 'integer',
-                Rule::exists(Option::class, 'id')
-                    ->where('status', OptionStatus::IN_STOCK),
                 function ($attribute, $value, $fail) {
-                    if (! $value) {
-                        return;
-                    }
-
-                    $option = Option::find($value);
-
-                    if (! $option) {
-                        return;
-                    } elseif (
-                        ! $option->product->published ||
-                        $option->product->type === ProductType::MOTOR_CYCLE
-
-                    ) {
+                    if (! get_product($value)) {
                         $fail(trans('validation.exists'));
                     }
                 },
@@ -67,33 +48,19 @@ class OrderRequest extends FormRequest
                         return;
                     }
 
-                    $field = str_replace('.amount', '.option', $attribute);
-
-                    if ($this->isNotFilled($field)) {
-                        return;
-                    }
-
-                    $option = Option::whereStatus(OptionStatus::IN_STOCK)
-                        ->whereHas(
-                            'product',
-                            function (Builder $query) {
-                                /** @var Product $query */
-                                return $query
-                                    ->wherePublished(true)
-                                    ->whereNot('type', ProductType::MOTOR_CYCLE);
-                            }
-                        )
-                        ->find(request($field));
-
-                    if (! $option) {
-                        return;
-                    }
-
                     if ($value > 5) {
                         $fail(trans('validation.max.numeric', [
                             'max' => 5,
                         ]));
-                    } elseif ($value > $option->quantity) {
+                    }
+
+                    if (! $option = get_product($this->input(
+                        str_replace('.amount', '.option', $attribute)
+                    ))) {
+                        return;
+                    }
+
+                    if ($value > $option->quantity) {
                         $fail(trans('validation.max.numeric', [
                             'max' => $option->quantity,
                         ]));

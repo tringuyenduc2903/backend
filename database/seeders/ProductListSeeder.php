@@ -17,7 +17,7 @@ class ProductListSeeder extends Seeder
         Product::whereType(ProductType::MOTOR_CYCLE)
             ->each(function (Product $product) {
                 $product->cross_sell()->saveMany(
-                    Product::whereNot('type', $product->getRawOriginal('type'))
+                    Product::whereNot('type', $product->type)
                         ->whereManufacturer($product->manufacturer)
                         ->inRandomOrder()
                         ->limit(5)
@@ -27,7 +27,7 @@ class ProductListSeeder extends Seeder
 
         Product::each(function (Product $product) {
             $relation = Product::whereNot('id', $product->id)
-                ->whereType($product->getRawOriginal('type'))
+                ->whereType($product->type)
                 ->whereManufacturer($product->manufacturer)
                 ->whereHas(
                     'categories',

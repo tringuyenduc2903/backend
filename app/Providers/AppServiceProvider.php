@@ -5,11 +5,13 @@ namespace App\Providers;
 use App\Models\Address;
 use App\Models\Customer;
 use App\Models\Identification;
+use App\Models\Option;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Observers\CreateCustomer;
 use App\Observers\StoreAddress;
 use App\Observers\StoreIdentification;
+use App\Observers\StoreOptionObserver;
 use App\Observers\StoreOrderObserver;
 use App\Observers\StoreOrderProductObserver;
 use App\Rules\Action;
@@ -45,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
         Customer::observe(CreateCustomer::class);
         Address::observe(StoreAddress::class);
         Identification::observe(StoreIdentification::class);
+        Option::observe(StoreOptionObserver::class);
         Order::observe(StoreOrderObserver::class);
         OrderProduct::observe(StoreOrderProductObserver::class);
 

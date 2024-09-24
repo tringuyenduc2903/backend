@@ -58,7 +58,7 @@ class OrderCrudController extends CrudController
             fn () => CRUD::addButton('line', 'cancel_order', 'view', 'crud.buttons.order.cancel_order', 'end'));
         CRUD::setAccessCondition(
             'cancel_order',
-            fn (object $entry) => $entry->status === OrderStatus::TO_PAY
+            fn (Order $entry) => $entry->status == OrderStatus::TO_PAY
         );
 
         deny_access(EmployeePermissionEnum::ORDER_CRUD);

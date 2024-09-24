@@ -1,7 +1,11 @@
 <?php
 
+use App\Enums\OptionStatus;
+use App\Enums\ProductType;
 use App\Models\Customer;
 use App\Models\Employee;
+use App\Models\Option;
+use App\Models\Product;
 use App\Models\Setting;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Auth\RequestGuard;
@@ -310,5 +314,29 @@ if (! function_exists('customer_phone_number_search_logic')) {
                 "%$search_term%"
             )
         );
+    }
+}
+
+if (! function_exists('get_product')) {
+    function get_product(?int $option_id, $ignore_motor_cycle = true): ?Option
+    {
+        if (! $option_id) {
+            return null;
+        }
+
+        return Option::whereId($option_id)
+            ->whereStatus(OptionStatus::IN_STOCK)
+            ->whereHas(
+                'product',
+                function (Builder $query) use ($ignore_motor_cycle) {
+                    /** @var Product $query */
+                    $query->wherePublished(true);
+
+                    if ($ignore_motor_cycle) {
+                        $query->whereNot('type', ProductType::MOTOR_CYCLE);
+                    }
+                }
+            )
+            ->first();
     }
 }

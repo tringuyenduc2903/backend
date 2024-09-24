@@ -58,16 +58,16 @@ class BranchRequest extends FormRequest
                 'required',
                 'integer',
                 Rule::exists(District::class, 'id')
-                    ->where('province_id', request('province')),
+                    ->where('province_id', $this->input('province')),
             ],
             'ward' => [
                 'nullable',
                 Rule::requiredIf(
-                    Ward::whereDistrictId(request('district'))->exists()
+                    Ward::whereDistrictId($this->input('district'))->exists()
                 ),
                 'integer',
                 Rule::exists(Ward::class, 'id')
-                    ->where('district_id', request('district')),
+                    ->where('district_id', $this->input('district')),
             ],
             'address_detail' => [
                 'required',

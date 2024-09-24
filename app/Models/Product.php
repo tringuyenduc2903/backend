@@ -107,7 +107,7 @@ class Product extends Model
     {
         return $this->published &&
             in_array(
-                $this->getRawOriginal('visibility'), [
+                $this->visibility, [
                     ProductVisibility::SEARCH,
                     ProductVisibility::CATALOG_AND_SEARCH,
                 ]);

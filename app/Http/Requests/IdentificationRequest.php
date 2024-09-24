@@ -62,7 +62,7 @@ class IdentificationRequest extends FormRequest
                 function ($attribute, $value, $fail) {
                     $strlen = strlen($value);
 
-                    switch ((int) request('type')) {
+                    switch ((int) $this->input('type')) {
                         case CustomerIdentification::IDENTITY_CARD:
                             if (! in_array($strlen, [9, 12])) {
                                 $fail(trans('validation.custom.size.strings', [
