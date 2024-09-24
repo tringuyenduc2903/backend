@@ -44,7 +44,8 @@ class CustomerRegistered extends Mailable
                     trans('The account was successfully registered at **:time**.', [
                         'time' => Carbon::now()->isoFormat(config('backpack.ui.default_datetime_format')),
                     ]),
-                    trans('Registration information:'),
+                    '---',
+                    '# '.trans('Registration information:'),
                     sprintf('**%s**: %s', trans('Name'), $this->customer->name),
                     sprintf('**%s**: %s', trans('Email'), $this->customer->email),
                 ],
