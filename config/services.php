@@ -37,10 +37,6 @@ return [
 
     'giaohangnhanh' => [
         'key' => env('GIAOHANGNHANH_API_KEY'),
-        'cache_time' => [
-            'address' => 86400,
-            'store' => 300,
-        ],
     ],
 
     'youtube' => [
