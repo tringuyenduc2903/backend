@@ -11,6 +11,6 @@ class GhnCache extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return 'GhnCache';
+        return \App\Actions\GiaoHangNhanh\Cache\GhnCache::class;
     }
 }

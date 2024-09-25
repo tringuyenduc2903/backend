@@ -1,7 +1,5 @@
 <?php
 
-use App\Actions\GiaoHangNhanh\Base\Ghn;
-use App\Actions\GiaoHangNhanh\Cache\GhnCache;
 use App\Http\Responses\LoginResponse;
 use App\Http\Responses\LogoutResponse;
 use App\Http\Responses\RegisterResponse;
@@ -32,10 +30,6 @@ return Application::configure(basePath: dirname(__DIR__))
         LoginResponseContract::class => LoginResponse::class,
         LogoutResponseContract::class => LogoutResponse::class,
         TwoFactorEnabledResponseContract::class => TwoFactorEnabledResponse::class,
-    ])
-    ->withBindings([
-        'Ghn' => Ghn::class,
-        'GhnCache' => GhnCache::class,
     ])
     ->withExceptions(function (Exceptions $exceptions) {
         //
