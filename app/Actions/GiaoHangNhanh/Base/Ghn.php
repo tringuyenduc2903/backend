@@ -13,7 +13,7 @@ class Ghn
 
     public function __construct(protected PendingRequest $http)
     {
-        $url = app()->environment('product')
+        $url = app()->environment('production')
             ? 'https://online-gateway.ghn.vn/shiip/public-api/v2'
             : 'https://dev-online-gateway.ghn.vn/shiip/public-api/v2';
         $token = config('services.giaohangnhanh.key');
