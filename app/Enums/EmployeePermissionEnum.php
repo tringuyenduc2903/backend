@@ -8,6 +8,7 @@ use Rexlabs\Enum\Enum;
  * The EmployeePermissionEnum enum.
  *
  * @method static self DASHBOARD()
+ * @method static self API_DOCS()
  * @method static self EMPLOYEE_CRUD()
  * @method static self ROLE_CRUD()
  * @method static self BRANCH_CRUD()
@@ -22,6 +23,8 @@ use Rexlabs\Enum\Enum;
 class EmployeePermissionEnum extends Enum
 {
     const DASHBOARD = 'dashboard';
+
+    const API_DOCS = 'api_docs';
 
     const EMPLOYEE_CRUD = 'employee_crud';
 
