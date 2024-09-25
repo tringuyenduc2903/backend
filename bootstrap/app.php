@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\SwaggerController;
+use App\Actions\GiaoHangNhanh\Base\Ghn;
+use App\Actions\GiaoHangNhanh\Cache\GhnCache;
 use App\Http\Responses\LoginResponse;
 use App\Http\Responses\LogoutResponse;
 use App\Http\Responses\RegisterResponse;
@@ -8,7 +9,6 @@ use App\Http\Responses\TwoFactorEnabledResponse;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use L5Swagger\Http\Controllers\SwaggerController as SwaggerControllerVendor;
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 use Laravel\Fortify\Contracts\LogoutResponse as LogoutResponseContract;
 use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
@@ -34,7 +34,8 @@ return Application::configure(basePath: dirname(__DIR__))
         TwoFactorEnabledResponseContract::class => TwoFactorEnabledResponse::class,
     ])
     ->withBindings([
-        SwaggerControllerVendor::class => SwaggerController::class,
+        'Ghn' => Ghn::class,
+        'GhnCache' => GhnCache::class,
     ])
     ->withExceptions(function (Exceptions $exceptions) {
         //

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\GiaoHangNhanh;
+namespace App\Actions\GiaoHangNhanh\Base;
 
 use App\Models\District;
 use App\Models\Ward;
@@ -58,7 +58,7 @@ trait ShippingOrder
 
     protected function getServiceId(int $to_district_id, int $weight): int
     {
-        $services = \App\Facades\GHNv2Cache::availableServices([
+        $services = \App\Facades\GhnCache::availableServices([
             'to_district' => $to_district_id,
         ]);
         $service = $weight < 20000 ? Arr::first($services) : Arr::last($services);

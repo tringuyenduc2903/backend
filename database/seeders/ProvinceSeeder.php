@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Facades\GHNv2Cache;
+use App\Facades\GhnCache;
 use App\Models\Province;
 use Illuminate\Database\Seeder;
 
@@ -22,7 +22,7 @@ class ProvinceSeeder extends Seeder
                 ),
                 'ghn_id' => $province['ProvinceID'],
             ],
-            GHNv2Cache::province()
+            GhnCache::province()
         );
 
         Province::upsert($provinces, 'ghn_id');

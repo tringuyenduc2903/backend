@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\GiaoHangNhanh;
+namespace App\Actions\GiaoHangNhanh\Base;
 
 use Exception;
 use Illuminate\Http\Client\ConnectionException;

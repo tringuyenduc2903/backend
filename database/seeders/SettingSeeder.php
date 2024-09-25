@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Actions\GiaoHangNhanh\ShopCache;
 use App\Enums\ProductType;
 use App\Enums\ProductTypeEnum;
 use App\Enums\ProductVisibility;
+use App\Facades\GhnCache;
 use App\Models\Branch;
 use App\Models\Product;
 use App\Models\Setting;
@@ -459,9 +459,10 @@ class SettingSeeder extends Seeder
 
     protected function storeGhn(): array
     {
+        $data = GhnCache::shop(['limit' => 200]);
         $shops = [];
 
-        foreach (app(ShopCache::class)->shops()['shops'] as $shop) {
+        foreach ($data['shops'] as $shop) {
             $key = json_encode([
                 'district_id' => $shop['district_id'],
                 'shop_id' => $shop['_id'],

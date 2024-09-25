@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Actions\GiaoHangNhanh;
+namespace App\Actions\GiaoHangNhanh\Cache;
 
-use App\Facades\GHNv2;
+use App\Facades\Ghn;
 
 trait MasterDataCache
 {
@@ -11,7 +11,7 @@ trait MasterDataCache
     public function province(): array
     {
         return handle_cache(
-            fn (): array => GHNv2::province(),
+            fn (): array => Ghn::province(),
             sprintf('%s_%s', __CLASS__, __METHOD__),
             $this->address_time
         );
@@ -20,7 +20,7 @@ trait MasterDataCache
     public function district(int $province_id): array
     {
         return handle_cache(
-            fn (): array => GHNv2::district($province_id),
+            fn (): array => Ghn::district($province_id),
             sprintf('%s_%s_%s', __CLASS__, __METHOD__, $province_id),
             $this->address_time
         );
@@ -29,7 +29,7 @@ trait MasterDataCache
     public function ward(int $district_id): ?array
     {
         return handle_cache(
-            fn (): ?array => GHNv2::ward($district_id),
+            fn (): ?array => Ghn::ward($district_id),
             sprintf('%s_%s_%s', __CLASS__, __METHOD__, $district_id),
             $this->address_time
         );

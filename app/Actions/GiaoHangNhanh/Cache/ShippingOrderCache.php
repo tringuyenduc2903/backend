@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Actions\GiaoHangNhanh;
+namespace App\Actions\GiaoHangNhanh\Cache;
 
-use App\Facades\GHNv2;
+use App\Facades\Ghn;
 
 trait ShippingOrderCache
 {
@@ -13,7 +13,7 @@ trait ShippingOrderCache
     public function fee(array $data): array
     {
         return handle_cache(
-            fn (): array => GHNv2::fee($data),
+            fn (): array => Ghn::fee($data),
             sprintf('%s_%s_%s', __CLASS__, __METHOD__, json_encode($data)),
             $this->fee_time
         );
@@ -22,7 +22,7 @@ trait ShippingOrderCache
     public function availableServices(array $data): array
     {
         return handle_cache(
-            fn (): array => GHNv2::availableServices($data),
+            fn (): array => Ghn::availableServices($data),
             sprintf('%s_%s_%s', __CLASS__, __METHOD__, json_encode($data)),
             $this->available_services_time
         );

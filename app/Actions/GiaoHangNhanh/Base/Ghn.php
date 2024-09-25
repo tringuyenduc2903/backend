@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Actions\GiaoHangNhanh;
+namespace App\Actions\GiaoHangNhanh\Base;
 
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 
-class GHNv2
+class Ghn
 {
     use MasterData;
     use ShippingOrder;
+    use Shop;
 
     public function __construct(protected PendingRequest $http)
     {

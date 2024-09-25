@@ -3,7 +3,7 @@
 namespace App\Actions;
 
 use App\Enums\OrderShippingType;
-use App\Facades\GHNv2Cache;
+use App\Facades\GhnCache;
 use App\Models\Address;
 use App\Models\Option;
 
@@ -75,7 +75,7 @@ class OrderPrice
 
         $address = Address::findOrFail($this->address_id);
 
-        $data = GHNv2Cache::fee([
+        $data = GhnCache::fee([
             'to_district_id' => $address->district->ghn_id,
             'to_ward_code' => $address->ward?->ghn_id,
             'weight' => $this->weight,
