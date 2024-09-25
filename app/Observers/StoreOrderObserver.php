@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Actions\HandleOrderPrice;
+use App\Actions\OrderPrice;
 use App\Enums\OrderShippingType;
 use App\Enums\OrderStatus;
 use App\Models\Order;
@@ -20,7 +20,11 @@ class StoreOrderObserver
             default => OrderStatus::CANCELLED,
         };
 
-        $price_quote = app(HandleOrderPrice::class)->getPriceQuote();
+        $price_quote = app(OrderPrice::class, [
+            'options' => request('options'),
+            'shipping_type' => $order->shipping_type,
+            'address_id' => $order->address->id,
+        ])->getPriceQuote();
 
         $order->tax = $price_quote['tax'];
         $order->shipping_fee = $price_quote['shipping_fee'];

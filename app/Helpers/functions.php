@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Validator;
 
 if (! function_exists('revoke_token')) {
     function revoke_token($token_name): mixed
@@ -98,16 +99,28 @@ if (! function_exists('handle_exception')) {
     }
 }
 
-if (! function_exists('handle_api_call_failure')) {
+if (! function_exists('handle_validate_failure')) {
     /**
      * @throws Exception
      */
-    function handle_api_call_failure(Response $response): void
+    function handle_validate_failure(Validator $validator): void
+    {
+        if ($validator->fails()) {
+            throw new Exception($validator->errors()->first());
+        }
+    }
+}
+
+if (! function_exists('handle_ghn_api')) {
+    /**
+     * @throws Exception
+     */
+    function handle_ghn_api(Response $response): void
     {
         if ($response->failed()) {
-            Log::debug('Call to API failed!', $response->json());
+            Log::debug($response->json('message'), $response->json() ?? []);
 
-            throw new Exception('Call to API failed!');
+            throw new Exception($response->json('message'));
         }
     }
 }

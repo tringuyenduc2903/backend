@@ -11,6 +11,6 @@ class GHNv2 extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return \App\Actions\GHNv2::class;
+        return \App\Actions\GiaoHangNhanh\GHNv2::class;
     }
 }

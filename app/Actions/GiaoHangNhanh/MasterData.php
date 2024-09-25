@@ -13,8 +13,8 @@ trait MasterData
      */
     public function province(): array
     {
-        handle_api_call_failure(
-            $response = $this->http->post('shiip/public-api/master-data/province')
+        handle_ghn_api(
+            $response = $this->http->post('master-data/province')
         );
 
         return $response->json('data');
@@ -26,8 +26,8 @@ trait MasterData
      */
     public function district(int $province_id): array
     {
-        handle_api_call_failure(
-            $response = $this->http->post('shiip/public-api/master-data/district', [
+        handle_ghn_api(
+            $response = $this->http->post('master-data/district', [
                 'province_id' => $province_id,
             ])
         );
@@ -41,8 +41,8 @@ trait MasterData
      */
     public function ward(int $district_id): ?array
     {
-        handle_api_call_failure(
-            $response = $this->http->post('shiip/public-api/master-data/ward', [
+        handle_ghn_api(
+            $response = $this->http->post('master-data/ward', [
                 'district_id' => $district_id,
             ])
         );

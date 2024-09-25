@@ -28,7 +28,7 @@ class ShopApi extends Api
                 $data
             );
 
-            handle_api_call_failure($response, __CLASS__, __FUNCTION__);
+            handle_ghn_api($response);
 
             return $response->json('data');
         } catch (ConnectionException $exception) {
