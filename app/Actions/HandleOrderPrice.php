@@ -2,7 +2,6 @@
 
 namespace App\Actions;
 
-use App\Actions\GiaoHangNhanh\ShippingOrderApi;
 use App\Enums\OrderShippingType;
 use App\Models\Address;
 use App\Models\Option;
@@ -134,7 +133,7 @@ class HandleOrderPrice
 
         $address = Address::findOrFail($this->address);
 
-        $data = app(ShippingOrderApi::class)->fee(
+        $data = app(GHNv2::class)->fee(
             $address->district->ghn_id,
             $address->ward?->ghn_id,
             $weight,

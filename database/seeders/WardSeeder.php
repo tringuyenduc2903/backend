@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Actions\GiaoHangNhanh\AddressCache;
+use App\Facades\GHNv2Cache;
 use App\Models\District;
 use Illuminate\Database\Seeder;
 
@@ -23,7 +23,7 @@ class WardSeeder extends Seeder
                     ),
                     'ghn_id' => $ward['WardCode'],
                 ],
-                app(AddressCache::class)->getWards($district->ghn_id) ?? []
+                GHNv2Cache::ward($district->ghn_id) ?? []
             );
 
             $district->wards()->upsert($wards, 'ghn_id');

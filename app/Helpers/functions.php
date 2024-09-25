@@ -99,14 +99,15 @@ if (! function_exists('handle_exception')) {
 }
 
 if (! function_exists('handle_api_call_failure')) {
-    function handle_api_call_failure(Response $response, string $class, string $function): void
+    /**
+     * @throws Exception
+     */
+    function handle_api_call_failure(Response $response): void
     {
         if ($response->failed()) {
-            Log::debug('Call to API failed!', [
-                'class' => $class,
-                'function' => $function,
-                'information' => $response->json(),
-            ]);
+            Log::debug('Call to API failed!', $response->json());
+
+            throw new Exception('Call to API failed!');
         }
     }
 }
