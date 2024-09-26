@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Actions\GiaoHangNhanh\Base\Ghn;
+use App\Api\GiaoHangNhanh\Ghn;
 use App\Enums\OrderShippingType;
 use App\Enums\OrderTransactionType;
 use App\Events\OrderCreatedEvent;
@@ -54,7 +54,7 @@ class CreateGhnOrder implements ShouldQueue
         ];
 
         if ($event->order->transaction_type == OrderTransactionType::PAYMENT_ON_DELIVERY) {
-            $data['cod_amount'] = $event->order->total;
+            $data['cod_amount'] = (int) $event->order->total;
         }
 
         if ($event->order->note) {

@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Enums\ProductType;
 use App\Enums\ProductTypeEnum;
 use App\Enums\ProductVisibility;
-use App\Facades\GhnCache;
+use App\Facades\Ghn;
 use App\Models\Branch;
 use App\Models\Product;
 use App\Models\Setting;
@@ -178,68 +178,19 @@ class SettingSeeder extends Seeder
                 ], JSON_UNESCAPED_UNICODE),
                 'active' => true,
                 'validation_rules' => [
-                    'show_navigation_button' => [
-                        'required',
-                        'boolean',
-                    ],
-                    'show_page_number' => [
-                        'required',
-                        'boolean',
-                    ],
-                    'automatically_switch_banners' => [
-                        'required',
-                        'boolean',
-                    ],
-                    'time_to_automatically_switch_banners' => [
-                        'nullable',
-                        'required_if:automatically_switch_banners,true',
-                        'integer',
-                        'between:0,10000',
-                    ],
-                    'banners' => [
-                        'required',
-                        'array',
-                        'max:15',
-                    ],
-                    'banners.*.image' => [
-                        'nullable',
-                        'string',
-                        'max:500',
-                    ],
-                    'banners.*.alt' => [
-                        'nullable',
-                        'required_with:banners.*.image',
-                        'string',
-                        'max:50',
-                    ],
-                    'banners.*.subtitle' => [
-                        'required',
-                        'string',
-                        'max:50',
-                    ],
-                    'banners.*.title' => [
-                        'required',
-                        'string',
-                        'max:50',
-                    ],
-                    'banners.*.description' => [
-                        'required',
-                        'string',
-                        'max:255',
-                    ],
-                    'banners.*.page_name' => [
-                        'required',
-                        'string',
-                        'max:50',
-                    ],
-                    'banners.*.banner_description' => [
-                        'required',
-                        'string',
-                        'max:50',
-                    ],
-                    'banners.*.actions' => [
-                        'actions',
-                    ],
+                    'show_navigation_button' => ['required', 'boolean'],
+                    'show_page_number' => ['required', 'boolean'],
+                    'automatically_switch_banners' => ['required', 'boolean'],
+                    'time_to_automatically_switch_banners' => ['nullable', 'required_if:automatically_switch_banners,true', 'integer', 'between:0,10000'],
+                    'banners' => ['required', 'array', 'max:15'],
+                    'banners.*.image' => ['nullable', 'string', 'max:500'],
+                    'banners.*.alt' => ['nullable', 'required_with:banners.*.image', 'string', 'max:50'],
+                    'banners.*.subtitle' => ['required', 'string', 'max:50'],
+                    'banners.*.title' => ['required', 'string', 'max:50'],
+                    'banners.*.description' => ['required', 'string', 'max:255'],
+                    'banners.*.page_name' => ['required', 'string', 'max:50'],
+                    'banners.*.banner_description' => ['required', 'string', 'max:50'],
+                    'banners.*.actions' => ['actions'],
                 ],
             ],
         ];
@@ -297,26 +248,10 @@ class SettingSeeder extends Seeder
                 ], JSON_UNESCAPED_UNICODE),
                 'active' => true,
                 'validation_rules' => [
-                    'description' => [
-                        'required',
-                        'string',
-                        'max:255',
-                    ],
-                    'work_schedules' => [
-                        'required',
-                        'array',
-                        'max:3',
-                    ],
-                    'work_schedules.*.title' => [
-                        'required',
-                        'string',
-                        'max:50',
-                    ],
-                    'work_schedules.*.description' => [
-                        'required',
-                        'string',
-                        'max:50',
-                    ],
+                    'description' => ['required', 'string', 'max:255'],
+                    'work_schedules' => ['required', 'array', 'max:3'],
+                    'work_schedules.*.title' => ['required', 'string', 'max:50'],
+                    'work_schedules.*.description' => ['required', 'string', 'max:50'],
                 ],
             ],
         ];
@@ -362,21 +297,9 @@ class SettingSeeder extends Seeder
                 ]], JSON_UNESCAPED_UNICODE),
                 'active' => true,
                 'validation_rules' => [
-                    'value' => [
-                        'required',
-                        'array',
-                        'max:5',
-                    ],
-                    'value.*.title' => [
-                        'required',
-                        'string',
-                        'max:50',
-                    ],
-                    'value.*.link' => [
-                        'required',
-                        'string',
-                        'max:255',
-                    ],
+                    'value' => ['required', 'array', 'max:5'],
+                    'value.*.title' => ['required', 'string', 'max:50'],
+                    'value.*.link' => ['required', 'string', 'max:255'],
                 ],
             ],
         ];
@@ -402,11 +325,7 @@ class SettingSeeder extends Seeder
                 'value' => Branch::inRandomOrder()->first()->id,
                 'active' => true,
                 'validation_rules' => [
-                    'value' => [
-                        'required',
-                        'integer',
-                        sprintf('exists:%s,%s', Branch::class, 'id'),
-                    ],
+                    'value' => ['required', 'integer', sprintf('exists:%s,%s', Branch::class, 'id')],
                 ],
             ],
         ];
@@ -442,16 +361,8 @@ class SettingSeeder extends Seeder
                 ], JSON_UNESCAPED_UNICODE),
                 'active' => true,
                 'validation_rules' => [
-                    'image' => [
-                        'sometimes',
-                        'image_banner',
-                    ],
-                    'alt' => [
-                        'nullable',
-                        'required_with:image',
-                        'string',
-                        'max:50',
-                    ],
+                    'image' => ['sometimes', 'image_banner'],
+                    'alt' => ['nullable', 'required_with:image', 'string', 'max:50'],
                 ],
             ],
         ];
@@ -459,7 +370,7 @@ class SettingSeeder extends Seeder
 
     protected function storeGhn(): array
     {
-        $data = GhnCache::shop(['limit' => 200]);
+        $data = Ghn::shopCache(['limit' => 200]);
         $shops = [];
 
         foreach ($data['shops'] as $shop) {
@@ -484,15 +395,10 @@ class SettingSeeder extends Seeder
                     'options' => $shops,
                     'allows_null' => false,
                 ]],
-                'value' => json_encode([
-                    'value' => array_key_first($shops),
-                ], JSON_UNESCAPED_UNICODE),
+                'value' => array_key_first($shops),
                 'active' => true,
                 'validation_rules' => [
-                    'value' => [
-                        'required',
-                        'string',
-                    ],
+                    'value' => ['required', 'string'],
                 ],
             ],
         ];
@@ -517,11 +423,7 @@ class SettingSeeder extends Seeder
                 ], JSON_UNESCAPED_UNICODE),
                 'active' => true,
                 'validation_rules' => [
-                    'value' => [
-                        'required',
-                        'string',
-                        'max:3',
-                    ],
+                    'value' => ['required', 'string', 'max:3'],
                 ],
             ],
         ];

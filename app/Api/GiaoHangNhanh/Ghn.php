@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Actions\GiaoHangNhanh\Base;
+namespace App\Api\GiaoHangNhanh;
 
+use App\Api\GiaoHangNhanh\V2\ShippingOrder;
+use App\Api\GiaoHangNhanh\V2\Shop;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 

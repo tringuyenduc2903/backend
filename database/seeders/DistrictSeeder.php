@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Facades\GhnCache;
+use App\Facades\Ghn;
 use App\Models\Province;
 use Illuminate\Database\Seeder;
 
@@ -23,7 +23,7 @@ class DistrictSeeder extends Seeder
                     ),
                     'ghn_id' => $district['DistrictID'],
                 ],
-                GhnCache::district($province->ghn_id)
+                Ghn::districtCache($province->ghn_id)
             );
 
             $province->districts()->upsert($districts, 'ghn_id');

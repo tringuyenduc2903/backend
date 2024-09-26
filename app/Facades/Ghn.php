@@ -11,6 +11,6 @@ class Ghn extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return \App\Actions\GiaoHangNhanh\Base\Ghn::class;
+        return \App\Api\GiaoHangNhanh\Ghn::class;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Facades\GhnCache;
+use App\Facades\Ghn;
 use App\Models\District;
 use Illuminate\Database\Seeder;
 
@@ -23,7 +23,7 @@ class WardSeeder extends Seeder
                     ),
                     'ghn_id' => $ward['WardCode'],
                 ],
-                GhnCache::ward($district->ghn_id) ?? []
+                Ghn::wardCache($district->ghn_id) ?? []
             );
 
             $district->wards()->upsert($wards, 'ghn_id');

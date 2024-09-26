@@ -101,8 +101,6 @@ class Setting extends Model
             case 'store_ghn':
                 $reformat = json_decode($this->value);
 
-                $reformat = json_decode($reformat->value);
-
                 $reformat->district = District::whereGhnId($reformat->district_id)->firstOrFail();
 
                 unset(
