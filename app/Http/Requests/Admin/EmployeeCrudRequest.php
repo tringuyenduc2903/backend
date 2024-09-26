@@ -38,6 +38,7 @@ class EmployeeCrudRequest extends FormRequest
             'email' => [
                 'required',
                 'string',
+                'email:rfc,dns',
                 'max:100',
                 Rule::unique(Employee::class)->ignore($id),
             ],

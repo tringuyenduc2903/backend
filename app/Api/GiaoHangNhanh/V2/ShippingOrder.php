@@ -5,7 +5,6 @@ namespace App\Api\GiaoHangNhanh\V2;
 use App\Models\District;
 use App\Models\Province;
 use App\Models\Ward;
-use Exception;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -26,11 +25,8 @@ trait ShippingOrder
 
     public const KHONG_CHO_XEM_HANG = 'KHONGCHOXEMHANG';
 
-    private int $fee_time = 300;
-
     /**
      * @throws ConnectionException
-     * @throws Exception
      */
     public function createOrder(array $data): array
     {
@@ -83,15 +79,13 @@ trait ShippingOrder
                 'items.*.width' => [Rule::requiredIf($must_items), 'integer', 'between:1,200'],
                 'items.*.height' => [Rule::requiredIf($must_items), 'integer', 'between:1,200'],
                 'items.*.category' => ['sometimes'],
-                'cod_failed_amount' => ['required', 'integer', 'min:1'],
+                'cod_failed_amount' => ['sometimes', 'integer', 'min:1'],
             ])
         );
 
-        handle_ghn_api(
-            $response = $this->http->post('v2/shipping-order/create', $validator->validated())
+        return $this->handleResponse(
+            $this->http->post('v2/shipping-order/create', $validator->validated())
         );
-
-        return $response->json('data');
     }
 
     protected function getServiceTypeId(int $weight): int
@@ -99,21 +93,8 @@ trait ShippingOrder
         return $weight < 20000 ? self::HANG_NHE : self::HANG_NANG;
     }
 
-    public function feeCache(array $data): array
-    {
-        return handle_cache(
-            /**
-             * @throws ConnectionException
-             */
-            fn (): array => $this->fee($data),
-            sprintf('%s_%s_%s', __CLASS__, __METHOD__, json_encode($data)),
-            $this->fee_time
-        );
-    }
-
     /**
      * @throws ConnectionException
-     * @throws Exception
      */
     public function fee(array $data): array
     {
@@ -127,7 +108,7 @@ trait ShippingOrder
                 'service_type_id' => ['required_without:service_id', 'integer'],
                 'insurance_value' => ['sometimes', 'integer', 'between:1,5000000'],
                 'coupon' => ['sometimes', 'string'],
-                'cod_failed_amount' => ['sometimes', 'integer', 'between:1,3'],
+                'cod_failed_amount' => ['sometimes', 'integer', 'min:1'],
                 'from_district_id' => ['sometimes', 'integer', Rule::exists(District::class, 'ghn_id')],
                 'from_ward_code' => ['sometimes', 'string', Rule::exists(Ward::class, 'ghn_id')],
                 'to_district_id' => ['required', 'integer', Rule::exists(District::class, 'ghn_id')],
@@ -148,10 +129,8 @@ trait ShippingOrder
             ])
         );
 
-        handle_ghn_api(
-            $response = $this->http->post('v2/shipping-order/fee', $validator->validated())
+        return $this->handleResponse(
+            $this->http->post('v2/shipping-order/fee', $validator->validated())
         );
-
-        return $response->json('data');
     }
 }

@@ -2,13 +2,12 @@
 
 namespace App\Api\GiaoHangNhanh\V2;
 
-use Exception;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Validator;
 
 trait Shop
 {
-    private int $shop_time = 3600;
+    protected int $shop_time = 3600;
 
     public function shopCache(array $data): array
     {
@@ -18,13 +17,12 @@ trait Shop
              */
             fn (): array => $this->shop($data),
             sprintf('%s_%s_%s', __CLASS__, __METHOD__, json_encode($data)),
-            $this->fee_time
+            $this->shop_time
         );
     }
 
     /**
      * @throws ConnectionException
-     * @throws Exception
      */
     public function shop(array $data): array
     {
@@ -36,10 +34,8 @@ trait Shop
             ])
         );
 
-        handle_ghn_api(
-            $response = $this->http->post('v2/shop/all', $validator->validated())
+        return $this->handleResponse(
+            $this->http->post('v2/shop/all', $validator->validated())
         );
-
-        return $response->json('data');
     }
 }

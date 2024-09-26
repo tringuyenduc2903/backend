@@ -4,8 +4,11 @@ namespace App\Api\GiaoHangNhanh;
 
 use App\Api\GiaoHangNhanh\V2\ShippingOrder;
 use App\Api\GiaoHangNhanh\V2\Shop;
+use Exception;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class Ghn
 {
@@ -25,5 +28,18 @@ class Ghn
                 'token' => $token,
             ])
             ->accept('application/json');
+    }
+
+    protected function handleResponse(Response $response): ?array
+    {
+        if ($response->failed()) {
+            Log::debug($response->json('message'), $response->json() ?? []);
+
+            throw app(Exception::class, [
+                'message' => $response->json('message'),
+            ]);
+        }
+
+        return $response->json('data');
     }
 }

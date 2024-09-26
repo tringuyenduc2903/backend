@@ -14,11 +14,9 @@ use Illuminate\Contracts\Auth\Factory;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Application;
-use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Validator;
 
 if (! function_exists('revoke_token')) {
@@ -89,38 +87,13 @@ if (! function_exists('mb_ucwords')) {
     }
 }
 
-if (! function_exists('handle_exception')) {
-    function handle_exception(Exception $exception, string $class, string $function): void
-    {
-        Log::debug($exception->getMessage(), [
-            'class' => $class,
-            'function' => $function,
-        ]);
-    }
-}
-
 if (! function_exists('handle_validate_failure')) {
-    /**
-     * @throws Exception
-     */
     function handle_validate_failure(Validator $validator): void
     {
         if ($validator->fails()) {
-            throw new Exception($validator->errors()->first());
-        }
-    }
-}
-
-if (! function_exists('handle_ghn_api')) {
-    /**
-     * @throws Exception
-     */
-    function handle_ghn_api(Response $response): void
-    {
-        if ($response->failed()) {
-            Log::debug($response->json('message'), $response->json() ?? []);
-
-            throw new Exception($response->json('message'));
+            throw app(Exception::class, [
+                'message' => $validator->errors()->first(),
+            ]);
         }
     }
 }
@@ -169,17 +142,6 @@ if (! function_exists('current_store')) {
             ->getAttribute('value');
 
         return json_decode($value)->shop_id;
-    }
-}
-
-if (! function_exists('current_store_district')) {
-    function current_store_district(): int
-    {
-        $value = Setting::where('key', 'store_ghn')
-            ->firstOrFail()
-            ->getAttribute('value');
-
-        return json_decode($value)->district_id;
     }
 }
 

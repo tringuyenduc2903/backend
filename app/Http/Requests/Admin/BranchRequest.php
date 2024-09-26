@@ -36,6 +36,7 @@ class BranchRequest extends FormRequest
             ],
             'phone_number' => [
                 'nullable',
+                'string',
                 'phone:VN',
                 Rule::unique(Branch::class)->ignore($id),
             ],

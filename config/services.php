@@ -39,6 +39,13 @@ return [
         'key' => env('GIAOHANGNHANH_API_KEY'),
     ],
 
+    'payos' => [
+        'client_id' => env('PAYOS_CLIENT_ID'),
+        'client_secret' => env('PAYOS_CLIENT_SECRET'),
+        'partner_code' => env('PAYOS_PARTNER_CODE'),
+        'checksum' => env('PAYOS_CHECK_SUM'),
+    ],
+
     'youtube' => [
         'key' => env('YOUTUBE_API_KEY'),
     ],

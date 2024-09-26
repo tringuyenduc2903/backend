@@ -2,12 +2,11 @@
 
 namespace App\Api\GiaoHangNhanh;
 
-use Exception;
 use Illuminate\Http\Client\ConnectionException;
 
 trait MasterData
 {
-    private int $address_time = 86400;
+    protected int $address_time = 86400;
 
     public function provinceCache(): array
     {
@@ -23,15 +22,12 @@ trait MasterData
 
     /**
      * @throws ConnectionException
-     * @throws Exception
      */
     public function province(): array
     {
-        handle_ghn_api(
-            $response = $this->http->post('master-data/province')
+        return $this->handleResponse(
+            $this->http->post('master-data/province')
         );
-
-        return $response->json('data');
     }
 
     public function districtCache(int $province_id): array
@@ -48,17 +44,14 @@ trait MasterData
 
     /**
      * @throws ConnectionException
-     * @throws Exception
      */
     public function district(int $province_id): array
     {
-        handle_ghn_api(
-            $response = $this->http->post('master-data/district', [
+        return $this->handleResponse(
+            $this->http->post('master-data/district', [
                 'province_id' => $province_id,
             ])
         );
-
-        return $response->json('data');
     }
 
     public function wardCache(int $district_id): ?array
@@ -75,16 +68,13 @@ trait MasterData
 
     /**
      * @throws ConnectionException
-     * @throws Exception
      */
     public function ward(int $district_id): ?array
     {
-        handle_ghn_api(
-            $response = $this->http->post('master-data/ward', [
+        return $this->handleResponse(
+            $this->http->post('master-data/ward', [
                 'district_id' => $district_id,
             ])
         );
-
-        return $response->json('data');
     }
 }

@@ -13,18 +13,21 @@ class OrderPrice
         protected array $options,
         protected int $shipping_type,
         protected int $address_id,
+        protected array $items = [],
         protected float $price = 0,
         protected float $tax = 0,
         protected float $shipping_fee = 0,
         protected float $handling_fee = 0,
         protected float $total = 0,
         protected int $weight = 0,
+        protected int $length = 0,
+        protected int $width = 0,
+        protected int $height = 0,
     ) {}
 
     public function getPriceQuote(): array
     {
         $this->handleOptions();
-
         $this->handleShippingFee();
         $this->handleHandlingFee();
         $this->handleTotal();
@@ -42,23 +45,30 @@ class OrderPrice
 
     protected function handleOptions(): void
     {
-        array_map(
+        $this->items = array_map(
             function (array $item) {
                 $option = Option::findOrFail($item['option'] ?? $item['option_id']);
-                $amount = (int) $item['amount'];
 
                 // Handle price
-                $this->price += $option->price * $amount;
+                $this->price += $option->price * $item['amount'];
 
                 // Handle tax
-                $this->tax += (($option->price * $option->value_added_tax) / (100 + $option->value_added_tax)) * $amount;
+                $this->tax += (($option->price * $option->value_added_tax) / (100 + $option->value_added_tax)) * $item['amount'];
 
-                // Handle weight
-                $this->weight += $option->weight * $amount;
+                // Handle weight, length, width, height
+                $this->weight += $option->weight * $item['amount'];
+                $this->length += $option->length * $item['amount'];
+                $this->width += $option->width * $item['amount'];
+                $this->height += $option->height * $item['amount'];
 
                 return [
-                    'option' => $option,
-                    'amount' => $amount,
+                    'name' => $option->product->name,
+                    'code' => $option->sku,
+                    'quantity' => (int) $item['amount'],
+                    'weight' => (int) $option->weight,
+                    'length' => (int) $option->length,
+                    'width' => (int) $option->width,
+                    'height' => (int) $option->height,
                 ];
             },
             $this->options
@@ -73,10 +83,15 @@ class OrderPrice
 
         $address = Address::findOrFail($this->address_id);
 
-        $data = Ghn::feeCache([
+        $data = Ghn::fee([
             'to_district_id' => $address->district->ghn_id,
             'to_ward_code' => $address->ward?->ghn_id,
             'weight' => $this->weight,
+            'length' => $this->length,
+            'width' => $this->width,
+            'height' => $this->height,
+            'insurance_value' => $this->price,
+            'items' => $this->items,
         ]);
 
         $this->shipping_fee = $data['total'];
