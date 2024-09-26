@@ -214,5 +214,9 @@
     "Created at": "Đã tạo lúc",
     "Updated at": "Đã cập nhật lúc",
     "Cancel order": "Hủy đơn hàng",
-    "Confirm cancellation of this order?": "Xác nhận hủy đơn hàng này?"
+    "Confirm cancellation of this order?": "Xác nhận hủy đơn hàng này?",
+    "Success": "Thành công",
+    "Cancellation of order Id #:number successfully!": "Hủy đơn Id #:number hàng thành công!",
+    "Failure": "Thất bại",
+    "Cancel order Id #:number failed!": "Hủy đơn Id #:number hàng thất bại!"
 }

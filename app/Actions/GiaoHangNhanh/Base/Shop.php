@@ -23,7 +23,7 @@ trait Shop
         );
 
         handle_ghn_api(
-            $response = $this->http->post('shop/all', $validator->validated())
+            $response = $this->http->post('v2/shop/all', $validator->validated())
         );
 
         return $response->json('data');

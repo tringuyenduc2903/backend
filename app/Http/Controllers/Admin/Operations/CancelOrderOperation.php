@@ -29,10 +29,12 @@ trait CancelOrderOperation
     {
         $order = Order::findOrFail($id);
 
-        if ($order->status !== OrderStatus::TO_PAY) {
+        if ($order->status != OrderStatus::TO_PAY) {
             return response()->json([
-                'title' => '',
-                'description' => '',
+                'title' => trans('Failure'),
+                'description' => trans('Cancel order Id #:number failed!', [
+                    'number' => $order->id,
+                ]),
             ], 403);
         }
 
@@ -41,8 +43,10 @@ trait CancelOrderOperation
         ]);
 
         return response()->json([
-            'title' => '',
-            'description' => '',
+            'title' => trans('Success'),
+            'description' => trans('Cancellation of order Id #:number successfully!', [
+                'number' => $order->id,
+            ]),
         ]);
     }
 }

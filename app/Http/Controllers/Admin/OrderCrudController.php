@@ -8,9 +8,9 @@ use App\Enums\OrderShippingType;
 use App\Enums\OrderStatus;
 use App\Enums\OrderTransactionType;
 use App\Enums\ProductType;
+use App\Events\OrderCreatedEvent;
 use App\Http\Controllers\Admin\Operations\CancelOrderOperation;
 use App\Http\Requests\Admin\OrderRequest;
-use App\Mail\OrderCreated;
 use App\Models\Address;
 use App\Models\Customer;
 use App\Models\Option;
@@ -25,7 +25,6 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Mail;
 
 /**
  * Class OrderCrudController
@@ -71,15 +70,10 @@ class OrderCrudController extends CrudController
     {
         $response = $this->traitStore();
 
-        /** @var Order $order */
-        $order = CRUD::getCurrentEntry();
-
-        Mail::to($order->customer)->send(
-            app(OrderCreated::class, [
-                'order' => $order,
-                'employee' => backpack_user(),
-            ])
-        );
+        event(app(OrderCreatedEvent::class, [
+            'order' => CRUD::getCurrentEntry(),
+            'employee' => backpack_user(),
+        ]));
 
         return $response;
     }

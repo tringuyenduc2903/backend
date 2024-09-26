@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Listeners;
+
+use App\Actions\GiaoHangNhanh\Base\Ghn;
+use App\Enums\OrderShippingType;
+use App\Enums\OrderTransactionType;
+use App\Events\OrderCreatedEvent;
+use App\Models\OrderProduct;
+use Illuminate\Contracts\Queue\ShouldQueue;
+
+class CreateGhnOrder implements ShouldQueue
+{
+    /**
+     * Handle the event.
+     */
+    public function handle(OrderCreatedEvent $event): void
+    {
+        if ($event->order->shipping_type != OrderShippingType::DOOR_TO_DOOR_DELIVERY) {
+            return;
+        }
+
+        $data = [
+            'to_name' => $event->order->address->customer_name,
+            'to_phone' => $event->order->address->customer_phone_number,
+            'to_address' => $event->order->address->address_detail,
+            'to_ward_code' => $event->order->address->ward->ghn_id,
+            'to_district_code' => $event->order->address->district->ghn_id,
+            'weight' => (int) $event->order->options()->withSum('option', 'weight')->value('option_sum_weight'),
+            'length' => (int) $event->order->options()->withSum('option', 'length')->value('option_sum_length'),
+            'width' => (int) $event->order->options()->withSum('option', 'width')->value('option_sum_width'),
+            'height' => (int) $event->order->options()->withSum('option', 'height')->value('option_sum_height'),
+            'insurance_value' => (int) $event->order->options()->sum('price'),
+            'payment_type_id' => $event->order->transaction_type == OrderTransactionType::PAYMENT_ON_DELIVERY
+                ? Ghn::NGUOI_MUA_NGUOI_NHAN
+                : Ghn::NGUOI_BAN_NGUOI_GUI,
+            'required_note' => Ghn::CHO_XEM_HANG_KHONG_THU,
+            'items' => $event->order->options
+                ->map(fn (OrderProduct $order_product): array => [
+                    'name' => $order_product->option->product->name,
+                    'code' => $order_product->option->sku,
+                    'quantity' => $order_product->amount,
+                    'price' => (int) $order_product->price,
+                    'weight' => $order_product->option->weight,
+                    'length' => $order_product->option->length,
+                    'width' => $order_product->option->width,
+                    'height' => $order_product->option->height,
+                    'category' => (object) [
+                        'level1' => $order_product->option->product->categories()->first()->name,
+                    ],
+                ])
+                ->toArray(),
+            'cod_failed_amount' => 5000,
+        ];
+
+        if ($event->order->transaction_type == OrderTransactionType::PAYMENT_ON_DELIVERY) {
+            $data['cod_amount'] = $event->order->total;
+        }
+
+        if ($event->order->note) {
+            $data['note'] = $event->order->note;
+        }
+
+        \App\Facades\Ghn::createOrder($data);
+    }
+}

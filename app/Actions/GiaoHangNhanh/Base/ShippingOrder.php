@@ -64,7 +64,7 @@ trait ShippingOrder
         );
 
         handle_ghn_api(
-            $response = $this->http->post('shipping-order/fee', $validator->validated())
+            $response = $this->http->post('v2/shipping-order/fee', $validator->validated())
         );
 
         return $response->json('data');
@@ -79,27 +79,29 @@ trait ShippingOrder
         $data['shop_id'] = current_store();
         $data['service_type_id'] = $this->getServiceTypeId($data['weight']);
 
+        $must_items = $data['service_type_id'] === self::HANG_NANG && count($data['items']);
+
         handle_validate_failure(
             $validator = Validator::make($data, [
                 'shop_id' => ['required', 'integer'],
                 'from_name' => ['sometimes', 'string', 'max:1024'],
                 'from_phone' => ['sometimes', 'string'],
                 'from_address' => ['sometimes', 'string', 'max:1024'],
-                'from_ward_name' => ['sometimes', 'string', Rule::exists(Ward::class, 'name')],
-                'from_district_name' => ['sometimes', 'string', Rule::exists(District::class, 'name')],
-                'from_province_name' => ['sometimes', 'string', Rule::exists(Province::class, 'name')],
+                'from_ward_code' => ['sometimes', 'integer', Rule::exists(Ward::class, 'ghn_id')],
+                'from_district_code' => ['sometimes', 'integer', Rule::exists(District::class, 'ghn_id')],
+                'from_province_code' => ['sometimes', 'integer', Rule::exists(Province::class, 'ghn_id')],
                 'to_name' => ['required', 'string', 'max:1024'],
                 'to_phone' => ['required', 'string'],
                 'to_address' => ['required', 'string', 'max:1024'],
-                'to_ward_name' => ['required', 'string', Rule::exists(Ward::class, 'name')],
-                'to_district_name' => ['required', 'string', Rule::exists(District::class, 'name')],
+                'to_ward_code' => ['required', 'integer', Rule::exists(Ward::class, 'ghn_id')],
+                'to_district_code' => ['required', 'integer', Rule::exists(District::class, 'ghn_id')],
                 'return_phone' => ['sometimes', 'string'],
                 'return_address' => ['sometimes', 'string', 'max:1024'],
-                'return_ward_name' => ['sometimes', 'string', Rule::exists(Ward::class, 'name')],
-                'return_district_name' => ['sometimes', 'string', Rule::exists(District::class, 'name')],
+                'return_ward_code' => ['sometimes', 'integer', Rule::exists(Ward::class, 'ghn_id')],
+                'return_district_code' => ['sometimes', 'integer', Rule::exists(District::class, 'ghn_id')],
                 'client_order_code' => ['sometimes', 'string', 'max:50'],
                 'cod_amount' => ['sometimes', 'integer', 'between:1,5000000'],
-                'content' => ['required', 'string', 'max:2000'],
+                'content' => ['sometimes', 'string', 'max:2000'],
                 'weight' => ['required', 'integer', 'between:1,1600000'],
                 'length' => ['required', 'integer', 'between:1,200'],
                 'width' => ['required', 'integer', 'between:1,200'],
@@ -113,23 +115,22 @@ trait ShippingOrder
                 'required_note' => ['required', 'string', 'max:500', Rule::in([self::CHO_THU_HANG, self::CHO_XEM_HANG_KHONG_THU, self::KHONG_CHO_XEM_HANG])],
                 'pick_shift' => ['sometimes', 'array'],
                 'pickup_time' => ['sometimes', 'integer'],
-                'items' => ['required_if:service_type_id'.self::HANG_NANG, 'array'],
+                'items' => ['required_if:service_type_id,'.self::HANG_NANG, 'array'],
                 'items.*.name' => ['required', 'string'],
                 'items.*.code' => ['sometimes', 'string'],
                 'items.*.quantity' => ['required', 'integer', 'min:1'],
                 'items.*.price' => ['required', 'integer'],
-                'items.*.weight' => [Rule::requiredIf($data['service_type_id'] === self::HANG_NANG && count($data['items'])), 'integer', 'between:1,1600000'],
-                'items.*.length' => [Rule::requiredIf($data['service_type_id'] === self::HANG_NANG && count($data['items'])), 'integer', 'between:1,200'],
-                'items.*.width' => [Rule::requiredIf($data['service_type_id'] === self::HANG_NANG && count($data['items'])), 'integer', 'between:1,200'],
-                'items.*.height' => [Rule::requiredIf($data['service_type_id'] === self::HANG_NANG && count($data['items'])), 'integer', 'between:1,200'],
-                'items.*.category' => ['required', 'array'],
-                'items.*.category.*' => ['required', 'string'],
+                'items.*.weight' => [Rule::requiredIf($must_items), 'integer', 'between:1,1600000'],
+                'items.*.length' => [Rule::requiredIf($must_items), 'integer', 'between:1,200'],
+                'items.*.width' => [Rule::requiredIf($must_items), 'integer', 'between:1,200'],
+                'items.*.height' => [Rule::requiredIf($must_items), 'integer', 'between:1,200'],
+                'items.*.category' => ['sometimes'],
                 'cod_failed_amount' => ['required', 'integer', 'min:1'],
             ])
         );
 
         handle_ghn_api(
-            $response = $this->http->post('shipping-order/create', $validator->validated())
+            $response = $this->http->post('v2/shipping-order/create', $validator->validated())
         );
 
         return $response->json('data');

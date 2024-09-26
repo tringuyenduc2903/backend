@@ -14,8 +14,8 @@ class Ghn
     public function __construct(protected PendingRequest $http)
     {
         $url = app()->environment('production')
-            ? 'https://online-gateway.ghn.vn/shiip/public-api/v2'
-            : 'https://dev-online-gateway.ghn.vn/shiip/public-api/v2';
+            ? 'https://online-gateway.ghn.vn/shiip/public-api'
+            : 'https://dev-online-gateway.ghn.vn/shiip/public-api';
         $token = config('services.giaohangnhanh.key');
 
         $this->http = Http::baseUrl($url)

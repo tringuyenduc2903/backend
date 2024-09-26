@@ -61,16 +61,16 @@
         },
         {
             "name": "algolia/algoliasearch-client-php",
-            "version": "4.4.3",
+            "version": "4.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algolia/algoliasearch-client-php.git",
-                "reference": "a6b050c306b66cc978f31851c12be686a4c0a671"
+                "reference": "72ac57e5985135714df7e54d5be09191c2199e01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algolia/algoliasearch-client-php/zipball/a6b050c306b66cc978f31851c12be686a4c0a671",
-                "reference": "a6b050c306b66cc978f31851c12be686a4c0a671",
+                "url": "https://api.github.com/repos/algolia/algoliasearch-client-php/zipball/72ac57e5985135714df7e54d5be09191c2199e01",
+                "reference": "72ac57e5985135714df7e54d5be09191c2199e01",
                 "shasum": ""
             },
             "require": {
@@ -124,9 +124,9 @@
             ],
             "support": {
                 "issues": "https://github.com/algolia/algoliasearch-client-php/issues",
-                "source": "https://github.com/algolia/algoliasearch-client-php/tree/4.4.3"
+                "source": "https://github.com/algolia/algoliasearch-client-php/tree/4.4.4"
             },
-            "time": "2024-09-19T10:21:27+00:00"
+            "time": "2024-09-25T11:40:03+00:00"
         },
         {
             "name": "aws/aws-crt-php",
@@ -243,16 +243,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.322.4",
+            "version": "3.322.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "f6d2c64cb87d9e70ad99aeaffcd879a412d2ccb5"
+                "reference": "968fe51da0854eac0e0aeac6ec8b86856c6bd83e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f6d2c64cb87d9e70ad99aeaffcd879a412d2ccb5",
-                "reference": "f6d2c64cb87d9e70ad99aeaffcd879a412d2ccb5",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/968fe51da0854eac0e0aeac6ec8b86856c6bd83e",
+                "reference": "968fe51da0854eac0e0aeac6ec8b86856c6bd83e",
                 "shasum": ""
             },
             "require": {
@@ -335,9 +335,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.322.4"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.322.5"
             },
-            "time": "2024-09-24T18:10:10+00:00"
+            "time": "2024-09-25T18:14:27+00:00"
         },
         {
             "name": "backpack/basset",
@@ -2950,16 +2950,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php-lite",
-            "version": "8.13.45",
+            "version": "8.13.46",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php-lite.git",
-                "reference": "4fe78c7d51e6ea49a7f286bfcc2f6aa6130088d1"
+                "reference": "d24dcb40b2d370a128fb3eee472c33752f7d6e66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php-lite/zipball/4fe78c7d51e6ea49a7f286bfcc2f6aa6130088d1",
-                "reference": "4fe78c7d51e6ea49a7f286bfcc2f6aa6130088d1",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php-lite/zipball/d24dcb40b2d370a128fb3eee472c33752f7d6e66",
+                "reference": "d24dcb40b2d370a128fb3eee472c33752f7d6e66",
                 "shasum": ""
             },
             "require": {
@@ -3029,7 +3029,7 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php-lite/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php-lite"
             },
-            "time": "2024-09-06T11:22:39+00:00"
+            "time": "2024-09-25T08:51:25+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -5422,23 +5422,23 @@
         },
         {
             "name": "mongodb/mongodb",
-            "version": "1.19.1",
+            "version": "1.17.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mongodb/mongo-php-library.git",
-                "reference": "afe425b629075fa597fa2d5645045cb20dc93d95"
+                "reference": "01d0840bf0678f519e72dc71b69c8a50a0856c2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/afe425b629075fa597fa2d5645045cb20dc93d95",
-                "reference": "afe425b629075fa597fa2d5645045cb20dc93d95",
+                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/01d0840bf0678f519e72dc71b69c8a50a0856c2d",
+                "reference": "01d0840bf0678f519e72dc71b69c8a50a0856c2d",
                 "shasum": ""
             },
             "require": {
-                "composer-runtime-api": "^2.0",
                 "ext-hash": "*",
                 "ext-json": "*",
-                "ext-mongodb": "^1.18.0",
+                "ext-mongodb": "^1.17.0",
+                "jean85/pretty-package-versions": "^2.0.1",
                 "php": "^7.4 || ^8.0",
                 "psr/log": "^1.1.4|^2|^3",
                 "symfony/polyfill-php80": "^1.27",
@@ -5446,7 +5446,7 @@
             },
             "require-dev": {
                 "doctrine/coding-standard": "^12.0",
-                "rector/rector": "^1.1",
+                "rector/rector": "^0.19",
                 "squizlabs/php_codesniffer": "^3.7",
                 "symfony/phpunit-bridge": "^5.2",
                 "vimeo/psalm": "^5.13"
@@ -5454,7 +5454,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x-dev"
+                    "dev-master": "1.17.x-dev"
                 }
             },
             "autoload": {
@@ -5493,9 +5493,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mongodb/mongo-php-library/issues",
-                "source": "https://github.com/mongodb/mongo-php-library/tree/1.19.1"
+                "source": "https://github.com/mongodb/mongo-php-library/tree/1.17.1"
             },
-            "time": "2024-06-13T14:30:04+00:00"
+            "time": "2024-03-14T10:33:11+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -13789,26 +13789,26 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.15.4",
+            "version": "2.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "a139776fa3f5985a50b509f2a02ff0f709d2a546"
+                "reference": "befcdc0e5dce67252aa6322d82424be928214fa2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/a139776fa3f5985a50b509f2a02ff0f709d2a546",
-                "reference": "a139776fa3f5985a50b509f2a02ff0f709d2a546",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/befcdc0e5dce67252aa6322d82424be928214fa2",
+                "reference": "befcdc0e5dce67252aa6322d82424be928214fa2",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9 || ^7.0 || ^8.0",
+                "php": "^7.1 || ^8.0",
                 "psr/log": "^1.0.1 || ^2.0 || ^3.0"
             },
             "require-dev": {
-                "mockery/mockery": "^0.9 || ^1.0",
-                "phpunit/phpunit": "^4.8.36 || ^5.7.27 || ^6.5.14 || ^7.5.20 || ^8.5.8 || ^9.3.3",
-                "symfony/var-dumper": "^2.6 || ^3.0 || ^4.0 || ^5.0"
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "^7.5.20 || ^8.5.8 || ^9.3.3",
+                "symfony/var-dumper": "^4.0 || ^5.0"
             },
             "suggest": {
                 "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
@@ -13848,7 +13848,7 @@
             ],
             "support": {
                 "issues": "https://github.com/filp/whoops/issues",
-                "source": "https://github.com/filp/whoops/tree/2.15.4"
+                "source": "https://github.com/filp/whoops/tree/2.16.0"
             },
             "funding": [
                 {
@@ -13856,7 +13856,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-11-03T12:00:00+00:00"
+            "time": "2024-09-25T12:00:00+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",

@@ -142,9 +142,7 @@ if (! function_exists('handle_cache')) {
 if (! function_exists('current_user')) {
     function current_user(int $customer_id): Customer|Employee
     {
-        if (backpack_auth()->check()) {
-            $customer = backpack_user();
-        } elseif (fortify_auth()->check()) {
+        if (fortify_auth()->check()) {
             $customer = fortify_user();
         } else {
             $customer = Customer::findOrFail($customer_id);
@@ -166,11 +164,9 @@ if (! function_exists('current_currency')) {
 if (! function_exists('current_store')) {
     function current_store(): int
     {
-        $value = json_decode(
-            Setting::where('key', 'store_ghn')
-                ->firstOrFail()
-                ->getAttribute('value')
-        )->value;
+        $value = Setting::where('key', 'store_ghn')
+            ->firstOrFail()
+            ->getAttribute('value');
 
         return json_decode($value)->shop_id;
     }
@@ -179,11 +175,9 @@ if (! function_exists('current_store')) {
 if (! function_exists('current_store_district')) {
     function current_store_district(): int
     {
-        $value = json_decode(
-            Setting::where('key', 'store_ghn')
-                ->firstOrFail()
-                ->getAttribute('value')
-        )->value;
+        $value = Setting::where('key', 'store_ghn')
+            ->firstOrFail()
+            ->getAttribute('value');
 
         return json_decode($value)->district_id;
     }

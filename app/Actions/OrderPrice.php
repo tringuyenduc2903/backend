@@ -57,10 +57,8 @@ class OrderPrice
                 $this->weight += $option->weight * $amount;
 
                 return [
-                    'option' => $option->id,
-                    'price' => $option->price,
+                    'option' => $option,
                     'amount' => $amount,
-                    'value_added_tax' => $option->value_added_tax,
                 ];
             },
             $this->options
@@ -69,7 +67,7 @@ class OrderPrice
 
     protected function handleShippingFee(): void
     {
-        if ($this->shipping_type !== OrderShippingType::DOOR_TO_DOOR_DELIVERY) {
+        if ($this->shipping_type != OrderShippingType::DOOR_TO_DOOR_DELIVERY) {
             return;
         }
 
