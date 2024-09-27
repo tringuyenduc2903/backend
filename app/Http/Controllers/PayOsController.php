@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\OrderStatus;
-use App\Enums\OrderTransactionStatus;
+use App\Enums\PayOsStatus;
 use App\Events\OrderCreatedEvent;
 use App\Facades\PayOS;
 use App\Listeners\CreateGhnShip;
@@ -20,23 +20,20 @@ class PayOsController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $data = PayOS::verifyPaymentWebhookData($request->all());
+        $webhook_data = PayOS::verifyPaymentWebhookData($request->all());
 
-        $order = Order::findOrFail($data['orderCode']);
+        $payment_link_information = PayOS::getPaymentLinkInformation($webhook_data['orderCode']);
+
+        $order = Order::findOrFail($webhook_data['orderCode']);
 
         $order->transactions()->create([
-            'amount' => $data['amount'],
-            'status' => match ($data['status']) {
-                'PAID' => OrderTransactionStatus::SUCCESSFULLY,
-                'PENDING', 'PROCESSING' => OrderTransactionStatus::PENDING,
-                'CANCELLED' => OrderTransactionStatus::FAILED,
-                default => null,
-            },
-            'reference' => $data['reference'],
+            'amount' => $webhook_data['amount'],
+            'status' => PayOsStatus::valueForKey($payment_link_information['status']),
+            'reference' => $webhook_data['reference'],
         ]);
 
-        switch ($data['status']) {
-            case 'PAID':
+        switch ($payment_link_information['status']) {
+            case PayOsStatus::PAID:
                 $order->update([
                     'status' => OrderStatus::TO_SHIP,
                 ]);
@@ -48,7 +45,7 @@ class PayOsController extends Controller
                     ]),
                 ]);
                 break;
-            case 'CANCELLED':
+            case PayOsStatus::CANCELLED:
                 $order->update([
                     'status' => OrderStatus::CANCELLED,
                 ]);

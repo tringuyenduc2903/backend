@@ -33,4 +33,12 @@ class PayOS
     {
         return $this->pay_os->createPaymentLink($data);
     }
+
+    /**
+     * @throws Exception
+     */
+    public function getPaymentLinkInformation(int $order_id): array
+    {
+        return $this->pay_os->getPaymentLinkInformation($order_id);
+    }
 }
