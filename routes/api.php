@@ -52,4 +52,6 @@ Route::apiResource('branch', BranchController::class)
 
 Route::get('setting/{setting_type}', SettingController::class);
 
+Route::post('ghn', GhnController::class);
+
 require __DIR__.'/auth.php';
