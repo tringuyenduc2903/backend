@@ -17,7 +17,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Validation\Validator;
 
 if (! function_exists('revoke_token')) {
     function revoke_token($token_name): mixed
@@ -84,17 +83,6 @@ if (! function_exists('mb_ucwords')) {
     function mb_ucwords(?string $string): string
     {
         return mb_convert_case($string, MB_CASE_TITLE, 'UTF-8');
-    }
-}
-
-if (! function_exists('handle_validate_failure')) {
-    function handle_validate_failure(Validator $validator): void
-    {
-        if ($validator->fails()) {
-            throw app(Exception::class, [
-                'message' => $validator->errors()->first(),
-            ]);
-        }
     }
 }
 

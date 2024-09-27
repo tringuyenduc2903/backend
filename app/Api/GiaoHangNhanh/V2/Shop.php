@@ -3,7 +3,6 @@
 namespace App\Api\GiaoHangNhanh\V2;
 
 use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Support\Facades\Validator;
 
 trait Shop
 {
@@ -26,16 +25,8 @@ trait Shop
      */
     public function shop(array $data): array
     {
-        handle_validate_failure(
-            $validator = Validator::make($data, [
-                'offset' => ['sometimes', 'integer', 'min:0'],
-                'limit' => ['sometimes', 'integer', 'min:0'],
-                'clientphone' => ['sometimes', 'string'],
-            ])
-        );
-
         return $this->handleResponse(
-            $this->http->post('v2/shop/all', $validator->validated())
+            $this->http->post('v2/shop/all', $data)
         );
     }
 }
