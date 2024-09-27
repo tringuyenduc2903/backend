@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Enums\OrderStatus;
 use App\Enums\OrderTransactionStatus;
 use App\Events\OrderCreatedEvent;
+use App\Facades\PayOS;
 use App\Listeners\CreateGhnShip;
 use App\Models\Order;
 use Exception;
 use Illuminate\Http\Request;
-use PayOS\PayOS;
 
 class PayOsController extends Controller
 {
@@ -20,13 +20,7 @@ class PayOsController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $data = app(PayOS::class, [
-            'clientId' => config('services.payos.client_id'),
-            'apiKey' => config('services.payos.client_secret'),
-            'checksumKey' => config('services.payos.checksum'),
-            'partnerCode' => config('services.payos.partner_code'),
-        ])
-            ->verifyPaymentWebhookData($request->all());
+        $data = PayOS::verifyPaymentWebhookData($request->all());
 
         $order = Order::findOrFail($data['orderCode']);
 

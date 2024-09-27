@@ -4,9 +4,9 @@ namespace App\Listeners;
 
 use App\Enums\OrderPaymentMethod;
 use App\Events\OrderCreatedEvent;
+use App\Facades\PayOS;
 use App\Models\OrderProduct;
 use Exception;
-use PayOS\PayOS;
 
 class CreatePayOsPayment
 {
@@ -42,25 +42,12 @@ class CreatePayOsPayment
             'returnUrl' => route('orders.show', ['id' => $event->order->id]),
         ];
 
-        $pay_os = app(PayOS::class, [
-            'clientId' => config('services.payos.client_id'),
-            'apiKey' => config('services.payos.client_secret'),
-            'checksumKey' => config('services.payos.checksum'),
-            'partnerCode' => config('services.payos.partner_code'),
-        ]);
-
-        $response = $pay_os->createPaymentLink($data);
+        $response = PayOS::createPaymentLink($data);
 
         $event->order
             ->forceFill([
                 'payment_checkout_url' => $response['checkoutUrl'],
             ])
             ->save();
-
-        if (app()->environment('local')) {
-            return;
-        }
-
-        $pay_os->confirmWebhook(route('pay_os'));
     }
 }

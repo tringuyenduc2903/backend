@@ -54,6 +54,6 @@ Route::get('setting/{setting_type}', SettingController::class);
 
 Route::post('ghn', GhnController::class);
 
-Route::post('pay_os', PayOsController::class)->name('pay_os');
+Route::post('pay_os', PayOsController::class);
 
 require __DIR__.'/auth.php';
