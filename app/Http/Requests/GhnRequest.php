@@ -38,8 +38,9 @@ class GhnRequest extends FormRequest
                 Rule::in(GhnOrderStatusEnum::keys()),
             ],
             'Description' => [
-                'required',
+                'nullable',
                 'string',
+                'max:255',
             ],
             'Reason' => [
                 'nullable',

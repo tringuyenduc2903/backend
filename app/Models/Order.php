@@ -87,10 +87,10 @@ class Order extends Model
 
     public function canCancel(): bool
     {
-        return ! in_array(
-            $this->status,
-            [OrderStatus::TO_RECEIVE, OrderStatus::CANCELLED]
-        );
+        return in_array($this->status, [
+            OrderStatus::TO_PAY,
+            OrderStatus::TO_SHIP,
+        ]);
     }
 
     /*
