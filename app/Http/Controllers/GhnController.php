@@ -23,11 +23,15 @@ class GhnController extends Controller
             'reason' => $request->validated('Reason'),
         ]);
 
-        if ($request->validated('Status') === GhnOrderStatusEnum::PICKED) {
-            $order->update([
+        match ($request->validated('Status')) {
+            GhnOrderStatusEnum::PICKED => $order->update([
                 'status' => OrderStatus::TO_RECEIVE,
-            ]);
-        }
+            ]),
+            GhnOrderStatusEnum::DELIVERED => $order->update([
+                'status' => OrderStatus::COMPLETED,
+            ]),
+            default => null,
+        };
 
         return response()->json('');
     }
