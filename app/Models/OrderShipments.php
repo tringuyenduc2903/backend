@@ -23,7 +23,7 @@ class OrderShipments extends Model
     protected $fillable = [
         'name',
         'description',
-        'status',
+        'reason',
         'order_id',
     ];
 

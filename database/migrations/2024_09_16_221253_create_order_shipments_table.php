@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('order_shipments', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name', 30);
             $table->string('description');
-            $table->string('status');
+            $table->string('reason', 10)->nullable();
             $table->foreignId('order_id')
                 ->constrained()
                 ->cascadeOnDelete()

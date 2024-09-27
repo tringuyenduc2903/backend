@@ -33,7 +33,7 @@ trait ShippingOrder
         $data['shop_id'] = current_store();
         $data['service_type_id'] = $this->getServiceTypeId($data['weight']);
 
-        $must_items = $data['service_type_id'] === self::HANG_NANG && count($data['items']);
+        $must_items = $data['service_type_id'] == self::HANG_NANG && count($data['items']);
 
         handle_validate_failure(
             $validator = Validator::make($data, [

@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\GhnOrderReasonEnum;
+use App\Enums\GhnOrderStatusEnum;
 use App\Models\Order;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -30,18 +32,22 @@ class GhnRequest extends FormRequest
                 'string',
                 Rule::exists(Order::class, 'shipping_code'),
             ],
-            'Type' => [
+            'Status' => [
                 'required',
                 'string',
-                Rule::in(['Create', 'Switch_status', 'Update_weight', 'Update_cod', 'Update_fee']),
+                Rule::in(GhnOrderStatusEnum::keys()),
             ],
             'Description' => [
                 'required',
                 'string',
             ],
-            'Status' => [
-                'required',
+            'Reason' => [
+                'nullable',
                 'string',
+                Rule::when(
+                    $this->input('Reason'),
+                    Rule::in(GhnOrderReasonEnum::keys()),
+                ),
             ],
         ];
     }
