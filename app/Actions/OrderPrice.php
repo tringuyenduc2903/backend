@@ -2,7 +2,7 @@
 
 namespace App\Actions;
 
-use App\Enums\OrderShippingType;
+use App\Enums\OrderShippingMethod;
 use App\Facades\Ghn;
 use App\Models\Address;
 use App\Models\Option;
@@ -11,7 +11,7 @@ class OrderPrice
 {
     public function __construct(
         protected array $options,
-        protected int $shipping_type,
+        protected int $shipping_method,
         protected int $address_id,
         protected array $items = [],
         protected float $price = 0,
@@ -77,7 +77,7 @@ class OrderPrice
 
     protected function handleShippingFee(): void
     {
-        if ($this->shipping_type != OrderShippingType::DOOR_TO_DOOR_DELIVERY) {
+        if ($this->shipping_method != OrderShippingMethod::DOOR_TO_DOOR_DELIVERY) {
             return;
         }
 
@@ -90,7 +90,7 @@ class OrderPrice
             'length' => $this->length,
             'width' => $this->width,
             'height' => $this->height,
-            'insurance_value' => $this->price,
+            'insurance_value' => (int) $this->price,
             'items' => $this->items,
         ]);
 

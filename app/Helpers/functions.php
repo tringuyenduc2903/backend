@@ -261,32 +261,6 @@ if (! function_exists('percent_preview')) {
     }
 }
 
-if (! function_exists('phone_number_search_logic')) {
-    function phone_number_search_logic(Builder $query, string $search_term): Builder
-    {
-        return $query->orWhereHas(
-            'customer',
-            fn (Builder $query): Builder => $query->whereLike(
-                'phone_number',
-                "%$search_term%"
-            )
-        );
-    }
-}
-
-if (! function_exists('customer_phone_number_search_logic')) {
-    function customer_phone_number_search_logic(Builder $query, string $search_term): Builder
-    {
-        return $query->orWhereHas(
-            'address',
-            fn (Builder $query): Builder => $query->whereLike(
-                'customer_phone_number',
-                "%$search_term%"
-            )
-        );
-    }
-}
-
 if (! function_exists('get_product')) {
     function get_product(?int $option_id, $ignore_motor_cycle = true): ?Option
     {

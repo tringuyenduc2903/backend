@@ -83,9 +83,6 @@ class ProductCrudController extends CrudController
         CRUD::column('manufacturer')
             ->label(trans('Manufacturer'));
 
-        CRUD::filter('name')
-            ->label(trans('Name'))
-            ->type('text');
         CRUD::addFilter(
             [
                 'name' => 'category_id',
@@ -114,9 +111,6 @@ class ProductCrudController extends CrudController
             ->label(trans('Type'))
             ->type('dropdown')
             ->values(ProductType::values());
-        CRUD::filter('manufacturer')
-            ->label(trans('Manufacturer'))
-            ->type('text');
     }
 
     /**

@@ -5,12 +5,12 @@ namespace App\Enums;
 use Rexlabs\Enum\Enum;
 
 /**
- * The OrderShippingType enum.
+ * The OrderShippingMethod enum.
  *
  * @method static self PICKUP_AT_STORE()
  * @method static self DOOR_TO_DOOR_DELIVERY()
  */
-class OrderShippingType extends Enum
+class OrderShippingMethod extends Enum
 {
     const PICKUP_AT_STORE = 0;
 

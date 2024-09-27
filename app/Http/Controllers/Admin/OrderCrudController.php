@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\EmployeePermissionEnum;
 use App\Enums\OptionStatus;
-use App\Enums\OrderShippingType;
+use App\Enums\OrderPaymentMethod;
+use App\Enums\OrderShippingMethod;
 use App\Enums\OrderStatus;
-use App\Enums\OrderTransactionType;
 use App\Enums\ProductType;
 use App\Events\OrderCreatedEvent;
 use App\Http\Controllers\Admin\Operations\CancelOrderOperation;
@@ -89,29 +89,40 @@ class OrderCrudController extends CrudController
     {
         CRUD::column('id')
             ->label(trans('Id'));
-        CRUD::column('customer.phone_number')
-            ->label(trans('Customer'))
-            ->type('phone')
+        CRUD::column('address.customer_name')
+            ->label(trans('Name'))
             ->searchLogic(
-                fn (Builder $query, array $_, string $search_term): Builder => phone_number_search_logic($query, $search_term)
+                fn (Builder $query, array $_, string $search_term): Builder => $query->orWhereHas(
+                    'address',
+                    fn (Builder $query): Builder => $query->whereLike(
+                        'customer_name',
+                        "%$search_term%"
+                    )
+                )
             );
         CRUD::column('address.customer_phone_number')
             ->label(trans('Phone number'))
             ->type('phone')
             ->searchLogic(
-                fn (Builder $query, array $_, string $search_term): Builder => customer_phone_number_search_logic($query, $search_term)
+                fn (Builder $query, array $_, string $search_term): Builder => $query->orWhereHas(
+                    'address',
+                    fn (Builder $query): Builder => $query->whereLike(
+                        'customer_phone_number',
+                        "%$search_term%"
+                    )
+                )
             );
         CRUD::addColumn([
-            'name' => 'shipping_type',
-            'label' => trans('Shipping type'),
+            'name' => 'shipping_method',
+            'label' => trans('Shipping method'),
             'type' => 'select2_from_array',
-            'options' => OrderShippingType::values(),
+            'options' => OrderShippingMethod::values(),
         ]);
         CRUD::addColumn([
-            'name' => 'transaction_type',
-            'label' => trans('Transaction type'),
+            'name' => 'payment_method',
+            'label' => trans('Payment method'),
             'type' => 'select2_from_array',
-            'options' => OrderTransactionType::values(),
+            'options' => OrderPaymentMethod::values(),
         ]);
         CRUD::addColumn([
             'name' => 'status',
@@ -119,26 +130,25 @@ class OrderCrudController extends CrudController
             'type' => 'select2_from_array',
             'options' => OrderStatus::values(),
         ]);
-
-        CRUD::addFilter(
-            [
-                'name' => 'customer_id',
-                'label' => trans('Customer'),
-                'type' => 'select2_ajax',
-                'minimum_input_length' => 0,
-                'method' => 'POST',
-                'select_attribute' => 'phone_number',
+        CRUD::addColumn([
+            'name' => 'shipping_code',
+            'label' => trans('Shipping code'),
+            'wrapper' => [
+                'href' => fn ($_, $__, $entry): string => sprintf(
+                    'https://donhang.ghn.vn/?order_code=%s',
+                    $entry->shipping_code
+                ),
             ],
-            route('orders.fetchCustomers')
-        );
-        CRUD::filter('shipping_type')
-            ->label(trans('Shipping type'))
+        ]);
+
+        CRUD::filter('shipping_method')
+            ->label(trans('Shipping method'))
             ->type('dropdown')
-            ->values(OrderShippingType::values());
-        CRUD::filter('transaction_type')
-            ->label(trans('Transaction type'))
+            ->values(OrderShippingMethod::values());
+        CRUD::filter('payment_method')
+            ->label(trans('Payment method'))
             ->type('dropdown')
-            ->values(OrderTransactionType::values());
+            ->values(OrderPaymentMethod::values());
         CRUD::filter('status')
             ->label(trans('Status'))
             ->type('dropdown')
@@ -156,9 +166,6 @@ class OrderCrudController extends CrudController
 
         CRUD::column('id')
             ->label(trans('Id'));
-        CRUD::column('customer.phone_number')
-            ->label(trans('Customer'))
-            ->type('phone');
         CRUD::column('address.customer_name')
             ->label(trans('Name'));
         CRUD::column('address.customer_phone_number')
@@ -221,16 +228,16 @@ class OrderCrudController extends CrudController
             ->label(trans('Note'))
             ->type('textarea');
         CRUD::addColumn([
-            'name' => 'shipping_type',
-            'label' => trans('Shipping type'),
+            'name' => 'shipping_method',
+            'label' => trans('Shipping method'),
             'type' => 'select2_from_array',
-            'options' => OrderShippingType::values(),
+            'options' => OrderShippingMethod::values(),
         ]);
         CRUD::addColumn([
-            'name' => 'transaction_type',
-            'label' => trans('Transaction type'),
+            'name' => 'payment_method',
+            'label' => trans('Payment method'),
             'type' => 'select2_from_array',
-            'options' => OrderTransactionType::values(),
+            'options' => OrderPaymentMethod::values(),
         ]);
         CRUD::addColumn([
             'name' => 'status',
@@ -343,17 +350,17 @@ class OrderCrudController extends CrudController
             'tab' => trans('Price quote'),
         ]);
         CRUD::addField([
-            'name' => 'shipping_type',
-            'label' => trans('Shipping type'),
+            'name' => 'shipping_method',
+            'label' => trans('Shipping method'),
             'type' => 'select2_from_array',
-            'options' => OrderShippingType::values(),
+            'options' => OrderShippingMethod::values(),
             'tab' => trans('Price quote'),
         ]);
         CRUD::addField([
-            'name' => 'transaction_type',
-            'label' => trans('Transaction type'),
+            'name' => 'payment_method',
+            'label' => trans('Payment method'),
             'type' => 'select2_from_array',
-            'options' => OrderTransactionType::values(),
+            'options' => OrderPaymentMethod::values(),
             'tab' => trans('Price quote'),
         ]);
         CRUD::field('tax')

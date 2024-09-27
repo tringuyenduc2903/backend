@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Enums\OrderShippingType;
+use App\Enums\OrderPaymentMethod;
+use App\Enums\OrderShippingMethod;
 use App\Enums\OrderStatus;
-use App\Enums\OrderTransactionType;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,8 +29,8 @@ class Order extends Model
     protected $fillable = [
         'status',
         'note',
-        'shipping_type',
-        'transaction_type',
+        'shipping_method',
+        'payment_method',
         'other_fields',
         'address_id',
         'identification_id',
@@ -80,14 +80,14 @@ class Order extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected function getShippingTypePreviewAttribute(): string
+    protected function getShippingMethodPreviewAttribute(): string
     {
-        return OrderShippingType::valueForKey($this->shipping_type);
+        return OrderShippingMethod::valueForKey($this->shipping_method);
     }
 
-    protected function getTransactionTypePreviewAttribute(): string
+    protected function getPaymentMethodPreviewAttribute(): string
     {
-        return OrderTransactionType::valueForKey($this->transaction_type);
+        return OrderPaymentMethod::valueForKey($this->payment_method);
     }
 
     protected function getStatusPreviewAttribute(): string

@@ -3,8 +3,8 @@
 namespace App\Listeners;
 
 use App\Api\GiaoHangNhanh\Ghn;
-use App\Enums\OrderShippingType;
-use App\Enums\OrderTransactionType;
+use App\Enums\OrderPaymentMethod;
+use App\Enums\OrderShippingMethod;
 use App\Events\OrderCreatedEvent;
 use App\Models\OrderProduct;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -16,7 +16,7 @@ class CreateGhnOrder implements ShouldQueue
      */
     public function handle(OrderCreatedEvent $event): void
     {
-        if ($event->order->shipping_type != OrderShippingType::DOOR_TO_DOOR_DELIVERY) {
+        if ($event->order->shipping_method != OrderShippingMethod::DOOR_TO_DOOR_DELIVERY) {
             return;
         }
 
@@ -50,7 +50,7 @@ class CreateGhnOrder implements ShouldQueue
                 ->toArray(),
         ];
 
-        if ($event->order->transaction_type == OrderTransactionType::PAYMENT_ON_DELIVERY) {
+        if ($event->order->payment_method == OrderPaymentMethod::PAYMENT_ON_DELIVERY) {
             $data['cod_amount'] = (int) $event->order->total;
         }
 
@@ -58,6 +58,12 @@ class CreateGhnOrder implements ShouldQueue
             $data['note'] = $event->order->note;
         }
 
-        \App\Facades\Ghn::createOrder($data);
+        $response = \App\Facades\Ghn::createOrder($data);
+
+        $event->order
+            ->forceFill([
+                'shipping_code' => $response['order_code'],
+            ])
+            ->save();
     }
 }

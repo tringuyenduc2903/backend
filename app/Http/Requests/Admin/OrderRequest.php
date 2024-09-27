@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Enums\OrderShippingType;
-use App\Enums\OrderTransactionType;
+use App\Enums\OrderPaymentMethod;
+use App\Enums\OrderShippingMethod;
 use App\Models\Address;
 use App\Models\Customer;
 use Illuminate\Foundation\Http\FormRequest;
@@ -67,15 +67,15 @@ class OrderRequest extends FormRequest
                     }
                 },
             ],
-            'shipping_type' => [
+            'shipping_method' => [
                 'required',
                 'integer',
-                Rule::in(OrderShippingType::keys()),
+                Rule::in(OrderShippingMethod::keys()),
             ],
-            'transaction_type' => [
+            'payment_method' => [
                 'required',
                 'integer',
-                Rule::in(OrderTransactionType::keys()),
+                Rule::in(OrderPaymentMethod::keys()),
             ],
             'customer' => [
                 'required',

@@ -5,11 +5,11 @@ namespace App\Enums;
 use Rexlabs\Enum\Enum;
 
 /**
- * The OrderTransactionType enum.
+ * The OrderPaymentMethod enum.
  *
  * @method static self PAYMENT_ON_DELIVERY()
  */
-class OrderTransactionType extends Enum
+class OrderPaymentMethod extends Enum
 {
     const PAYMENT_ON_DELIVERY = 0;
 

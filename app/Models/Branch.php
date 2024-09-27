@@ -92,7 +92,7 @@ class Branch extends Model
     protected function getAddressPreviewAttribute(): string
     {
         return sprintf(
-            '%s, %s, %s, %s (%s)',
+            '%s, %s, %s, %s, %s',
             $this->address_detail,
             $this->ward?->name,
             $this->district?->name,

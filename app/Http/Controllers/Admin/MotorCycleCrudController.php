@@ -70,12 +70,6 @@ class MotorCycleCrudController extends CrudController
         CRUD::column('option.sku')
             ->label(trans('Product'));
 
-        CRUD::filter('chassis_number')
-            ->label(trans('Chassis number'))
-            ->type('text');
-        CRUD::filter('engine_number')
-            ->label(trans('Engine number'))
-            ->type('text');
         CRUD::filter('status')
             ->label(trans('Status'))
             ->type('dropdown')

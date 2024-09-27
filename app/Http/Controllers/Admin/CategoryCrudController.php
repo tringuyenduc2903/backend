@@ -69,13 +69,6 @@ class CategoryCrudController extends CrudController
             ],
             'suffix' => ' '.trans('Product'),
         ]);
-
-        CRUD::filter('name')
-            ->label(trans('Name'))
-            ->type('text');
-        CRUD::filter('search_url')
-            ->label(trans('Search URL'))
-            ->type('text');
     }
 
     /**

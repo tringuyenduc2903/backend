@@ -65,13 +65,6 @@ class BranchCrudController extends CrudController
             ->withFiles(['disk' => 'branch']);
         CRUD::column('address_preview')
             ->label(trans('Address'));
-
-        CRUD::filter('name')
-            ->label(trans('Name'))
-            ->type('text');
-        CRUD::filter('phone_number')
-            ->label(trans('Phone number'))
-            ->type('text');
     }
 
     /**
@@ -98,8 +91,7 @@ class BranchCrudController extends CrudController
         CRUD::field('name')
             ->label(trans('Name'));
         CRUD::field('phone_number')
-            ->label(trans('Phone number'))
-            ->type('text');
+            ->label(trans('Phone number'));
         CRUD::addField([
             'name' => 'image',
             'label' => trans('Image'),
@@ -113,7 +105,6 @@ class BranchCrudController extends CrudController
             ->label(trans('Alt text'));
         CRUD::field('country')
             ->label(trans('Country'))
-            ->type('text')
             ->default('Việt Nam');
         CRUD::addField([
             'name' => 'province',

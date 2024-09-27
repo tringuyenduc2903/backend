@@ -20,8 +20,10 @@ return new class extends Migration
             $table->decimal('total', 12)->default(0);
             $table->tinyInteger('status');
             $table->string('note', 255)->nullable();
-            $table->unsignedTinyInteger('shipping_type');
-            $table->unsignedTinyInteger('transaction_type');
+            $table->unsignedTinyInteger('shipping_method');
+            $table->unsignedTinyInteger('payment_method');
+            $table->string('shipping_code', 50)->nullable();
+            $table->string('payment_link')->nullable();
             $table->json('other_fields')->default(json_encode([]));
             $table->foreignId('address_id')
                 ->nullable()

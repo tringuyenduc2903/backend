@@ -77,15 +77,6 @@ class CustomerCrudController extends CrudController
             'options' => CustomerGender::values(),
         ]);
 
-        CRUD::filter('name')
-            ->label(trans('Name'))
-            ->type('text');
-        CRUD::filter('email')
-            ->label(trans('Email'))
-            ->type('text');
-        CRUD::filter('phone_number')
-            ->label(trans('Phone number'))
-            ->type('text');
         CRUD::filter('birthday')
             ->label(trans('Birthday'))
             ->type('date');

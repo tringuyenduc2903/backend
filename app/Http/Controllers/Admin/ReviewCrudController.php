@@ -105,12 +105,6 @@ class ReviewCrudController extends CrudController
             },
             fn () => CRUD::addClause('whereReviewableType', Customer::class)
         );
-        CRUD::filter('content')
-            ->label(trans('Content'))
-            ->type('text');
-        CRUD::filter('rate')
-            ->label(trans('Rate'))
-            ->type('text');
     }
 
     /**

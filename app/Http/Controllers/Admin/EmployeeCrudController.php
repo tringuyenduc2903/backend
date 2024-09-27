@@ -59,12 +59,6 @@ class EmployeeCrudController extends CrudController
         CRUD::column('roles')
             ->label(trans('Roles'));
 
-        CRUD::filter('name')
-            ->label(trans('Name'))
-            ->type('text');
-        CRUD::filter('email')
-            ->label(trans('Email'))
-            ->type('text');
         CRUD::addFilter(
             [
                 'name' => 'role_id',
