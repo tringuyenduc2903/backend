@@ -47,7 +47,7 @@ trait ShippingOrder
                 'to_name' => ['required', 'string', 'max:1024'],
                 'to_phone' => ['required', 'string'],
                 'to_address' => ['required', 'string', 'max:1024'],
-                'to_ward_code' => ['required', 'integer', Rule::exists(Ward::class, 'ghn_id')],
+                'to_ward_code' => ['required', 'string', Rule::exists(Ward::class, 'ghn_id')],
                 'to_district_code' => ['required', 'integer', Rule::exists(District::class, 'ghn_id')],
                 'return_phone' => ['sometimes', 'string'],
                 'return_address' => ['sometimes', 'string', 'max:1024'],
