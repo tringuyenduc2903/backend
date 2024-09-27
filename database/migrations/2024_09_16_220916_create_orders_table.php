@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -19,7 +18,7 @@ return new class extends Migration
             $table->json('other_fees')->default(json_encode([]));
             $table->decimal('total', 12)->default(0);
             $table->tinyInteger('status');
-            $table->string('note', 255)->nullable();
+            $table->string('note')->nullable();
             $table->unsignedTinyInteger('shipping_method');
             $table->unsignedTinyInteger('payment_method');
             $table->string('shipping_code', 50)->nullable();

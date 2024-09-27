@@ -4,26 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Enums\GhnOrderStatus;
 use App\Enums\OrderStatus;
-use App\Http\Requests\GhnRequest;
 use App\Models\Order;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class GhnController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(GhnRequest $request): JsonResponse
+    public function __invoke(Request $request): JsonResponse
     {
-        $order = Order::whereShippingCode($request->validated('OrderCode'))->firstOrFail();
+        $order = Order::whereShippingCode($request->OrderCode)->firstOrFail();
 
         $order->shipments()->create([
-            'name' => $request->validated('Status'),
-            'description' => $request->validated('Description'),
-            'reason' => $request->validated('Reason'),
+            'name' => $request->Status,
+            'description' => $request->Description,
+            'reason' => $request->Reason,
         ]);
 
-        match ($request->validated('Status')) {
+        match ($request->Status) {
             GhnOrderStatus::PICKED => $order->update([
                 'status' => OrderStatus::TO_RECEIVE,
             ]),

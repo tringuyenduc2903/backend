@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\AdminOrderCreatedEvent;
+use App\Events\FrontendOrderCreatedEvent;
+use App\Listeners\CreateGhnShip;
+use App\Listeners\CreatePayOsPayment;
 use App\Models\Address;
 use App\Models\Customer;
 use App\Models\Identification;
@@ -17,6 +21,7 @@ use App\Observers\StoreOrderProductObserver;
 use App\Rules\Action;
 use App\Rules\Image;
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,7 +30,9 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void {}
+    public function register(): void
+    {
+    }
 
     /**
      * Bootstrap any application services.
@@ -48,13 +55,18 @@ class AppServiceProvider extends ServiceProvider
         Order::observe(StoreOrderObserver::class);
         OrderProduct::observe(StoreOrderProductObserver::class);
 
+        Event::listen(AdminOrderCreatedEvent::class, [CreatePayOsPayment::class, 'handle']);
+        Event::listen(AdminOrderCreatedEvent::class, [CreateGhnShip::class, 'handle']);
+        Event::listen(FrontendOrderCreatedEvent::class, [CreatePayOsPayment::class, 'handle']);
+        Event::listen(FrontendOrderCreatedEvent::class, [CreateGhnShip::class, 'handle']);
+
         Validator::extend(
             'actions',
-            fn ($attribute, $value, $parameters, $validator): bool => Action::extends($attribute, $value, $validator)
+            fn($attribute, $value, $parameters, $validator): bool => Action::extends($attribute, $value, $validator)
         );
         Validator::extend(
             'image_banner',
-            fn ($attribute, $value, $parameters, $validator): bool => Image::extends($attribute, $value, $validator)
+            fn($attribute, $value, $parameters, $validator): bool => Image::extends($attribute, $value, $validator)
         );
     }
 }

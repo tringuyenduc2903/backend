@@ -2,20 +2,20 @@
 
 namespace App\Listeners;
 
-use App\Events\OrderCreatedEvent;
-use App\Mail\OrderCreated;
+use App\Events\AdminOrderCreatedEvent;
+use App\Mail\AdminOrderCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
-class SendOrderCreatedNotification implements ShouldQueue
+class SendAdminOrderCreatedNotification implements ShouldQueue
 {
     /**
      * Handle the event.
      */
-    public function handle(OrderCreatedEvent $event): void
+    public function handle(AdminOrderCreatedEvent $event): void
     {
         Mail::to($event->order->customer)->send(
-            app(OrderCreated::class, [
+            app(AdminOrderCreated::class, [
                 'order' => $event->order,
                 'employee' => $event->employee,
             ])

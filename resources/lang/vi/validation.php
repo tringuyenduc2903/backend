@@ -294,5 +294,9 @@ return [
         'customer' => 'khách hàng',
         'address' => 'địa chỉ',
         'note' => 'ghi chú',
+        'options.*.option_id' => 'sản phẩm',
+        'shipping_method' => 'phương thức vận chuyển',
+        'payment_method' => 'phương thức thanh toán',
+        'address_id' => 'địa chỉ',
     ],
 ];

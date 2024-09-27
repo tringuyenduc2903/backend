@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\OrderStatus;
 use App\Enums\PayOsStatus;
-use App\Events\OrderCreatedEvent;
+use App\Events\AdminOrderCreatedEvent;
 use App\Facades\PayOS;
 use App\Listeners\CreateGhnShip;
 use App\Models\Order;
@@ -39,7 +39,7 @@ class PayOsController extends Controller
                 ]);
 
                 app(CreateGhnShip::class, [
-                    'event' => app(OrderCreatedEvent::class, [
+                    'event' => app(AdminOrderCreatedEvent::class, [
                         'order' => $order,
                         'employee' => backpack_user(),
                     ]),

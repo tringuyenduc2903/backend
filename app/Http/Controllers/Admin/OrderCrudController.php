@@ -10,7 +10,7 @@ use App\Enums\OrderPaymentMethod;
 use App\Enums\OrderShippingMethod;
 use App\Enums\OrderStatus;
 use App\Enums\ProductType;
-use App\Events\OrderCreatedEvent;
+use App\Events\AdminOrderCreatedEvent;
 use App\Http\Controllers\Admin\Operations\CancelOrderOperation;
 use App\Http\Requests\Admin\OrderRequest;
 use App\Models\Address;
@@ -57,10 +57,10 @@ class OrderCrudController extends CrudController
 
         CRUD::operation(
             ['list', 'show'],
-            fn () => CRUD::addButton('line', 'cancel_order', 'view', 'crud.buttons.order.cancel_order', 'end'));
+            fn() => CRUD::addButton('line', 'cancel_order', 'view', 'crud.buttons.order.cancel_order', 'end'));
         CRUD::setAccessCondition(
             'cancel_order',
-            fn (Order $entry): bool => $entry->canCancel()
+            fn(Order $entry): bool => $entry->canCancel()
         );
 
         deny_access(EmployeePermission::ORDER_CRUD);
@@ -107,7 +107,7 @@ class OrderCrudController extends CrudController
         // save the redirect choice for next time
         $this->crud->setSaveAction();
 
-        event(app(OrderCreatedEvent::class, [
+        event(app(AdminOrderCreatedEvent::class, [
             'order' => CRUD::getCurrentEntry(),
             'employee' => backpack_user(),
         ]));
@@ -129,18 +129,18 @@ class OrderCrudController extends CrudController
         CRUD::column('address.customer_name')
             ->label(trans('Name'))
             ->searchLogic(
-                fn (Builder $query, array $_, string $search_term): Builder => $query->orWhereHas(
+                fn(Builder $query, array $_, string $search_term): Builder => $query->orWhereHas(
                     'address',
-                    fn (Builder $query): Builder => $query->whereLike('customer_name', "%$search_term%")
+                    fn(Builder $query): Builder => $query->whereLike('customer_name', "%$search_term%")
                 )
             );
         CRUD::column('address.customer_phone_number')
             ->label(trans('Phone number'))
             ->type('phone')
             ->searchLogic(
-                fn (Builder $query, array $_, string $search_term): Builder => $query->orWhereHas(
+                fn(Builder $query, array $_, string $search_term): Builder => $query->orWhereHas(
                     'address',
-                    fn (Builder $query): Builder => $query->whereLike(
+                    fn(Builder $query): Builder => $query->whereLike(
                         'customer_phone_number',
                         "%$search_term%"
                     )
@@ -211,7 +211,7 @@ class OrderCrudController extends CrudController
                 'name' => 'price',
                 'label' => trans('Price'),
                 'type' => 'number',
-                'suffix' => ' '.$code,
+                'suffix' => ' ' . $code,
             ], [
                 'name' => 'amount',
                 'label' => trans('Amount'),
@@ -228,25 +228,25 @@ class OrderCrudController extends CrudController
             'name' => 'tax',
             'label' => trans('Tax'),
             'type' => 'number',
-            'suffix' => ' '.$code,
+            'suffix' => ' ' . $code,
         ]);
         CRUD::addColumn([
             'name' => 'shipping_fee',
             'label' => trans('Shipping fee'),
             'type' => 'number',
-            'suffix' => ' '.$code,
+            'suffix' => ' ' . $code,
         ]);
         CRUD::addColumn([
             'name' => 'handling_fee',
             'label' => trans('Handling fee'),
             'type' => 'number',
-            'suffix' => ' '.$code,
+            'suffix' => ' ' . $code,
         ]);
         CRUD::addColumn([
             'name' => 'total',
             'label' => trans('Total'),
             'type' => 'number',
-            'suffix' => ' '.$code,
+            'suffix' => ' ' . $code,
         ]);
         CRUD::column('note')
             ->label(trans('Note'))
@@ -273,7 +273,7 @@ class OrderCrudController extends CrudController
             'name' => 'shipping_code',
             'label' => trans('Shipping code'),
             'wrapper' => [
-                'href' => fn ($_, $__, $entry): string => sprintf(
+                'href' => fn($_, $__, $entry): string => sprintf(
                     'https://donhang.ghn.vn/?order_code=%s',
                     $entry->shipping_code
                 ),
@@ -322,7 +322,7 @@ class OrderCrudController extends CrudController
                 'attributes' => [
                     'disabled' => true,
                 ],
-                'prefix' => $code.' ',
+                'prefix' => $code . ' ',
                 'wrapper' => [
                     'class' => 'form-group col-sm-12 col-md-4 col-xl-2',
                 ],
@@ -342,7 +342,7 @@ class OrderCrudController extends CrudController
                 'attributes' => [
                     'disabled' => true,
                 ],
-                'prefix' => $code.' ',
+                'prefix' => $code . ' ',
                 'wrapper' => [
                     'class' => 'form-group col-sm-12 col-md-4 col-xl-2',
                 ],
@@ -365,7 +365,7 @@ class OrderCrudController extends CrudController
                 'attributes' => [
                     'disabled' => true,
                 ],
-                'prefix' => $code.' ',
+                'prefix' => $code . ' ',
                 'wrapper' => [
                     'class' => 'form-group col-sm-12 col-md-4 col-xl-2',
                 ],
@@ -376,7 +376,7 @@ class OrderCrudController extends CrudController
                 'attributes' => [
                     'disabled' => true,
                 ],
-                'prefix' => $code.' ',
+                'prefix' => $code . ' ',
                 'wrapper' => [
                     'class' => 'form-group col-sm-12 col-md-4 col-xl-2',
                 ],
@@ -405,7 +405,7 @@ class OrderCrudController extends CrudController
             ->attributes([
                 'readonly' => true,
             ])
-            ->prefix($code.' ')
+            ->prefix($code . ' ')
             ->hint(10)
             ->tab(trans('Price quote'));
         CRUD::field('shipping_fee')
@@ -413,7 +413,7 @@ class OrderCrudController extends CrudController
             ->attributes([
                 'readonly' => true,
             ])
-            ->prefix($code.' ')
+            ->prefix($code . ' ')
             ->hint(11)
             ->tab(trans('Price quote'));
         CRUD::field('handling_fee')
@@ -421,7 +421,7 @@ class OrderCrudController extends CrudController
             ->attributes([
                 'readonly' => true,
             ])
-            ->prefix($code.' ')
+            ->prefix($code . ' ')
             ->hint('12 = 7 + 8 + 9')
             ->tab(trans('Price quote'));
         CRUD::field('total')
@@ -429,7 +429,7 @@ class OrderCrudController extends CrudController
             ->attributes([
                 'readonly' => true,
             ])
-            ->prefix($code.' ')
+            ->prefix($code . ' ')
             ->hint('13 = 6 + 11 + 12 + 13')
             ->tab(trans('Price quote'));
         CRUD::addField([
@@ -464,7 +464,7 @@ class OrderCrudController extends CrudController
     {
         return $this->fetch([
             'model' => Option::class,
-            'query' => fn (Option $option): Builder|Option => $option
+            'query' => fn(Option $option): Builder|Option => $option
                 ->whereStatus(OptionStatus::IN_STOCK)
                 ->whereHas(
                     'product',

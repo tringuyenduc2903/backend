@@ -2,12 +2,14 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Cart;
+use App\Enums\OrderPaymentMethod;
+use App\Enums\OrderShippingMethod;
+use App\Models\Address;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CartRequest extends FormRequest
+class OrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +26,12 @@ class CartRequest extends FormRequest
      */
     public function rules(): array
     {
-        $id = request()->route('cart');
-
-        $create = [
-            'option_id' => [
+        return [
+            'options' => [
+                'required',
+                'array',
+            ],
+            'options.*.option_id' => [
                 'required',
                 'integer',
                 function ($attribute, $value, $fail) {
@@ -35,15 +39,8 @@ class CartRequest extends FormRequest
                         $fail(trans('validation.exists'));
                     }
                 },
-                Rule::unique(Cart::class)->where(
-                    'customer_id',
-                    fortify_user()->id
-                ),
             ],
-        ];
-
-        $update = [
-            'amount' => [
+            'options.*.amount' => [
                 'required',
                 'integer',
                 'between:1,5',
@@ -53,7 +50,7 @@ class CartRequest extends FormRequest
                     }
 
                     if (!$option = get_product(
-                        $this->input('option_id')
+                        request('options.*.option_id')
                     )) {
                         return;
                     }
@@ -65,22 +62,27 @@ class CartRequest extends FormRequest
                     }
                 },
             ],
-        ];
-
-        return $id
-            ? $update
-            : array_merge($create, $update);
-    }
-
-    /**
-     * Get custom messages for validator errors.
-     */
-    public function messages(): array
-    {
-        return [
-            'option_id.unique' => trans('The product is already in :list', [
-                'list' => trans('Cart'),
-            ]),
+            'shipping_method' => [
+                'required',
+                'integer',
+                Rule::in(OrderShippingMethod::keys()),
+            ],
+            'payment_method' => [
+                'required',
+                'integer',
+                Rule::in(OrderPaymentMethod::keys()),
+            ],
+            'note' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'address_id' => [
+                'required',
+                'integer',
+                Rule::exists(Address::class, 'id')
+                    ->where('customer_id', fortify_user()->id),
+            ],
         ];
     }
 }

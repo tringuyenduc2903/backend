@@ -6,7 +6,7 @@ use App\Models\Customer;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('user/profile-information', fn (): Customer => fortify_user());
+    Route::get('user/profile-information', fn(): Customer => fortify_user());
 
     Route::apiResources([
         'address' => AddressController::class,
@@ -22,6 +22,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('wishlist', WishlistController::class)
         ->except('update');
+
+    Route::apiResource('order', OrderController::class)
+        ->except(['update']);
 });
 
 Route::apiResource('province', ProvinceController::class)
@@ -56,4 +59,4 @@ Route::post('ghn', GhnController::class);
 
 Route::post('pay_os', PayOsController::class);
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

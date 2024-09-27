@@ -6,7 +6,7 @@ use App\Models\Employee;
 use App\Models\Order;
 use Illuminate\Queue\SerializesModels;
 
-class OrderCreatedEvent
+class AdminOrderCreatedEvent
 {
     use SerializesModels;
 
@@ -14,7 +14,9 @@ class OrderCreatedEvent
      * Create a new event instance.
      */
     public function __construct(
-        public Order $order,
+        public Order    $order,
         public Employee $employee
-    ) {}
+    )
+    {
+    }
 }

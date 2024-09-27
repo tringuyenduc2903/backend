@@ -11,23 +11,25 @@ class OrderPrice
 {
     public function __construct(
         protected array $options,
-        protected int $shipping_method,
-        protected int $address_id,
+        protected int   $shipping_method,
+        protected int   $address_id,
         protected array $items = [],
         protected float $price = 0,
         protected float $tax = 0,
         protected float $shipping_fee = 0,
         protected float $handling_fee = 0,
         protected float $total = 0,
-        protected int $weight = 0,
-        protected int $length = 0,
-        protected int $width = 0,
-        protected int $height = 0,
-    ) {}
+        protected int   $weight = 0,
+        protected int   $length = 0,
+        protected int   $width = 0,
+        protected int   $height = 0,
+    )
+    {
+    }
 
     public function getPriceQuote(): array
     {
-        $this->handleOptions();
+        $this->handleItems();
         $this->handleShippingFee();
         $this->handleHandlingFee();
         $this->handleTotal();
@@ -43,7 +45,7 @@ class OrderPrice
         ];
     }
 
-    protected function handleOptions(): void
+    protected function handleItems(): void
     {
         $this->items = array_map(
             function (array $item) {
@@ -64,11 +66,11 @@ class OrderPrice
                 return [
                     'name' => $option->product->name,
                     'code' => $option->sku,
-                    'quantity' => (int) $item['amount'],
-                    'weight' => (int) $option->weight,
-                    'length' => (int) $option->length,
-                    'width' => (int) $option->width,
-                    'height' => (int) $option->height,
+                    'quantity' => (int)$item['amount'],
+                    'weight' => (int)$option->weight,
+                    'length' => (int)$option->length,
+                    'width' => (int)$option->width,
+                    'height' => (int)$option->height,
                 ];
             },
             $this->options
@@ -90,7 +92,7 @@ class OrderPrice
             'length' => $this->length,
             'width' => $this->width,
             'height' => $this->height,
-            'insurance_value' => (int) $this->price,
+            'insurance_value' => (int)$this->price,
             'items' => $this->items,
         ]);
 

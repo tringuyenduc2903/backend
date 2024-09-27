@@ -13,7 +13,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Arr;
 
-class OrderCreated extends Mailable
+class AdminOrderCreated extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -21,9 +21,11 @@ class OrderCreated extends Mailable
      * Create a new message instance.
      */
     public function __construct(
-        protected Order $order,
+        protected Order    $order,
         protected Employee $employee,
-    ) {}
+    )
+    {
+    }
 
     /**
      * Get the message envelope.
@@ -45,17 +47,18 @@ class OrderCreated extends Mailable
             with: [
                 'level' => '',
                 'introLines' => [
-                    trans('Account was successfully created by Employee **:name** at **:time**.', [
+                    trans('Order Id #**:number** was successfully created by Employee **:name** at **:time**.', [
+                        'number' => $this->order->id,
                         'name' => $this->employee->name,
                         'time' => Carbon::now()->isoFormat(config('backpack.ui.default_datetime_format')),
                     ]),
                     trans('Please review the information and access your account to track order status:'),
                     '---',
-                    '# '.trans('Order account information:'),
+                    '# ' . trans('Order account information:'),
                     sprintf('**%s**: %s', trans('Name'), $this->order->customer->name),
                     sprintf('**%s**: %s', trans('Phone number'), $this->order->customer->phone_number),
                     '---',
-                    '# '.trans('Recipient information:'),
+                    '# ' . trans('Recipient information:'),
                     sprintf('**%s**: %s', trans('Name'), $this->order->address->customer_name),
                     sprintf('**%s**: %s', trans('Phone number'), $this->order->address->customer_phone_number),
                     sprintf('**%s**: %s', trans('Address detail'), $this->order->address->address_preview),
@@ -64,7 +67,7 @@ class OrderCreated extends Mailable
                     sprintf('**%s**: %s', trans('Payment method'), $this->order->payment_method_preview),
                     sprintf('**%s**: %s', trans('Status'), $this->order->status_preview),
                     '---',
-                    '# '.trans('Information about products:'),
+                    '# ' . trans('Information about products:'),
                 ],
                 'titles' => [
                     sprintf(
@@ -79,8 +82,7 @@ class OrderCreated extends Mailable
                     '| --- | :---: | :---: | :---: | :---: | ---: |',
                 ],
                 'options' => $this->getOptions(),
-                'outroLines' => [
-                ],
+                'outroLines' => [],
             ],
         );
     }
@@ -105,25 +107,25 @@ class OrderCreated extends Mailable
             ->toArray();
 
         $appends = array_map(
-            fn (object $item): string => sprintf(
+            fn(object $item): string => sprintf(
                 '||||| **%s** | %s |',
                 $item->label,
                 $item->value,
             ),
             [
-                (object) [
+                (object)[
                     'label' => trans('Tax'),
                     'value' => price($this->order->tax),
                 ],
-                (object) [
+                (object)[
                     'label' => trans('Shipping fee'),
                     'value' => price($this->order->shipping_fee),
                 ],
-                (object) [
+                (object)[
                     'label' => trans('Handling fee'),
                     'value' => price($this->order->handling_fee),
                 ],
-                (object) [
+                (object)[
                     'label' => trans('Total amount'),
                     'value' => price($this->order->total),
                 ],

@@ -110,6 +110,11 @@ class Customer extends User implements MustVerifyEmail
         return $this->morphMany(Review::class, 'reviewable')->latest();
     }
 
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class)->latest();
+    }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS
