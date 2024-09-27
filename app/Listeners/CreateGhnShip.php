@@ -9,7 +9,7 @@ use App\Events\OrderCreatedEvent;
 use App\Models\OrderProduct;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class CreateGhnOrder implements ShouldQueue
+class CreateGhnShip implements ShouldQueue
 {
     /**
      * Handle the event.

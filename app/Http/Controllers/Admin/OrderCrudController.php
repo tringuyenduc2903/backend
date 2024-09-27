@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Alert;
+use App\Actions\OrderPrice;
 use App\Enums\EmployeePermissionEnum;
 use App\Enums\OptionStatus;
 use App\Enums\OrderPaymentMethod;
@@ -23,6 +25,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 
@@ -57,7 +60,7 @@ class OrderCrudController extends CrudController
             fn () => CRUD::addButton('line', 'cancel_order', 'view', 'crud.buttons.order.cancel_order', 'end'));
         CRUD::setAccessCondition(
             'cancel_order',
-            fn (Order $entry) => $entry->status == OrderStatus::TO_PAY
+            fn (Order $entry): bool => $entry->canCancel()
         );
 
         deny_access(EmployeePermissionEnum::ORDER_CRUD);
@@ -68,14 +71,48 @@ class OrderCrudController extends CrudController
      */
     public function store(): RedirectResponse
     {
-        $response = $this->traitStore();
+        $this->crud->hasAccessOrFail('create');
+
+        // execute the FormRequest authorization and validation, if one is required
+        $request = $this->crud->validateRequest();
+
+        // register any Model Events defined on fields
+        $this->crud->registerFieldEvents();
+
+        try {
+            $price_quote = app(OrderPrice::class, [
+                'options' => request('options'),
+                'shipping_method' => request('shipping_method'),
+                'address_id' => request('address'),
+            ])->getPriceQuote();
+
+            session(['order.price_quote' => $price_quote]);
+        } catch (Exception) {
+            return redirect()->back()
+                ->withInput($request->input())
+                ->withErrors([
+                    'shipping_method' => trans('Shipping method :name is not available for this order', [
+                        'name' => OrderShippingMethod::valueForKey(request('shipping_method')),
+                    ]),
+                ]);
+        }
+
+        // insert item in the db
+        $item = $this->crud->create($this->crud->getStrippedSaveRequest($request));
+        $this->data['entry'] = $this->crud->entry = $item;
+
+        // show a success message
+        Alert::success(trans('backpack::crud.insert_success'))->flash();
+
+        // save the redirect choice for next time
+        $this->crud->setSaveAction();
 
         event(app(OrderCreatedEvent::class, [
             'order' => CRUD::getCurrentEntry(),
             'employee' => backpack_user(),
         ]));
 
-        return $response;
+        return $this->crud->performSaveAction($item->getKey());
     }
 
     /**
@@ -94,10 +131,7 @@ class OrderCrudController extends CrudController
             ->searchLogic(
                 fn (Builder $query, array $_, string $search_term): Builder => $query->orWhereHas(
                     'address',
-                    fn (Builder $query): Builder => $query->whereLike(
-                        'customer_name',
-                        "%$search_term%"
-                    )
+                    fn (Builder $query): Builder => $query->whereLike('customer_name', "%$search_term%")
                 )
             );
         CRUD::column('address.customer_phone_number')
@@ -129,16 +163,6 @@ class OrderCrudController extends CrudController
             'label' => trans('Status'),
             'type' => 'select2_from_array',
             'options' => OrderStatus::values(),
-        ]);
-        CRUD::addColumn([
-            'name' => 'shipping_code',
-            'label' => trans('Shipping code'),
-            'wrapper' => [
-                'href' => fn ($_, $__, $entry): string => sprintf(
-                    'https://donhang.ghn.vn/?order_code=%s',
-                    $entry->shipping_code
-                ),
-            ],
         ]);
 
         CRUD::filter('shipping_method')
@@ -245,6 +269,19 @@ class OrderCrudController extends CrudController
             'type' => 'select2_from_array',
             'options' => OrderStatus::values(),
         ]);
+        CRUD::addColumn([
+            'name' => 'shipping_code',
+            'label' => trans('Shipping code'),
+            'wrapper' => [
+                'href' => fn ($_, $__, $entry): string => sprintf(
+                    'https://donhang.ghn.vn/?order_code=%s',
+                    $entry->shipping_code
+                ),
+            ],
+        ]);
+        CRUD::column('payment_checkout_url')
+            ->label(trans('Checkout URL'))
+            ->type('url');
 
         // if the model has timestamps, add columns for created_at and updated_at
         if (CRUD::get('show.timestamps') && CRUD::getModel()->usesTimestamps()) {

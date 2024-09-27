@@ -23,7 +23,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('shipping_method');
             $table->unsignedTinyInteger('payment_method');
             $table->string('shipping_code', 50)->nullable();
-            $table->string('payment_link')->nullable();
+            $table->string('payment_checkout_url')->nullable();
             $table->json('other_fields')->default(json_encode([]));
             $table->foreignId('address_id')
                 ->nullable()

@@ -29,24 +29,24 @@ trait CancelOrderOperation
     {
         $order = Order::findOrFail($id);
 
-        if ($order->status != OrderStatus::TO_PAY) {
+        if ($order->canCancel()) {
+            $order->update([
+                'status' => OrderStatus::CANCELLED,
+            ]);
+
             return response()->json([
-                'title' => trans('Failure'),
-                'description' => trans('Cancel order Id #:number failed!', [
+                'title' => trans('Success'),
+                'description' => trans('Cancellation of order Id #:number successfully!', [
                     'number' => $order->id,
                 ]),
-            ], 403);
+            ]);
         }
 
-        $order->update([
-            'status' => OrderStatus::CANCELLED,
-        ]);
-
         return response()->json([
-            'title' => trans('Success'),
-            'description' => trans('Cancellation of order Id #:number successfully!', [
+            'title' => trans('Failure'),
+            'description' => trans('Cancel order Id #:number failed!', [
                 'number' => $order->id,
             ]),
-        ]);
+        ], 403);
     }
 }

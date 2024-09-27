@@ -196,6 +196,7 @@
     "Price after tax": "Giá sau thuế",
     "Price quote": "Báo giá",
     "Payment on delivery": "Thanh toán khi giao hàng",
+    "Bank transfer": "Chuyển khoản ngân hàng",
     "Pickup at Store": "Nhận hàng tại cửa hàng",
     "Door-to-door delivery": "Giao hàng tận nơi",
     "Shipping code": "Mã vận đơn",
@@ -219,5 +220,8 @@
     "Success": "Thành công",
     "Cancellation of order Id #:number successfully!": "Hủy đơn Id #:number hàng thành công!",
     "Failure": "Thất bại",
-    "Cancel order Id #:number failed!": "Hủy đơn Id #:number hàng thất bại!"
+    "Cancel order Id #:number failed!": "Hủy đơn Id #:number hàng thất bại!",
+    "Order payment Id #:number": "Thanh toán đơn hàng Id #:number",
+    "Shipping method :name is not available for this order": "Phương thức vận chuyển :name không khả dụng với đơn hàng này",
+    "Checkout URL": "Liên kết thanh toán"
 }

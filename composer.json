@@ -42,7 +42,7 @@
         "meilisearch/meilisearch-php": "^1.10",
         "mongodb/builder": "^0.2.0",
         "mongodb/laravel-mongodb": "^4.8",
-        "nextapps/laravel-swagger-ui": "^0.10.1",
+        "payos/payos": "^1.0",
         "pda/pheanstalk": "^5.0",
         "predis/predis": "^2.2",
         "propaganistas/laravel-phone": "^5.3",
