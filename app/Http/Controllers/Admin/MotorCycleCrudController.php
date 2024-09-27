@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\EmployeePermissionEnum;
+use App\Enums\EmployeePermission;
 use App\Enums\MotorCycleStatus;
 use App\Enums\ProductType;
 use App\Http\Requests\Admin\MotorCycleRequest;
@@ -45,7 +45,7 @@ class MotorCycleCrudController extends CrudController
         CRUD::setRoute(route('motor-cycles.index'));
         CRUD::setEntityNameStrings(trans('Motor cycle'), trans('Motor cycles'));
 
-        deny_access(EmployeePermissionEnum::MOTOR_CYCLE_CRUD);
+        deny_access(EmployeePermission::MOTOR_CYCLE_CRUD);
     }
 
     /**

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Alert;
 use App\Actions\OrderPrice;
-use App\Enums\EmployeePermissionEnum;
+use App\Enums\EmployeePermission;
 use App\Enums\OptionStatus;
 use App\Enums\OrderPaymentMethod;
 use App\Enums\OrderShippingMethod;
@@ -63,7 +63,7 @@ class OrderCrudController extends CrudController
             fn (Order $entry): bool => $entry->canCancel()
         );
 
-        deny_access(EmployeePermissionEnum::ORDER_CRUD);
+        deny_access(EmployeePermission::ORDER_CRUD);
     }
 
     /**

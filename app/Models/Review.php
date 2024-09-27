@@ -64,7 +64,7 @@ class Review extends Model
      */
     public function getHidden(): array
     {
-        if ($this->reviewable_type != Employee::class) {
+        if ($this->reviewable_type !== Employee::class) {
             return array_merge($this->hidden, [
                 'rate',
             ]);

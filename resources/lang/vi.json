@@ -217,11 +217,12 @@
     "Updated at": "Đã cập nhật lúc",
     "Cancel order": "Hủy đơn hàng",
     "Confirm cancellation of this order?": "Xác nhận hủy đơn hàng này?",
-    "Success": "Thành công",
     "Cancellation of order Id #:number successfully!": "Hủy đơn Id #:number hàng thành công!",
-    "Failure": "Thất bại",
     "Cancel order Id #:number failed!": "Hủy đơn Id #:number hàng thất bại!",
     "Order payment Id #:number": "Thanh toán đơn hàng Id #:number",
     "Shipping method :name is not available for this order": "Phương thức vận chuyển :name không khả dụng với đơn hàng này",
-    "Checkout URL": "Liên kết thanh toán"
+    "Checkout URL": "Liên kết thanh toán",
+    "Pending": "Đang xử lý",
+    "Successfully": "Thành công",
+    "Failed": "Thất bại"
 }

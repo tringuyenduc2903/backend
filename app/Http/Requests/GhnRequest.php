@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\GhnOrderReasonEnum;
-use App\Enums\GhnOrderStatusEnum;
+use App\Enums\GhnOrderReason;
+use App\Enums\GhnOrderStatus;
 use App\Models\Order;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -35,7 +35,7 @@ class GhnRequest extends FormRequest
             'Status' => [
                 'required',
                 'string',
-                Rule::in(GhnOrderStatusEnum::keys()),
+                Rule::in(GhnOrderStatus::keys()),
             ],
             'Description' => [
                 'nullable',
@@ -47,7 +47,7 @@ class GhnRequest extends FormRequest
                 'string',
                 Rule::when(
                     $this->input('Reason'),
-                    Rule::in(GhnOrderReasonEnum::keys()),
+                    Rule::in(GhnOrderReason::keys()),
                 ),
             ],
         ];

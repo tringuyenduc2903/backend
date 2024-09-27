@@ -5,7 +5,7 @@ namespace App\Enums;
 use Rexlabs\Enum\Enum;
 
 /**
- * The GhnOrderStatusEnum enum.
+ * The GhnOrderStatus enum.
  *
  * @method static self READY_TO_PICK()
  * @method static self PICKING()
@@ -30,7 +30,7 @@ use Rexlabs\Enum\Enum;
  * @method static self LOST ()
  * @method static self DAMAGE ()
  */
-class GhnOrderStatusEnum extends Enum
+class GhnOrderStatus extends Enum
 {
     const READY_TO_PICK = 'ready_to_pick';
 

@@ -42,17 +42,25 @@ class CreatePayOsPayment
             'returnUrl' => route('orders.show', ['id' => $event->order->id]),
         ];
 
-        $response = app(PayOS::class, [
+        $pay_os = app(PayOS::class, [
             'clientId' => config('services.payos.client_id'),
             'apiKey' => config('services.payos.client_secret'),
             'checksumKey' => config('services.payos.checksum'),
             'partnerCode' => config('services.payos.partner_code'),
-        ])->createPaymentLink($data);
+        ]);
+
+        $response = $pay_os->createPaymentLink($data);
 
         $event->order
             ->forceFill([
                 'payment_checkout_url' => $response['checkoutUrl'],
             ])
             ->save();
+
+        if (app()->environment('local')) {
+            return;
+        }
+
+        $pay_os->confirmWebhook(route('pay_os'));
     }
 }

@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Api\GiaoHangNhanh\Ghn;
 use App\Enums\OrderPaymentMethod;
 use App\Enums\OrderShippingMethod;
+use App\Enums\OrderStatus;
 use App\Events\OrderCreatedEvent;
 use App\Models\OrderProduct;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -16,7 +17,10 @@ class CreateGhnShip implements ShouldQueue
      */
     public function handle(OrderCreatedEvent $event): void
     {
-        if ($event->order->shipping_method != OrderShippingMethod::DOOR_TO_DOOR_DELIVERY) {
+        if (
+            $event->order->status != OrderStatus::TO_SHIP ||
+            $event->order->shipping_method != OrderShippingMethod::DOOR_TO_DOOR_DELIVERY
+        ) {
             return;
         }
 

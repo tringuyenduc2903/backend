@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\EmployeePermissionEnum;
+use App\Enums\EmployeePermission;
 use App\Http\Requests\Admin\EmployeeCrudRequest;
 use App\Models\Branch;
 use App\Models\Role;
@@ -40,7 +40,7 @@ class EmployeeCrudController extends CrudController
         CRUD::setRoute(route('employees.index'));
         CRUD::setEntityNameStrings(trans('Employee'), trans('Employees'));
 
-        deny_access(EmployeePermissionEnum::EMPLOYEE_CRUD);
+        deny_access(EmployeePermission::EMPLOYEE_CRUD);
     }
 
     /**

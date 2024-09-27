@@ -35,7 +35,7 @@ trait CancelOrderOperation
             ]);
 
             return response()->json([
-                'title' => trans('Success'),
+                'title' => trans('Successfully'),
                 'description' => trans('Cancellation of order Id #:number successfully!', [
                     'number' => $order->id,
                 ]),
@@ -43,7 +43,7 @@ trait CancelOrderOperation
         }
 
         return response()->json([
-            'title' => trans('Failure'),
+            'title' => trans('Failed'),
             'description' => trans('Cancel order Id #:number failed!', [
                 'number' => $order->id,
             ]),

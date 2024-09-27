@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\CustomerAddress;
 use App\Enums\CustomerGender;
 use App\Enums\CustomerIdentification;
-use App\Enums\EmployeePermissionEnum;
+use App\Enums\EmployeePermission;
 use App\Http\Requests\Admin\CustomerRequest;
 use App\Mail\CustomerCreated;
 use App\Models\Customer;
@@ -50,7 +50,7 @@ class CustomerCrudController extends CrudController
         CRUD::setRoute(route('customers.index'));
         CRUD::setEntityNameStrings(trans('Customer'), trans('Customers'));
 
-        deny_access(EmployeePermissionEnum::CUSTOMER_CRUD);
+        deny_access(EmployeePermission::CUSTOMER_CRUD);
     }
 
     /**

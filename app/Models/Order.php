@@ -74,9 +74,14 @@ class Order extends Model
         return $this->belongsTo(Address::class)->withTrashed();
     }
 
-    public function shipments(): HasOne
+    public function shipments(): HasMany
     {
-        return $this->hasOne(OrderShipments::class);
+        return $this->hasMany(OrderShipments::class);
+    }
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(OrderTransaction::class);
     }
 
     /*

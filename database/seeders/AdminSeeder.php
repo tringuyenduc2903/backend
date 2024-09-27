@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Enums\EmployeePermissionEnum;
-use App\Enums\EmployeeRoleEnum;
+use App\Enums\EmployeePermission;
+use App\Enums\EmployeeRole;
 use App\Models\Branch;
 use App\Models\Employee;
 use Illuminate\Database\Seeder;
@@ -25,7 +25,7 @@ class AdminSeeder extends Seeder
 
     protected function permissions(): void
     {
-        foreach (EmployeePermissionEnum::keys() as $permission) {
+        foreach (EmployeePermission::keys() as $permission) {
             Permission::createOrFirst([
                 'name' => $permission,
             ], [
@@ -36,14 +36,14 @@ class AdminSeeder extends Seeder
 
     protected function roles(): void
     {
-        foreach (EmployeeRoleEnum::keys() as $role) {
+        foreach (EmployeeRole::keys() as $role) {
             $role_db = Role::createOrFirst([
                 'name' => $role,
             ], [
                 'guard_name' => config('backpack.base.guard'),
             ]);
 
-            if ($role === EmployeeRoleEnum::ADMIN) {
+            if ($role === EmployeeRole::ADMIN) {
                 $role_db->givePermissionTo(Permission::all());
             }
         }
@@ -64,7 +64,7 @@ class AdminSeeder extends Seeder
             ->save();
 
         $admin->assignRole(
-            Role::whereName(EmployeeRoleEnum::ADMIN)->firstOrFail()
+            Role::whereName(EmployeeRole::ADMIN)->firstOrFail()
         );
     }
 }

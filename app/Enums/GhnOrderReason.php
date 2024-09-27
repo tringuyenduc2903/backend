@@ -5,7 +5,7 @@ namespace App\Enums;
 use Rexlabs\Enum\Enum;
 
 /**
- * The GhnOrderReasonEnum enum.
+ * The GhnOrderReason enum.
  *
  * @method static self PFA1A0()
  * @method static self PFA2A2()
@@ -38,7 +38,7 @@ use Rexlabs\Enum\Enum;
  * @method static self RFE0A4()
  * @method static self RFE0A5()
  */
-class GhnOrderReasonEnum extends Enum
+class GhnOrderReason extends Enum
 {
     const PFA1A0 = 'GHN-PFA1A0';
 

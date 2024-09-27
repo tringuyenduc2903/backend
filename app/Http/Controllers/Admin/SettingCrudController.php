@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\EmployeePermissionEnum;
+use App\Enums\EmployeePermission;
 use App\Http\Requests\Admin\SettingRequest;
 use App\Models\Branch;
 use App\Models\Setting;
@@ -33,7 +33,7 @@ class SettingCrudController extends CrudController
         CRUD::setRoute(route('settings.index'));
         CRUD::setEntityNameStrings(trans('Setting'), trans('Settings'));
 
-        deny_access(EmployeePermissionEnum::SETTING_CRUD);
+        deny_access(EmployeePermission::SETTING_CRUD);
     }
 
     /**

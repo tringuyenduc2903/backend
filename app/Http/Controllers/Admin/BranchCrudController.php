@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\EmployeePermissionEnum;
+use App\Enums\EmployeePermission;
 use App\Http\Requests\Admin\BranchRequest;
 use App\Models\Branch;
 use App\Models\District;
@@ -44,7 +44,7 @@ class BranchCrudController extends CrudController
         CRUD::setRoute(route('branches.index'));
         CRUD::setEntityNameStrings(trans('Branch'), trans('Branches'));
 
-        deny_access(EmployeePermissionEnum::BRANCH_CRUD);
+        deny_access(EmployeePermission::BRANCH_CRUD);
     }
 
     /**

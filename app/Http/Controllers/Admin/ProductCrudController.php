@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\EmployeePermissionEnum;
+use App\Enums\EmployeePermission;
 use App\Enums\OptionStatus;
 use App\Enums\OptionType;
 use App\Enums\ProductType;
@@ -47,7 +47,7 @@ class ProductCrudController extends CrudController
         CRUD::setRoute(route('products.index'));
         CRUD::setEntityNameStrings(trans('Product'), trans('Products'));
 
-        deny_access(EmployeePermissionEnum::PRODUCT_CRUD);
+        deny_access(EmployeePermission::PRODUCT_CRUD);
     }
 
     /**

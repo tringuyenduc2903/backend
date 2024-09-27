@@ -5,7 +5,7 @@ namespace App\Enums;
 use Rexlabs\Enum\Enum;
 
 /**
- * The EmployeePermissionEnum enum.
+ * The EmployeePermission enum.
  *
  * @method static self DASHBOARD()
  * @method static self API_DOCS()
@@ -20,7 +20,7 @@ use Rexlabs\Enum\Enum;
  * @method static self REVIEW_CRUD()
  * @method static self ORDER_CRUD()
  */
-class EmployeePermissionEnum extends Enum
+class EmployeePermission extends Enum
 {
     const DASHBOARD = 'dashboard';
 

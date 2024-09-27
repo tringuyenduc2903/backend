@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\EmployeePermissionEnum;
+use App\Enums\EmployeePermission;
 use App\Http\Requests\Admin\ReviewRequest;
 use App\Models\Customer;
 use App\Models\Employee;
@@ -47,7 +47,7 @@ class ReviewCrudController extends CrudController
             ['list', 'show'],
             fn () => CRUD::addButton('line', 'update', 'view', 'crud.buttons.review.update', 'end'));
 
-        deny_access(EmployeePermissionEnum::REVIEW_CRUD);
+        deny_access(EmployeePermission::REVIEW_CRUD);
     }
 
     /**

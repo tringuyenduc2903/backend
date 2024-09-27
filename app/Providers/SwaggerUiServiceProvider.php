@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Enums\EmployeePermissionEnum;
+use App\Enums\EmployeePermission;
 use App\Models\Customer;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Gate;
@@ -15,7 +15,7 @@ class SwaggerUiServiceProvider extends ServiceProvider
         Gate::define(
             'viewSwaggerUI',
             fn (?Customer $customer, ?Employee $employee): bool => $employee && $employee->hasPermissionTo(
-                EmployeePermissionEnum::API_DOCS,
+                EmployeePermission::API_DOCS,
                 config('backpack.base.guard')
             )
         );

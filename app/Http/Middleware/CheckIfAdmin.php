@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Alert;
-use App\Enums\EmployeePermissionEnum;
+use App\Enums\EmployeePermission;
 use App\Models\Employee;
 use Closure;
 use Illuminate\Http\RedirectResponse;
@@ -64,7 +64,7 @@ class CheckIfAdmin extends \Backpack\CRUD\app\Http\Middleware\CheckIfAdmin
         $employee = backpack_user();
 
         return $employee->hasPermissionTo(
-            EmployeePermissionEnum::DASHBOARD,
+            EmployeePermission::DASHBOARD,
             config('backpack.base.guard')
         );
     }

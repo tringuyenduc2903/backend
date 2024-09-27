@@ -1,7 +1,7 @@
 <x-backpack::menu-item :title="trans('backpack::base.dashboard')" :link="route('backpack.dashboard')"
                        icon="la la-home nav-icon"/>
 @php
-    use App\Enums\EmployeePermissionEnum;
+    use App\Enums\EmployeePermission;
     use App\Models\Employee;
 
     $menu_items = [
@@ -12,7 +12,7 @@
                 [
                     'items' => [
                         [
-                            'permission' => EmployeePermissionEnum::ORDER_CRUD,
+                            'permission' => EmployeePermission::ORDER_CRUD,
                             'title' => trans('Orders'),
                             'link' => route('orders.index'),
                         ],
@@ -27,22 +27,22 @@
                 [
                     'items' => [
                         [
-                            'permission' => EmployeePermissionEnum::PRODUCT_CRUD,
+                            'permission' => EmployeePermission::PRODUCT_CRUD,
                             'title' => trans('Products'),
                             'link' => route('products.index'),
                         ],
                         [
-                            'permission' => EmployeePermissionEnum::CATEGORY_CRUD,
+                            'permission' => EmployeePermission::CATEGORY_CRUD,
                             'title' => trans('Categories'),
                             'link' => route('categories.index'),
                         ],
                         [
-                            'permission' => EmployeePermissionEnum::MOTOR_CYCLE_CRUD,
+                            'permission' => EmployeePermission::MOTOR_CYCLE_CRUD,
                             'title' => trans('Motor cycles'),
                             'link' => route('motor-cycles.index'),
                         ],
                         [
-                            'permission' => EmployeePermissionEnum::REVIEW_CRUD,
+                            'permission' => EmployeePermission::REVIEW_CRUD,
                             'title' => trans('Reviews'),
                             'link' => route('reviews.index'),
                         ],
@@ -57,7 +57,7 @@
                 [
                     'items' => [
                         [
-                            'permission' => EmployeePermissionEnum::CUSTOMER_CRUD,
+                            'permission' => EmployeePermission::CUSTOMER_CRUD,
                             'title' => trans('All customers'),
                             'link' => route('customers.index'),
                         ],
@@ -72,7 +72,7 @@
                 [
                     'items' => [
                         [
-                            'permission' => EmployeePermissionEnum::BRANCH_CRUD,
+                            'permission' => EmployeePermission::BRANCH_CRUD,
                             'title' => trans('All branches'),
                             'link' => route('branches.index'),
                         ],
@@ -88,7 +88,7 @@
                     'title' => trans('Store'),
                     'items' => [
                         [
-                            'permission' => EmployeePermissionEnum::SETTING_CRUD,
+                            'permission' => EmployeePermission::SETTING_CRUD,
                             'title' => trans('All settings'),
                             'link' => route('settings.index'),
                         ],
@@ -98,12 +98,12 @@
                     'title' => trans('Permissions'),
                     'items' => [
                         [
-                            'permission' => EmployeePermissionEnum::EMPLOYEE_CRUD,
+                            'permission' => EmployeePermission::EMPLOYEE_CRUD,
                             'title' => trans('All employees'),
                             'link' => route('employees.index'),
                         ],
                         [
-                            'permission' => EmployeePermissionEnum::ROLE_CRUD,
+                            'permission' => EmployeePermission::ROLE_CRUD,
                             'title' => trans('Employee roles'),
                             'link' => route('roles.index'),
                         ],

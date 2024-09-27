@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\EmployeePermissionEnum;
+use App\Enums\EmployeePermission;
 use App\Http\Requests\Admin\CategoryRequest;
 use App\Models\Category;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -38,7 +38,7 @@ class CategoryCrudController extends CrudController
         CRUD::setRoute(route('categories.index'));
         CRUD::setEntityNameStrings(trans('Category'), trans('Categories'));
 
-        deny_access(EmployeePermissionEnum::CATEGORY_CRUD);
+        deny_access(EmployeePermission::CATEGORY_CRUD);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\GhnOrderStatusEnum;
+use App\Enums\GhnOrderStatus;
 use App\Enums\OrderStatus;
 use App\Http\Requests\GhnRequest;
 use App\Models\Order;
@@ -24,10 +24,10 @@ class GhnController extends Controller
         ]);
 
         match ($request->validated('Status')) {
-            GhnOrderStatusEnum::PICKED => $order->update([
+            GhnOrderStatus::PICKED => $order->update([
                 'status' => OrderStatus::TO_RECEIVE,
             ]),
-            GhnOrderStatusEnum::DELIVERED => $order->update([
+            GhnOrderStatus::DELIVERED => $order->update([
                 'status' => OrderStatus::COMPLETED,
             ]),
             default => null,
