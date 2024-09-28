@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\OrderPrice;
+use App\Actions\Fee;
 use App\Enums\OrderShippingMethod;
 use App\Enums\OrderStatus;
 use App\Events\FrontendOrderCreatedEvent;
@@ -40,13 +40,13 @@ class OrderController extends Controller
     public function store(OrderRequest $request): JsonResponse
     {
         try {
-            $price_quote = app(OrderPrice::class, [
+            $fee = app(Fee::class, [
                 'options' => $request->validated('options'),
                 'shipping_method' => $request->validated('shipping_method'),
                 'address_id' => $request->validated('address_id'),
-            ])->getPriceQuote();
+            ])->result;
 
-            session(['order.price_quote' => $price_quote]);
+            session(['order.fee' => $fee]);
         } catch (Exception) {
             throw ValidationException::withMessages([
                 'shipping_method' => trans('Shipping method :name is not available for this order', [

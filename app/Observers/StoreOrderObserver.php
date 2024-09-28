@@ -19,11 +19,12 @@ class StoreOrderObserver
             default => OrderStatus::CANCELLED,
         };
 
-        $price_quote = session()->pull('order.price_quote');
+        $fee = session()->pull('order.fee');
 
-        $order->tax = $price_quote['tax'];
-        $order->shipping_fee = $price_quote['shipping_fee'];
-        $order->handling_fee = $price_quote['handling_fee'];
-        $order->total = $price_quote['total'];
+        $order->weight = $fee['weight'];
+        $order->tax = $fee['tax'];
+        $order->shipping_fee = $fee['shipping_fee'];
+        $order->handling_fee = $fee['handling_fee'];
+        $order->total = $fee['total'];
     }
 }

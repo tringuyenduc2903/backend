@@ -1,0 +1,33 @@
+description: Dữ liệu khách hàng đã nhập không được chấp nhận
+content:
+  application/json:
+    schema:
+      properties:
+        message:
+          title: Thông báo ngắn
+          type: string
+          example: Trường tùy chọn là bắt buộc. (và 3 lỗi khác)
+        errors:
+          title: Các trường không hợp lệ
+          properties:
+            options:
+              title: Tùy chọn
+              example:
+                - Trường tùy chọn là bắt buộc.
+              type: array
+            shipping_method:
+              title: Phương thức vận chuyển
+              example:
+                - Trường phương thức vận chuyển là bắt buộc.
+              type: array
+            payment_method:
+              title: Phương thức thanh toán
+              example:
+                - Trường phương thức thanh toán là bắt buộc.
+              type: array
+            address_id:
+              title: Địa chỉ
+              example:
+                - Trường địa chỉ là bắt buộc.
+              type: array
+      type: object

@@ -93,6 +93,8 @@ paths:
     $ref: "./paths/api/review-product/{product_id}.yaml"
   /api/setting/{setting_type}:
     $ref: "./paths/api/setting/{setting_type}.yaml"
+  /api/fee:
+    $ref: "./paths/api/fee.yaml"
   /api/order:
     $ref: "./paths/api/order.yaml"
   /api/order/{order_id}:

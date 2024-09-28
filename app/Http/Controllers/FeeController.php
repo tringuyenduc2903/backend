@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\OrderPrice;
+use App\Actions\Fee;
 use App\Enums\OrderShippingMethod;
 use App\Http\Requests\OrderRequest;
 use Exception;
 use Illuminate\Validation\ValidationException;
 
-class PriceQuoteController extends Controller
+class FeeController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -16,38 +16,38 @@ class PriceQuoteController extends Controller
     public function __invoke(OrderRequest $request): array
     {
         try {
-            $price_quote = app(OrderPrice::class, [
+            $fee = app(Fee::class, [
                 'options' => $request->validated('options'),
                 'shipping_method' => $request->validated('shipping_method'),
                 'address_id' => $request->validated('address_id'),
-            ])->getPriceQuote();
+            ])->result;
 
-            $price_quote['items_preview'] = array_map(
+            $fee['items_preview'] = array_map(
                 function (array $item): array {
                     $item['price_preview'] = price_preview($item['price']);
                     unset($item['price']);
 
                     return $item;
                 },
-                $price_quote['items']
+                $fee['items']
             );
 
-            $price_quote['price_preview'] = price_preview($price_quote['price']);
-            $price_quote['tax_preview'] = price_preview($price_quote['tax']);
-            $price_quote['shipping_fee_preview'] = price_preview($price_quote['shipping_fee']);
-            $price_quote['handling_fee_preview'] = price_preview($price_quote['handling_fee']);
-            $price_quote['total_preview'] = price_preview($price_quote['total']);
+            $fee['price_preview'] = price_preview($fee['price']);
+            $fee['tax_preview'] = price_preview($fee['tax']);
+            $fee['shipping_fee_preview'] = price_preview($fee['shipping_fee']);
+            $fee['handling_fee_preview'] = price_preview($fee['handling_fee']);
+            $fee['total_preview'] = price_preview($fee['total']);
 
             unset(
-                $price_quote['items'],
-                $price_quote['price'],
-                $price_quote['tax'],
-                $price_quote['shipping_fee'],
-                $price_quote['handling_fee'],
-                $price_quote['total'],
+                $fee['items'],
+                $fee['price'],
+                $fee['tax'],
+                $fee['shipping_fee'],
+                $fee['handling_fee'],
+                $fee['total'],
             );
 
-            return $price_quote;
+            return $fee;
         } catch (Exception) {
             throw ValidationException::withMessages([
                 'shipping_method' => trans('Shipping method :name is not available for this order', [

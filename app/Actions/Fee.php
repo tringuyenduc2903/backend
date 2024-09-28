@@ -7,37 +7,37 @@ use App\Facades\Ghn;
 use App\Models\Address;
 use App\Models\Option;
 
-class OrderPrice
+class Fee
 {
+    public array $result;
+
+    protected array $items = [];
+
+    protected float $price = 0;
+
+    protected float $tax = 0;
+
+    protected float $shipping_fee = 0;
+
+    protected float $handling_fee = 0;
+
+    protected float $total = 0;
+
+    protected int $weight = 0;
+
     public function __construct(
         protected array $options,
         protected int $shipping_method,
         protected int $address_id,
-        protected array $items = [],
-        protected float $price = 0,
-        protected float $tax = 0,
-        protected float $shipping_fee = 0,
-        protected float $handling_fee = 0,
-        protected float $total = 0,
-        protected int $weight = 0,
-        protected int $length = 0,
-        protected int $width = 0,
-        protected int $height = 0,
-    ) {}
-
-    public function getPriceQuote(): array
-    {
+    ) {
         $this->handleItems();
         $this->handleShippingFee();
         $this->handleHandlingFee();
         $this->handleTotal();
 
-        return [
+        $this->result = [
             'items' => $this->items,
             'weight' => $this->weight,
-            'length' => $this->length,
-            'width' => $this->width,
-            'height' => $this->height,
             'price' => $this->price,
             'tax' => $this->tax,
             'shipping_fee' => $this->shipping_fee,
@@ -58,11 +58,8 @@ class OrderPrice
                 // Handle tax
                 $this->tax += (($option->price * $option->value_added_tax) / (100 + $option->value_added_tax)) * $item['amount'];
 
-                // Handle weight, length, width, height
+                // Handle weight
                 $this->weight += $option->weight * $item['amount'];
-                $this->length += $option->length * $item['amount'];
-                $this->width += $option->width * $item['amount'];
-                $this->height += $option->height * $item['amount'];
 
                 return [
                     'name' => $option->product->name,
@@ -91,9 +88,6 @@ class OrderPrice
             'to_district_id' => $address->district->ghn_id,
             'to_ward_code' => $address->ward?->ghn_id,
             'weight' => $this->weight,
-            'length' => $this->length,
-            'width' => $this->width,
-            'height' => $this->height,
             'insurance_value' => (int) $this->price,
             'items' => $this->items,
         ]);

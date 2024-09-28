@@ -1,0 +1,65 @@
+post:
+  description: Lấy thông tin báo giá
+  tags:
+    - Đơn hàng
+  requestBody:
+    $ref: "../../components/requestBodies/order.yaml"
+  responses:
+    200:
+      description: Lấy thông tin báo giá thành công
+      content:
+        application/json:
+          schema:
+            properties:
+              items_preview:
+                title: Sản phẩm
+                example:
+                  - name: BỘ BẢO DƯỠNG 1
+                    code: BỘ_BẢO_DƯỠNG_1_GRANDE
+                    price_preview:
+                      raw: 261000
+                      preview: 261.000 ₫
+                    quantity: 2
+                    weight: 351
+                    length: 31
+                    width: 31
+                    height: 36
+                type: array
+              weight:
+                title: Khối lượng
+                example: 702
+                type: number
+              price_preview:
+                title: Giá
+                example:
+                  raw: 522000
+                  preview: 522.000 ₫
+                type: object
+              tax_preview:
+                title: Thuế
+                example:
+                  raw: 47454.545454545456
+                  preview: 47.455 ₫
+                type: object
+              shipping_fee_preview:
+                title: Phí giao hàng
+                example:
+                  raw: 764541
+                  preview: 764.541 ₫
+                type: object
+              handling_fee_preview:
+                title: Phí xử lý
+                example:
+                  raw: 0
+                  preview: 0 ₫
+                type: object
+              total_preview:
+                title: Tổng
+                example:
+                  raw: 1286541
+                  preview: 1.286.541 ₫
+                type: object
+    401:
+      $ref: "../../components/responses/401.yaml"
+    422:
+      $ref: "../../components/responses/422/order.yaml"

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->decimal('shipping_fee', 12)->default(0);
             $table->decimal('handling_fee', 12)->default(0);
             $table->json('other_fees')->default(json_encode([]));
+            $table->smallInteger('weight');
             $table->decimal('total', 12)->default(0);
             $table->tinyInteger('status');
             $table->string('note')->nullable();

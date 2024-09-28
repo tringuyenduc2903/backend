@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Alert;
-use App\Actions\OrderPrice;
+use App\Actions\Fee;
 use App\Enums\EmployeePermission;
 use App\Enums\OptionStatus;
 use App\Enums\OrderPaymentMethod;
@@ -80,13 +80,13 @@ class OrderCrudController extends CrudController
         $this->crud->registerFieldEvents();
 
         try {
-            $price_quote = app(OrderPrice::class, [
+            $fee = app(Fee::class, [
                 'options' => request('options'),
                 'shipping_method' => request('shipping_method'),
                 'address_id' => request('address'),
-            ])->getPriceQuote();
+            ])->result;
 
-            session(['order.price_quote' => $price_quote]);
+            session(['order.fee' => $fee]);
         } catch (Exception) {
             return redirect()->back()
                 ->withInput($request->input())

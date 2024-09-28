@@ -1,0 +1,33 @@
+content:
+  application/json:
+    schema:
+      properties:
+        options:
+          title: Tùy chọn
+          example:
+            - option_id: 1
+              amount: 1
+          type: array
+        shipping_method:
+          title: "Phương thức vận chuyển (0: Nhận hàng tại cửa hàng, 1: Giao hàng tận nơi)"
+          example: 0
+          type: number
+        payment_method:
+          title: "Phương thức thanh toán (0: Thanh toán khi giao hàng, 1: Chuyển khoản ngân hàng)"
+          example: 0
+          type: number
+        note:
+          title: Ghi chú
+          example: Nhà có trẻ em, không bấm chuông
+          type: string
+          maxLength: 255
+        address_id:
+          title: Địa chỉ
+          example: 1
+          type: number
+      type: object
+      required:
+        - options
+        - shipping_method
+        - payment_method
+        - address_id
