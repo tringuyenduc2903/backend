@@ -441,7 +441,7 @@ class OrderCrudController extends CrudController
                 'readonly' => true,
             ])
             ->prefix($code.' ')
-            ->hint(10)
+            ->hint(7)
             ->tab(trans('Price quote'));
         CRUD::field('shipping_fee')
             ->label(trans('Shipping fee'))
@@ -449,7 +449,7 @@ class OrderCrudController extends CrudController
                 'readonly' => true,
             ])
             ->prefix($code.' ')
-            ->hint(11)
+            ->hint(8)
             ->tab(trans('Price quote'));
         CRUD::field('handling_fee')
             ->label(trans('Handling fee'))
@@ -457,7 +457,7 @@ class OrderCrudController extends CrudController
                 'readonly' => true,
             ])
             ->prefix($code.' ')
-            ->hint('12 = 7 + 8 + 9')
+            ->hint(9)
             ->tab(trans('Price quote'));
         CRUD::field('total')
             ->label(trans('Total'))
@@ -465,7 +465,7 @@ class OrderCrudController extends CrudController
                 'readonly' => true,
             ])
             ->prefix($code.' ')
-            ->hint('13 = 6 + 11 + 12 + 13')
+            ->hint('10 = 6 + 7 + 8 + 9')
             ->tab(trans('Price quote'));
         CRUD::addField([
             'name' => 'customer',
