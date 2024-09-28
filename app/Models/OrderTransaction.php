@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\OrderStatus;
+use App\Enums\OrderTransactionStatus;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
@@ -58,6 +58,6 @@ class OrderTransaction extends Model
 
     protected function getStatusPreviewAttribute(): string
     {
-        return OrderStatus::valueForKey($this->status);
+        return OrderTransactionStatus::valueForKey($this->status);
     }
 }

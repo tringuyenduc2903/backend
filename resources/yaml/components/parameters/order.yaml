@@ -1,0 +1,5 @@
+name: order_id
+in: path
+description: Id đơn hàng
+example: 1
+required: true

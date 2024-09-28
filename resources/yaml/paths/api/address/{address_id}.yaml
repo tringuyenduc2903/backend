@@ -79,7 +79,7 @@ get:
                 type: string
               address_preview:
                 title: Địa chỉ
-                example: 774 Phố Âu Linh Thọ, Thị Trấn Si Ma Cai, Huyện Si Ma Cai, Lào Cai (Việt Nam)
+                example: 774 Phố Âu Linh Thọ, Thị Trấn Si Ma Cai, Huyện Si Ma Cai, Lào Cai, Việt Nam
                 type: string
               type:
                 title: Kiểu

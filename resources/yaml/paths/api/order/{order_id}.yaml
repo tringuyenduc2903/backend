@@ -1,57 +1,167 @@
 get:
-  description: "Lấy danh sách đơn hàng: Sắp xếp theo Thời gian tạo đơn hàng"
+  description: Lấy thông tin đơn hàng
   tags:
     - Đơn hàng
   parameters:
-    - $ref: "../../components/parameters/page.yaml"
-    - $ref: "../../components/parameters/perPage.yaml"
-    - name: status
-      description: "0: Chờ thanh toán, 1: Chờ vận chuyển, 2: Chờ nhận hàng, 3: Hoàn thành, 4: Đã huỷ, 5: Trả hàng/Hoàn tiền)"
-      in: query
-      example: 0
+    - $ref: "../../../components/parameters/order.yaml"
   responses:
     200:
-      description: Lấy danh sách đặt hàng thành công
+      description: Lấy thông tin đơn hàng thành công
       content:
         application/json:
           schema:
             properties:
-              data:
-                title: Dữ liệu
+              id:
+                title: Id
+                example: 1
+                type: number
+              tax_preview:
+                title: Thuế
+                example:
+                  raw: 47454.55
+                  preview: 47.455 ₫
+                type: object
+              shipping_fee_preview:
+                title: Phí giao hàng
+                example:
+                  raw: 764541
+                  preview: 764.541 ₫
+                type: object
+              handling_fee_preview:
+                title: Phí xử lý
+                example:
+                  raw: 0
+                  preview: 0 ₫
+                type: object
+              total_preview:
+                title: Tổng
+                example:
+                  raw: 1286541
+                  preview: 1.286.541 ₫
+                type: object
+              other_fees_preview:
+                title: Chi phí khác
+                example:
+                  -
+                type: array
+              other_fields_preview:
+                title: Trường khác
+                example:
+                  -
+                type: array
+              shipping_method_preview:
+                title: Phương thức vận chuyển
+                example: Giao hàng tận nơi
+                type: string
+              shipping_code:
+                title: Mã vận đơn
+                example: LNXAR7
+                type: string
+              payment_method_preview:
+                title: Phương thức thanh toán
+                example: Chuyển khoản ngân hàng
+                type: string
+              payment_checkout_url:
+                title: Liên kết thanh toán
+                example: https://pay.payos.vn/web/90b8b74ce497412d9f044c2aa78da165
+                type: string
+              status_preview:
+                title: Trạng thái
+                example: Chờ nhận hàng
+                type: string
+              note:
+                title: Ghi chú
+                example: Nhà có trẻ em, không bấm chuông
+                type: string
+              address:
+                title: Địa chỉ
+                example:
+                  id: 1
+                  customer_name: Vũ Huy Mẫn
+                  customer_phone_number: +84772543631
+                  country: Việt Nam
+                  province:
+                    id: 1
+                    name: Lào Cai
+                    ghn_id: 269
+                    name_extensions:
+                      - Lào Cai
+                      - Tỉnh Lào Cai
+                      - T.Lào Cai
+                      - lào cai
+                    created_at: 11:53:58 21/06/2024
+                    updated_at: 11:53:58 21/06/2024
+                  district:
+                    id: 1
+                    name: Huyện Si Ma Cai
+                    ghn_id: 2264
+                    name_extensions:
+                      - Huyện Xi Ma Cai
+                      - Huyện Si Ma Cai
+                      - H.Xi Ma Cai
+                      - H Xi Ma Cai
+                      - Xi Ma Cai
+                      - Huyen Xi Ma Cai
+                      - ximacai
+                      - Si Ma Cai
+                    created_at: 11:53:58 21/06/2024
+                    updated_at: 11:53:58 21/06/2024
+                  ward:
+                    id: 1
+                    name: Thị Trấn Si Ma Cai
+                    ghn_id: 90816
+                    name_extensions:
+                      - thị trấn si ma cai
+                      - thi tran si ma cai
+                      - Thi Tran Si Ma Cai
+                      - thị trấn xi ma cai
+                    created_at: 11:53:58 21/06/2024
+                    updated_at: 11:53:58 21/06/2024
+                  address_detail: 774 Phố Âu Linh Thọ
+                  address_preview: 774 Phố Âu Linh Thọ, Thị Trấn Si Ma Cai, Huyện Si Ma Cai, Lào Cai, Việt Nam
+                  type: 1
+                  type_preview: Công ty
+                  default: true
+                  deleted_at: 11:53:58 21/06/2024
+                  created_at: 11:53:58 21/06/2024
+                  updated_at: 11:53:58 21/06/2024
+                type: object
+              shipments:
+                title: Giao hàng
                 example:
                   - id: 1
-                    tax_preview:
-                      raw: 47454.55
-                      preview: 47.455 ₫
-                    shipping_fee_preview:
-                      raw: 764541
-                      preview: 764.541 ₫
-                    handling_fee_preview:
-                      raw: 0
-                      preview: 0 ₫
-                    total_preview:
+                    name_preview: Đang lấy hàng
+                    description:
+                    reason_preview: "Lấy không thành công: Người gửi hẹn lại ngày lấy hàng"
+                    created_at: 11:53:58 21/06/2024
+                    updated_at: 11:53:58 21/06/2024
+                type: array
+              transactions:
+                title: Giao dịch
+                example:
+                  - id: 1
+                    status_preview: Thành công
+                    reference: 2507735
+                    amount_preview:
                       raw: 1286541
                       preview: 1.286.541 ₫
-                    other_fees_preview:
-                      -
-                    other_fields_preview:
-                      -
-                    shipping_method_preview: Giao hàng tận nơi
-                    shipping_code: LNXAR7
-                    payment_method_preview: Chuyển khoản ngân hàng
-                    payment_checkout_url: https://pay.payos.vn/web/90b8b74ce497412d9f044c2aa78da165
-                    status_preview: Chờ nhận hàng
-                    note: Nhà có trẻ em, không bấm chuông
+                    created_at: 12:09:34 27/09/2024
+                    updated_at: 12:09:34 27/09/2024
+                type: array
+              options:
+                title: Sản phẩm
+                example:
+                  - id: 1
+                    price_preview:
+                      raw: 261000
+                      preview: 261.000 ₫
+                    value_added_tax_preview:
+                      raw: 10
+                      preview: 10%
+                    amount: 2
                     option:
-                      id: 1
-                      price_preview:
-                        raw: 261000
-                        preview: 261.000 ₫
-                      value_added_tax_preview:
-                        raw: 10
-                        preview: 10%
-                      amount: 2
-                      option:
+                      title: Sản phẩm
+                      example:
                         id: 1
                         sku: AFRICA_TWIN_ADVENTURE_SPORTS_TRẮNG_X_SẢN_PHẨM_MỚI
                         price_preview:
@@ -143,119 +253,21 @@ get:
                           deleted_at: 11:53:58 21/06/2024
                           created_at: 11:53:58 21/06/2024
                           updated_at: 11:53:58 21/06/2024
-                        deleted_at: 11:53:58 21/06/2024
                         created_at: 11:53:58 21/06/2024
                         updated_at: 11:53:58 21/06/2024
+                      deleted_at: 11:53:58 21/06/2024
                       created_at: 11:53:58 21/06/2024
                       updated_at: 11:53:58 21/06/2024
                     created_at: 11:53:58 21/06/2024
                     updated_at: 11:53:58 21/06/2024
                 type: array
-              total_pages:
-                title: Tổng trang
-                example: 7
-                type: number
-              from:
-                title: Vị trí dữ liệu đầu tiên của trang
-                example: 76
-                type: number
-              to:
-                title: Vị trí dữ liệu cuối cùng của trang
-                example: 90
-                type: number
-              per_page:
-                title: Tổng dữ liệu mỗi trang
-                example: 15
-                type: number
-              current_page:
-                title: Vị trí trang hiện tại
-                example: 6
-                type: number
-              total:
-                title: Tổng dữ liệu
-                example: 100
-                type: number
-            type: object
-    401:
-      $ref: "../../components/responses/401.yaml"
-post:
-  description: Tạo đơn hàng mới
-  tags:
-    - Đơn hàng
-  requestBody:
-    content:
-      application/json:
-        schema:
-          properties:
-            options:
-              title: Tùy chọn
-              example:
-                - option_id: 1
-                  amount: 1
-              type: array
-            shipping_method:
-              title: "Phương thức vận chuyển (0: Nhận hàng tại cửa hàng, 1: Giao hàng tận nơi)"
-              example: 0
-              type: number
-            payment_method:
-              title: "Phương thức thanh toán (0: Thanh toán khi giao hàng, 1: Chuyển khoản ngân hàng)"
-              example: 0
-              type: number
-            note:
-              title: Ghi chú
-              example: Nhà có trẻ em, không bấm chuông
-              type: string
-              maxLength: 255
-            address_id:
-              title: Địa chỉ
-              example: 1
-              type: number
-          type: object
-          required:
-            - options
-            - shipping_method
-            - payment_method
-            - address_id
-  responses:
-    201:
-      description: Tạo đơn hàng mới thành công
-      content:
-        application/json:
-          schema:
-            $ref: "../../components/schemas/Dữ liệu rỗng.yaml"
-    401:
-      $ref: "../../components/responses/401.yaml"
-    422:
-      description: Dữ liệu khách hàng đã nhập không được chấp nhận
-      content:
-        application/json:
-          schema:
-            properties:
-              message:
-                title: Thông báo ngắn
+              created_at:
+                title: Thời gian tạo
+                example: 11:53:58 21/06/2024
                 type: string
-                example: Trường tùy chọn là bắt buộc. (và 3 lỗi khác)
-              errors:
-                title: Các trường không hợp lệ
-                properties:
-                  options:
-                    title: Tùy chọn
-                    example:
-                      - Trường tùy chọn là bắt buộc.
-                    type: array
-                  shipping_method:
-                    title: Phương thức vận chuyển
-                    example:
-                      - Trường phương thức vận chuyển là bắt buộc.
-                    type: array
-                  payment_method:
-                    title: Phương thức thanh toán
-                    example:
-                      - Trường phương thức thanh toán là bắt buộc.
-                    type: array
-                  address_id:
-                    title: Địa chỉ
-                    example:
-                      - Trường địa chỉ là bắt buộc.
-                    type: array
-            type: object
+              updated_at:
+                title: Thời gian cập nhật thông tin
+                example: 11:53:58 21/06/2024
+                type: string
+    404:
+      $ref: "../../../components/responses/404/order.yaml"

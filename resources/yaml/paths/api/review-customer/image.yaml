@@ -39,6 +39,7 @@ post:
                 type: string
                 example: Trường ảnh là bắt buộc.
               errors:
+                title: Các trường không hợp lệ
                 properties:
                   image:
                     title: Hình ảnh

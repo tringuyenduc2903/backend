@@ -95,3 +95,5 @@ paths:
     $ref: "./paths/api/setting/{setting_type}.yaml"
   /api/order:
     $ref: "./paths/api/order.yaml"
+  /api/order/{order_id}:
+    $ref: "./paths/api/order/{order_id}.yaml"
