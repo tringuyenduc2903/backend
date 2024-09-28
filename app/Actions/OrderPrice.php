@@ -33,8 +33,11 @@ class OrderPrice
         $this->handleTotal();
 
         return [
+            'items' => $this->items,
             'weight' => $this->weight,
-            'options' => $this->options,
+            'length' => $this->length,
+            'width' => $this->width,
+            'height' => $this->height,
             'price' => $this->price,
             'tax' => $this->tax,
             'shipping_fee' => $this->shipping_fee,
@@ -64,6 +67,7 @@ class OrderPrice
                 return [
                     'name' => $option->product->name,
                     'code' => $option->sku,
+                    'price' => (int) $option->price,
                     'quantity' => (int) $item['amount'],
                     'weight' => (int) $option->weight,
                     'length' => (int) $option->length,

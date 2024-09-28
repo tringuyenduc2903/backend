@@ -18,13 +18,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('review-customer/image', ReviewImageController::class);
 
     Route::apiResource('social', SocialController::class)
-        ->except(['store', 'update']);
+        ->except('store', 'update');
 
-    Route::apiResource('wishlist', WishlistController::class)
-        ->except('update');
+    Route::apiResources([
+        'wishlist' => WishlistController::class,
+        'order' => OrderController::class,
+    ], [
+        'except' => 'update',
+    ]);
 
-    Route::apiResource('order', OrderController::class)
-        ->except(['update']);
+    Route::post('price-quote', PriceQuoteController::class);
 });
 
 Route::apiResource('province', ProvinceController::class)
@@ -51,12 +54,12 @@ Route::prefix('review-product/{product}')->group(function () {
 });
 
 Route::apiResource('branch', BranchController::class)
-    ->only(['index', 'show']);
+    ->only('index', 'show');
 
 Route::get('setting/{setting_type}', SettingController::class);
 
 Route::post('ghn', GhnController::class);
 
-Route::post('pay_os', PayOsController::class);
+Route::post('pay-os', PayOsController::class);
 
 require __DIR__.'/auth.php';
