@@ -58,7 +58,7 @@ class OrderProduct extends Model
 
     public function option(): BelongsTo
     {
-        return $this->belongsTo(Option::class);
+        return $this->belongsTo(Option::class)->withTrashed();
     }
 
     public function order(): BelongsTo

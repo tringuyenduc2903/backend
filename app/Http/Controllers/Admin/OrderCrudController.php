@@ -488,7 +488,6 @@ class OrderCrudController extends CrudController
             'attribute' => 'address_detail',
             'tab' => trans('Customer'),
         ]);
-
         CRUD::field('note')
             ->label(trans('Note'))
             ->type('textarea')

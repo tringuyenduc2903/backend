@@ -30,6 +30,7 @@ class OrderRequest extends FormRequest
             'options' => [
                 'required',
                 'array',
+                'max:20',
             ],
             'options.*.option_id' => [
                 'required',
