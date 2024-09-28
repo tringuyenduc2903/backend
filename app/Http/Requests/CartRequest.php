@@ -31,7 +31,7 @@ class CartRequest extends FormRequest
                 'required',
                 'integer',
                 function ($attribute, $value, $fail) {
-                    if (!get_product($value)) {
+                    if (! get_product($value)) {
                         $fail(trans('validation.exists'));
                     }
                 },
@@ -52,7 +52,7 @@ class CartRequest extends FormRequest
                         return;
                     }
 
-                    if (!$option = get_product(
+                    if (! $option = get_product(
                         $this->input('option_id')
                     )) {
                         return;

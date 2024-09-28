@@ -14,9 +14,7 @@ class AdminOrderCreatedEvent
      * Create a new event instance.
      */
     public function __construct(
-        public Order    $order,
+        public Order $order,
         public Employee $employee
-    )
-    {
-    }
+    ) {}
 }

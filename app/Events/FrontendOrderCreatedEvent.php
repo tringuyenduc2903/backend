@@ -14,9 +14,7 @@ class FrontendOrderCreatedEvent
      * Create a new event instance.
      */
     public function __construct(
-        public Order    $order,
+        public Order $order,
         public Customer $customer,
-    )
-    {
-    }
+    ) {}
 }

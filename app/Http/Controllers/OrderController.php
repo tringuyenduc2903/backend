@@ -54,7 +54,7 @@ class OrderController extends Controller
             ->create($request->validated());
 
         $order->options()->saveMany(array_map(
-            fn(array $item): OrderProduct => OrderProduct::make([
+            fn (array $item): OrderProduct => OrderProduct::make([
                 'option_id' => $item['option_id'],
                 'amount' => $item['amount'],
             ]),
@@ -79,7 +79,7 @@ class OrderController extends Controller
             ->orders()
             ->findOrFail($order_id);
 
-        if (!$order->canCancel()) {
+        if (! $order->canCancel()) {
             abort(
                 403,
                 trans('Orders with status :name cannot be canceled.', [

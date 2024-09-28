@@ -31,24 +31,24 @@ class CreateGhnShip implements ShouldQueue
             'to_address' => $event->order->address->address_detail,
             'to_ward_code' => $event->order->address->ward->ghn_id,
             'to_district_code' => $event->order->address->district->ghn_id,
-            'weight' => (int)$event->order->options()->withSum('option', 'weight')->value('option_sum_weight'),
-            'length' => (int)$event->order->options()->withSum('option', 'length')->value('option_sum_length'),
-            'width' => (int)$event->order->options()->withSum('option', 'width')->value('option_sum_width'),
-            'height' => (int)$event->order->options()->withSum('option', 'height')->value('option_sum_height'),
-            'insurance_value' => (int)$event->order->options()->sum('price'),
+            'weight' => (int) $event->order->options()->withSum('option', 'weight')->value('option_sum_weight'),
+            'length' => (int) $event->order->options()->withSum('option', 'length')->value('option_sum_length'),
+            'width' => (int) $event->order->options()->withSum('option', 'width')->value('option_sum_width'),
+            'height' => (int) $event->order->options()->withSum('option', 'height')->value('option_sum_height'),
+            'insurance_value' => (int) $event->order->options()->sum('price'),
             'payment_type_id' => Ghn::NGUOI_BAN_NGUOI_GUI,
             'required_note' => Ghn::CHO_XEM_HANG_KHONG_THU,
             'items' => $event->order->options
-                ->map(fn(OrderProduct $order_product): array => [
+                ->map(fn (OrderProduct $order_product): array => [
                     'name' => $order_product->option->product->name,
                     'code' => $order_product->option->sku,
                     'quantity' => $order_product->amount,
-                    'price' => (int)$order_product->price,
+                    'price' => (int) $order_product->price,
                     'weight' => $order_product->option->weight,
                     'length' => $order_product->option->length,
                     'width' => $order_product->option->width,
                     'height' => $order_product->option->height,
-                    'category' => (object)[
+                    'category' => (object) [
                         'level1' => $order_product->option->product->categories()->first()->name,
                     ],
                 ])
@@ -56,7 +56,7 @@ class CreateGhnShip implements ShouldQueue
         ];
 
         if ($event->order->payment_method == OrderPaymentMethod::PAYMENT_ON_DELIVERY) {
-            $data['cod_amount'] = (int)$event->order->total;
+            $data['cod_amount'] = (int) $event->order->total;
         }
 
         if ($event->order->note) {

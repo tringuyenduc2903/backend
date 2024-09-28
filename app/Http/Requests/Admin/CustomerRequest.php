@@ -61,8 +61,8 @@ class CustomerRequest extends FormRequest
             'birthday' => [
                 'nullable',
                 'date',
-                'before_or_equal:' . Carbon::now($timezone)->subYears(16),
-                'after_or_equal:' . Carbon::now($timezone)->subYears(100),
+                'before_or_equal:'.Carbon::now($timezone)->subYears(16),
+                'after_or_equal:'.Carbon::now($timezone)->subYears(100),
             ],
             'gender' => [
                 'nullable',
@@ -79,7 +79,7 @@ class CustomerRequest extends FormRequest
                 'array',
                 'max:5',
                 Rule::when(
-                    $addresses && !in_array(true, array_column($addresses, 'default')),
+                    $addresses && ! in_array(true, array_column($addresses, 'default')),
                     'accepted'
                 ),
             ],
@@ -148,7 +148,7 @@ class CustomerRequest extends FormRequest
                 'array',
                 'max:5',
                 Rule::when(
-                    $identifications && !in_array(true, array_column($identifications, 'default')),
+                    $identifications && ! in_array(true, array_column($identifications, 'default')),
                     'accepted'
                 ),
             ],
@@ -176,11 +176,11 @@ class CustomerRequest extends FormRequest
                 'required',
                 'string',
                 function ($attribute, $value, $fail) {
-                    switch ((int)$this->input(
+                    switch ((int) $this->input(
                         str_replace('.number', '.type', $attribute)
                     )) {
                         case CustomerIdentification::IDENTITY_CARD:
-                            if (!in_array(strlen($value), [9, 12])) {
+                            if (! in_array(strlen($value), [9, 12])) {
                                 $fail(trans('validation.custom.size.strings', [
                                     'size1' => 9,
                                     'size2' => 12,
@@ -212,7 +212,7 @@ class CustomerRequest extends FormRequest
                 'required',
                 'date',
                 'after:identifications.*.issuance_date',
-                'after:' . Carbon::now($timezone),
+                'after:'.Carbon::now($timezone),
             ],
         ];
     }

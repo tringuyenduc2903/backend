@@ -30,9 +30,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void
-    {
-    }
+    public function register(): void {}
 
     /**
      * Bootstrap any application services.
@@ -62,11 +60,11 @@ class AppServiceProvider extends ServiceProvider
 
         Validator::extend(
             'actions',
-            fn($attribute, $value, $parameters, $validator): bool => Action::extends($attribute, $value, $validator)
+            fn ($attribute, $value, $parameters, $validator): bool => Action::extends($attribute, $value, $validator)
         );
         Validator::extend(
             'image_banner',
-            fn($attribute, $value, $parameters, $validator): bool => Image::extends($attribute, $value, $validator)
+            fn ($attribute, $value, $parameters, $validator): bool => Image::extends($attribute, $value, $validator)
         );
     }
 }

@@ -19,9 +19,7 @@ class CustomerRegistered extends Mailable
      */
     public function __construct(
         protected Customer $customer
-    )
-    {
-    }
+    ) {}
 
     /**
      * Get the message envelope.
@@ -47,7 +45,7 @@ class CustomerRegistered extends Mailable
                         'time' => Carbon::now()->isoFormat(config('backpack.ui.default_datetime_format')),
                     ]),
                     '---',
-                    '# ' . trans('Registration information:'),
+                    '# '.trans('Registration information:'),
                     sprintf('**%s**: %s', trans('Name'), $this->customer->name),
                     sprintf('**%s**: %s', trans('Email'), $this->customer->email),
                 ],
