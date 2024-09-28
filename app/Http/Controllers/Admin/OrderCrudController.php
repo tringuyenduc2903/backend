@@ -9,6 +9,7 @@ use App\Enums\OptionStatus;
 use App\Enums\OrderPaymentMethod;
 use App\Enums\OrderShippingMethod;
 use App\Enums\OrderStatus;
+use App\Enums\OrderTransactionStatus;
 use App\Enums\ProductType;
 use App\Events\AdminOrderCreatedEvent;
 use App\Http\Controllers\Admin\Operations\CancelOrderOperation;
@@ -196,7 +197,8 @@ class OrderCrudController extends CrudController
             ->label(trans('Phone number'))
             ->type('phone');
         CRUD::column('address.address_preview')
-            ->label(trans('Address'));
+            ->label(trans('Address'))
+            ->type('textarea');
         CRUD::addColumn([
             'name' => 'options',
             'label' => trans('Products'),
@@ -282,6 +284,39 @@ class OrderCrudController extends CrudController
         CRUD::column('payment_checkout_url')
             ->label(trans('Checkout URL'))
             ->type('url');
+        CRUD::addColumn([
+            'name' => 'shipments',
+            'label' => trans('Shipments'),
+            'subfields' => [[
+                'name' => 'name_preview',
+                'label' => trans('Name'),
+            ], [
+                'name' => 'description',
+                'label' => trans('Description'),
+            ], [
+                'name' => 'reason_preview',
+                'label' => trans('Reason'),
+                'type' => 'textarea',
+            ]],
+        ]);
+        CRUD::addColumn([
+            'name' => 'transactions',
+            'label' => trans('Transactions'),
+            'subfields' => [[
+                'name' => 'amount',
+                'label' => trans('Amount (Money)'),
+                'type' => 'number',
+                'suffix' => ' '.$code,
+            ], [
+                'name' => 'status',
+                'label' => trans('Status'),
+                'type' => 'select2_from_array',
+                'options' => OrderTransactionStatus::values(),
+            ], [
+                'name' => 'reference',
+                'label' => trans('Reference'),
+            ]],
+        ]);
 
         // if the model has timestamps, add columns for created_at and updated_at
         if (CRUD::get('show.timestamps') && CRUD::getModel()->usesTimestamps()) {

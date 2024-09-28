@@ -191,8 +191,10 @@
     "With image": "Có hình ảnh",
     "Sales": "Bán hàng",
     "Orders": "Đơn đặt hàng",
-    "Order": "Đơn đặt hàng",
+    "Order motorcycle": "Đặt hàng xe máy",
+    "Order": "Đơn hàng",
     "Amount": "Số lượng",
+    "Amount (Money)": "Số tiền",
     "Pretax price": "Giá trước thuế",
     "Value added tax preview": "Xem truước thuế GTGT",
     "Price after tax": "Giá sau thuế",
@@ -221,11 +223,14 @@
     "Confirm cancellation of this order?": "Xác nhận hủy đơn hàng này?",
     "Cancellation of order Id #:number successfully!": "Hủy đơn Id #:number hàng thành công!",
     "Cancel order Id #:number failed!": "Hủy đơn Id #:number hàng thất bại!",
-    "Order payment Id #:number": "Thanh toán đơn hàng Id #:number",
     "Shipping method :name is not available for this order": "Phương thức vận chuyển :name không khả dụng với đơn hàng này",
     "Checkout URL": "Liên kết thanh toán",
     "Pending": "Đang xử lý",
     "Successfully": "Thành công",
     "Failed": "Thất bại",
-    "Orders with status :name cannot be canceled.": "Không thể hủy Đơn hàng có trạng thái :name."
+    "Orders with status :name cannot be canceled.": "Không thể hủy Đơn hàng có trạng thái :name.",
+    "Shipments": "Vận chuyển",
+    "Reason": "Lý do",
+    "Transactions": "Giao dịch",
+    "Reference": "Tham chiếu"
 }
