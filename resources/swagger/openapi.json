@@ -5852,9 +5852,9 @@
         },
         "/api/order": {
             "get": {
-                "description": "Lấy danh sách đặt hàng: Sắp xếp theo Thời gian tạo đơn hàng",
+                "description": "Lấy danh sách đơn hàng: Sắp xếp theo Thời gian tạo đơn hàng",
                 "tags": [
-                    "Đặt hàng"
+                    "Đơn hàng"
                 ],
                 "parameters": [
                     {
@@ -6105,6 +6105,124 @@
                     },
                     "401": {
                         "$ref": "#/paths/~1api~1cart/get/responses/401"
+                    }
+                }
+            },
+            "post": {
+                "description": "Tạo đơn hàng mới",
+                "tags": [
+                    "Đơn hàng"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "options": {
+                                        "title": "Tùy chọn",
+                                        "example": [
+                                            {
+                                                "option_id": 1,
+                                                "amount": 1
+                                            }
+                                        ],
+                                        "type": "array"
+                                    },
+                                    "shipping_method": {
+                                        "title": "Phương thức vận chuyển (0: Nhận hàng tại cửa hàng, 1: Giao hàng tận nơi)",
+                                        "example": 1,
+                                        "type": "number"
+                                    },
+                                    "payment_method": {
+                                        "title": "Phương thức thanh toán (0: Thanh toán khi giao hàng, 1: Chuyển khoản ngân hàng)",
+                                        "example": 1,
+                                        "type": "number"
+                                    },
+                                    "note": {
+                                        "title": "Ghi chú",
+                                        "example": 1,
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "address_id": {
+                                        "title": "Địa chỉ",
+                                        "example": 1,
+                                        "type": "number"
+                                    }
+                                },
+                                "type": "object",
+                                "required": [
+                                    "options",
+                                    "shipping_method",
+                                    "payment_method",
+                                    "address_id"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tạo đơn hàng mới thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/paths/~1api~1cart/post/responses/201/content/application~1json/schema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/paths/~1api~1cart/get/responses/401"
+                    },
+                    "422": {
+                        "description": "Dữ liệu khách hàng đã nhập không được chấp nhận",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "title": "Thông báo ngắn",
+                                            "type": "string",
+                                            "example": "Trường tùy chọn là bắt buộc. (và 3 lỗi khác)"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "options": {
+                                                    "title": "Tùy chọn",
+                                                    "example": [
+                                                        "Trường tùy chọn là bắt buộc."
+                                                    ],
+                                                    "type": "array"
+                                                },
+                                                "shipping_method": {
+                                                    "title": "Phương thức vận chuyển",
+                                                    "example": [
+                                                        "Trường phương thức vận chuyển là bắt buộc."
+                                                    ],
+                                                    "type": "array"
+                                                },
+                                                "payment_method": {
+                                                    "title": "Phương thức thanh toán",
+                                                    "example": [
+                                                        "Trường phương thức thanh toán là bắt buộc."
+                                                    ],
+                                                    "type": "array"
+                                                },
+                                                "address_id": {
+                                                    "title": "Địa chỉ",
+                                                    "example": [
+                                                        "Trường địa chỉ là bắt buộc."
+                                                    ],
+                                                    "type": "array"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
