@@ -25,9 +25,7 @@ class CreatePayOsPayment
         $data = [
             'orderCode' => $event->order->id,
             'amount' => (int) $event->order->total,
-            'description' => trans('Order payment Id #:number', [
-                'number' => $event->order->id,
-            ]),
+            'description' => sprintf('%s: %s', trans('Order'), $event->order->id),
             'buyerName' => $event->order->address->customer_name,
             'buyerEmail' => $event->order->customer->email,
             'buyerPhone' => $event->order->address->customer_phone_number,
