@@ -10,6 +10,7 @@ use App\Http\Requests\OrderRequest;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use Exception;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -28,7 +29,7 @@ class OrderController extends Controller
         }
 
         $paginator = $orders
-            ->with('option')
+            ->with(['options' => fn (HasMany $query): HasMany => $query->limit(1)])
             ->paginate(request('perPage'));
 
         return $this->getCustomPaginate($paginator);

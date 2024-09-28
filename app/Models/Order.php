@@ -9,7 +9,6 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
@@ -32,9 +31,7 @@ class Order extends Model
         'note',
         'shipping_method',
         'payment_method',
-        'other_fields',
         'address_id',
-        'identification_id',
         'customer_id',
     ];
 
@@ -45,7 +42,6 @@ class Order extends Model
      */
     protected $hidden = [
         'address_id',
-        'identification_id',
         'customer_id',
         'shipping_method',
         'payment_method',
@@ -54,8 +50,6 @@ class Order extends Model
         'shipping_fee',
         'handling_fee',
         'total',
-        'other_fields',
-        'other_fees',
     ];
 
     protected $appends = [
@@ -66,8 +60,6 @@ class Order extends Model
         'shipping_fee_preview',
         'handling_fee_preview',
         'total_preview',
-        'other_fields_preview',
-        'other_fees_preview',
     ];
 
     /*
@@ -79,11 +71,6 @@ class Order extends Model
     public function options(): HasMany
     {
         return $this->hasMany(OrderProduct::class);
-    }
-
-    public function option(): HasOne
-    {
-        return $this->hasOne(OrderProduct::class);
     }
 
     public function customer(): BelongsTo
@@ -159,19 +146,5 @@ class Order extends Model
     protected function getStatusPreviewAttribute(): string
     {
         return OrderStatus::valueForKey($this->status);
-    }
-
-    protected function getOtherFieldsPreviewAttribute(): array
-    {
-        $items = json_decode($this->other_fields);
-
-        return array_values($items);
-    }
-
-    protected function getOtherFeesPreviewAttribute(): array
-    {
-        $items = json_decode($this->other_fees);
-
-        return array_values($items);
     }
 }

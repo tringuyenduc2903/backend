@@ -16,22 +16,15 @@ return new class extends Migration
             $table->decimal('tax', 12)->default(0);
             $table->decimal('shipping_fee', 12)->default(0);
             $table->decimal('handling_fee', 12)->default(0);
-            $table->json('other_fees')->default(json_encode([]));
             $table->smallInteger('weight');
             $table->decimal('total', 12)->default(0);
-            $table->tinyInteger('status');
+            $table->unsignedTinyInteger('status');
             $table->string('note')->nullable();
             $table->unsignedTinyInteger('shipping_method');
             $table->unsignedTinyInteger('payment_method');
             $table->string('shipping_code', 50)->nullable();
             $table->string('payment_checkout_url')->nullable();
-            $table->json('other_fields')->default(json_encode([]));
             $table->foreignId('address_id')
-                ->nullable()
-                ->constrained()
-                ->nullOnDelete()
-                ->cascadeOnUpdate();
-            $table->foreignId('identification_id')
                 ->nullable()
                 ->constrained()
                 ->nullOnDelete()
