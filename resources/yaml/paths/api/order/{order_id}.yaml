@@ -269,5 +269,33 @@ get:
                 title: Thời gian cập nhật thông tin
                 example: 11:53:58 21/06/2024
                 type: string
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    404:
+      $ref: "../../../components/responses/404/order.yaml"
+delete:
+  description: Hủy đơn hàng
+  tags:
+    - Đơn hàng
+  parameters:
+    - $ref: "../../../components/parameters/order.yaml"
+  responses:
+    200:
+      description: Hủy đơn hàng thành công
+      content:
+        $ref: "../../../components/schemas/Dữ liệu rỗng.yaml"
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    403:
+      description: "Chỉ có thể hủy đơn hàng có Trạng thái: Chờ thanh toán/Chờ vận chuyển"
+      content:
+        application/json:
+          schema:
+            properties:
+              message:
+                title: Thông báo ngắn
+                type: string
+                example: Không thể hủy Đơn hàng có trạng thái Chờ nhận hàng.
+            type: object
     404:
       $ref: "../../../components/responses/404/order.yaml"
