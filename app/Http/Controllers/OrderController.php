@@ -21,13 +21,17 @@ class OrderController extends Controller
      */
     public function index(Request $request): array
     {
-        return $this->getCustomPaginate(
-            $request
-                ->user()
-                ->orders()
-                ->with('option')
-                ->paginate(request('perPage'))
-        );
+        $orders = $request->user()->orders();
+
+        if ($request->exists('status')) {
+            $orders = $orders->whereStatus(request('status'));
+        }
+
+        $paginator = $orders
+            ->with('option')
+            ->paginate(request('perPage'));
+
+        return $this->getCustomPaginate($paginator);
     }
 
     /**

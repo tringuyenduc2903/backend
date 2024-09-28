@@ -47,6 +47,7 @@ class OrderProduct extends Model
 
     protected $with = [
         'option',
+        'option.product',
     ];
 
     /*
@@ -78,6 +79,6 @@ class OrderProduct extends Model
 
     protected function getValueAddedTaxPreviewAttribute(): array
     {
-        return price_preview($this->value_added_tax);
+        return percent_preview($this->value_added_tax);
     }
 }
