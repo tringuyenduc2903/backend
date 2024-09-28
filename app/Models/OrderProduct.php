@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class OrderProduct extends Model
 {
     use CrudTrait;
+    use SwitchTimezoneTrait;
 
     /*
     |--------------------------------------------------------------------------
@@ -35,6 +36,17 @@ class OrderProduct extends Model
     protected $hidden = [
         'order_id',
         'option_id',
+        'price',
+        'value_added_tax',
+    ];
+
+    protected $appends = [
+        'price_preview',
+        'value_added_tax_preview',
+    ];
+
+    protected $with = [
+        'option',
     ];
 
     /*
@@ -51,5 +63,21 @@ class OrderProduct extends Model
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+    */
+
+    protected function getPricePreviewAttribute(): array
+    {
+        return price_preview($this->price);
+    }
+
+    protected function getValueAddedTaxPreviewAttribute(): array
+    {
+        return price_preview($this->value_added_tax);
     }
 }

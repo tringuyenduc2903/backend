@@ -10,7 +10,6 @@ use App\Http\Requests\OrderRequest;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use Exception;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -20,11 +19,15 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): Collection
+    public function index(Request $request): array
     {
-        return $request
-            ->user()
-            ->orders;
+        return $this->getCustomPaginate(
+            $request
+                ->user()
+                ->orders()
+                ->with('option')
+                ->paginate(request('perPage'))
+        );
     }
 
     /**
@@ -103,6 +106,7 @@ class OrderController extends Controller
         return $request
             ->user()
             ->orders()
+            ->with(['options', 'address', 'shipments', 'transactions'])
             ->findOrFail($order_id);
     }
 }

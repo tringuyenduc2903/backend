@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Order extends Model
 {
     use CrudTrait;
+    use SwitchTimezoneTrait;
 
     /*
     |--------------------------------------------------------------------------
@@ -46,6 +47,27 @@ class Order extends Model
         'address_id',
         'identification_id',
         'customer_id',
+        'shipping_method',
+        'payment_method',
+        'status',
+        'tax',
+        'shipping_fee',
+        'handling_fee',
+        'total',
+        'other_fields',
+        'other_fees',
+    ];
+
+    protected $appends = [
+        'shipping_method_preview',
+        'payment_method_preview',
+        'status_preview',
+        'tax_preview',
+        'shipping_fee_preview',
+        'handling_fee_preview',
+        'total_preview',
+        'other_fields_preview',
+        'other_fees_preview',
     ];
 
     /*
@@ -104,6 +126,26 @@ class Order extends Model
     |--------------------------------------------------------------------------
     */
 
+    protected function getTaxPreviewAttribute(): array
+    {
+        return price_preview($this->tax);
+    }
+
+    protected function getShippingFeePreviewAttribute(): array
+    {
+        return price_preview($this->shipping_fee);
+    }
+
+    protected function getHandlingFeePreviewAttribute(): array
+    {
+        return price_preview($this->handling_fee);
+    }
+
+    protected function getTotalPreviewAttribute(): array
+    {
+        return price_preview($this->total);
+    }
+
     protected function getShippingMethodPreviewAttribute(): string
     {
         return OrderShippingMethod::valueForKey($this->shipping_method);
@@ -117,5 +159,19 @@ class Order extends Model
     protected function getStatusPreviewAttribute(): string
     {
         return OrderStatus::valueForKey($this->status);
+    }
+
+    protected function getOtherFieldsPreviewAttribute(): array
+    {
+        $items = json_decode($this->other_fields);
+
+        return array_values($items);
+    }
+
+    protected function getOtherFeesPreviewAttribute(): array
+    {
+        $items = json_decode($this->other_fees);
+
+        return array_values($items);
     }
 }
