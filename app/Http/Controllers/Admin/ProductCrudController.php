@@ -139,7 +139,7 @@ class ProductCrudController extends CrudController
             'content' => resource_path('assets/js/admin/forms/product.js'),
         ]);
 
-        $code = current_currency();
+        $code = current_currency().' ';
 
         CRUD::field('published')
             ->label(trans('Publish'))
@@ -252,7 +252,7 @@ class ProductCrudController extends CrudController
                 'name' => 'price',
                 'label' => trans('Price'),
                 'type' => 'number',
-                'prefix' => $code.' ',
+                'prefix' => $code,
                 'default' => 0,
                 'wrapper' => [
                     'class' => 'form-group col-sm-12 col-md-6',
@@ -260,7 +260,7 @@ class ProductCrudController extends CrudController
             ], [
                 'name' => 'preview',
                 'label' => trans('Price preview'),
-                'prefix' => $code.' ',
+                'prefix' => $code,
                 'attributes' => [
                     'disabled' => true,
                 ],

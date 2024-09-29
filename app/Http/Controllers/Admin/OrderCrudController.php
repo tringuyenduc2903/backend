@@ -187,7 +187,7 @@ class OrderCrudController extends CrudController
      */
     protected function setupShowOperation(): void
     {
-        $code = current_currency();
+        $code = ' '.current_currency();
 
         CRUD::column('id')
             ->label(trans('Id'));
@@ -213,7 +213,7 @@ class OrderCrudController extends CrudController
                 'name' => 'price',
                 'label' => trans('Price'),
                 'type' => 'number',
-                'suffix' => ' '.$code,
+                'suffix' => $code,
             ], [
                 'name' => 'amount',
                 'label' => trans('Amount'),
@@ -230,25 +230,25 @@ class OrderCrudController extends CrudController
             'name' => 'tax',
             'label' => trans('Tax'),
             'type' => 'number',
-            'suffix' => ' '.$code,
+            'suffix' => $code,
         ]);
         CRUD::addColumn([
             'name' => 'shipping_fee',
             'label' => trans('Shipping fee'),
             'type' => 'number',
-            'suffix' => ' '.$code,
+            'suffix' => $code,
         ]);
         CRUD::addColumn([
             'name' => 'handling_fee',
             'label' => trans('Handling fee'),
             'type' => 'number',
-            'suffix' => ' '.$code,
+            'suffix' => $code,
         ]);
         CRUD::addColumn([
             'name' => 'total',
             'label' => trans('Total'),
             'type' => 'number',
-            'suffix' => ' '.$code,
+            'suffix' => $code,
         ]);
         CRUD::column('note')
             ->label(trans('Note'))
@@ -306,7 +306,7 @@ class OrderCrudController extends CrudController
                 'name' => 'amount',
                 'label' => trans('Amount (Money)'),
                 'type' => 'number',
-                'suffix' => ' '.$code,
+                'suffix' => $code,
             ], [
                 'name' => 'status',
                 'label' => trans('Status'),
@@ -338,7 +338,7 @@ class OrderCrudController extends CrudController
     {
         CRUD::setValidation(OrderRequest::class);
 
-        $code = current_currency();
+        $code = current_currency().' ';
 
         CRUD::addField([
             'name' => 'options',
@@ -357,7 +357,7 @@ class OrderCrudController extends CrudController
                 'attributes' => [
                     'disabled' => true,
                 ],
-                'prefix' => $code.' ',
+                'prefix' => $code,
                 'wrapper' => [
                     'class' => 'form-group col-sm-12 col-md-4 col-xl-2',
                 ],
@@ -377,7 +377,7 @@ class OrderCrudController extends CrudController
                 'attributes' => [
                     'disabled' => true,
                 ],
-                'prefix' => $code.' ',
+                'prefix' => $code,
                 'wrapper' => [
                     'class' => 'form-group col-sm-12 col-md-4 col-xl-2',
                 ],
@@ -400,7 +400,7 @@ class OrderCrudController extends CrudController
                 'attributes' => [
                     'disabled' => true,
                 ],
-                'prefix' => $code.' ',
+                'prefix' => $code,
                 'wrapper' => [
                     'class' => 'form-group col-sm-12 col-md-4 col-xl-2',
                 ],
@@ -411,7 +411,7 @@ class OrderCrudController extends CrudController
                 'attributes' => [
                     'disabled' => true,
                 ],
-                'prefix' => $code.' ',
+                'prefix' => $code,
                 'wrapper' => [
                     'class' => 'form-group col-sm-12 col-md-4 col-xl-2',
                 ],
@@ -440,7 +440,7 @@ class OrderCrudController extends CrudController
             ->attributes([
                 'readonly' => true,
             ])
-            ->prefix($code.' ')
+            ->prefix($code)
             ->hint(7)
             ->tab(trans('Price quote'));
         CRUD::field('shipping_fee')
@@ -448,7 +448,7 @@ class OrderCrudController extends CrudController
             ->attributes([
                 'readonly' => true,
             ])
-            ->prefix($code.' ')
+            ->prefix($code)
             ->hint(8)
             ->tab(trans('Price quote'));
         CRUD::field('handling_fee')
@@ -456,7 +456,7 @@ class OrderCrudController extends CrudController
             ->attributes([
                 'readonly' => true,
             ])
-            ->prefix($code.' ')
+            ->prefix($code)
             ->hint(9)
             ->tab(trans('Price quote'));
         CRUD::field('total')
@@ -464,7 +464,7 @@ class OrderCrudController extends CrudController
             ->attributes([
                 'readonly' => true,
             ])
-            ->prefix($code.' ')
+            ->prefix($code)
             ->hint('10 = 6 + 7 + 8 + 9')
             ->tab(trans('Price quote'));
         CRUD::addField([
