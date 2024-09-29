@@ -9,6 +9,7 @@ use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Process;
 
 class EnsureUserIsAuthorized extends \Wotz\SwaggerUi\Http\Middleware\EnsureUserIsAuthorized
 {
@@ -21,6 +22,8 @@ class EnsureUserIsAuthorized extends \Wotz\SwaggerUi\Http\Middleware\EnsureUserI
 
             return $this->respondToUnauthorizedRequest($request);
         } else {
+            Process::run('swagger-cli bundle ../resources/yaml/index.yaml --outfile ../resources/swagger/openapi.json --type json');
+
             return $next($request);
         }
     }

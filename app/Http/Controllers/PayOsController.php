@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\OrderStatus;
 use App\Enums\PayOsStatus;
 use App\Events\AdminOrderCreatedEvent;
-use App\Facades\PayOS;
+use App\Facades\PayOSOrder;
 use App\Listeners\CreateOrderGhnShip;
 use App\Models\Order;
 use Exception;
@@ -20,9 +20,9 @@ class PayOsController extends Controller
     public function __invoke(Request $request): array
     {
         try {
-            $webhook_data = PayOS::verifyPaymentWebhookData($request->all());
+            $webhook_data = PayOSOrder::verifyPaymentWebhookData($request->all());
 
-            $payment_link_information = PayOS::getPaymentLinkInformation($webhook_data['orderCode']);
+            $payment_link_information = PayOSOrder::getPaymentLinkInformation($webhook_data['orderCode']);
 
             $order = Order::findOrFail($webhook_data['orderCode']);
 

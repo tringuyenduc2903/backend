@@ -3,21 +3,22 @@
 namespace App\Http\Controllers\Admin;
 
 use Alert;
-use App\Actions\OrderFee;
+use App\Actions\OrderMotorcycleFee;
 use App\Enums\EmployeePermission;
 use App\Enums\OptionStatus;
+use App\Enums\OrderMotorcycleLicensePlateRegistration;
+use App\Enums\OrderMotorcycleRegistration;
 use App\Enums\OrderPaymentMethod;
-use App\Enums\OrderShippingMethod;
 use App\Enums\OrderStatus;
-use App\Enums\OrderTransactionStatus;
 use App\Enums\ProductType;
-use App\Events\AdminOrderCreatedEvent;
+use App\Events\AdminOrderMotorcycleCreatedEvent;
 use App\Http\Controllers\Admin\Operations\CancelOrderOperation;
-use App\Http\Requests\Admin\OrderRequest;
+use App\Http\Requests\Admin\OrderMotorcycleRequest;
 use App\Models\Address;
 use App\Models\Customer;
+use App\Models\Identification;
 use App\Models\Option;
-use App\Models\Order;
+use App\Models\OrderMotorcycle;
 use App\Models\Product;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -25,18 +26,18 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Backpack\CRUD\app\Library\Widget;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
-use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 
 /**
- * Class OrderCrudController
+ * Class OrderMotorcycleCrudController
  *
  * @property-read CrudPanel $crud
  */
-class OrderCrudController extends CrudController
+class OrderMotorcycleCrudController extends CrudController
 {
     use CancelOrderOperation;
     use CreateOperation {
@@ -53,16 +54,16 @@ class OrderCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(Order::class);
-        CRUD::setRoute(route('orders.index'));
-        CRUD::setEntityNameStrings(trans('Order'), trans('Orders'));
+        CRUD::setModel(OrderMotorcycle::class);
+        CRUD::setRoute(route('orders-motorcycle.index'));
+        CRUD::setEntityNameStrings(trans('Order'), trans('Order motorcycle'));
 
         CRUD::operation(
             ['list', 'show'],
             fn () => CRUD::addButton('line', 'cancel_order', 'view', 'crud.buttons.order.cancel_order', 'end'));
         CRUD::setAccessCondition(
             'cancel_order',
-            fn (Order $entry): bool => $entry->canCancel()
+            fn (OrderMotorcycle $entry): bool => $entry->canCancel()
         );
         CRUD::operation(
             'list',
@@ -84,23 +85,14 @@ class OrderCrudController extends CrudController
         // register any Model Events defined on fields
         $this->crud->registerFieldEvents();
 
-        try {
-            $fee = app(OrderFee::class, [
-                'options' => request('options'),
-                'shipping_method' => request('shipping_method'),
-                'address_id' => request('address'),
-            ])->result;
+        $fee = app(OrderMotorcycleFee::class, [
+            'option' => request('option'),
+            'motorcycle_registration_support' => request('motorcycle_registration_support'),
+            'registration_option' => request('registration_option'),
+            'license_plate_registration_option' => request('license_plate_registration_option'),
+        ])->result;
 
-            session(['order.fee' => $fee]);
-        } catch (Exception) {
-            return redirect()->back()
-                ->withInput($request->input())
-                ->withErrors([
-                    'shipping_method' => trans('Shipping method :name is not available for this order', [
-                        'name' => OrderShippingMethod::valueForKey(request('shipping_method')),
-                    ]),
-                ]);
-        }
+        session(['order-motorcycle.fee' => $fee]);
 
         // insert item in the db
         $item = $this->crud->create($this->crud->getStrippedSaveRequest($request));
@@ -112,8 +104,8 @@ class OrderCrudController extends CrudController
         // save the redirect choice for next time
         $this->crud->setSaveAction();
 
-        event(app(AdminOrderCreatedEvent::class, [
-            'order' => CRUD::getCurrentEntry(),
+        event(app(AdminOrderMotorcycleCreatedEvent::class, [
+            'order_motorcycle' => CRUD::getCurrentEntry(),
             'employee' => backpack_user(),
         ]));
 
@@ -137,88 +129,78 @@ class OrderCrudController extends CrudController
             ->label(trans('Address'))
             ->type('textarea')
             ->after('address');
-        CRUD::addColumn([
-            'name' => 'shipments',
-            'label' => trans('Shipments'),
-            'subfields' => [[
-                'name' => 'name_preview',
-                'label' => trans('Name'),
-            ], [
-                'name' => 'description',
-                'label' => trans('Description'),
-            ], [
-                'name' => 'reason_preview',
-                'label' => trans('Reason'),
-                'type' => 'textarea',
-            ]],
-        ])->afterColumn('shipping_method');
-        CRUD::addColumn([
-            'name' => 'shipping_code',
-            'label' => trans('Shipping code'),
-            'wrapper' => [
-                'href' => fn ($_, $__, $entry): string => sprintf(
-                    'https://donhang.ghn.vn/?order_code=%s',
-                    $entry->shipping_code
-                ),
-            ],
-        ])->afterColumn('shipping_method');
-        CRUD::addColumn([
-            'name' => 'transactions',
-            'label' => trans('Transactions'),
-            'subfields' => [[
-                'name' => 'amount',
-                'label' => trans('Amount (Money)'),
-                'type' => 'number',
-                'suffix' => $code,
-            ], [
-                'name' => 'status',
-                'label' => trans('Status'),
-                'type' => 'select2_from_array',
-                'options' => OrderTransactionStatus::values(),
-            ], [
-                'name' => 'reference',
-                'label' => trans('Reference'),
-            ]],
-        ])->afterColumn('payment_method');
         CRUD::column('payment_checkout_url')
             ->label(trans('Checkout URL'))
             ->type('url')
-            ->after('payment_method');
+            ->afterColumn('payment_method');
+        CRUD::column('motorcycle_registration_support')
+            ->label(trans('Motorcycle registration support'))
+            ->type('switch')
+            ->before('option');
+        CRUD::addColumn([
+            'name' => 'registration_option',
+            'label' => trans('Registration option'),
+            'type' => 'select2_from_array',
+            'options' => OrderMotorcycleRegistration::values(),
+        ])->beforeColumn('option');
+        CRUD::addColumn([
+            'name' => 'license_plate_registration_option',
+            'label' => trans('License plate registration option'),
+            'type' => 'select2_from_array',
+            'options' => OrderMotorcycleLicensePlateRegistration::values(),
+        ])->beforeColumn('option');
         CRUD::column('note')
             ->label(trans('Note'))
-            ->type('textarea');
+            ->type('textarea')
+            ->before('option');
         CRUD::addColumn([
-            'name' => 'options',
-            'label' => trans('Products'),
-            'subfields' => [[
-                'name' => 'option',
-                'label' => trans('Product'),
-                'attribute' => 'sku',
-            ], [
-                'name' => 'price',
-                'label' => trans('Price'),
-                'type' => 'number',
-                'suffix' => $code,
-            ], [
-                'name' => 'amount',
-                'label' => trans('Amount'),
-                'type' => 'number',
-            ], [
-                'name' => 'value_added_tax',
-                'label' => trans('Value added tax'),
-                'type' => 'number',
-                'suffix' => '%',
-            ]],
+            'name' => 'price',
+            'label' => trans('Price'),
+            'type' => 'number',
+            'suffix' => $code,
+        ]);
+        CRUD::column('amount')
+            ->label(trans('Amount'))
+            ->type('number');
+        CRUD::addColumn([
+            'name' => 'value_added_tax',
+            'label' => trans('Value added tax'),
+            'type' => 'number',
+            'suffix' => '%',
         ]);
         CRUD::addColumn([
-            'name' => 'tax',
-            'label' => trans('Tax'),
+            'name' => 'motorcycle_registration_support_fee',
+            'label' => trans('Motorcycle registration support fee'),
             'type' => 'number',
             'suffix' => $code,
         ]);
         CRUD::addColumn([
-            'name' => 'shipping_fee',
-            'label' => trans('Shipping fee'),
+            'name' => 'registration_fee',
+            'label' => trans('Registration fee'),
+            'type' => 'number',
+            'suffix' => $code,
+        ]);
+        CRUD::addColumn([
+            'name' => 'motorcycle_registration_support_fee',
+            'label' => trans('Motorcycle registration support fee'),
+            'type' => 'number',
+            'suffix' => $code,
+        ]);
+        CRUD::addColumn([
+            'name' => 'registration_fee',
+            'label' => trans('Registration fee'),
+            'type' => 'number',
+            'suffix' => $code,
+        ]);
+        CRUD::addColumn([
+            'name' => 'license_plate_registration_fee',
+            'label' => trans('License plate registration fee'),
+            'type' => 'number',
+            'suffix' => $code,
+        ]);
+        CRUD::addColumn([
+            'name' => 'tax',
+            'label' => trans('Tax'),
             'type' => 'number',
             'suffix' => $code,
         ]);
@@ -276,12 +258,6 @@ class OrderCrudController extends CrudController
             ),
         ]);
         CRUD::addColumn([
-            'name' => 'shipping_method',
-            'label' => trans('Shipping method'),
-            'type' => 'select2_from_array',
-            'options' => OrderShippingMethod::values(),
-        ]);
-        CRUD::addColumn([
             'name' => 'payment_method',
             'label' => trans('Payment method'),
             'type' => 'select2_from_array',
@@ -293,11 +269,12 @@ class OrderCrudController extends CrudController
             'type' => 'select2_from_array',
             'options' => OrderStatus::values(),
         ]);
+        CRUD::addColumn([
+            'name' => 'option',
+            'label' => trans('Product'),
+            'attribute' => 'sku',
+        ]);
 
-        CRUD::filter('shipping_method')
-            ->label(trans('Shipping method'))
-            ->type('dropdown')
-            ->values(OrderShippingMethod::values());
         CRUD::filter('payment_method')
             ->label(trans('Payment method'))
             ->type('dropdown')
@@ -306,6 +283,17 @@ class OrderCrudController extends CrudController
             ->label(trans('Status'))
             ->type('dropdown')
             ->values(OrderStatus::values());
+        CRUD::addFilter(
+            [
+                'name' => 'option_id',
+                'label' => trans('Product'),
+                'type' => 'select2_ajax',
+                'minimum_input_length' => 0,
+                'method' => 'POST',
+                'select_attribute' => 'sku',
+            ],
+            route('orders-motorcycle.fetchOptions')
+        );
     }
 
     /**
@@ -317,74 +305,39 @@ class OrderCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(OrderRequest::class);
+        CRUD::setValidation(OrderMotorcycleRequest::class);
+
+        Widget::add([
+            'type' => 'script',
+            'content' => resource_path('assets/js/admin/forms/order.js'),
+        ]);
 
         $code = current_currency();
 
         CRUD::addField([
-            'name' => 'options',
-            'label' => trans('Products'),
-            'type' => 'repeatable',
-            'subfields' => [[
-                'name' => 'option',
-                'label' => trans('Product'),
-                'minimum_input_length' => 0,
-                'data_source' => route('orders.fetchOptions'),
-                'attribute' => 'sku',
-            ], [
-                'name' => 'price',
-                'label' => trans('Price'),
-                'hint' => 1,
-                'attributes' => [
-                    'disabled' => true,
-                ],
-                'prefix' => $code,
-                'wrapper' => [
-                    'class' => 'form-group col-sm-12 col-md-3',
-                ],
-            ], [
-                'name' => 'amount',
-                'label' => trans('Amount'),
-                'type' => 'number',
-                'default' => 1,
-                'hint' => 2,
-                'wrapper' => [
-                    'class' => 'form-group col-sm-12 col-md-3',
-                ],
-            ], [
-                'name' => 'value_added_tax',
-                'label' => trans('Value added tax'),
-                'type' => 'number',
-                'hint' => 3,
-                'attributes' => [
-                    'disabled' => true,
-                ],
-                'prefix' => '%',
-                'wrapper' => [
-                    'class' => 'form-group col-sm-12 col-md-3',
-                ],
-            ], [
-                'name' => 'make_money',
-                'label' => trans('Make money'),
-                'hint' => '4 = 1 * 2',
-                'attributes' => [
-                    'disabled' => true,
-                ],
-                'prefix' => $code,
-                'wrapper' => [
-                    'class' => 'form-group col-sm-12 col-md-3',
-                ],
-            ]],
-            'min_rows' => 1,
-            'max_rows' => 20,
-            'reorder' => false,
+            'name' => 'option',
+            'label' => trans('Product'),
+            'minimum_input_length' => 0,
+            'data_source' => route('orders-motorcycle.fetchOptions'),
+            'attribute' => 'sku',
+            'tab' => trans('Price quote'),
+        ]);
+        CRUD::field('motorcycle_registration_support')
+            ->label(trans('Motorcycle registration support'))
+            ->type('switch')
+            ->tab(trans('Price quote'));
+        CRUD::addField([
+            'name' => 'registration_option',
+            'label' => trans('Registration option'),
+            'type' => 'select2_from_array',
+            'options' => OrderMotorcycleRegistration::values(),
             'tab' => trans('Price quote'),
         ]);
         CRUD::addField([
-            'name' => 'shipping_method',
-            'label' => trans('Shipping method'),
+            'name' => 'license_plate_registration_option',
+            'label' => trans('License plate registration option'),
             'type' => 'select2_from_array',
-            'options' => OrderShippingMethod::values(),
+            'options' => OrderMotorcycleLicensePlateRegistration::values(),
             'tab' => trans('Price quote'),
         ]);
         CRUD::addField([
@@ -394,16 +347,49 @@ class OrderCrudController extends CrudController
             'options' => OrderPaymentMethod::values(),
             'tab' => trans('Price quote'),
         ]);
-        CRUD::field('tax')
-            ->label(trans('Tax'))
+        CRUD::field('price')
+            ->label(trans('Price'))
+            ->hint(1)
+            ->attributes([
+                'disabled' => true,
+            ])
+            ->prefix($code)
+            ->tab(trans('Price quote'));
+        CRUD::field('value_added_tax')
+            ->label(trans('Value added tax'))
+            ->type('number')
+            ->hint(2)
+            ->attributes([
+                'disabled' => true,
+            ])
+            ->prefix('%')
+            ->tab(trans('Price quote'));
+        CRUD::field('motorcycle_registration_support_fee')
+            ->label(trans('Motorcycle registration support fee'))
+            ->attributes([
+                'readonly' => true,
+            ])
+            ->prefix($code)
+            ->hint(3)
+            ->tab(trans('Price quote'));
+        CRUD::field('registration_fee')
+            ->label(trans('Registration fee'))
+            ->attributes([
+                'readonly' => true,
+            ])
+            ->prefix($code)
+            ->hint(4)
+            ->tab(trans('Price quote'));
+        CRUD::field('license_plate_registration_fee')
+            ->label(trans('License plate registration fee'))
             ->attributes([
                 'readonly' => true,
             ])
             ->prefix($code)
             ->hint(5)
             ->tab(trans('Price quote'));
-        CRUD::field('shipping_fee')
-            ->label(trans('Shipping fee'))
+        CRUD::field('tax')
+            ->label(trans('Tax'))
             ->attributes([
                 'readonly' => true,
             ])
@@ -424,7 +410,7 @@ class OrderCrudController extends CrudController
                 'readonly' => true,
             ])
             ->prefix($code)
-            ->hint('8 = 4 + 6 + 7')
+            ->hint('8 = 1 + 3 + 4 + 5 + 7')
             ->tab(trans('Price quote'));
         CRUD::addField([
             'name' => 'customer',
@@ -433,7 +419,7 @@ class OrderCrudController extends CrudController
                 'create_route' => route('customers-inline-create-save'),
                 'modal_route' => route('customers-inline-create'),
             ],
-            'data_source' => route('orders.fetchCustomers'),
+            'data_source' => route('orders-motorcycle.fetchCustomers'),
             'minimum_input_length' => 0,
             'attribute' => 'phone_number',
             'tab' => trans('Customer'),
@@ -441,10 +427,19 @@ class OrderCrudController extends CrudController
         CRUD::addField([
             'name' => 'address',
             'label' => trans('Address'),
-            'data_source' => route('orders.fetchAddresses'),
+            'data_source' => route('orders-motorcycle.fetchAddresses'),
             'minimum_input_length' => 0,
             'dependencies' => 'customer',
             'attribute' => 'address_detail',
+            'tab' => trans('Customer'),
+        ]);
+        CRUD::addField([
+            'name' => 'identification',
+            'label' => trans('Identification'),
+            'data_source' => route('orders-motorcycle.fetchIdentifications'),
+            'minimum_input_length' => 0,
+            'dependencies' => 'customer',
+            'attribute' => 'number',
             'tab' => trans('Customer'),
         ]);
         CRUD::field('note')
@@ -465,7 +460,7 @@ class OrderCrudController extends CrudController
                         /** @var Product $query */
                         $query
                             ->wherePublished(true)
-                            ->whereNot('type', ProductType::MOTOR_CYCLE);
+                            ->whereType(ProductType::MOTOR_CYCLE);
                     }
                 ),
             'searchable_attributes' => ['sku'],
@@ -500,27 +495,44 @@ class OrderCrudController extends CrudController
         ]);
     }
 
+    protected function fetchIdentifications()
+    {
+        return $this->fetch([
+            'model' => Identification::class,
+            'query' => function (Identification $identification): Builder|Identification {
+                $form = collect(request('form'))
+                    ->pluck('value', 'name');
+
+                /** @var Identification $identification */
+                return isset($form['customer'])
+                    ? $identification->whereCustomerId($form['customer'])
+                    : $identification;
+            },
+            'searchable_attributes' => ['number'],
+        ]);
+    }
+
     protected function cancelOrder(string $id): JsonResponse
     {
-        $order = Order::findOrFail($id);
+        $order_motorcycle = OrderMotorcycle::findOrFail($id);
 
-        if (! $order->canCancel()) {
+        if (! $order_motorcycle->canCancel()) {
             return response()->json([
                 'title' => trans('Failed'),
                 'description' => trans('Orders with status :name cannot be canceled.', [
-                    'name' => $order->status_preview,
+                    'name' => $order_motorcycle->status_preview,
                 ]),
             ], 403);
         }
 
-        $order->update([
+        $order_motorcycle->update([
             'status' => OrderStatus::CANCELLED,
         ]);
 
         return response()->json([
             'title' => trans('Successfully'),
             'description' => trans('Cancellation of order Id #:number successfully!', [
-                'number' => $order->id,
+                'number' => $order_motorcycle->id,
             ]),
         ]);
     }

@@ -7,7 +7,7 @@ use App\Facades\Ghn;
 use App\Models\Address;
 use App\Models\Option;
 
-class Fee
+class OrderFee
 {
     public array $result;
 
@@ -51,21 +51,22 @@ class Fee
         $this->items = array_map(
             function (array $item) {
                 $option = Option::findOrFail($item['option'] ?? $item['option_id']);
+                $amount = (int) $item['amount'];
 
                 // Handle price
-                $this->price += $option->price * $item['amount'];
+                $this->price += $option->price * $amount;
 
                 // Handle tax
-                $this->tax += (($option->price * $option->value_added_tax) / (100 + $option->value_added_tax)) * $item['amount'];
+                $this->tax += (($option->price * $option->value_added_tax) / (100 + $option->value_added_tax)) * $amount;
 
                 // Handle weight
-                $this->weight += $option->weight * $item['amount'];
+                $this->weight += $option->weight * $amount;
 
                 return [
                     'name' => $option->product->name,
                     'code' => $option->sku,
                     'price' => (int) $option->price,
-                    'quantity' => (int) $item['amount'],
+                    'quantity' => $amount,
                     'weight' => (int) $option->weight,
                     'length' => (int) $option->length,
                     'width' => (int) $option->width,

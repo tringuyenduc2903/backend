@@ -66,8 +66,17 @@ if (! function_exists('deny_access')) {
 }
 
 if (! function_exists('set_title')) {
-    function set_title(string $column = 'name'): void
+    function set_title(string $column = 'name', ?string $sub_heading = null): void
     {
+        if ($sub_heading) {
+            $value = sprintf('%s %s', trans('See details'), $sub_heading);
+
+            CRUD::setTitle($value);
+            CRUD::setSubHeading($value);
+
+            return;
+        }
+
         if (! $entry = CRUD::getCurrentEntry()) {
             return;
         }

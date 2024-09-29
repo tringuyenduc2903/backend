@@ -59,7 +59,7 @@ class ReviewCrudController extends CrudController
     {
         $this->setupListOperation();
 
-        CRUD::setSubheading(trans('See details'));
+        set_title(sub_heading: $this->crud->entity_name);
 
         CRUD::column('content')
             ->type('textarea');

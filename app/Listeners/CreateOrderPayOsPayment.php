@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Enums\OrderPaymentMethod;
 use App\Events\AdminOrderCreatedEvent;
-use App\Facades\PayOS;
+use App\Facades\PayOSOrder;
 use App\Models\OrderProduct;
 use Exception;
 
@@ -41,7 +41,7 @@ class CreateOrderPayOsPayment
             'returnUrl' => route('orders.show', ['id' => $event->order->id]),
         ];
 
-        $response = PayOS::createPaymentLink($data);
+        $response = PayOSOrder::createPaymentLink($data);
 
         $event->order
             ->forceFill([

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Fee;
+use App\Actions\OrderFee;
 use App\Enums\OrderShippingMethod;
 use App\Enums\OrderStatus;
 use App\Events\FrontendOrderCreatedEvent;
@@ -41,7 +41,7 @@ class OrderController extends Controller
     public function store(OrderRequest $request): JsonResponse
     {
         try {
-            $fee = app(Fee::class, [
+            $fee = app(OrderFee::class, [
                 'options' => $request->validated('options'),
                 'shipping_method' => $request->validated('shipping_method'),
                 'address_id' => $request->validated('address_id'),

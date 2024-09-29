@@ -3,19 +3,23 @@
 namespace App\Providers;
 
 use App\Events\AdminOrderCreatedEvent;
+use App\Events\AdminOrderMotorcycleCreatedEvent;
 use App\Events\FrontendOrderCreatedEvent;
-use App\Listeners\CreateGhnShip;
-use App\Listeners\CreatePayOsPayment;
+use App\Listeners\CreateOrderGhnShip;
+use App\Listeners\CreateOrderMotorcyclePayOsPayment;
+use App\Listeners\CreateOrderPayOsPayment;
 use App\Models\Address;
 use App\Models\Customer;
 use App\Models\Identification;
 use App\Models\Option;
 use App\Models\Order;
+use App\Models\OrderMotorcycle;
 use App\Models\OrderProduct;
 use App\Observers\CreateCustomer;
 use App\Observers\StoreAddress;
 use App\Observers\StoreIdentification;
 use App\Observers\StoreOptionObserver;
+use App\Observers\StoreOrderMotorcycleObserver;
 use App\Observers\StoreOrderObserver;
 use App\Observers\StoreOrderProductObserver;
 use App\Rules\Action;
@@ -52,11 +56,13 @@ class AppServiceProvider extends ServiceProvider
         Option::observe(StoreOptionObserver::class);
         Order::observe(StoreOrderObserver::class);
         OrderProduct::observe(StoreOrderProductObserver::class);
+        OrderMotorcycle::observe(StoreOrderMotorcycleObserver::class);
 
-        Event::listen(AdminOrderCreatedEvent::class, [CreatePayOsPayment::class, 'handle']);
-        Event::listen(AdminOrderCreatedEvent::class, [CreateGhnShip::class, 'handle']);
-        Event::listen(FrontendOrderCreatedEvent::class, [CreatePayOsPayment::class, 'handle']);
-        Event::listen(FrontendOrderCreatedEvent::class, [CreateGhnShip::class, 'handle']);
+        Event::listen(AdminOrderCreatedEvent::class, [CreateOrderPayOsPayment::class, 'handle']);
+        Event::listen(AdminOrderMotorcycleCreatedEvent::class, [CreateOrderMotorcyclePayOsPayment::class, 'handle']);
+        Event::listen(AdminOrderCreatedEvent::class, [CreateOrderGhnShip::class, 'handle']);
+        Event::listen(FrontendOrderCreatedEvent::class, [CreateOrderPayOsPayment::class, 'handle']);
+        Event::listen(FrontendOrderCreatedEvent::class, [CreateOrderGhnShip::class, 'handle']);
 
         Validator::extend(
             'actions',

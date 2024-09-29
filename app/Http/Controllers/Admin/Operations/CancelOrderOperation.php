@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers\Admin\Operations;
 
-use App\Enums\OrderStatus;
-use App\Models\Order;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Route;
 
 trait CancelOrderOperation
@@ -22,31 +19,6 @@ trait CancelOrderOperation
             'as' => $routeName.'.cancelOrder',
             'uses' => $controller.'@cancelOrder',
             'operation' => 'cancel_order',
-        ]);
-    }
-
-    protected function cancelOrder(string $id): JsonResponse
-    {
-        $order = Order::findOrFail($id);
-
-        if (! $order->canCancel()) {
-            return response()->json([
-                'title' => trans('Failed'),
-                'description' => trans('Cancel order Id #:number failed!', [
-                    'number' => $order->id,
-                ]),
-            ], 403);
-        }
-
-        $order->update([
-            'status' => OrderStatus::CANCELLED,
-        ]);
-
-        return response()->json([
-            'title' => trans('Successfully'),
-            'description' => trans('Cancellation of order Id #:number successfully!', [
-                'number' => $order->id,
-            ]),
         ]);
     }
 }

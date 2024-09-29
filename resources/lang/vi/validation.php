@@ -298,5 +298,9 @@ return [
         'shipping_method' => 'phương thức vận chuyển',
         'payment_method' => 'phương thức thanh toán',
         'address_id' => 'địa chỉ',
+        'motorcycle_registration_support' => 'hỗ trợ đăng ký xe máy',
+        'registration_option' => 'tùy chọn trước bạ',
+        'license_plate_registration_option' => 'tùy chọn đăng ký biển số',
+        'identification' => 'hồ sơ',
     ],
 ];

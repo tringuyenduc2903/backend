@@ -39,11 +39,18 @@ return [
         'key' => env('GIAOHANGNHANH_API_KEY'),
     ],
 
-    'payos' => [
-        'client_id' => env('PAYOS_CLIENT_ID'),
-        'client_secret' => env('PAYOS_CLIENT_SECRET'),
-        'partner_code' => env('PAYOS_PARTNER_CODE'),
-        'checksum' => env('PAYOS_CHECK_SUM'),
+    'payos_order' => [
+        'client_id' => env('PAYOS_ORDER_CLIENT_ID'),
+        'client_secret' => env('PAYOS_ORDER_CLIENT_SECRET'),
+        'partner_code' => env('PAYOS_ORDER_PARTNER_CODE'),
+        'checksum' => env('PAYOS_ORDER_CHECK_SUM'),
+    ],
+
+    'payos_order_motorcycle' => [
+        'client_id' => env('PAYOS_ORDER_MOTORCYCLE_CLIENT_ID'),
+        'client_secret' => env('PAYOS_ORDER_MOTORCYCLE_CLIENT_SECRET'),
+        'partner_code' => env('PAYOS_ORDER_MOTORCYCLE_PARTNER_CODE'),
+        'checksum' => env('PAYOS_ORDER_MOTORCYCLE_CHECK_SUM'),
     ],
 
     'youtube' => [

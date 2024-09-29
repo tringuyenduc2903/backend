@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Fee;
+use App\Actions\OrderFee;
 use App\Enums\OrderShippingMethod;
 use App\Http\Requests\OrderRequest;
 use Exception;
@@ -16,7 +16,7 @@ class FeeController extends Controller
     public function __invoke(OrderRequest $request): array
     {
         try {
-            $fee = app(Fee::class, [
+            $fee = app(OrderFee::class, [
                 'options' => $request->validated('options'),
                 'shipping_method' => $request->validated('shipping_method'),
                 'address_id' => $request->validated('address_id'),
