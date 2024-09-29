@@ -7,6 +7,7 @@ use App\Enums\OrderStatus;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class OrderMotorcycle extends Model
 {
@@ -89,6 +90,11 @@ class OrderMotorcycle extends Model
     public function identification(): BelongsTo
     {
         return $this->belongsTo(Identification::class)->withTrashed();
+    }
+
+    public function transactions(): MorphMany
+    {
+        return $this->morphMany(OrderTransaction::class, 'orderable');
     }
 
     /*

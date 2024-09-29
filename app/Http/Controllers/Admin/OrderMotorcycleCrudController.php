@@ -10,6 +10,7 @@ use App\Enums\OrderMotorcycleLicensePlateRegistration;
 use App\Enums\OrderMotorcycleRegistration;
 use App\Enums\OrderPaymentMethod;
 use App\Enums\OrderStatus;
+use App\Enums\OrderTransactionStatus;
 use App\Enums\ProductType;
 use App\Events\AdminOrderMotorcycleCreatedEvent;
 use App\Http\Controllers\Admin\Operations\CancelOrderOperation;
@@ -129,6 +130,24 @@ class OrderMotorcycleCrudController extends CrudController
             ->label(trans('Address'))
             ->type('textarea')
             ->after('address');
+        CRUD::addColumn([
+            'name' => 'transactions',
+            'label' => trans('Transactions'),
+            'subfields' => [[
+                'name' => 'amount',
+                'label' => trans('Amount (Money)'),
+                'type' => 'number',
+                'suffix' => $code,
+            ], [
+                'name' => 'status',
+                'label' => trans('Status'),
+                'type' => 'select2_from_array',
+                'options' => OrderTransactionStatus::values(),
+            ], [
+                'name' => 'reference',
+                'label' => trans('Reference'),
+            ]],
+        ])->afterColumn('payment_method');
         CRUD::column('payment_checkout_url')
             ->label(trans('Checkout URL'))
             ->type('url')

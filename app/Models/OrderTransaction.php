@@ -26,7 +26,8 @@ class OrderTransaction extends Model
         'amount',
         'status',
         'reference',
-        'order_id',
+        'orderable_id',
+        'orderable_type',
     ];
 
     /**
@@ -35,7 +36,8 @@ class OrderTransaction extends Model
      * @var array<int, string>
      */
     protected $hidden = [
-        'order_id',
+        'orderable_id',
+        'orderable_type',
         'amount',
         'status',
     ];

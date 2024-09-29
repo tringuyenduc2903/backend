@@ -127,16 +127,16 @@ class CustomerRequest extends FormRequest
                 'required',
                 'integer',
                 Rule::exists(District::class, 'id')
-                    ->where('province_id', request('addresses.*.province')),
+                    ->where('province_id', $this->input('addresses.*.province')),
             ],
             'addresses.*.ward' => [
                 'nullable',
                 Rule::requiredIf(
-                    Ward::whereDistrictId(request('addresses.*.district'))->exists()
+                    Ward::whereDistrictId($this->input('addresses.*.district'))->exists()
                 ),
                 'integer',
                 Rule::exists(Ward::class, 'id')
-                    ->where('district_id', request('addresses.*.district')),
+                    ->where('district_id', $this->input('addresses.*.district')),
             ],
             'addresses.*.address_detail' => [
                 'required',

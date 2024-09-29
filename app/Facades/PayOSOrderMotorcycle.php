@@ -11,6 +11,6 @@ class PayOSOrderMotorcycle extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return \App\Api\PayOS\PayOSOrder::class;
+        return \App\Api\PayOS\PayOSOrderMotorcycle::class;
     }
 }

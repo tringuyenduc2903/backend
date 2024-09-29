@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\OrderStatus;
 use App\Enums\PayOsStatus;
-use App\Events\AdminOrderCreatedEvent;
-use App\Facades\PayOSOrder;
-use App\Listeners\CreateOrderGhnShip;
-use App\Models\Order;
+use App\Enums\PayOsOrderTypeEnum;
 use Exception;
 use Illuminate\Http\Request;
 use PayOS\Exceptions\ErrorCode;
@@ -17,14 +13,12 @@ class PayOsController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request): array
+    public function __invoke(Request $request, PayOsOrderTypeEnum $order_type): array
     {
         try {
-            $webhook_data = PayOSOrder::verifyPaymentWebhookData($request->all());
-
-            $payment_link_information = PayOSOrder::getPaymentLinkInformation($webhook_data['orderCode']);
-
-            $order = Order::findOrFail($webhook_data['orderCode']);
+            $webhook_data = $order_type->verifyPaymentWebhookData($request->all());
+            $payment_link_information = $order_type->getPaymentLinkInformation($webhook_data['orderCode']);
+            $order = $order_type->getOrder($webhook_data['orderCode']);
 
             $order->transactions()->create([
                 'amount' => $webhook_data['amount'],
@@ -34,21 +28,10 @@ class PayOsController extends Controller
 
             switch ($payment_link_information['status']) {
                 case PayOsStatus::PAID:
-                    $order->update([
-                        'status' => OrderStatus::TO_SHIP,
-                    ]);
-
-                    app(CreateOrderGhnShip::class, [
-                        'event' => app(AdminOrderCreatedEvent::class, [
-                            'order' => $order,
-                            'employee' => backpack_user(),
-                        ]),
-                    ]);
+                    $order_type->eventPaid($order);
                     break;
                 case PayOsStatus::CANCELLED:
-                    $order->update([
-                        'status' => OrderStatus::CANCELLED,
-                    ]);
+                    $order_type->eventCancelled($order);
                     break;
             }
         } catch (Exception $exception) {

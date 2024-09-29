@@ -60,6 +60,6 @@ Route::get('setting/{setting_type}', SettingController::class);
 
 Route::post('ghn', GhnController::class);
 
-Route::post('pay-os', PayOsController::class);
+Route::post('pay-os/{order_type}', PayOsController::class);
 
 require __DIR__.'/auth.php';
