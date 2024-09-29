@@ -11,10 +11,8 @@ class StoreOrderProductObserver
      */
     public function creating(OrderProduct $order_product): void
     {
-        $option = $order_product->option;
-
-        $order_product->price = $option->price;
-        $order_product->value_added_tax = $option->value_added_tax;
+        $order_product->price = $order_product->option->price;
+        $order_product->value_added_tax = $order_product->option->value_added_tax;
     }
 
     /**
@@ -22,10 +20,8 @@ class StoreOrderProductObserver
      */
     public function created(OrderProduct $order_product): void
     {
-        $option = $order_product->option;
-
-        $option->update([
-            'quantity' => $option->quantity - $order_product->amount,
+        $order_product->option->update([
+            'quantity' => $order_product->option->quantity - $order_product->amount,
         ]);
     }
 }

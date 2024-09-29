@@ -6,7 +6,7 @@ use App\Enums\OrderStatus;
 use App\Enums\PayOsStatus;
 use App\Events\AdminOrderCreatedEvent;
 use App\Facades\PayOS;
-use App\Listeners\CreateGhnShip;
+use App\Listeners\CreateOrderGhnShip;
 use App\Models\Order;
 use Exception;
 use Illuminate\Http\Request;
@@ -38,7 +38,7 @@ class PayOsController extends Controller
                         'status' => OrderStatus::TO_SHIP,
                     ]);
 
-                    app(CreateGhnShip::class, [
+                    app(CreateOrderGhnShip::class, [
                         'event' => app(AdminOrderCreatedEvent::class, [
                             'order' => $order,
                             'employee' => backpack_user(),

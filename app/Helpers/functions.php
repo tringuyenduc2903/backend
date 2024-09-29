@@ -250,7 +250,7 @@ if (! function_exists('percent_preview')) {
 }
 
 if (! function_exists('get_product')) {
-    function get_product(?int $option_id, $ignore_motor_cycle = true): ?Option
+    function get_product(?int $option_id, $ignore_motor_cycle = true, $only_motor_cycle = false): ?Option
     {
         if (! $option_id) {
             return null;
@@ -260,12 +260,14 @@ if (! function_exists('get_product')) {
             ->whereStatus(OptionStatus::IN_STOCK)
             ->whereHas(
                 'product',
-                function (Builder $query) use ($ignore_motor_cycle) {
+                function (Builder $query) use ($ignore_motor_cycle, $only_motor_cycle) {
                     /** @var Product $query */
                     $query->wherePublished(true);
 
                     if ($ignore_motor_cycle) {
                         $query->whereNot('type', ProductType::MOTOR_CYCLE);
+                    } elseif ($only_motor_cycle) {
+                        $query->whereType(ProductType::MOTOR_CYCLE);
                     }
                 }
             )

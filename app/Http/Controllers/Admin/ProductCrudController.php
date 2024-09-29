@@ -139,7 +139,7 @@ class ProductCrudController extends CrudController
             'content' => resource_path('assets/js/admin/forms/product.js'),
         ]);
 
-        $code = current_currency().' ';
+        $code = current_currency();
 
         CRUD::field('published')
             ->label(trans('Publish'))

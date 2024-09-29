@@ -10,7 +10,7 @@ use App\Events\AdminOrderCreatedEvent;
 use App\Models\OrderProduct;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class CreateGhnShip implements ShouldQueue
+class CreateOrderGhnShip implements ShouldQueue
 {
     /**
      * Handle the event.

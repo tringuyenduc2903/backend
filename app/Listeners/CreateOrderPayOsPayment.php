@@ -8,7 +8,7 @@ use App\Facades\PayOS;
 use App\Models\OrderProduct;
 use Exception;
 
-class CreatePayOsPayment
+class CreateOrderPayOsPayment
 {
     /**
      * Handle the event.

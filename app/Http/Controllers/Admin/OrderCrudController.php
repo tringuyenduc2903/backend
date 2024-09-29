@@ -63,6 +63,9 @@ class OrderCrudController extends CrudController
             'cancel_order',
             fn (Order $entry): bool => $entry->canCancel()
         );
+        CRUD::operation(
+            'list',
+            fn () => CRUD::addButton('line', 'show', 'view', 'crud.buttons.review.show', 'beginning'));
 
         deny_access(EmployeePermission::ORDER_CRUD);
     }
@@ -114,6 +117,128 @@ class OrderCrudController extends CrudController
         ]));
 
         return $this->crud->performSaveAction($item->getKey());
+    }
+
+    /**
+     * Define what happens when the Show operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-update
+     */
+    protected function setupShowOperation(): void
+    {
+        $this->setupListOperation();
+
+        CRUD::setSubheading(trans('See details'));
+
+        $code = ' '.current_currency();
+
+        CRUD::column('address.address_preview')
+            ->label(trans('Address'))
+            ->type('textarea');
+        CRUD::addColumn([
+            'name' => 'options',
+            'label' => trans('Products'),
+            'subfields' => [[
+                'name' => 'option',
+                'label' => trans('Product'),
+                'attribute' => 'sku',
+            ], [
+                'name' => 'price',
+                'label' => trans('Price'),
+                'type' => 'number',
+                'suffix' => $code,
+            ], [
+                'name' => 'amount',
+                'label' => trans('Amount'),
+                'type' => 'number',
+            ], [
+                'name' => 'value_added_tax',
+                'label' => trans('Value added tax'),
+                'type' => 'number',
+                'suffix' => '%',
+            ]],
+        ]);
+        CRUD::addColumn([
+            'name' => 'tax',
+            'label' => trans('Tax'),
+            'type' => 'number',
+            'suffix' => $code,
+        ]);
+        CRUD::addColumn([
+            'name' => 'shipping_fee',
+            'label' => trans('Shipping fee'),
+            'type' => 'number',
+            'suffix' => $code,
+        ]);
+        CRUD::addColumn([
+            'name' => 'handling_fee',
+            'label' => trans('Handling fee'),
+            'type' => 'number',
+            'suffix' => $code,
+        ]);
+        CRUD::addColumn([
+            'name' => 'total',
+            'label' => trans('Total'),
+            'type' => 'number',
+            'suffix' => $code,
+        ]);
+        CRUD::column('note')
+            ->label(trans('Note'))
+            ->type('textarea');
+        CRUD::addColumn([
+            'name' => 'shipping_code',
+            'label' => trans('Shipping code'),
+            'wrapper' => [
+                'href' => fn ($_, $__, $entry): string => sprintf(
+                    'https://donhang.ghn.vn/?order_code=%s',
+                    $entry->shipping_code
+                ),
+            ],
+        ]);
+        CRUD::column('payment_checkout_url')
+            ->label(trans('Checkout URL'))
+            ->type('url');
+        CRUD::addColumn([
+            'name' => 'shipments',
+            'label' => trans('Shipments'),
+            'subfields' => [[
+                'name' => 'name_preview',
+                'label' => trans('Name'),
+            ], [
+                'name' => 'description',
+                'label' => trans('Description'),
+            ], [
+                'name' => 'reason_preview',
+                'label' => trans('Reason'),
+                'type' => 'textarea',
+            ]],
+        ]);
+        CRUD::addColumn([
+            'name' => 'transactions',
+            'label' => trans('Transactions'),
+            'subfields' => [[
+                'name' => 'amount',
+                'label' => trans('Amount (Money)'),
+                'type' => 'number',
+                'suffix' => $code,
+            ], [
+                'name' => 'status',
+                'label' => trans('Status'),
+                'type' => 'select2_from_array',
+                'options' => OrderTransactionStatus::values(),
+            ], [
+                'name' => 'reference',
+                'label' => trans('Reference'),
+            ]],
+        ]);
+
+        // if the model has timestamps, add columns for created_at and updated_at
+        if (CRUD::get('show.timestamps') && CRUD::getModel()->usesTimestamps()) {
+            CRUD::column(CRUD::getModel()->getCreatedAtColumn())
+                ->label(trans('Created at'));
+            CRUD::column(CRUD::getModel()->getUpdatedAtColumn())
+                ->label(trans('Updated at'));
+        }
     }
 
     /**
@@ -181,153 +306,6 @@ class OrderCrudController extends CrudController
     }
 
     /**
-     * Define what happens when the Show operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-update
-     */
-    protected function setupShowOperation(): void
-    {
-        $code = ' '.current_currency();
-
-        CRUD::column('id')
-            ->label(trans('Id'));
-        CRUD::column('address.customer_name')
-            ->label(trans('Name'));
-        CRUD::column('address.customer_phone_number')
-            ->label(trans('Phone number'))
-            ->type('phone');
-        CRUD::column('address.address_preview')
-            ->label(trans('Address'))
-            ->type('textarea');
-        CRUD::addColumn([
-            'name' => 'options',
-            'label' => trans('Products'),
-            'type' => 'repeatable',
-            'subfields' => [[
-                'name' => 'option',
-                'label' => trans('Product'),
-                'minimum_input_length' => 0,
-                'data_source' => route('orders.fetchOptions'),
-                'attribute' => 'sku',
-            ], [
-                'name' => 'price',
-                'label' => trans('Price'),
-                'type' => 'number',
-                'suffix' => $code,
-            ], [
-                'name' => 'amount',
-                'label' => trans('Amount'),
-                'type' => 'number',
-            ], [
-                'name' => 'value_added_tax',
-                'label' => trans('Value added tax'),
-                'type' => 'number',
-                'suffix' => '%',
-            ]],
-            'reorder' => false,
-        ]);
-        CRUD::addColumn([
-            'name' => 'tax',
-            'label' => trans('Tax'),
-            'type' => 'number',
-            'suffix' => $code,
-        ]);
-        CRUD::addColumn([
-            'name' => 'shipping_fee',
-            'label' => trans('Shipping fee'),
-            'type' => 'number',
-            'suffix' => $code,
-        ]);
-        CRUD::addColumn([
-            'name' => 'handling_fee',
-            'label' => trans('Handling fee'),
-            'type' => 'number',
-            'suffix' => $code,
-        ]);
-        CRUD::addColumn([
-            'name' => 'total',
-            'label' => trans('Total'),
-            'type' => 'number',
-            'suffix' => $code,
-        ]);
-        CRUD::column('note')
-            ->label(trans('Note'))
-            ->type('textarea');
-        CRUD::addColumn([
-            'name' => 'shipping_method',
-            'label' => trans('Shipping method'),
-            'type' => 'select2_from_array',
-            'options' => OrderShippingMethod::values(),
-        ]);
-        CRUD::addColumn([
-            'name' => 'payment_method',
-            'label' => trans('Payment method'),
-            'type' => 'select2_from_array',
-            'options' => OrderPaymentMethod::values(),
-        ]);
-        CRUD::addColumn([
-            'name' => 'status',
-            'label' => trans('Status'),
-            'type' => 'select2_from_array',
-            'options' => OrderStatus::values(),
-        ]);
-        CRUD::addColumn([
-            'name' => 'shipping_code',
-            'label' => trans('Shipping code'),
-            'wrapper' => [
-                'href' => fn ($_, $__, $entry): string => sprintf(
-                    'https://donhang.ghn.vn/?order_code=%s',
-                    $entry->shipping_code
-                ),
-            ],
-        ]);
-        CRUD::column('payment_checkout_url')
-            ->label(trans('Checkout URL'))
-            ->type('url');
-        CRUD::addColumn([
-            'name' => 'shipments',
-            'label' => trans('Shipments'),
-            'subfields' => [[
-                'name' => 'name_preview',
-                'label' => trans('Name'),
-            ], [
-                'name' => 'description',
-                'label' => trans('Description'),
-            ], [
-                'name' => 'reason_preview',
-                'label' => trans('Reason'),
-                'type' => 'textarea',
-            ]],
-        ]);
-        CRUD::addColumn([
-            'name' => 'transactions',
-            'label' => trans('Transactions'),
-            'subfields' => [[
-                'name' => 'amount',
-                'label' => trans('Amount (Money)'),
-                'type' => 'number',
-                'suffix' => $code,
-            ], [
-                'name' => 'status',
-                'label' => trans('Status'),
-                'type' => 'select2_from_array',
-                'options' => OrderTransactionStatus::values(),
-            ], [
-                'name' => 'reference',
-                'label' => trans('Reference'),
-            ]],
-        ]);
-
-        // if the model has timestamps, add columns for created_at and updated_at
-        if (CRUD::get('show.timestamps') && CRUD::getModel()->usesTimestamps()) {
-            CRUD::column(CRUD::getModel()->getCreatedAtColumn())
-                ->label(trans('Created at'));
-            CRUD::column(CRUD::getModel()->getUpdatedAtColumn())
-                ->label(trans('Updated at'));
-        }
-    }
-
-    /**
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
@@ -338,7 +316,7 @@ class OrderCrudController extends CrudController
     {
         CRUD::setValidation(OrderRequest::class);
 
-        $code = current_currency().' ';
+        $code = current_currency();
 
         CRUD::addField([
             'name' => 'options',

@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Enums\OrderPaymentMethod;
 use App\Enums\OrderShippingMethod;
 use App\Enums\OrderStatus;
 use App\Models\Order;
@@ -13,11 +14,12 @@ class StoreOrderObserver
      */
     public function creating(Order $order): void
     {
-        $order->status = match ((int) $order->shipping_method) {
-            OrderShippingMethod::PICKUP_AT_STORE => OrderStatus::TO_PAY,
-            OrderShippingMethod::DOOR_TO_DOOR_DELIVERY => OrderStatus::TO_SHIP,
-            default => OrderStatus::CANCELLED,
-        };
+        $order->status = (
+            $order->shipping_method == OrderShippingMethod::DOOR_TO_DOOR_DELIVERY &&
+            $order->payment_method == OrderPaymentMethod::PAYMENT_ON_DELIVERY
+        )
+            ? OrderStatus::TO_SHIP
+            : OrderStatus::TO_PAY;
 
         $fee = session()->pull('order.fee');
 

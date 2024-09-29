@@ -51,6 +51,25 @@ class ReviewCrudController extends CrudController
     }
 
     /**
+     * Define what happens when the Show operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-update
+     */
+    protected function setupShowOperation(): void
+    {
+        $this->setupListOperation();
+
+        CRUD::setSubheading(trans('See details'));
+
+        CRUD::column('content')
+            ->type('textarea');
+        CRUD::column('images')
+            ->label(trans('Images'))
+            ->type('dropzone')
+            ->withFiles(['disk' => 'review']);
+    }
+
+    /**
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
@@ -69,10 +88,6 @@ class ReviewCrudController extends CrudController
             'type' => 'number',
             'suffix' => ' ★',
         ]);
-        CRUD::column('images')
-            ->label(trans('Images'))
-            ->type('dropzone')
-            ->withFiles(['disk' => 'review']);
 
         CRUD::addFilter(
             [
@@ -105,30 +120,6 @@ class ReviewCrudController extends CrudController
             },
             fn () => CRUD::addClause('whereReviewableType', Customer::class)
         );
-    }
-
-    /**
-     * Define what happens when the Show operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-update
-     */
-    protected function setupShowOperation(): void
-    {
-        CRUD::setSubheading(trans('See details'));
-
-        CRUD::column('content')
-            ->label(trans('Content'))
-            ->type('textarea');
-        CRUD::addColumn([
-            'name' => 'rate',
-            'label' => trans('Rate'),
-            'type' => 'number',
-            'suffix' => ' ★',
-        ]);
-        CRUD::column('images')
-            ->label(trans('Images'))
-            ->type('dropzone')
-            ->withFiles(['disk' => 'review']);
     }
 
     /**
