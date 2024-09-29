@@ -6,7 +6,6 @@ use App\Actions\ProductAPI\CatalogList;
 use App\Actions\ProductAPI\CategoryList;
 use App\Actions\ProductAPI\OptionList;
 use App\Enums\OptionType;
-use App\Enums\ProductType;
 use App\Enums\ProductTypeEnum;
 use App\Models\Category;
 use App\Models\Option;
@@ -21,22 +20,35 @@ class ProductFilterController extends Controller
      */
     public function __invoke(ProductTypeEnum $product_type, Request $request): array
     {
-        $type = $product_type->getKey();
+        $data = [
+            'search' => request('search'),
+            'product_type' => $product_type->key(),
+            'sortColumn' => request('sortColumn'),
+            'sortDirection' => request('sortDirection', 'asc'),
+            'manufacturer' => request('manufacturer'),
+            'manufacturers' => request('manufacturers'),
+            'minPrice' => request('minPrice'),
+            'maxPrice' => request('maxPrice'),
+            'option_type' => request('option_type'),
+            'option_types' => request('option_types'),
+            'color' => request('color'),
+            'colors' => request('colors'),
+            'version' => request('version'),
+            'versions' => request('versions'),
+            'volume' => request('volume'),
+            'volumes' => request('volumes'),
+            'category' => request('category'),
+            'categories' => request('categories'),
+        ];
 
         /** @var Product $product */
-        $product = app(CatalogList::class, [
-            'product_type' => $type,
-        ])->catalog;
+        $product = app(CatalogList::class, $data)->query;
 
         /** @var Option $option */
-        $option = app(OptionList::class, [
-            'product_type' => $type,
-        ])->option;
+        $option = app(OptionList::class, $data)->query;
 
         /** @var Category $category */
-        $category = app(CategoryList::class, [
-            'product_type' => $type,
-        ])->category;
+        $category = app(CategoryList::class, $data)->query;
 
         $items = [[
             'name' => 'type',
@@ -100,7 +112,7 @@ class ProductFilterController extends Controller
                 ]),
         ]];
 
-        if ($type == ProductType::MOTOR_CYCLE) {
+        if ($product_type === ProductTypeEnum::MOTOR_CYCLE) {
             $items[] = [
                 'name' => 'color',
                 'label' => trans('Color'),

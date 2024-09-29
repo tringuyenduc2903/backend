@@ -20,7 +20,7 @@ enum ProductTypeEnum: string
         };
     }
 
-    public function getKey(): int
+    public function key(): int
     {
         return match ($this) {
             self::MOTOR_CYCLE => ProductType::MOTOR_CYCLE,

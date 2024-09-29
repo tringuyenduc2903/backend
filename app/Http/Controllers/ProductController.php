@@ -16,15 +16,37 @@ class ProductController extends Controller
      */
     public function index(ProductTypeEnum $product_type, Request $request): array
     {
-        $product = $request->exists('search')
-            ? app(SearchList::class, [
-                'product_type' => $product_type->value,
-            ])->search
-            : app(CatalogList::class, [
-                'product_type' => $product_type->getKey(),
-            ])->catalog;
+        $data = [
+            'search' => request('search'),
+            'sortColumn' => request('sortColumn'),
+            'sortDirection' => request('sortDirection', 'asc'),
+            'manufacturer' => request('manufacturer'),
+            'manufacturers' => request('manufacturers'),
+            'option_type' => request('option_type'),
+            'option_types' => request('option_types'),
+            'color' => request('color'),
+            'colors' => request('colors'),
+            'version' => request('version'),
+            'versions' => request('versions'),
+            'volume' => request('volume'),
+            'volumes' => request('volumes'),
+            'category' => request('category'),
+            'categories' => request('categories'),
+        ];
 
-        $paginator = $product->paginate(request('perPage'));
+        $product = $request->exists('search')
+            ? app(SearchList::class, array_merge(
+                $data, [
+                    'product_type' => $product_type->value,
+                ]))
+            : app(CatalogList::class, array_merge(
+                $data, [
+                    'product_type' => $product_type->key(),
+                    'minPrice' => request('minPrice'),
+                    'maxPrice' => request('maxPrice'),
+                ]));
+
+        $paginator = $product->query->paginate(request('perPage'));
 
         return $this->getCustomPaginate($paginator);
     }
@@ -44,7 +66,7 @@ class ProductController extends Controller
                 ->orWhere('id', $product_id)
                 ->orWhere('search_url', $product_id))
             ->wherePublished(true)
-            ->whereType($product_type->getKey())
+            ->whereType($product_type->key())
             ->firstOrFail();
     }
 }

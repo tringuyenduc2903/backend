@@ -11,11 +11,27 @@ use Illuminate\Database\Eloquent\Builder;
 
 class CategoryList
 {
-    public Builder $category;
+    public Builder $query;
 
-    public function __construct(protected int $product_type)
-    {
-        $this->category = Category::query();
+    public function __construct(
+        protected int $product_type,
+        protected ?string $search,
+        protected ?string $manufacturer,
+        protected ?array $manufacturers,
+        protected ?float $minPrice,
+        protected ?float $maxPrice,
+        protected ?int $option_type,
+        protected ?array $option_types,
+        protected ?string $color,
+        protected ?array $colors,
+        protected ?string $version,
+        protected ?array $versions,
+        protected ?string $volume,
+        protected ?array $volumes,
+        protected ?string $category,
+        protected ?array $categories,
+    ) {
+        $this->query = Category::query();
 
         $this->active();
         $this->filters();
@@ -23,7 +39,7 @@ class CategoryList
 
     protected function active(): void
     {
-        $this->category
+        $this->query
             ->whereHas(
                 'products',
                 function (Builder $query) {
@@ -32,11 +48,11 @@ class CategoryList
                         ->wherePublished(true)
                         ->whereIn(
                             'visibility',
-                            request()->exists('search') ? [
-                                ProductVisibility::CATALOG,
+                            $this->search ? [
+                                ProductVisibility::SEARCH,
                                 ProductVisibility::CATALOG_AND_SEARCH,
                             ] : [
-                                ProductVisibility::SEARCH,
+                                ProductVisibility::CATALOG,
                                 ProductVisibility::CATALOG_AND_SEARCH,
                             ]);
                 }
@@ -52,40 +68,70 @@ class CategoryList
 
     protected function filters(): void
     {
-        $this->category->whereHas(
+        $this->query->whereHas(
             'products',
             function (Builder $query) {
                 /** @var Product $query */
                 $query->whereType($this->product_type);
 
-                if (request()->exists('manufacturer')) {
-                    $query->whereManufacturer(request('manufacturer'));
+                if ($this->manufacturer) {
+                    $query->whereManufacturer($this->manufacturer);
+                } elseif ($this->manufacturers) {
+                    $query->whereIn('manufacturer', $this->manufacturers);
                 }
 
-                foreach (['minPrice' => '>=', 'maxPrice' => '<='] as $option => $operator) {
-                    if (request()->exists($option)) {
-                        $query
-                            ->withMin('options', 'price')
-                            ->having('options_min_price', $operator, request($option));
-                    }
+                if ($this->minPrice || $this->maxPrice) {
+                    $query->withMin('options', 'price');
+                }
+                if ($this->minPrice) {
+                    $query->having('options_min_price', '>=', $this->minPrice);
+                }
+                if ($this->maxPrice) {
+                    $query->having('options_min_price', '<=', $this->maxPrice);
                 }
             }
         );
 
-        foreach (['type', 'color', 'version', 'volume'] as $column) {
-            if (request()->exists($column)) {
-                $this->category->whereHas(
-                    'products.options',
-                    fn (Builder $query): Builder => $query->where(
-                        $column,
-                        request($column)
-                    )
-                );
-            }
-        }
+        $this->query->whereHas(
+            'products.options',
+            function (Builder $query) {
+                /** @var Option $query */
+                if ($this->option_type) {
+                    $query->whereType($this->option_type);
+                } elseif ($this->option_types) {
+                    $query->whereIn('type', $this->option_types);
+                }
 
-        if (request()->exists('category')) {
-            $this->category->find(request('category'));
+                if ($this->color) {
+                    $query->whereColor($this->color);
+                } elseif ($this->colors) {
+                    $query->whereIn('color', $this->colors);
+                }
+
+                if ($this->version) {
+                    $query->whereVersion($this->version);
+                } elseif ($this->versions) {
+                    $query->whereIn('version', $this->versions);
+                }
+
+                if ($this->volume) {
+                    $query->whereVolume($this->volume);
+                } elseif ($this->volumes) {
+                    $query->whereIn('volume', $this->volumes);
+                }
+            }
+        );
+
+        if ($this->category) {
+            $this->query->whereHas(
+                'categories',
+                fn (Builder $query): Builder => $query->where('category_id', $this->category)
+            );
+        } elseif ($this->categories) {
+            $this->query->whereHas(
+                'categories',
+                fn (Builder $query): Builder => $query->whereIn('category_id', $this->categories)
+            );
         }
     }
 }

@@ -138,8 +138,8 @@ return [
         'index-settings' => [
             Product::class => [
                 'filterableAttributes' => [
-                    'id', 'enabled', 'visibility', 'type', 'manufacturer', '__soft_deleted',
-                    'options.type', 'options.color', 'options.version', 'options.volume',
+                    'id', 'enabled', 'visibility', 'type_preview', 'manufacturer', '__soft_deleted',
+                    'options.type_preview', 'options.color', 'options.version', 'options.volume',
                     'categories.id',
                 ],
                 'sortableAttributes' => ['name', 'created_at'],
