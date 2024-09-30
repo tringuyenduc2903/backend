@@ -1,0 +1,69 @@
+post:
+  description: Lấy thông tin báo giá
+  tags:
+    - Đơn hàng (Xe máy)
+  requestBody:
+    $ref: "../../components/requestBodies/order-motorcycle.yaml"
+  responses:
+    200:
+      description: Lấy thông tin báo giá thành công
+      content:
+        application/json:
+          schema:
+            properties:
+              item:
+                title: Sản phẩm
+                example:
+                  name: AFRICA TWIN ADVENTURE SPORTS
+                  code: AFRICA_TWIN_ADVENTURE_SPORTS_TRẮNG_X_SẢN_PHẨM_MỚI
+                  price:
+                    raw: 720990000
+                    preview: 720.990.000 ₫
+                  quantity: 1
+                type: object
+              motorcycle_registration_support_fee_preview:
+                title: Phí hỗ trợ đăng ký xe máy
+                example:
+                  raw: 400000
+                  preview: 400.000 ₫
+                type: object
+              registration_fee_preview:
+                title: Lệ phí trước bạ
+                example:
+                  raw: 7209900
+                  preview: 7.209.900 ₫
+                type: object
+              license_plate_registration_fee_preview:
+                title: Lệ phí đăng ký biển số
+                example:
+                  raw: 4000000
+                  preview: 4.000.000 ₫
+                type: object
+              price_preview:
+                title: Giá
+                example:
+                  raw: 720990000
+                  preview: 720.990.000 ₫
+                type: object
+              tax_preview:
+                title: Thuế giá trị gia tăng
+                example:
+                  raw: 65544545.45454545
+                  preview: 65.544.545 ₫
+                type: object
+              handling_fee_preview:
+                title: Phí xử lý
+                example:
+                  raw: 0
+                  preview: 0 ₫
+                type: object
+              total_preview:
+                title: Tổng
+                example:
+                  raw: 732599900
+                  preview: 732.599.900 ₫
+                type: object
+    401:
+      $ref: "../../components/responses/401.yaml"
+    422:
+      $ref: "../../components/responses/422/order-motorcycle.yaml"
