@@ -28,7 +28,8 @@ Route::middleware('auth:sanctum')->group(function () {
         'except' => 'update',
     ]);
 
-    Route::post('fee', FeeController::class);
+    Route::post('fee', OrderFeeController::class);
+    Route::post('fee-motorcycle', OrderMotorcycleFeeController::class);
 });
 
 Route::apiResource('province', ProvinceController::class)

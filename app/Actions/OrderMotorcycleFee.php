@@ -26,8 +26,6 @@ class OrderMotorcycleFee
 
     protected float $total = 0;
 
-    protected int $weight = 0;
-
     public function __construct(
         protected int $option,
         protected bool $motorcycle_registration_support,
@@ -41,7 +39,6 @@ class OrderMotorcycleFee
 
         $this->result = [
             'item' => $this->item,
-            'weight' => $this->weight,
             'price' => $this->price,
             'motorcycle_registration_support_fee' => $this->motorcycle_registration_support_fee,
             'registration_fee' => $this->registration_fee,
