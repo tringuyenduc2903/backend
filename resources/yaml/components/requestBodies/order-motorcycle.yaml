@@ -38,7 +38,6 @@ content:
           title: Ghi chú
           example:
           type: string
-          maxLength: 255
       type: object
       required:
         - option_id

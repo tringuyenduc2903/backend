@@ -24,7 +24,6 @@ content:
           title: Ghi chú
           example: Nhà có trẻ em, không bấm chuông
           type: string
-          maxLength: 255
       type: object
       required:
         - options
