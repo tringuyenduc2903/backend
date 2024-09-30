@@ -55,7 +55,7 @@ class OrderMotorcycleCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(OrderMotorcycle::class);
-        CRUD::setRoute(route('orders-motorcycle.index'));
+        CRUD::setRoute(route('order-motorcycles.index'));
         CRUD::setEntityNameStrings(trans('Order'), trans('Order motorcycle'));
 
         CRUD::operation(
@@ -310,7 +310,7 @@ class OrderMotorcycleCrudController extends CrudController
                 'method' => 'POST',
                 'select_attribute' => 'sku',
             ],
-            route('orders-motorcycle.fetchOptions')
+            route('order-motorcycles.fetchOptions')
         );
     }
 
@@ -336,7 +336,7 @@ class OrderMotorcycleCrudController extends CrudController
             'name' => 'option',
             'label' => trans('Product'),
             'minimum_input_length' => 0,
-            'data_source' => route('orders-motorcycle.fetchOptions'),
+            'data_source' => route('order-motorcycles.fetchOptions'),
             'attribute' => 'sku',
             'tab' => trans('Price quote'),
         ]);
@@ -437,7 +437,7 @@ class OrderMotorcycleCrudController extends CrudController
                 'create_route' => route('customers-inline-create-save'),
                 'modal_route' => route('customers-inline-create'),
             ],
-            'data_source' => route('orders-motorcycle.fetchCustomers'),
+            'data_source' => route('order-motorcycles.fetchCustomers'),
             'minimum_input_length' => 0,
             'attribute' => 'phone_number',
             'tab' => trans('Customer'),
@@ -445,7 +445,7 @@ class OrderMotorcycleCrudController extends CrudController
         CRUD::addField([
             'name' => 'address',
             'label' => trans('Address'),
-            'data_source' => route('orders-motorcycle.fetchAddresses'),
+            'data_source' => route('order-motorcycles.fetchAddresses'),
             'minimum_input_length' => 0,
             'dependencies' => 'customer',
             'attribute' => 'address_detail',
@@ -454,7 +454,7 @@ class OrderMotorcycleCrudController extends CrudController
         CRUD::addField([
             'name' => 'identification',
             'label' => trans('Identification'),
-            'data_source' => route('orders-motorcycle.fetchIdentifications'),
+            'data_source' => route('order-motorcycles.fetchIdentifications'),
             'minimum_input_length' => 0,
             'dependencies' => 'customer',
             'attribute' => 'number',

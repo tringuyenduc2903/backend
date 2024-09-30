@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Enums\OrderPaymentMethod;
 use App\Events\AdminOrderMotorcycleCreatedEvent;
-use App\Facades\PayOSOrderMotorcycle;
+use App\Facades\PayOsOrderMotorcycle;
 use Exception;
 
 class CreateOrderMotorcyclePayOsPayment
@@ -21,7 +21,7 @@ class CreateOrderMotorcyclePayOsPayment
             return;
         }
 
-        $response = PayOSOrderMotorcycle::createPaymentLink($event->order_motorcycle);
+        $response = PayOsOrderMotorcycle::createPaymentLink($event->order_motorcycle);
 
         $event->order_motorcycle
             ->forceFill([

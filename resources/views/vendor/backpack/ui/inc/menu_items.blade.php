@@ -19,7 +19,7 @@
                         [
                             'permission' => EmployeePermission::ORDER_CRUD,
                             'title' => trans('Order motorcycle'),
-                            'link' => route('orders-motorcycle.index'),
+                            'link' => route('order-motorcycles.index'),
                         ],
                     ],
                 ],

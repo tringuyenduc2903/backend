@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Enums\OrderPaymentMethod;
 use App\Events\AdminOrderCreatedEvent;
-use App\Facades\PayOSOrder;
+use App\Facades\PayOsOrder;
 use Exception;
 
 class CreateOrderPayOsPayment
@@ -21,7 +21,7 @@ class CreateOrderPayOsPayment
             return;
         }
 
-        $response = PayOSOrder::createPaymentLink($event->order);
+        $response = PayOsOrder::createPaymentLink($event->order);
 
         $event->order
             ->forceFill([
