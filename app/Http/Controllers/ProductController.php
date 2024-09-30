@@ -62,6 +62,8 @@ class ProductController extends Controller
             'cross_sell',
             'related_products',
         ])
+            ->withCount('reviews')
+            ->withAvg('reviews', 'rate')
             ->where(fn (Builder $query): Builder => $query
                 ->orWhere('id', $product_id)
                 ->orWhere('search_url', $product_id))

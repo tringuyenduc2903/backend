@@ -51,6 +51,8 @@ get:
                     specifications:
                       - title: Khối Lượng Bản Thân
                         description: 250kg
+                    reviews_count: 0
+                    reviews_avg_rate: 0
                     options_min_price:
                       raw: 720990000
                       preview: 720.990.000 ₫

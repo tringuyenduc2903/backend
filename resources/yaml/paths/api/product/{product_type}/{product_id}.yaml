@@ -72,6 +72,14 @@ get:
                   - title: Khối Lượng Bản Thân
                     description: 250kg
                 type: array
+              reviews_count:
+                title: Số đánh giá
+                example: 0
+                type: number
+              reviews_avg_rate:
+                title: Đánh giá trung bình
+                example: 0
+                type: number
               options:
                 title: Danh sách tuỳ chọn
                 example:
