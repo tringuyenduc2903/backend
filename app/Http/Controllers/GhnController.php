@@ -30,9 +30,12 @@ class GhnController extends Controller
             GhnOrderStatus::DELIVERED => $order->update([
                 'status' => OrderStatus::COMPLETED,
             ]),
+            GhnOrderStatus::CANCEL => $order->update([
+                'status' => OrderStatus::CANCELLED,
+            ]),
             default => null,
         };
 
-        return response()->json('');
+        return response()->json('', 201);
     }
 }

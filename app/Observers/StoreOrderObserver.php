@@ -37,20 +37,31 @@ class StoreOrderObserver
      */
     public function updated(Order $order): void
     {
-        if ($order->status == OrderStatus::CANCELLED) {
-            if (
-                $order->shipping_method == OrderShippingMethod::DOOR_TO_DOOR_DELIVERY &&
-                $order->shipping_code
-            ) {
-                Ghn::cancelOrder($order);
-            }
+        switch ((int) $order->status) {
+            case OrderStatus::TO_SHIP:
+                $response = Ghn::createOrder($order);
 
-            if (
-                $order->payment_method == OrderPaymentMethod::BANK_TRANSFER &&
-                $order->payment_checkout_url
-            ) {
-                PayOSOrder::cancelPaymentLink($order);
-            }
+                $order
+                    ->forceFill([
+                        'shipping_code' => $response['order_code'],
+                    ])
+                    ->save();
+                break;
+            case OrderStatus::CANCELLED:
+                if (
+                    $order->shipping_method == OrderShippingMethod::DOOR_TO_DOOR_DELIVERY &&
+                    $order->shipping_code
+                ) {
+                    Ghn::cancelOrder($order);
+                }
+
+                if (
+                    $order->payment_method == OrderPaymentMethod::BANK_TRANSFER &&
+                    $order->payment_checkout_url
+                ) {
+                    PayOSOrder::cancelPaymentLink($order);
+                }
+                break;
         }
     }
 }

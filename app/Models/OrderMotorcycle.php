@@ -63,6 +63,7 @@ class OrderMotorcycle extends Model
         return in_array($this->status, [
             OrderStatus::TO_PAY,
             OrderStatus::TO_SHIP,
+            OrderStatus::TO_RECEIVE,
         ]);
     }
 

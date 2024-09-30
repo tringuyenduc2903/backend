@@ -15,7 +15,7 @@ trait SwitchStatus
         return $this->http
             ->post('v2/switch-status/cancel', [
                 'shop_id' => current_store(),
-                'order_codes' => [$order->id],
+                'order_codes' => [$order->shipping_code],
             ])
             ->json('data');
     }

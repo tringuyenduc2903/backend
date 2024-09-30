@@ -2,7 +2,6 @@
 
 namespace App\Enums;
 
-use App\Facades\Ghn;
 use App\Facades\PayOSOrder;
 use App\Facades\PayOSOrderMotorcycle;
 use App\Models\Order;
@@ -40,22 +39,14 @@ enum PayOsOrderTypeEnum: string
 
     public function eventPaid(Order|OrderMotorcycle $order): void
     {
-        switch ($this) {
-            case self::ORDER:
-                $order->update([
-                    'status' => OrderStatus::TO_SHIP,
-                ]);
-
-                if ($order->shipping_method == OrderShippingMethod::DOOR_TO_DOOR_DELIVERY) {
-                    Ghn::createOrder($order);
-                }
-                break;
-            case self::ORDER_MOTORCYCLE:
-                $order->update([
-                    'status' => OrderStatus::TO_RECEIVE,
-                ]);
-                break;
-        }
+        match ($this) {
+            self::ORDER => $order->update([
+                'status' => OrderStatus::TO_SHIP,
+            ]),
+            self::ORDER_MOTORCYCLE => $order->update([
+                'status' => OrderStatus::TO_RECEIVE,
+            ]),
+        };
     }
 
     public function eventCancelled(Order|OrderMotorcycle $order): void
