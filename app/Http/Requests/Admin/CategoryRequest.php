@@ -125,11 +125,7 @@ class CategoryRequest extends FormRequest
             if ($this->isEmptyString('search_url')) {
                 $this->getInputSource()->remove('search_url');
             }
-
-            return;
-        }
-
-        if ($this->isNotFilled([
+        } elseif ($this->isNotFilled([
             'seo.0.title',
             'seo.0.description',
             'seo.0.image',

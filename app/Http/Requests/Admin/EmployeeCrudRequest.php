@@ -67,11 +67,7 @@ class EmployeeCrudRequest extends FormRequest
     {
         $id = $this->input('id') ?? request()->route('id');
 
-        if (is_null($id)) {
-            return;
-        }
-
-        if ($this->isEmptyString('password')) {
+        if ($id && $this->isEmptyString('password')) {
             $this->getInputSource()->remove('password');
         }
     }

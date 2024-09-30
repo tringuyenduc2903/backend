@@ -17,16 +17,14 @@ class CreateOrderPayOsPayment
     public function handle($event): void
     {
         /** @var AdminOrderCreatedEvent $event */
-        if ($event->order->payment_method != OrderPaymentMethod::BANK_TRANSFER) {
-            return;
+        if ($event->order->payment_method == OrderPaymentMethod::BANK_TRANSFER) {
+            $response = PayOsOrder::createPaymentLink($event->order);
+
+            $event->order
+                ->forceFill([
+                    'payment_checkout_url' => $response['checkoutUrl'],
+                ])
+                ->save();
         }
-
-        $response = PayOsOrder::createPaymentLink($event->order);
-
-        $event->order
-            ->forceFill([
-                'payment_checkout_url' => $response['checkoutUrl'],
-            ])
-            ->save();
     }
 }

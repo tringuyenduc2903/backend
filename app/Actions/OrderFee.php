@@ -79,20 +79,18 @@ class OrderFee
 
     protected function handleShippingFee(): void
     {
-        if ($this->shipping_method != OrderShippingMethod::DOOR_TO_DOOR_DELIVERY) {
-            return;
+        if ($this->shipping_method == OrderShippingMethod::DOOR_TO_DOOR_DELIVERY) {
+            $address = Address::findOrFail($this->address_id);
+
+            $data = Ghn::fee(
+                $address,
+                $this->weight,
+                (int) $this->price,
+                $this->items
+            );
+
+            $this->shipping_fee = $data['total'];
         }
-
-        $address = Address::findOrFail($this->address_id);
-
-        $data = Ghn::fee(
-            $address,
-            $this->weight,
-            (int) $this->price,
-            $this->items
-        );
-
-        $this->shipping_fee = $data['total'];
     }
 
     protected function handleHandlingFee(): void

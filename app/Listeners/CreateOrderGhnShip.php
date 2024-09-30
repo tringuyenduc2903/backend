@@ -17,18 +17,16 @@ class CreateOrderGhnShip implements ShouldQueue
     {
         /** @var AdminOrderCreatedEvent $event */
         if (
-            $event->order->status != OrderStatus::TO_SHIP ||
-            $event->order->shipping_method != OrderShippingMethod::DOOR_TO_DOOR_DELIVERY
+            $event->order->status == OrderStatus::TO_SHIP &&
+            $event->order->shipping_method == OrderShippingMethod::DOOR_TO_DOOR_DELIVERY
         ) {
-            return;
+            $response = Ghn::createOrder($event->order);
+
+            $event->order
+                ->forceFill([
+                    'shipping_code' => $response['order_code'],
+                ])
+                ->save();
         }
-
-        $response = Ghn::createOrder($event->order);
-
-        $event->order
-            ->forceFill([
-                'shipping_code' => $response['order_code'],
-            ])
-            ->save();
     }
 }

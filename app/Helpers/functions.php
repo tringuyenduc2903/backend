@@ -54,14 +54,12 @@ if (! function_exists('deny_access')) {
         /** @var Employee $employee */
         $employee = backpack_user();
 
-        if ($employee->hasPermissionTo(
+        if (! $employee->hasPermissionTo(
             $permission,
             config('backpack.base.guard')
         )) {
-            return;
+            CRUD::denyAllAccess();
         }
-
-        CRUD::denyAllAccess();
     }
 }
 
@@ -73,18 +71,12 @@ if (! function_exists('set_title')) {
 
             CRUD::setTitle($value);
             CRUD::setSubHeading($value);
+        } elseif ($entry = CRUD::getCurrentEntry()) {
+            $value = $entry->getAttribute($column);
 
-            return;
+            CRUD::setTitle($value);
+            CRUD::setHeading($value);
         }
-
-        if (! $entry = CRUD::getCurrentEntry()) {
-            return;
-        }
-
-        $value = $entry->getAttribute($column);
-
-        CRUD::setTitle($value);
-        CRUD::setHeading($value);
     }
 }
 
@@ -127,7 +119,7 @@ if (! function_exists('current_currency')) {
     {
         return Setting::where('key', 'store_currency')
             ->firstOrFail()
-            ->getAttribute('value_preview');
+            ->value_preview;
     }
 }
 
@@ -136,7 +128,7 @@ if (! function_exists('current_store')) {
     {
         $value = Setting::where('key', 'store_ghn')
             ->firstOrFail()
-            ->getAttribute('value');
+            ->value;
 
         return json_decode($value)->shop_id;
     }

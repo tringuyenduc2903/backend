@@ -17,16 +17,14 @@ class CreateOrderMotorcyclePayOsPayment
     public function handle($event): void
     {
         /** @var AdminOrderMotorcycleCreatedEvent $event */
-        if ($event->order_motorcycle->payment_method != OrderPaymentMethod::BANK_TRANSFER) {
-            return;
+        if ($event->order_motorcycle->payment_method == OrderPaymentMethod::BANK_TRANSFER) {
+            $response = PayOsOrderMotorcycle::createPaymentLink($event->order_motorcycle);
+
+            $event->order_motorcycle
+                ->forceFill([
+                    'payment_checkout_url' => $response['checkoutUrl'],
+                ])
+                ->save();
         }
-
-        $response = PayOsOrderMotorcycle::createPaymentLink($event->order_motorcycle);
-
-        $event->order_motorcycle
-            ->forceFill([
-                'payment_checkout_url' => $response['checkoutUrl'],
-            ])
-            ->save();
     }
 }

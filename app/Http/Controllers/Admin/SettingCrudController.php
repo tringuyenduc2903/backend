@@ -75,15 +75,16 @@ class SettingCrudController extends CrudController
      */
     protected function setupUpdateOperation(): void
     {
+        /** @var Setting $setting */
         $setting = CRUD::getCurrentEntry();
 
         CRUD::setValidation(SettingRequest::class);
-        CRUD::setValidation($setting->getAttribute('validation_rules'));
+        CRUD::setValidation($setting->validation_rules);
 
         CRUD::field('active')
             ->label(trans('Active'))
             ->type('switch');
-        CRUD::addFields($setting->getAttribute('fields'));
+        CRUD::addFields($setting->fields);
 
         set_title();
     }
