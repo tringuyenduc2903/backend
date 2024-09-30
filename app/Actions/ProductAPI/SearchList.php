@@ -40,7 +40,9 @@ class SearchList
             /** @var Product $query */
             return $query
                 ->withMin('options', 'price')
-                ->withMax('options', 'price');
+                ->withMax('options', 'price')
+                ->withCount('reviews')
+                ->withAvg('reviews', 'rate');
         });
     }
 

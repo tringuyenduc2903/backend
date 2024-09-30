@@ -44,7 +44,9 @@ class CatalogList
     {
         $this->query
             ->withMin('options', 'price')
-            ->withMax('options', 'price');
+            ->withMax('options', 'price')
+            ->withCount('reviews')
+            ->withAvg('reviews', 'rate');
     }
 
     protected function active(): void
@@ -75,6 +77,7 @@ class CatalogList
             match ($this->sortColumn) {
                 'name' => $this->query->orderBy('name', $this->sortDirection),
                 'price' => $this->query->orderBy('options_min_price', $this->sortDirection),
+                'review' => $this->query->orderByDesc('reviews_avg_rate'),
                 'latest' => $this->query->latest(),
                 'oldest' => $this->query->oldest(),
             };
