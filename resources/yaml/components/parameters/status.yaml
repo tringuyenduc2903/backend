@@ -1,0 +1,4 @@
+name: status
+description: "0: Chờ thanh toán, 1: Chờ vận chuyển, 2: Chờ nhận hàng, 3: Hoàn thành, 4: Đã huỷ, 5: Trả hàng/Hoàn tiền"
+in: query
+example: 0
