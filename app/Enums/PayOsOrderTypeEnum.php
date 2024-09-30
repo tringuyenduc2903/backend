@@ -13,7 +13,7 @@ enum PayOsOrderTypeEnum: string
 {
     case ORDER = 'order';
 
-    case ORDER_MOTORCYCLE = 'order_motorcycle';
+    case ORDER_MOTORCYCLE = 'order-motorcycle';
 
     public function verifyPaymentWebhookData(array $data): array
     {
@@ -62,7 +62,7 @@ enum PayOsOrderTypeEnum: string
         }
     }
 
-    public function eventCancelled(Order|OrderMotorcycle $order)
+    public function eventCancelled(Order|OrderMotorcycle $order): void
     {
         $order->update([
             'status' => OrderStatus::CANCELLED,
