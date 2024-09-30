@@ -1,0 +1,48 @@
+content:
+  application/json:
+    schema:
+      properties:
+        option_id:
+          title: Sản phẩm
+          example: 1
+          type: number
+        motorcycle_registration_support:
+          title: Hỗ trợ đăng ký xe máy
+          example: true
+          type: boolean
+        registration_option:
+          title: "Tùy chọn trước bạ (0: Lần đầu (5%), 1: Lần 2 trở đi (1%))"
+          example: 0
+          type: number
+        license_plate_registration_option:
+          title: "Tùy chọn đăng ký biển số (
+0: Khu vực I (Thành phố Hà Nội, Thành phố Hồ Chí Minh bao gồm tất cả các quận, huyện trực thuộc thành phố không phân biệt nội thành hay ngoại thành),
+1: Khu vực II (Thành phố trực thuộc Trung ương (trừ Thành phố Hà Nội, Thành phố Hồ Chí Minh) bao gồm tất cả các quận, huyện trực thuộc thành phố không phân biệt nội thành hay ngoại thành; thành phố trực thuộc tỉnh, thị xã bao gồm tất cả các phường, xã thuộc thành phố, thị xã không phân biệt phường nội thành, nội thị hay xã ngoại thành, ngoại thị),
+2: Khu vực III (Các khu vực khác ngoài khu vực I và khu vực II)
+)"
+          example: 0
+          type: number
+        payment_method:
+          title: "Phương thức thanh toán (0: Thanh toán khi giao hàng, 1: Chuyển khoản ngân hàng)"
+          example: 0
+          type: number
+        address_id:
+          title: Địa chỉ
+          example: 1
+          type: number
+        identification_id:
+          title: Hồ sơ
+          example: 1
+          type: number
+        note:
+          title: Ghi chú
+          example:
+          type: string
+          maxLength: 255
+      type: object
+      required:
+        - option_id
+        - motorcycle_registration_support
+        - payment_method
+        - address_id
+        - identification_id

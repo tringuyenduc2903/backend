@@ -16,15 +16,15 @@ content:
           title: "Phương thức thanh toán (0: Thanh toán khi giao hàng, 1: Chuyển khoản ngân hàng)"
           example: 0
           type: number
+        address_id:
+          title: Địa chỉ
+          example: 1
+          type: number
         note:
           title: Ghi chú
           example: Nhà có trẻ em, không bấm chuông
           type: string
           maxLength: 255
-        address_id:
-          title: Địa chỉ
-          example: 1
-          type: number
       type: object
       required:
         - options

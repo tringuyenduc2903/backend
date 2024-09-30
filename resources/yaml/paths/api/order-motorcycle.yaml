@@ -175,3 +175,20 @@ get:
             type: object
     401:
       $ref: "../../components/responses/401.yaml"
+post:
+  description: Tạo đơn hàng xe máy mới
+  tags:
+    - Đơn hàng (Xe máy)
+  requestBody:
+    $ref: "../../components/requestBodies/order-motorcycle.yaml"
+  responses:
+    201:
+      description: Tạo đơn hàng xe máy mới thành công
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/Dữ liệu rỗng.yaml"
+    401:
+      $ref: "../../components/responses/401.yaml"
+    422:
+      $ref: "../../components/responses/422/order-motorcycle.yaml"

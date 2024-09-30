@@ -302,5 +302,6 @@ return [
         'registration_option' => 'tùy chọn trước bạ',
         'license_plate_registration_option' => 'tùy chọn đăng ký biển số',
         'identification' => 'hồ sơ',
+        'identification_id' => 'hồ sơ',
     ],
 ];
