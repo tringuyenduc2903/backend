@@ -2,8 +2,8 @@
 
 namespace App\Http\Responses;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Laravel\Fortify\Contracts\LogoutResponse as LogoutResponseContract;
 
 class LogoutResponse implements LogoutResponseContract
@@ -13,10 +13,10 @@ class LogoutResponse implements LogoutResponseContract
      *
      * @param  Request  $request
      */
-    public function toResponse($request): JsonResponse
+    public function toResponse($request): Response
     {
         revoke_token('mobile');
 
-        return response()->json('', 204);
+        return response()->noContent();
     }
 }

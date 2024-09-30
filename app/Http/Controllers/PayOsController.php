@@ -2,10 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrderStatus;
 use App\Enums\PayOsOrderTypeEnum;
 use App\Enums\PayOsStatus;
+use App\Facades\Ghn;
+use App\Facades\PayOSOrder;
+use App\Facades\PayOSOrderMotorcycle;
+use App\Models\Order;
+use App\Models\OrderMotorcycle;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use PayOS\Exceptions\ErrorCode;
 
 class PayOsController extends Controller
@@ -13,12 +21,20 @@ class PayOsController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request, PayOsOrderTypeEnum $order_type): array
+    public function __invoke(PayOsOrderTypeEnum $order_type, Request $request): Response|JsonResponse
     {
         try {
-            $webhook_data = $order_type->verifyPaymentWebhookData($request->all());
-            $order = $order_type->getOrder($webhook_data['orderCode']);
-            $payment_link_information = $order_type->getPaymentLinkInformation($order);
+            $data = $request->all();
+
+            if ($order_type === PayOsOrderTypeEnum::ORDER) {
+                $webhook_data = PayOSOrder::verifyPaymentWebhookData($data);
+                $order = Order::findOrFail($webhook_data['orderCode']);
+                $payment_link_information = PayOSOrder::getPaymentLinkInformation($order);
+            } else {
+                $webhook_data = PayOSOrderMotorcycle::verifyPaymentWebhookData($data);
+                $order = OrderMotorcycle::findOrFail($webhook_data['orderCode']);
+                $payment_link_information = PayOSOrderMotorcycle::getPaymentLinkInformation($order);
+            }
 
             $order->transactions()->create([
                 'amount' => $webhook_data['amount'],
@@ -28,22 +44,40 @@ class PayOsController extends Controller
 
             switch ($payment_link_information['status']) {
                 case PayOsStatus::PAID:
-                    $order_type->eventPaid($order);
+                    if ($order_type === PayOsOrderTypeEnum::ORDER) {
+                        $order->update([
+                            'status' => OrderStatus::TO_SHIP,
+                        ]);
+
+                        $response = Ghn::createOrder($order);
+
+                        $order
+                            ->forceFill([
+                                'shipping_code' => $response['order_code'],
+                            ])
+                            ->save();
+                    } else {
+                        $order->update([
+                            'status' => OrderStatus::TO_RECEIVE,
+                        ]);
+                    }
                     break;
                 case PayOsStatus::CANCELLED:
-                    $order_type->eventCancelled($order);
+                    $order->update([
+                        'status' => OrderStatus::CANCELLED,
+                    ]);
                     break;
             }
         } catch (Exception $exception) {
-            return [
-                'message' => $exception->getCode() == ErrorCode::NO_DATA ? 'test' : 'failed',
-                'result' => $exception->getMessage(),
-            ];
+            return $exception->getCode() == ErrorCode::NO_DATA
+                ? response()->noContent()
+                : response()->json([
+                    'message' => $exception->getMessage(),
+                ], 500);
         }
 
-        return [
-            'message' => 'success',
-            'data' => trans('Successfully'),
-        ];
+        return response()->json([
+            'message' => trans('Successfully'),
+        ]);
     }
 }

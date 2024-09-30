@@ -11,12 +11,10 @@ class StoreIdentification
      */
     public function saving(Identification $identification): void
     {
-        if (! $identification->default) {
-            return;
+        if ($identification->default) {
+            current_user($identification->customer_id)->identifications()
+                ->whereDefault(true)
+                ->update(['default' => false]);
         }
-
-        current_user($identification->customer_id)->identifications()
-            ->whereDefault(true)
-            ->update(['default' => false]);
     }
 }

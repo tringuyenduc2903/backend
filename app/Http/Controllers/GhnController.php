@@ -36,6 +36,6 @@ class GhnController extends Controller
             default => null,
         };
 
-        return response()->json('', 201);
+        return response()->json('');
     }
 }

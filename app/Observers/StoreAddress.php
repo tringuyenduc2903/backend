@@ -11,12 +11,10 @@ class StoreAddress
      */
     public function saving(Address $address): void
     {
-        if (! $address->default) {
-            return;
+        if ($address->default) {
+            current_user($address->customer_id)->addresses()
+                ->whereDefault(true)
+                ->update(['default' => false]);
         }
-
-        current_user($address->customer_id)->addresses()
-            ->whereDefault(true)
-            ->update(['default' => false]);
     }
 }
