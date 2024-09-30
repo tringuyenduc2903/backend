@@ -99,8 +99,8 @@ class ReviewCrudController extends CrudController
                 'select_attribute' => 'sku',
             ],
             route('reviews.fetchOptions'),
-            function (int $sku) {
-                CRUD::addClause('whereParentId', $sku);
+            function (int $id) {
+                CRUD::addClause('whereParentId', $id);
                 CRUD::addClause('whereParentType', Option::class);
             },
             fn () => CRUD::addClause('whereParentType', Option::class)
@@ -114,8 +114,8 @@ class ReviewCrudController extends CrudController
                 'method' => 'POST',
             ],
             route('reviews.fetchCustomers'),
-            function (int $sku) {
-                CRUD::addClause('whereReviewableId', $sku);
+            function (int $id) {
+                CRUD::addClause('whereReviewableId', $id);
                 CRUD::addClause('whereReviewableType', Customer::class);
             },
             fn () => CRUD::addClause('whereReviewableType', Customer::class)

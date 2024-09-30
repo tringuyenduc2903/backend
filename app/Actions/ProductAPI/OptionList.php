@@ -109,13 +109,15 @@ class OptionList
             $this->query->whereIn('volume', $this->volumes);
         }
 
-        if (request()->exists('category')) {
+        if ($this->category) {
             $this->query->whereHas(
-                'product.categories',
-                fn (Builder $query): Builder => $query->where(
-                    'category_id',
-                    request('category')
-                )
+                'categories',
+                fn (Builder $query): Builder => $query->where('category_id', $this->category)
+            );
+        } elseif ($this->categories) {
+            $this->query->whereHas(
+                'categories',
+                fn (Builder $query): Builder => $query->whereIn('category_id', $this->categories)
             );
         }
     }

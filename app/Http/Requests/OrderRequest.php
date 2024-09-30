@@ -51,7 +51,7 @@ class OrderRequest extends FormRequest
                     }
 
                     if (! $option = get_product(
-                        request('options.*.option_id')
+                        $this->input('options.*.option_id')
                     )) {
                         return;
                     }
@@ -73,16 +73,16 @@ class OrderRequest extends FormRequest
                 'integer',
                 Rule::in(OrderPaymentMethod::keys()),
             ],
-            'note' => [
-                'nullable',
-                'string',
-                'max:255',
-            ],
             'address_id' => [
                 'required',
                 'integer',
                 Rule::exists(Address::class, 'id')
                     ->where('customer_id', fortify_user()->id),
+            ],
+            'note' => [
+                'nullable',
+                'string',
+                'max:255',
             ],
         ];
     }

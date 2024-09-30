@@ -5,6 +5,9 @@ use App\Enums\ProductType;
 use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\Option;
+use App\Models\Order;
+use App\Models\OrderMotorcycle;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\Setting;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -14,6 +17,7 @@ use Illuminate\Contracts\Auth\Factory;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
@@ -273,5 +277,99 @@ if (! function_exists('get_product')) {
                 }
             )
             ->first();
+    }
+}
+
+if (! function_exists('get_options')) {
+    function get_options(Order $order): array
+    {
+        $options = $order->options
+            ->map(function (OrderProduct $order_product): string {
+                return sprintf(
+                    '| ![%s](%s) | %s%s | %s | %s | %s |',
+                    $order_product->option->product->name,
+                    Arr::first(json_decode($order_product->option->images)),
+                    mb_substr($order_product->option->product->name, 0, 9),
+                    mb_strlen($order_product->option->product->name) > 7 ? '...' : '',
+                    price($order_product->price),
+                    $order_product->amount,
+                    price($order_product->price * $order_product->amount),
+                );
+            })
+            ->toArray();
+
+        $appends = array_map(
+            fn (array $item): string => sprintf(
+                '|||| **%s** | %s |',
+                $item['label'],
+                $item['value'],
+            ),
+            [[
+                'label' => trans('Tax'),
+                'value' => price($order->tax),
+            ], [
+                'label' => trans('Shipping fee'),
+                'value' => price($order->shipping_fee),
+            ], [
+                'label' => trans('Handling fee'),
+                'value' => price($order->handling_fee),
+            ], [
+                'label' => trans('Total amount'),
+                'value' => price($order->total),
+            ]]
+        );
+
+        return array_merge($options, $appends);
+    }
+}
+
+if (! function_exists('get_option')) {
+    function get_option(OrderMotorcycle $order_motorcycle): array
+    {
+        $option = [sprintf(
+            '| ![%s](%s) | %s%s | %s | %s | %s |',
+            $order_motorcycle->option->product->name,
+            Arr::first(json_decode($order_motorcycle->option->images)),
+            mb_substr($order_motorcycle->option->product->name, 0, 9),
+            mb_strlen($order_motorcycle->option->product->name) > 7 ? '...' : '',
+            price($order_motorcycle->price),
+            $order_motorcycle->amount,
+            price($order_motorcycle->price * $order_motorcycle->amount),
+        )];
+
+        $appends = array_map(
+            fn (array $item): string => sprintf(
+                '|||| **%s** | %s |',
+                $item['label'],
+                $item['value'],
+            ),
+            [[
+                'label' => trans('Motorcycle registration support fee'),
+                'value' => price($order_motorcycle->motorcycle_registration_support_fee),
+            ], [
+                'label' => trans('Registration fee'),
+                'value' => price($order_motorcycle->registration_fee),
+            ], [
+                'label' => trans('License plate registration fee'),
+                'value' => price($order_motorcycle->license_plate_registration_fee),
+            ], [
+                'label' => trans('Tax'),
+                'value' => price($order_motorcycle->tax),
+            ], [
+                'label' => trans('Tax'),
+                'value' => price($order_motorcycle->tax),
+            ], [
+                'label' => trans('Tax'),
+                'value' => price($order_motorcycle->tax),
+            ], [
+                'label' => trans('Handling fee'),
+                'value' => price($order_motorcycle->handling_fee),
+            ], [
+                'label' => trans('Total amount'),
+                'value' => price($order_motorcycle->total),
+            ]]
+        );
+
+        return array_merge($option, $appends);
     }
 }

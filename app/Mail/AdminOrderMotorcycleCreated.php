@@ -10,7 +10,6 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Arr;
 
 class AdminOrderMotorcycleCreated extends Mailable
 {
@@ -62,64 +61,26 @@ class AdminOrderMotorcycleCreated extends Mailable
                     sprintf('**%s**: %s', trans('Note'), $this->order_motorcycle->note),
                     sprintf('**%s**: %s', trans('Payment method'), $this->order_motorcycle->payment_method_preview),
                     sprintf('**%s**: %s', trans('Status'), $this->order_motorcycle->status_preview),
+                    sprintf('**%s**: %s', trans('Motorcycle registration support'), trans($this->order_motorcycle->motorcycle_registration_support ? 'Yes' : 'No')),
+                    sprintf('**%s**: %s', trans('Registration option'), $this->order_motorcycle->registration_option_preview),
+                    sprintf('**%s**: %s', trans('License plate registration option'), $this->order_motorcycle->license_plate_registration_option_preview),
                     '---',
                     '# '.trans('Information about products:'),
                 ],
                 'titles' => [
                     sprintf(
-                        '| %s | %s | %s | %s | %s | %s |',
+                        '| %s | %s | %s | %s | %s |',
                         trans('Image'),
                         trans('Name'),
-                        trans('SKU'),
                         trans('Price'),
                         trans('Amount'),
                         trans('Make money'),
                     ),
-                    '| --- | :---: | :---: | :---: | :---: | ---: |',
+                    '| --- | :---: | :---: | :---: | ---: |',
                 ],
-                'options' => $this->getOption(),
+                'options' => get_option($this->order_motorcycle),
                 'outroLines' => [],
             ],
         );
-    }
-
-    protected function getOption(): array
-    {
-        $option = [sprintf(
-            '| ![%s](%s) | %s%s | %s%s | %s | %s | %s |',
-            $this->order_motorcycle->option->product->name,
-            Arr::first(json_decode($this->order_motorcycle->option->images)),
-            mb_substr($this->order_motorcycle->option->product->name, 0, 9),
-            mb_strlen($this->order_motorcycle->option->product->name) > 7 ? '...' : '',
-            mb_substr($this->order_motorcycle->option->sku, 0, 9),
-            mb_strlen($this->order_motorcycle->option->sku) > 7 ? '...' : '',
-            price($this->order_motorcycle->price),
-            $this->order_motorcycle->amount,
-            price($this->order_motorcycle->price * $this->order_motorcycle->amount),
-        )];
-
-        $appends = array_map(
-            fn (object $item): string => sprintf(
-                '||||| **%s** | %s |',
-                $item->label,
-                $item->value,
-            ),
-            [
-                (object) [
-                    'label' => trans('Tax'),
-                    'value' => price($this->order_motorcycle->tax),
-                ],
-                (object) [
-                    'label' => trans('Handling fee'),
-                    'value' => price($this->order_motorcycle->handling_fee),
-                ],
-                (object) [
-                    'label' => trans('Total amount'),
-                    'value' => price($this->order_motorcycle->total),
-                ],
-            ]
-        );
-
-        return array_merge($option, $appends);
     }
 }
