@@ -269,7 +269,9 @@ delete:
     200:
       description: Hủy đơn hàng thành công
       content:
-        $ref: "../../../components/schemas/Dữ liệu rỗng.yaml"
+        application/json:
+          schema:
+            $ref: "../../../components/schemas/Dữ liệu rỗng.yaml"
     401:
       $ref: "../../../components/responses/401.yaml"
     403:

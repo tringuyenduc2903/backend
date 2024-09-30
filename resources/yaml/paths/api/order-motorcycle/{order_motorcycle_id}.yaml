@@ -1,12 +1,12 @@
 get:
-  description: Lấy thông tin đơn hàng xe máy
+  description: Lấy thông tin đơn hàng
   tags:
     - Đơn hàng (Xe máy)
   parameters:
     - $ref: "../../../components/parameters/order-motorcycle.yaml"
   responses:
     200:
-      description: Lấy thông tin đơn hàng xe máy thành công
+      description: Lấy thông tin đơn hàng thành công
       content:
         application/json:
           schema:
@@ -283,5 +283,33 @@ get:
                 type: string
     401:
       $ref: "../../../components/responses/401.yaml"
+    404:
+      $ref: "../../../components/responses/404/order-motorcycle.yaml"
+delete:
+  description: Hủy đơn hàng
+  tags:
+    - Đơn hàng (Xe máy)
+  parameters:
+    - $ref: "../../../components/parameters/order-motorcycle.yaml"
+  responses:
+    200:
+      description: Hủy đơn hàng thành công
+      content:
+        application/json:
+          schema:
+            $ref: "../../../components/schemas/Dữ liệu rỗng.yaml"
+    401:
+      $ref: "../../../components/responses/401.yaml"
+    403:
+      description: "Chỉ có thể hủy đơn hàng có Trạng thái: Chờ thanh toán/Chờ vận chuyển/Chờ nhận hàng"
+      content:
+        application/json:
+          schema:
+            properties:
+              message:
+                title: Thông báo ngắn
+                type: string
+                example: Không thể hủy Đơn hàng có trạng thái Đã huỷ.
+            type: object
     404:
       $ref: "../../../components/responses/404/order-motorcycle.yaml"

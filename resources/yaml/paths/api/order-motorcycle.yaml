@@ -1,5 +1,5 @@
 get:
-  description: "Lấy danh sách đơn hàng xe máy: Sắp xếp theo Thời gian tạo đơn hàng"
+  description: "Lấy danh sách đơn hàng: Sắp xếp theo Thời gian tạo đơn hàng"
   tags:
     - Đơn hàng (Xe máy)
   parameters:
@@ -8,7 +8,7 @@ get:
     - $ref: "../../components/parameters/status.yaml"
   responses:
     200:
-      description: Lấy danh sách đơn hàng xe máy thành công
+      description: Lấy danh sách đơn hàng thành công
       content:
         application/json:
           schema:
@@ -176,14 +176,14 @@ get:
     401:
       $ref: "../../components/responses/401.yaml"
 post:
-  description: Tạo đơn hàng xe máy mới
+  description: Tạo đơn hàng mới
   tags:
     - Đơn hàng (Xe máy)
   requestBody:
     $ref: "../../components/requestBodies/order-motorcycle.yaml"
   responses:
     201:
-      description: Tạo đơn hàng xe máy mới thành công
+      description: Tạo đơn hàng mới thành công
       content:
         application/json:
           schema:
