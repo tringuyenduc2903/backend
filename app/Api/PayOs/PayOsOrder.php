@@ -1,24 +1,25 @@
 <?php
 
-namespace App\Api\PayOS;
+namespace App\Api\PayOs;
 
 use App\Enums\OrderPaymentMethod;
-use App\Models\OrderMotorcycle;
+use App\Models\Order;
+use App\Models\OrderProduct;
 use Exception;
 use Illuminate\Validation\ValidationException;
 use PayOS\PayOS;
 
-class PayOSOrderMotorcycle
+class PayOsOrder
 {
     protected PayOS $payOS;
 
     public function __construct()
     {
         $this->payOS = app(PayOS::class, [
-            'clientId' => config('services.payos_order_motorcycle.client_id'),
-            'apiKey' => config('services.payos_order_motorcycle.client_secret'),
-            'checksumKey' => config('services.payos_order_motorcycle.checksum'),
-            'partnerCode' => config('services.payos_order_motorcycle.partner_code'),
+            'clientId' => config('services.payos_order.client_id'),
+            'apiKey' => config('services.payos_order.client_secret'),
+            'checksumKey' => config('services.payos_order.checksum'),
+            'partnerCode' => config('services.payos_order.partner_code'),
         ]);
     }
 
@@ -33,7 +34,7 @@ class PayOSOrderMotorcycle
     /**
      * @throws Exception
      */
-    public function getPaymentLinkInformation(OrderMotorcycle $orderCode): array
+    public function getPaymentLinkInformation(Order $orderCode): array
     {
         return $this->payOS->getPaymentLinkInformation($orderCode->id);
     }
@@ -41,12 +42,12 @@ class PayOSOrderMotorcycle
     /**
      * @throws Exception
      */
-    public function cancelPaymentLink(OrderMotorcycle $orderCode, ?string $cancellationReason = null): array
+    public function cancelPaymentLink(Order $orderCode, ?string $cancellationReason = null): array
     {
         return $this->payOS->cancelPaymentLink($orderCode->id, $cancellationReason);
     }
 
-    public function createPaymentLink(OrderMotorcycle $paymentData): array
+    public function createPaymentLink(Order $paymentData): array
     {
         try {
             return $this->payOS->createPaymentLink([
@@ -57,11 +58,13 @@ class PayOSOrderMotorcycle
                 'buyerEmail' => $paymentData->customer->email,
                 'buyerPhone' => $paymentData->address->customer_phone_number,
                 'buyerAddress' => $paymentData->address->address_preview,
-                'items' => [[
-                    'name' => $paymentData->option->product->name,
-                    'quantity' => $paymentData->amount,
-                    'price' => (int) $paymentData->price,
-                ]],
+                'items' => $paymentData->options
+                    ->map(fn (OrderProduct $order_product): array => [
+                        'name' => $order_product->option->product->name,
+                        'quantity' => $order_product->amount,
+                        'price' => (int) $order_product->price,
+                    ])
+                    ->toArray(),
                 'cancelUrl' => route('orders.show', ['id' => $paymentData->id]),
                 'returnUrl' => route('orders.show', ['id' => $paymentData->id]),
             ]);

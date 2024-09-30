@@ -6,8 +6,8 @@ use App\Enums\OrderStatus;
 use App\Enums\PayOsOrderTypeEnum;
 use App\Enums\PayOsStatus;
 use App\Facades\Ghn;
-use App\Facades\PayOSOrder;
-use App\Facades\PayOSOrderMotorcycle;
+use App\Facades\PayOsOrder;
+use App\Facades\PayOsOrderMotorcycle;
 use App\Models\Order;
 use App\Models\OrderMotorcycle;
 use Exception;
@@ -27,13 +27,13 @@ class PayOsController extends Controller
             $data = $request->all();
 
             if ($order_type === PayOsOrderTypeEnum::ORDER) {
-                $webhook_data = PayOSOrder::verifyPaymentWebhookData($data);
+                $webhook_data = PayOsOrder::verifyPaymentWebhookData($data);
                 $order = Order::findOrFail($webhook_data['orderCode']);
-                $payment_link_information = PayOSOrder::getPaymentLinkInformation($order);
+                $payment_link_information = PayOsOrder::getPaymentLinkInformation($order);
             } else {
-                $webhook_data = PayOSOrderMotorcycle::verifyPaymentWebhookData($data);
+                $webhook_data = PayOsOrderMotorcycle::verifyPaymentWebhookData($data);
                 $order = OrderMotorcycle::findOrFail($webhook_data['orderCode']);
-                $payment_link_information = PayOSOrderMotorcycle::getPaymentLinkInformation($order);
+                $payment_link_information = PayOsOrderMotorcycle::getPaymentLinkInformation($order);
             }
 
             $order->transactions()->create([
