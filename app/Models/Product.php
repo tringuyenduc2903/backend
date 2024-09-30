@@ -248,4 +248,9 @@ class Product extends Model
     {
         return price_preview($price);
     }
+
+    protected function getReviewsAvgRateAttribute(?float $rate): float
+    {
+        return $rate ?: 0;
+    }
 }
