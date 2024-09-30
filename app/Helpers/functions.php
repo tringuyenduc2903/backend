@@ -356,12 +356,6 @@ if (! function_exists('get_option')) {
                 'label' => trans('Tax'),
                 'value' => price($order_motorcycle->tax),
             ], [
-                'label' => trans('Tax'),
-                'value' => price($order_motorcycle->tax),
-            ], [
-                'label' => trans('Tax'),
-                'value' => price($order_motorcycle->tax),
-            ], [
                 'label' => trans('Handling fee'),
                 'value' => price($order_motorcycle->handling_fee),
             ], [

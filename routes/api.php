@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResources([
         'wishlist' => WishlistController::class,
         'order' => OrderController::class,
+        'order-motorcycle' => OrderMotorcycleController::class,
     ], [
         'except' => 'update',
     ]);

@@ -115,6 +115,11 @@ class Customer extends User implements MustVerifyEmail
         return $this->hasMany(Order::class)->latest();
     }
 
+    public function order_motorcycles(): HasMany
+    {
+        return $this->hasMany(OrderMotorcycle::class)->latest();
+    }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS
@@ -123,7 +128,7 @@ class Customer extends User implements MustVerifyEmail
 
     public function getGenderPreviewAttribute(): ?string
     {
-        return $this->gender
+        return isset($this->gender)
             ? CustomerGender::valueForKey($this->gender)
             : null;
     }

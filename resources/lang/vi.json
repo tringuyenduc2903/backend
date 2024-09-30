@@ -235,9 +235,11 @@
     "Registration option": "Tùy chọn trước bạ",
     "First time (5%)": "Lần đầu (5%)",
     "Two time onwards (1%)": "Lần 2 trở đi (1%)",
-    "License plate registration fee": "Phí đăng ký biển số",
+    "License plate registration fee": "Lệ phí đăng ký biển số",
     "License plate registration option": "Tùy chọn đăng ký biển số",
     "Region I (Hanoi City, Ho Chi Minh City includes all districts directly under the city, regardless of inner city or suburbs)": "Khu vực I (Thành phố Hà Nội, Thành phố Hồ Chí Minh bao gồm tất cả các quận, huyện trực thuộc thành phố không phân biệt nội thành hay ngoại thành)",
     "Region II (Cities directly under the Central Government (except Hanoi City and Ho Chi Minh City) includes all districts directly under the city, regardless of inner city or suburbs; cities under the province, Towns include all wards and communes of cities and towns, regardless of whether they are inner-city wards or suburban communes)": "Khu vực II (Thành phố trực thuộc Trung ương (trừ Thành phố Hà Nội, Thành phố Hồ Chí Minh) bao gồm tất cả các quận, huyện trực thuộc thành phố không phân biệt nội thành hay ngoại thành; thành phố trực thuộc tỉnh, thị xã bao gồm tất cả các phường, xã thuộc thành phố, thị xã không phân biệt phường nội thành, nội thị hay xã ngoại thành, ngoại thị)",
-    "Region III (Areas other than region I and region II)": "Khu vực III (Các khu vực khác ngoài khu vực I và khu vực II)"
+    "Region III (Areas other than region I and region II)": "Khu vực III (Các khu vực khác ngoài khu vực I và khu vực II)",
+    "Yes": "Có",
+    "No": "Không"
 }

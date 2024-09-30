@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Events\AdminOrderCreatedEvent;
 use App\Events\AdminOrderMotorcycleCreatedEvent;
 use App\Events\FrontendOrderCreatedEvent;
+use App\Events\FrontendOrderMotorcycleCreatedEvent;
 use App\Listeners\CreateOrderGhnShip;
 use App\Listeners\CreateOrderMotorcyclePayOsPayment;
 use App\Listeners\CreateOrderPayOsPayment;
@@ -56,10 +57,13 @@ class AppServiceProvider extends ServiceProvider
         OrderMotorcycle::observe(StoreOrderMotorcycleObserver::class);
 
         Event::listen(AdminOrderCreatedEvent::class, [CreateOrderPayOsPayment::class, 'handle']);
-        Event::listen(AdminOrderMotorcycleCreatedEvent::class, [CreateOrderMotorcyclePayOsPayment::class, 'handle']);
-        Event::listen(AdminOrderCreatedEvent::class, [CreateOrderGhnShip::class, 'handle']);
         Event::listen(FrontendOrderCreatedEvent::class, [CreateOrderPayOsPayment::class, 'handle']);
+
+        Event::listen(AdminOrderCreatedEvent::class, [CreateOrderGhnShip::class, 'handle']);
         Event::listen(FrontendOrderCreatedEvent::class, [CreateOrderGhnShip::class, 'handle']);
+
+        Event::listen(AdminOrderMotorcycleCreatedEvent::class, [CreateOrderMotorcyclePayOsPayment::class, 'handle']);
+        Event::listen(FrontendOrderMotorcycleCreatedEvent::class, [CreateOrderMotorcyclePayOsPayment::class, 'handle']);
 
         Validator::extend(
             'actions',
