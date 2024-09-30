@@ -23,7 +23,7 @@ class DistrictSeeder extends Seeder
                     ),
                     'ghn_id' => $district['DistrictID'],
                 ],
-                Ghn::districtCache($province->ghn_id)
+                Ghn::district($province->ghn_id)
             );
 
             $province->districts()->upsert($districts, 'ghn_id');

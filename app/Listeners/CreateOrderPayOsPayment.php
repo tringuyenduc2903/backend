@@ -5,7 +5,6 @@ namespace App\Listeners;
 use App\Enums\OrderPaymentMethod;
 use App\Events\AdminOrderCreatedEvent;
 use App\Facades\PayOSOrder;
-use App\Models\OrderProduct;
 use Exception;
 
 class CreateOrderPayOsPayment
@@ -22,26 +21,7 @@ class CreateOrderPayOsPayment
             return;
         }
 
-        $data = [
-            'orderCode' => $event->order->id,
-            'amount' => (int) $event->order->total,
-            'description' => sprintf('%s: %s', trans('Order'), $event->order->id),
-            'buyerName' => $event->order->address->customer_name,
-            'buyerEmail' => $event->order->customer->email,
-            'buyerPhone' => $event->order->address->customer_phone_number,
-            'buyerAddress' => $event->order->address->address_preview,
-            'items' => $event->order->options
-                ->map(fn (OrderProduct $order_product): array => [
-                    'name' => $order_product->option->product->name,
-                    'quantity' => $order_product->amount,
-                    'price' => (int) $order_product->price,
-                ])
-                ->toArray(),
-            'cancelUrl' => route('orders.show', ['id' => $event->order->id]),
-            'returnUrl' => route('orders.show', ['id' => $event->order->id]),
-        ];
-
-        $response = PayOSOrder::createPaymentLink($data);
+        $response = PayOSOrder::createPaymentLink($event->order);
 
         $event->order
             ->forceFill([

@@ -219,7 +219,7 @@
     "Cancel order": "Hủy đơn hàng",
     "Confirm cancellation of this order?": "Xác nhận hủy đơn hàng này?",
     "Cancellation of order Id #:number successfully!": "Hủy đơn Id #:number hàng thành công!",
-    "Shipping method :name is not available for this order": "Phương thức vận chuyển :name không khả dụng với đơn hàng này",
+    ":method_name :method_value is not available for this order": ":method_name :method_value không khả dụng với đơn hàng này",
     "Checkout URL": "Liên kết thanh toán",
     "Pending": "Đang xử lý",
     "Successfully": "Thành công",

@@ -22,7 +22,7 @@ class ProvinceSeeder extends Seeder
                 ),
                 'ghn_id' => $province['ProvinceID'],
             ],
-            Ghn::provinceCache()
+            Ghn::province()
         );
 
         Province::upsert($provinces, 'ghn_id');

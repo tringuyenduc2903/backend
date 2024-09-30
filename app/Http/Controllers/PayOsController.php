@@ -17,8 +17,8 @@ class PayOsController extends Controller
     {
         try {
             $webhook_data = $order_type->verifyPaymentWebhookData($request->all());
-            $payment_link_information = $order_type->getPaymentLinkInformation($webhook_data['orderCode']);
             $order = $order_type->getOrder($webhook_data['orderCode']);
+            $payment_link_information = $order_type->getPaymentLinkInformation($order);
 
             $order->transactions()->create([
                 'amount' => $webhook_data['amount'],

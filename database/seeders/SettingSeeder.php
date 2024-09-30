@@ -370,7 +370,7 @@ class SettingSeeder extends Seeder
 
     protected function storeGhn(): array
     {
-        $data = Ghn::shopCache(['limit' => 200]);
+        $data = Ghn::shop();
         $shops = [];
 
         foreach ($data['shops'] as $shop) {

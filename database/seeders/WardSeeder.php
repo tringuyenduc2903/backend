@@ -23,7 +23,7 @@ class WardSeeder extends Seeder
                     ),
                     'ghn_id' => $ward['WardCode'],
                 ],
-                Ghn::wardCache($district->ghn_id) ?? []
+                Ghn::ward($district->ghn_id) ?? []
             );
 
             $district->wards()->upsert($wards, 'ghn_id');

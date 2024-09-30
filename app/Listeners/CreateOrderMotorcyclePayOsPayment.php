@@ -21,24 +21,7 @@ class CreateOrderMotorcyclePayOsPayment
             return;
         }
 
-        $data = [
-            'orderCode' => $event->order_motorcycle->id,
-            'amount' => (int) $event->order_motorcycle->total,
-            'description' => sprintf('%s: %s', trans('Order'), $event->order_motorcycle->id),
-            'buyerName' => $event->order_motorcycle->address->customer_name,
-            'buyerEmail' => $event->order_motorcycle->customer->email,
-            'buyerPhone' => $event->order_motorcycle->address->customer_phone_number,
-            'buyerAddress' => $event->order_motorcycle->address->address_preview,
-            'items' => [[
-                'name' => $event->order_motorcycle->option->product->name,
-                'quantity' => $event->order_motorcycle->amount,
-                'price' => (int) $event->order_motorcycle->price,
-            ]],
-            'cancelUrl' => route('orders.show', ['id' => $event->order_motorcycle->id]),
-            'returnUrl' => route('orders.show', ['id' => $event->order_motorcycle->id]),
-        ];
-
-        $response = PayOSOrderMotorcycle::createPaymentLink($data);
+        $response = PayOSOrderMotorcycle::createPaymentLink($event->order_motorcycle);
 
         $event->order_motorcycle
             ->forceFill([

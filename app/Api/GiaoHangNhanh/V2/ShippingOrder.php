@@ -2,7 +2,14 @@
 
 namespace App\Api\GiaoHangNhanh\V2;
 
+use App\Enums\OrderPaymentMethod;
+use App\Enums\OrderShippingMethod;
+use App\Models\Address;
+use App\Models\Order;
+use App\Models\OrderProduct;
+use Exception;
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Validation\ValidationException;
 
 trait ShippingOrder
 {
@@ -23,14 +30,48 @@ trait ShippingOrder
     /**
      * @throws ConnectionException
      */
-    public function createOrder(array $data): array
+    public function createOrder(Order $order): array
     {
-        $data['shop_id'] = current_store();
-        $data['service_type_id'] = $this->getServiceTypeId($data['weight']);
+        $data = [
+            'shop_id' => current_store(),
+            'service_type_id' => $this->getServiceTypeId($order->weight),
+            'to_name' => $order->address->customer_name,
+            'to_phone' => $order->address->customer_phone_number,
+            'to_address' => $order->address->address_detail,
+            'to_ward_code' => $order->address->ward->ghn_id,
+            'to_district_code' => $order->address->district->ghn_id,
+            'weight' => (int) $order->weight,
+            'insurance_value' => (int) $order->options()->sum('price'),
+            'payment_type_id' => self::NGUOI_BAN_NGUOI_GUI,
+            'required_note' => self::CHO_XEM_HANG_KHONG_THU,
+            'items' => $order->options
+                ->map(fn (OrderProduct $order_product): array => [
+                    'name' => $order_product->option->product->name,
+                    'code' => $order_product->option->sku,
+                    'quantity' => $order_product->amount,
+                    'price' => (int) $order_product->price,
+                    'weight' => $order_product->option->weight,
+                    'length' => $order_product->option->length,
+                    'width' => $order_product->option->width,
+                    'height' => $order_product->option->height,
+                    'category' => (object) [
+                        'level1' => $order_product->option->product->categories()->first()->name,
+                    ],
+                ])
+                ->toArray(),
+        ];
 
-        return $this->handleResponse(
-            $this->http->post('v2/shipping-order/create', $data)
-        );
+        if ($order->payment_method == OrderPaymentMethod::PAYMENT_ON_DELIVERY) {
+            $data['cod_amount'] = (int) $order->total;
+        }
+
+        if ($order->note) {
+            $data['note'] = $order->note;
+        }
+
+        return $this->http
+            ->post('v2/shipping-order/create', $data)
+            ->json('data');
     }
 
     protected function getServiceTypeId(int $weight): int
@@ -38,16 +79,27 @@ trait ShippingOrder
         return $weight < 20000 ? self::HANG_NHE : self::HANG_NANG;
     }
 
-    /**
-     * @throws ConnectionException
-     */
-    public function fee(array $data): array
+    public function fee(Address $address, int $weight, int $insurance_value, array $items): array
     {
-        $data['shop_id'] = current_store();
-        $data['service_type_id'] = $this->getServiceTypeId($data['weight']);
-
-        return $this->handleResponse(
-            $this->http->post('v2/shipping-order/fee', $data)
-        );
+        try {
+            return $this->http
+                ->post('v2/shipping-order/fee', [
+                    'shop_id' => current_store(),
+                    'service_type_id' => $this->getServiceTypeId($weight),
+                    'to_district_id' => $address->district->ghn_id,
+                    'to_ward_code' => $address->ward?->ghn_id,
+                    'weight' => $weight,
+                    'insurance_value' => $insurance_value,
+                    'items' => $items,
+                ])
+                ->json('data');
+        } catch (Exception) {
+            throw ValidationException::withMessages([
+                'shipping_method' => trans('::method_name :method_value is not available for this order', [
+                    'method_name' => trans('Shipping fee'),
+                    'method_value' => OrderShippingMethod::DOOR_TO_DOOR_DELIVERY,
+                ]),
+            ]);
+        }
     }
 }

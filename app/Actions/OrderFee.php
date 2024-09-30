@@ -85,13 +85,12 @@ class OrderFee
 
         $address = Address::findOrFail($this->address_id);
 
-        $data = Ghn::fee([
-            'to_district_id' => $address->district->ghn_id,
-            'to_ward_code' => $address->ward?->ghn_id,
-            'weight' => $this->weight,
-            'insurance_value' => (int) $this->price,
-            'items' => $this->items,
-        ]);
+        $data = Ghn::fee(
+            $address,
+            $this->weight,
+            (int) $this->price,
+            $this->items
+        );
 
         $this->shipping_fee = $data['total'];
     }
