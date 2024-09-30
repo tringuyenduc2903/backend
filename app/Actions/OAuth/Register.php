@@ -3,6 +3,7 @@
 namespace App\Actions\OAuth;
 
 use App\Models\Customer;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Contracts\User;
 
@@ -25,12 +26,14 @@ class Register
 
         $customer->save();
 
+        $customer->markEmailAsVerified();
+
+        event(new Registered($customer));
+
         $customer->socials()->updateOrCreate([
             'provider_id' => $user->getId(),
             'provider_name' => $provider_name,
         ]);
-
-        $customer->markEmailAsVerified();
 
         auth()->login($customer, true);
     }

@@ -9,13 +9,11 @@ use App\Listeners\CreateOrderGhnShip;
 use App\Listeners\CreateOrderMotorcyclePayOsPayment;
 use App\Listeners\CreateOrderPayOsPayment;
 use App\Models\Address;
-use App\Models\Customer;
 use App\Models\Identification;
 use App\Models\Option;
 use App\Models\Order;
 use App\Models\OrderMotorcycle;
 use App\Models\OrderProduct;
-use App\Observers\CreateCustomer;
 use App\Observers\StoreAddress;
 use App\Observers\StoreIdentification;
 use App\Observers\StoreOptionObserver;
@@ -50,7 +48,6 @@ class AppServiceProvider extends ServiceProvider
             );
         });
 
-        Customer::observe(CreateCustomer::class);
         Address::observe(StoreAddress::class);
         Identification::observe(StoreIdentification::class);
         Option::observe(StoreOptionObserver::class);

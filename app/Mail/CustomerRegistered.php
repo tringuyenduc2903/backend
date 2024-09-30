@@ -17,9 +17,7 @@ class CustomerRegistered extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(
-        protected Customer $customer
-    ) {}
+    public function __construct(protected Customer $customer) {}
 
     /**
      * Get the message envelope.
