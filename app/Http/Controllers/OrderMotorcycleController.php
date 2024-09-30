@@ -71,7 +71,7 @@ class OrderMotorcycleController extends Controller
         return $request
             ->user()
             ->order_motorcycles()
-            ->with(['address', 'transactions'])
+            ->with(['address', 'identification', 'transactions'])
             ->findOrFail($order_motorcycle_id);
     }
 

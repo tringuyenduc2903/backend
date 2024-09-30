@@ -101,3 +101,5 @@ paths:
     $ref: "./paths/api/order/{order_id}.yaml"
   /api/order-motorcycle:
     $ref: "./paths/api/order-motorcycle.yaml"
+  /api/order-motorcycle/{order_motorcycle_id}:
+    $ref: "./paths/api/order-motorcycle/{order_motorcycle_id}.yaml"

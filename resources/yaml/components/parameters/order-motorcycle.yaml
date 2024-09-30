@@ -1,0 +1,5 @@
+name: order_motorcycle_id
+in: path
+description: Id đơn hàng xe máy
+example: 1
+required: true

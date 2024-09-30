@@ -16,7 +16,7 @@ get:
                 example: 1
                 type: number
               tax_preview:
-                title: Thuế
+                title: Thuế giá trị gia tăng
                 example:
                   raw: 47454.55
                   preview: 47.455 ₫

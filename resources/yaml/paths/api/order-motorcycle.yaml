@@ -47,7 +47,7 @@ get:
                     total_preview:
                       raw: 732599900
                       preview: 732.599.900 ₫
-                    note: null
+                    note:
                     amount: 1
                     option:
                       id: 1
