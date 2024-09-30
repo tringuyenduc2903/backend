@@ -3,17 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Actions\OrderFee;
-use App\Enums\OrderShippingMethod;
 use App\Enums\OrderStatus;
 use App\Events\FrontendOrderCreatedEvent;
 use App\Http\Requests\OrderRequest;
 use App\Models\Order;
 use App\Models\OrderProduct;
-use Exception;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class OrderController extends Controller
 {
@@ -40,21 +37,13 @@ class OrderController extends Controller
      */
     public function store(OrderRequest $request): JsonResponse
     {
-        try {
-            $fee = app(OrderFee::class, [
-                'options' => $request->validated('options'),
-                'shipping_method' => $request->validated('shipping_method'),
-                'address_id' => $request->validated('address_id'),
-            ])->result;
+        $fee = app(OrderFee::class, [
+            'options' => $request->validated('options'),
+            'shipping_method' => $request->validated('shipping_method'),
+            'address_id' => $request->validated('address_id'),
+        ])->result;
 
-            session(['order.fee' => $fee]);
-        } catch (Exception) {
-            throw ValidationException::withMessages([
-                'shipping_method' => trans('Shipping method :name is not available for this order', [
-                    'name' => OrderShippingMethod::valueForKey(request('shipping_method')),
-                ]),
-            ]);
-        }
+        session(['order.fee' => $fee]);
 
         $order = $request
             ->user()

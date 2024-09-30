@@ -30,7 +30,6 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 
 /**
@@ -528,31 +527,6 @@ class OrderMotorcycleCrudController extends CrudController
                     : $identification;
             },
             'searchable_attributes' => ['number'],
-        ]);
-    }
-
-    protected function cancelOrder(string $id): JsonResponse
-    {
-        $order_motorcycle = OrderMotorcycle::findOrFail($id);
-
-        if (! $order_motorcycle->canCancel()) {
-            return response()->json([
-                'title' => trans('Failed'),
-                'description' => trans('Orders with status :name cannot be canceled.', [
-                    'name' => $order_motorcycle->status_preview,
-                ]),
-            ], 403);
-        }
-
-        $order_motorcycle->update([
-            'status' => OrderStatus::CANCELLED,
-        ]);
-
-        return response()->json([
-            'title' => trans('Successfully'),
-            'description' => trans('Cancellation of order Id #:number successfully!', [
-                'number' => $order_motorcycle->id,
-            ]),
         ]);
     }
 }

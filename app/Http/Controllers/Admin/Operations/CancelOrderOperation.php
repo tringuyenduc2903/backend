@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Operations;
 
+use App\Enums\OrderStatus;
+use App\Models\Order;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Route;
 
 trait CancelOrderOperation
@@ -19,6 +23,34 @@ trait CancelOrderOperation
             'as' => $routeName.'.cancelOrder',
             'uses' => $controller.'@cancelOrder',
             'operation' => 'cancel_order',
+        ]);
+    }
+
+    protected function cancelOrder(string $id): JsonResponse
+    {
+        /** @var Order $model */
+        $model = CRUD::getModel();
+
+        $order = $model->findOrFail($id);
+
+        if (! $order->canCancel()) {
+            return response()->json([
+                'title' => trans('Failed'),
+                'description' => trans('Orders with status :name cannot be canceled.', [
+                    'name' => $order->status_preview,
+                ]),
+            ], 403);
+        }
+
+        $order->update([
+            'status' => OrderStatus::CANCELLED,
+        ]);
+
+        return response()->json([
+            'title' => trans('Successfully'),
+            'description' => trans('Cancellation of order Id #:number successfully!', [
+                'number' => $order->id,
+            ]),
         ]);
     }
 }

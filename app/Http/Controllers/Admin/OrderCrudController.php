@@ -26,9 +26,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
-use Exception;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 
 /**
@@ -84,23 +82,13 @@ class OrderCrudController extends CrudController
         // register any Model Events defined on fields
         $this->crud->registerFieldEvents();
 
-        try {
-            $fee = app(OrderFee::class, [
-                'options' => request('options'),
-                'shipping_method' => request('shipping_method'),
-                'address_id' => request('address'),
-            ])->result;
+        $fee = app(OrderFee::class, [
+            'options' => request('options'),
+            'shipping_method' => request('shipping_method'),
+            'address_id' => request('address'),
+        ])->result;
 
-            session(['order.fee' => $fee]);
-        } catch (Exception) {
-            return redirect()->back()
-                ->withInput($request->input())
-                ->withErrors([
-                    'shipping_method' => trans('Shipping method :name is not available for this order', [
-                        'name' => OrderShippingMethod::valueForKey(request('shipping_method')),
-                    ]),
-                ]);
-        }
+        session(['order.fee' => $fee]);
 
         // insert item in the db
         $item = $this->crud->create($this->crud->getStrippedSaveRequest($request));
@@ -497,31 +485,6 @@ class OrderCrudController extends CrudController
                     : $address;
             },
             'searchable_attributes' => ['address_detail'],
-        ]);
-    }
-
-    protected function cancelOrder(string $id): JsonResponse
-    {
-        $order = Order::findOrFail($id);
-
-        if (! $order->canCancel()) {
-            return response()->json([
-                'title' => trans('Failed'),
-                'description' => trans('Orders with status :name cannot be canceled.', [
-                    'name' => $order->status_preview,
-                ]),
-            ], 403);
-        }
-
-        $order->update([
-            'status' => OrderStatus::CANCELLED,
-        ]);
-
-        return response()->json([
-            'title' => trans('Successfully'),
-            'description' => trans('Cancellation of order Id #:number successfully!', [
-                'number' => $order->id,
-            ]),
         ]);
     }
 }

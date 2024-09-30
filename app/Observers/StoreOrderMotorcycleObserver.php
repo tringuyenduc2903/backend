@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Enums\OrderPaymentMethod;
 use App\Enums\OrderStatus;
+use App\Facades\PayOSOrderMotorcycle;
 use App\Models\OrderMotorcycle;
 
 class StoreOrderMotorcycleObserver
@@ -39,5 +40,19 @@ class StoreOrderMotorcycleObserver
         $order_motorcycle->option->update([
             'quantity' => $order_motorcycle->option->quantity - $order_motorcycle->amount,
         ]);
+    }
+
+    /**
+     * Handle the OrderMotorcycle "updated" event.
+     */
+    public function updated(OrderMotorcycle $order_motorcycle): void
+    {
+        if (
+            $order_motorcycle->status == OrderStatus::CANCELLED &&
+            $order_motorcycle->payment_method == OrderPaymentMethod::BANK_TRANSFER &&
+            $order_motorcycle->payment_checkout_url
+        ) {
+            PayOSOrderMotorcycle::cancelPaymentLink($order_motorcycle);
+        }
     }
 }
