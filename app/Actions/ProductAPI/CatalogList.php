@@ -43,6 +43,7 @@ class CatalogList
     protected function prerequisites(): void
     {
         $this->query
+            ->with('options')
             ->withMin('options', 'price')
             ->withMax('options', 'price')
             ->withCount('reviews')

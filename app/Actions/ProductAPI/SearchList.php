@@ -39,6 +39,7 @@ class SearchList
         $this->query->query(function (\Illuminate\Database\Eloquent\Builder $query) {
             /** @var Product $query */
             return $query
+                ->with('options')
                 ->withMin('options', 'price')
                 ->withMax('options', 'price')
                 ->withCount('reviews')

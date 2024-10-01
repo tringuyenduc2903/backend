@@ -57,6 +57,7 @@ class ProductController extends Controller
     public function show(ProductTypeEnum $product_type, string|int $product_id): Product
     {
         return Product::with([
+            'options',
             'seo',
             'upsell',
             'cross_sell',

@@ -71,7 +71,6 @@ class Product extends Model
     ];
 
     protected $with = [
-        'options',
         'categories',
     ];
 

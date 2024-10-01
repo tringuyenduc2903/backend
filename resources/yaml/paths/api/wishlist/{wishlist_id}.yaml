@@ -66,34 +66,6 @@ get:
                     specifications:
                       - title: Khối Lượng Bản Thân
                         description: 250kg
-                    options:
-                      - id: 1
-                        sku: AFRICA_TWIN_ADVENTURE_SPORTS_TRẮNG_X_SẢN_PHẨM_MỚI
-                        price_preview:
-                          raw: 720990000
-                          preview: 720.990.000 ₫
-                        value_added_tax_preview:
-                          raw: 10
-                          preview: 10%
-                        images_preview:
-                          - url: http://localhost/storage/product/https://cdn.honda.com.vn/motorbike-versions/October2023/jf26qCibiRyaA9hFGOed.png
-                            alt: AFRICA_TWIN_ADVENTURE_SPORTS_TRẮNG_X_SẢN_PHẨM_MỚI
-                        color: Trắng xanh đen
-                        version: Adventure sports
-                        volume: null
-                        type_preview: Sản phẩm mới
-                        status_preview: Còn hàng
-                        quantity: 22
-                        weight: null
-                        length: null
-                        width: null
-                        height: null
-                        specifications:
-                          - title: Khối Lượng Bản Thân
-                            description: 250kg
-                        deleted_at: 11:53:58 21/06/2024
-                        created_at: 11:53:58 21/06/2024
-                        updated_at: 11:53:58 21/06/2024
                     categories:
                       - id: 7
                         search_url: xe-phan-khoi-lon
