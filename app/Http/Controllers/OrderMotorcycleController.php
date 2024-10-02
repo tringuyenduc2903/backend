@@ -60,7 +60,9 @@ class OrderMotorcycleController extends Controller
             'customer' => fortify_user(),
         ]));
 
-        return response()->json('', 201);
+        return response()->json([
+            'id' => $order_motorcycle->id,
+        ], 201);
     }
 
     /**

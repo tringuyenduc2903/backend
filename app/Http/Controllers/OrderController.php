@@ -63,7 +63,9 @@ class OrderController extends Controller
             'customer' => fortify_user(),
         ]));
 
-        return response()->json('', 201);
+        return response()->json([
+            'id' => $order->id,
+        ], 201);
     }
 
     /**
