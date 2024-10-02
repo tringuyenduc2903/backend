@@ -7,7 +7,6 @@ use App\Enums\EmployeeRole;
 use App\Models\Branch;
 use App\Models\Employee;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -56,7 +55,6 @@ class AdminSeeder extends Seeder
         ], [
             'name' => 'Admin',
             'password' => 'admin',
-            'remember_token' => Str::random(10),
         ]);
 
         $admin->branch()

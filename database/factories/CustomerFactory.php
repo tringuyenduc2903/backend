@@ -6,7 +6,6 @@ use App\Enums\CustomerGender;
 use App\Models\Customer;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory<Customer>
@@ -43,7 +42,6 @@ class CustomerFactory extends Factory
             'timezone' => fake()->randomElement(
                 array_keys(timezone_identifiers_list())
             ),
-            'remember_token' => Str::random(10),
         ];
     }
 
