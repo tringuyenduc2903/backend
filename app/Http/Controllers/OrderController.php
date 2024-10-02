@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\OrderFee;
 use App\Enums\OrderStatus;
 use App\Events\FrontendOrderCreatedEvent;
+use App\Facades\OrderFee;
 use App\Http\Requests\OrderRequest;
 use App\Models\Order;
 use App\Models\OrderProduct;
@@ -37,11 +37,11 @@ class OrderController extends Controller
      */
     public function store(OrderRequest $request): JsonResponse
     {
-        $fee = app(OrderFee::class, [
-            'options' => $request->validated('options'),
-            'shipping_method' => $request->validated('shipping_method'),
-            'address_id' => $request->validated('address_id'),
-        ])->result;
+        $fee = OrderFee::getFee(
+            $request->validated('options'),
+            $request->validated('shipping_method'),
+            $request->validated('address_id')
+        );
 
         session(['order.fee' => $fee]);
 

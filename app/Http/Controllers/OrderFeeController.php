@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\OrderFee;
+use App\Facades\OrderFee;
 use App\Http\Requests\OrderRequest;
 
 class OrderFeeController extends Controller
@@ -12,11 +12,11 @@ class OrderFeeController extends Controller
      */
     public function __invoke(OrderRequest $request): array
     {
-        $fee = app(OrderFee::class, [
-            'options' => $request->validated('options'),
-            'shipping_method' => $request->validated('shipping_method'),
-            'address_id' => $request->validated('address_id'),
-        ])->result;
+        $fee = OrderFee::getFee(
+            $request->validated('options'),
+            $request->validated('shipping_method'),
+            $request->validated('address_id')
+        );
 
         $fee['items_preview'] = array_map(
             function (array $item): array {

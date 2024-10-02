@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\Fee;
 
 use App\Enums\OrderMotorcycleLicensePlateRegistration;
 use App\Enums\OrderMotorcycleRegistration;
 use App\Models\Option;
 
-class OrderMotorcycleFee
+class OrderMotorcycle
 {
-    public array $result;
-
     protected array $item = [];
 
     protected float $price = 0;
@@ -26,18 +24,31 @@ class OrderMotorcycleFee
 
     protected float $total = 0;
 
-    public function __construct(
-        protected int $option,
-        protected bool $motorcycle_registration_support,
-        protected ?int $registration_option,
-        protected ?int $license_plate_registration_option,
-    ) {
+    protected int $option;
+
+    protected bool $motorcycle_registration_support;
+
+    protected ?int $registration_option;
+
+    protected ?int $license_plate_registration_option;
+
+    public function getFee(
+        int $option,
+        bool $motorcycle_registration_support,
+        ?int $registration_option,
+        ?int $license_plate_registration_option
+    ): array {
+        $this->option = $option;
+        $this->motorcycle_registration_support = $motorcycle_registration_support;
+        $this->registration_option = $registration_option;
+        $this->license_plate_registration_option = $license_plate_registration_option;
+
         $this->handleItem();
         $this->handleMotorcycleRegistrationSupportFee();
         $this->handleHandlingFee();
         $this->handleTotal();
 
-        $this->result = [
+        return [
             'item' => $this->item,
             'price' => $this->price,
             'motorcycle_registration_support_fee' => $this->motorcycle_registration_support_fee,

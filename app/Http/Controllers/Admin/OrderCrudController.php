@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use Alert;
-use App\Actions\OrderFee;
 use App\Enums\EmployeePermission;
 use App\Enums\OptionStatus;
 use App\Enums\OrderPaymentMethod;
@@ -12,6 +11,7 @@ use App\Enums\OrderStatus;
 use App\Enums\OrderTransactionStatus;
 use App\Enums\ProductType;
 use App\Events\AdminOrderCreatedEvent;
+use App\Facades\OrderFee;
 use App\Http\Controllers\Admin\Operations\CancelOrderOperation;
 use App\Http\Requests\Admin\OrderRequest;
 use App\Models\Address;
@@ -82,11 +82,11 @@ class OrderCrudController extends CrudController
         // register any Model Events defined on fields
         $this->crud->registerFieldEvents();
 
-        $fee = app(OrderFee::class, [
-            'options' => request('options'),
-            'shipping_method' => request('shipping_method'),
-            'address_id' => request('address'),
-        ])->result;
+        $fee = OrderFee::getFee(
+            request('options'),
+            request('shipping_method'),
+            request('address')
+        );
 
         session(['order.fee' => $fee]);
 
@@ -222,14 +222,9 @@ class OrderCrudController extends CrudController
             'type' => 'number',
             'suffix' => $code,
         ]);
-
-        // if the model has timestamps, add columns for created_at and updated_at
-        if (CRUD::get('show.timestamps') && CRUD::getModel()->usesTimestamps()) {
-            CRUD::column(CRUD::getModel()->getCreatedAtColumn())
-                ->label(trans('Created at'));
-            CRUD::column(CRUD::getModel()->getUpdatedAtColumn())
-                ->label(trans('Updated at'));
-        }
+        CRUD::column(CRUD::getModel()->getUpdatedAtColumn())
+            ->label(trans('Updated at'))
+            ->after(CRUD::getModel()->getCreatedAtColumn());
     }
 
     /**
@@ -281,6 +276,8 @@ class OrderCrudController extends CrudController
             'type' => 'select2_from_array',
             'options' => OrderStatus::values(),
         ]);
+        CRUD::column(CRUD::getModel()->getCreatedAtColumn())
+            ->label(trans('Created at'));
 
         CRUD::filter('shipping_method')
             ->label(trans('Shipping method'))

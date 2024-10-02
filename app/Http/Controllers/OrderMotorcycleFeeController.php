@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\OrderMotorcycleFee;
+use App\Facades\OrderMotorcycleFee;
 use App\Http\Requests\OrderMotorcycleRequest;
 
 class OrderMotorcycleFeeController extends Controller
@@ -12,12 +12,12 @@ class OrderMotorcycleFeeController extends Controller
      */
     public function __invoke(OrderMotorcycleRequest $request): array
     {
-        $fee = app(OrderMotorcycleFee::class, [
-            'option' => $request->validated('option_id'),
-            'motorcycle_registration_support' => $request->validated('motorcycle_registration_support'),
-            'registration_option' => $request->validated('registration_option'),
-            'license_plate_registration_option' => $request->validated('license_plate_registration_option'),
-        ])->result;
+        $fee = OrderMotorcycleFee::getFee(
+            $request->validated('option_id'),
+            $request->validated('motorcycle_registration_support'),
+            $request->validated('registration_option'),
+            $request->validated('license_plate_registration_option')
+        );
 
         $fee['item']['price'] = price_preview($fee['item']['price']);
 

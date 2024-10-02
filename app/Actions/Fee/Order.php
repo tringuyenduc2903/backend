@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\Fee;
 
 use App\Enums\OrderShippingMethod;
 use App\Facades\Ghn;
 use App\Models\Address;
 use App\Models\Option;
 
-class OrderFee
+class Order
 {
-    public array $result;
-
     protected array $items = [];
 
     protected float $price = 0;
@@ -25,17 +23,27 @@ class OrderFee
 
     protected int $weight = 0;
 
-    public function __construct(
-        protected array $options,
-        protected int $shipping_method,
-        protected int $address_id,
-    ) {
+    protected array $options;
+
+    protected int $shipping_method;
+
+    protected int $address_id;
+
+    public function getFee(
+        array $options,
+        int $shipping_method,
+        int $address_id
+    ): array {
+        $this->options = $options;
+        $this->shipping_method = $shipping_method;
+        $this->address_id = $address_id;
+
         $this->handleItems();
         $this->handleShippingFee();
         $this->handleHandlingFee();
         $this->handleTotal();
 
-        $this->result = [
+        return [
             'items' => $this->items,
             'weight' => $this->weight,
             'price' => $this->price,

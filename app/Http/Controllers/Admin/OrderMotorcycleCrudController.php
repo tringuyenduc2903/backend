@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use Alert;
-use App\Actions\OrderMotorcycleFee;
 use App\Enums\EmployeePermission;
 use App\Enums\OptionStatus;
 use App\Enums\OrderMotorcycleLicensePlateRegistration;
@@ -13,6 +12,7 @@ use App\Enums\OrderStatus;
 use App\Enums\OrderTransactionStatus;
 use App\Enums\ProductType;
 use App\Events\AdminOrderMotorcycleCreatedEvent;
+use App\Facades\OrderMotorcycleFee;
 use App\Http\Controllers\Admin\Operations\CancelOrderOperation;
 use App\Http\Requests\Admin\OrderMotorcycleRequest;
 use App\Models\Address;
@@ -85,12 +85,12 @@ class OrderMotorcycleCrudController extends CrudController
         // register any Model Events defined on fields
         $this->crud->registerFieldEvents();
 
-        $fee = app(OrderMotorcycleFee::class, [
-            'option' => request('option'),
-            'motorcycle_registration_support' => request('motorcycle_registration_support'),
-            'registration_option' => request('registration_option'),
-            'license_plate_registration_option' => request('license_plate_registration_option'),
-        ])->result;
+        $fee = OrderMotorcycleFee::getFee(
+            request('option'),
+            request('motorcycle_registration_support'),
+            request('registration_option'),
+            request('license_plate_registration_option')
+        );
 
         session(['order-motorcycle.fee' => $fee]);
 
@@ -234,14 +234,10 @@ class OrderMotorcycleCrudController extends CrudController
             'type' => 'number',
             'suffix' => $code,
         ]);
-
-        // if the model has timestamps, add columns for created_at and updated_at
-        if (CRUD::get('show.timestamps') && CRUD::getModel()->usesTimestamps()) {
-            CRUD::column(CRUD::getModel()->getCreatedAtColumn())
-                ->label(trans('Created at'));
-            CRUD::column(CRUD::getModel()->getUpdatedAtColumn())
-                ->label(trans('Updated at'));
-        }
+        CRUD::column(CRUD::getModel()->getCreatedAtColumn())
+            ->label(trans('Created at'));
+        CRUD::column(CRUD::getModel()->getUpdatedAtColumn())
+            ->label(trans('Updated at'));
     }
 
     /**

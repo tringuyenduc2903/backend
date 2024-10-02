@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\OrderMotorcycleFee;
+use App\Actions\Fee\OrderMotorcycle;
 use App\Enums\OrderStatus;
 use App\Events\FrontendOrderMotorcycleCreatedEvent;
+use App\Facades\OrderMotorcycleFee;
 use App\Http\Requests\OrderMotorcycleRequest;
 use App\Models\Option;
-use App\Models\OrderMotorcycle;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -34,12 +34,12 @@ class OrderMotorcycleController extends Controller
      */
     public function store(OrderMotorcycleRequest $request): JsonResponse
     {
-        $fee = app(OrderMotorcycleFee::class, [
-            'option' => $request->validated('option_id'),
-            'motorcycle_registration_support' => $request->validated('motorcycle_registration_support'),
-            'registration_option' => $request->validated('registration_option'),
-            'license_plate_registration_option' => $request->validated('license_plate_registration_option'),
-        ])->result;
+        $fee = OrderMotorcycleFee::getFee(
+            $request->validated('option_id'),
+            $request->validated('motorcycle_registration_support'),
+            $request->validated('registration_option'),
+            $request->validated('license_plate_registration_option')
+        );
 
         session(['order-motorcycle.fee' => $fee]);
 
