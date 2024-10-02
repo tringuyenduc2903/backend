@@ -25,8 +25,8 @@ class ProductController extends Controller
                 request('manufacturers'),
                 request('minPrice'),
                 request('maxPrice'),
-                request('optionType'),
-                request('optionTypes'),
+                request('type'),
+                request('types'),
                 request('color'),
                 request('colors'),
                 request('version'),
@@ -37,7 +37,6 @@ class ProductController extends Controller
                 request('categories')
             )
             : ProductList::getCatalog(
-                request('search'),
                 $product_type->key(),
                 request('sortColumn'),
                 request('sortDirection', 'asc'),
@@ -45,8 +44,8 @@ class ProductController extends Controller
                 request('manufacturers'),
                 request('minPrice'),
                 request('maxPrice'),
-                request('optionType'),
-                request('optionTypes'),
+                request('type'),
+                request('types'),
                 request('color'),
                 request('colors'),
                 request('version'),

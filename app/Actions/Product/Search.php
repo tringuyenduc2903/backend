@@ -26,7 +26,7 @@ trait Search
         ?string $volume,
         ?array $volumes,
         ?string $category,
-        ?array $categories
+        ?array $categories,
     ): \Laravel\Scout\Builder {
         // 1: Search
         $list = Product::search($search)

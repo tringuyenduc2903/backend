@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\ProductAPI\CatalogList;
-use App\Actions\ProductAPI\CategoryList;
-use App\Actions\ProductAPI\OptionList;
-use App\Enums\OptionType;
 use App\Enums\ProductTypeEnum;
+use App\Facades\ProductList;
 use App\Models\Category;
 use App\Models\Option;
 use App\Models\Product;
@@ -20,89 +17,245 @@ class ProductFilterController extends Controller
      */
     public function __invoke(ProductTypeEnum $product_type, Request $request): array
     {
-        $data = [
-            'search' => request('search'),
-            'product_type' => $product_type->key(),
-            'sortColumn' => request('sortColumn'),
-            'sortDirection' => request('sortDirection', 'asc'),
-            'manufacturer' => request('manufacturer'),
-            'manufacturers' => request('manufacturers'),
-            'minPrice' => request('minPrice'),
-            'maxPrice' => request('maxPrice'),
-            'option_type' => request('option_type'),
-            'option_types' => request('option_types'),
-            'color' => request('color'),
-            'colors' => request('colors'),
-            'version' => request('version'),
-            'versions' => request('versions'),
-            'volume' => request('volume'),
-            'volumes' => request('volumes'),
-            'category' => request('category'),
-            'categories' => request('categories'),
-        ];
+        if ($request->exists('search')) {
+            $product_min_price = ProductList::getSearch(
+                request('search'),
+                $product_type->value,
+                request('sortColumn'),
+                request('sortDirection', 'asc'),
+                request('manufacturer'),
+                request('manufacturers'),
+                request('minPrice'),
+                request('maxPrice'),
+                request('type'),
+                request('types'),
+                request('color'),
+                request('colors'),
+                request('version'),
+                request('versions'),
+                request('volume'),
+                request('volumes'),
+                request('category'),
+                request('categories')
+            )
+                ->orderBy('options_min_price.raw')
+                ->first()
+                ?->options_min_price;
 
-        /** @var Product $product */
-        $product = app(CatalogList::class, $data)->query;
+            $product_max_price = ProductList::getSearch(
+                request('search'),
+                $product_type->value,
+                request('sortColumn'),
+                request('sortDirection', 'asc'),
+                request('manufacturer'),
+                request('manufacturers'),
+                request('minPrice'),
+                request('maxPrice'),
+                request('type'),
+                request('types'),
+                request('color'),
+                request('colors'),
+                request('version'),
+                request('versions'),
+                request('volume'),
+                request('volumes'),
+                request('category'),
+                request('categories')
+            )
+                ->orderBy('options_min_price.raw', 'desc')
+                ->first()
+                ?->options_min_price;
 
-        /** @var Option $option */
-        $option = app(OptionList::class, $data)->query;
+            $manufacturer_handle = array_count_values(
+                ProductList::getSearch(
+                    request('search'),
+                    $product_type->value,
+                    request('sortColumn'),
+                    request('sortDirection', 'asc'),
+                    request('manufacturer'),
+                    request('manufacturers'),
+                    request('minPrice'),
+                    request('maxPrice'),
+                    request('type'),
+                    request('types'),
+                    request('color'),
+                    request('colors'),
+                    request('version'),
+                    request('versions'),
+                    request('volume'),
+                    request('volumes'),
+                    request('category'),
+                    request('categories')
+                )
+                    ->get()
+                    ->pluck('manufacturer')
+                    ->toArray()
+            );
 
-        /** @var Category $category */
-        $category = app(CategoryList::class, $data)->query;
+            $manufacturer = array_map(
+                fn (string $manufacturer, int $number): array => [
+                    $manufacturer => sprintf(
+                        '%s (%d)',
+                        $manufacturer,
+                        $number
+                    )],
+                array_keys($manufacturer_handle), $manufacturer_handle
+            );
+        } else {
+            $product = ProductList::getCatalog(
+                $product_type->key(),
+                request('sortColumn'),
+                request('sortDirection', 'asc'),
+                request('manufacturer'),
+                request('manufacturers'),
+                request('minPrice'),
+                request('maxPrice'),
+                request('type'),
+                request('types'),
+                request('color'),
+                request('colors'),
+                request('version'),
+                request('versions'),
+                request('volume'),
+                request('volumes'),
+                request('category'),
+                request('categories')
+            );
 
-        $items = [[
-            'name' => 'type',
-            'label' => trans('Type'),
-            'data' => OptionType::values(),
-        ], [
-            'name' => 'minPrice',
-            'label' => trans('Min price'),
-            'data' => $product->clone()
+            $product_min_price = $product->clone()
                 ->orderBy('options_min_price')
                 ->first()
-                ?->options_min_price,
-        ], [
-            'name' => 'maxPrice',
-            'label' => trans('Max price'),
-            'data' => $product->clone()
+                ?->options_min_price;
+
+            $product_max_price = $product->clone()
                 ->orderByDesc('options_min_price')
                 ->first()
-                ?->options_min_price,
-        ], [
-            'name' => 'category',
-            'label' => trans('Category'),
-            'data' => $category->clone()
-                ->withCount('products')
-                ->orderBy('id')
-                ->get()
-                ->map(fn (Category $category): array => [
-                    $category->id => "$category->name ($category->products_count)",
-                ]),
-        ], [
-            'name' => 'manufacturer',
-            'label' => trans('Manufacturer'),
-            'data' => $product->clone()
-                ->whereNotNull('manufacturer')
-                ->select('manufacturer', DB::raw('COUNT(manufacturer) as manufacturer_count'))
-                ->groupBy('manufacturer')
+                ?->options_min_price;
+
+            $manufacturer = ProductList::getCatalogClone(
+                $product_type->key(),
+                request('manufacturer'),
+                request('manufacturers'),
+                request('minPrice'),
+                request('maxPrice'),
+                request('type'),
+                request('types'),
+                request('color'),
+                request('colors'),
+                request('version'),
+                request('versions'),
+                request('volume'),
+                request('volumes'),
+                request('category'),
+                request('categories')
+            )
+                ->select([
+                    'manufacturer',
+                    DB::raw('COUNT(manufacturer) AS manufacturer_count'),
+                ])
                 ->orderBy('manufacturer')
-                ->get()
+                ->groupBy('manufacturer')
+                ->get(['manufacturer', 'manufacturer_count'])
                 ->map(fn (Product $product): array => [
                     $product->manufacturer => sprintf(
                         '%s (%d)',
                         $product->manufacturer,
                         $product->getAttribute('manufacturer_count')
                     ),
+                ]);
+        }
+
+        $option = ProductList::getOption(
+            request('search'),
+            $product_type->key(),
+            request('manufacturer'),
+            request('manufacturers'),
+            request('minPrice'),
+            request('maxPrice'),
+            request('type'),
+            request('types'),
+            request('color'),
+            request('colors'),
+            request('version'),
+            request('versions'),
+            request('volume'),
+            request('volumes'),
+            request('category'),
+            request('categories')
+        );
+
+        $category = ProductList::getCategory(
+            request('search'),
+            $product_type->key(),
+            request('manufacturer'),
+            request('manufacturers'),
+            request('minPrice'),
+            request('maxPrice'),
+            request('type'),
+            request('types'),
+            request('color'),
+            request('colors'),
+            request('version'),
+            request('versions'),
+            request('volume'),
+            request('volumes'),
+            request('category'),
+            request('categories')
+        );
+
+        $items = [[
+            'name' => 'type',
+            'label' => trans('Type'),
+            'data' => $option->clone()
+                ->addSelect('type')
+                ->addSelect(DB::raw('COUNT(type) AS type_count'))
+                ->orderBy('type')
+                ->groupBy('type')
+                ->get(['type', 'type_count'])
+                ->map(fn (Option $option): array => [
+                    $option->type => sprintf(
+                        '%s (%d)',
+                        $option->type_preview,
+                        $option->getAttribute('type_count')
+                    ),
                 ]),
+        ], [
+            'name' => 'minPrice',
+            'label' => trans('Min price'),
+            'data' => $product_min_price,
+        ], [
+            'name' => 'maxPrice',
+            'label' => trans('Max price'),
+            'data' => $product_max_price,
+        ], [
+            'name' => 'category',
+            'label' => trans('Category'),
+            'data' => $category->clone()
+                ->withCount('products')
+                ->orderBy('name')
+                ->get()
+                ->map(fn (Category $category): array => [
+                    $category->id => sprintf(
+                        '%s (%d)',
+                        $category->name,
+                        $category->products_count
+                    ),
+                ]),
+        ], [
+            'name' => 'manufacturer',
+            'label' => trans('Manufacturer'),
+            'data' => $manufacturer,
         ], [
             'name' => 'version',
             'label' => trans('Version'),
             'data' => $option->clone()
-                ->whereNotNull('version')
-                ->select('version', DB::raw('COUNT(version) as version_count'))
-                ->groupBy('version')
+                ->addSelect([
+                    'version',
+                    DB::raw('COUNT(version) AS version_count'),
+                ])
                 ->orderBy('version')
-                ->get()
+                ->groupBy('version')
+                ->get(['version', 'version_count'])
                 ->map(fn (Option $option): array => [
                     $option->version => sprintf(
                         '%s (%d)',
@@ -117,11 +270,13 @@ class ProductFilterController extends Controller
                 'name' => 'color',
                 'label' => trans('Color'),
                 'data' => $option->clone()
-                    ->whereNotNull('color')
-                    ->select('color', DB::raw('COUNT(color) as color_count'))
-                    ->groupBy('color')
+                    ->addSelect([
+                        'color',
+                        DB::raw('COUNT(color) AS color_count'),
+                    ])
                     ->orderBy('color')
-                    ->get()
+                    ->groupBy('color')
+                    ->get(['color', 'color_count'])
                     ->map(fn (Option $option): array => [
                         $option->color => sprintf(
                             '%s (%d)',
@@ -136,10 +291,13 @@ class ProductFilterController extends Controller
                 'label' => trans('Volume'),
                 'data' => $option->clone()
                     ->whereNotNull('volume')
-                    ->select('volume', DB::raw('COUNT(volume) as volume_count'))
-                    ->groupBy('volume')
+                    ->addSelect([
+                        'volume',
+                        DB::raw('COUNT(volume) AS volume_count'),
+                    ])
                     ->orderBy('volume')
-                    ->get()
+                    ->groupBy('volume')
+                    ->get(['volume', 'volume_count'])
                     ->map(fn (Option $option): array => [
                         $option->volume => sprintf(
                             '%s (%d)',
