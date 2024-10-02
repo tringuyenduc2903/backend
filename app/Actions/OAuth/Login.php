@@ -7,7 +7,7 @@ use Laravel\Socialite\Contracts\User;
 
 class Login
 {
-    public function handle(Customer $customer, User $user, string $provider_name): void
+    public static function handle(Customer $customer, User $user, string $provider_name): void
     {
         $customer->socials()->createOrFirst([
             'provider_id' => $user->getId(),
@@ -21,6 +21,6 @@ class Login
             $customer->markEmailAsVerified();
         }
 
-        auth()->login($customer, true);
+        auth()->login($customer);
     }
 }

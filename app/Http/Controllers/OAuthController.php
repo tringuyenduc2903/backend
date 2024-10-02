@@ -47,8 +47,8 @@ class OAuthController extends Controller
             ->first();
 
         $customer
-            ? app(Login::class)->handle($customer, $user, $provider_name)
-            : app(Register::class)->handle($user, $provider_name);
+            ? Login::handle($customer, $user, $provider_name)
+            : Register::handle($user, $provider_name);
 
         return redirect(session(
             'callback',

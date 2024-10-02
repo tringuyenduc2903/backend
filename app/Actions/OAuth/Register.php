@@ -9,7 +9,7 @@ use Laravel\Socialite\Contracts\User;
 
 class Register
 {
-    public function handle(User $user, string $provider_name): void
+    public static function handle(User $user, string $provider_name): void
     {
         $customer = Customer::make([
             'name' => $user->getName(),
@@ -35,6 +35,6 @@ class Register
             'provider_name' => $provider_name,
         ]);
 
-        auth()->login($customer, true);
+        auth()->login($customer);
     }
 }
