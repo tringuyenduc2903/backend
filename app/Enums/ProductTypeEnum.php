@@ -16,7 +16,6 @@ enum ProductTypeEnum: string
             ProductType::MOTOR_CYCLE => self::MOTOR_CYCLE->value,
             ProductType::SQUARE_PARTS => self::SQUARE_PARTS->value,
             ProductType::ACCESSORIES => self::ACCESSORIES->value,
-            default => null,
         };
     }
 

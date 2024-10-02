@@ -35,7 +35,6 @@ class IdentificationFactory extends Factory
                 CustomerIdentification::IDENTITY_CARD => fake()->randomElement([$num_9_digits, $num_12_digits]),
                 CustomerIdentification::CITIZEN_IDENTIFICATION_CARD => $num_12_digits,
                 CustomerIdentification::PASSPORT => strtoupper(Str::random(15)),
-                default => null,
             },
             'issued_name' => match ($type) {
                 CustomerIdentification::IDENTITY_CARD => sprintf(
@@ -47,7 +46,6 @@ class IdentificationFactory extends Factory
                     'Cục Cảnh sát đăng ký quản lý cư trú và dữ liệu Quốc gia về dân cư',
                 ]),
                 CustomerIdentification::PASSPORT => 'Lãnh sự quán Việt Nam',
-                default => null,
             },
             'issuance_date' => fake()->dateTimeBetween(),
             'expiry_date' => fake()->dateTimeBetween('now', '+10 year'),

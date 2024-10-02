@@ -33,7 +33,6 @@ class GhnController extends Controller
             GhnOrderStatus::CANCEL => $order->update([
                 'status' => OrderStatus::CANCELLED,
             ]),
-            default => null,
         };
 
         return response()->json('');

@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\ProductAPI\CatalogList;
-use App\Actions\ProductAPI\SearchList;
 use App\Enums\ProductTypeEnum;
+use App\Facades\ProductList;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -16,37 +15,49 @@ class ProductController extends Controller
      */
     public function index(ProductTypeEnum $product_type, Request $request): array
     {
-        $data = [
-            'search' => request('search'),
-            'sortColumn' => request('sortColumn'),
-            'sortDirection' => request('sortDirection', 'asc'),
-            'manufacturer' => request('manufacturer'),
-            'manufacturers' => request('manufacturers'),
-            'option_type' => request('option_type'),
-            'option_types' => request('option_types'),
-            'color' => request('color'),
-            'colors' => request('colors'),
-            'version' => request('version'),
-            'versions' => request('versions'),
-            'volume' => request('volume'),
-            'volumes' => request('volumes'),
-            'category' => request('category'),
-            'categories' => request('categories'),
-        ];
-
         $product = $request->exists('search')
-            ? app(SearchList::class, array_merge(
-                $data, [
-                    'product_type' => $product_type->value,
-                ]))
-            : app(CatalogList::class, array_merge(
-                $data, [
-                    'product_type' => $product_type->key(),
-                    'minPrice' => request('minPrice'),
-                    'maxPrice' => request('maxPrice'),
-                ]));
+            ? ProductList::getSearch(
+                request('search'),
+                $product_type->value,
+                request('sortColumn'),
+                request('sortDirection', 'asc'),
+                request('manufacturer'),
+                request('manufacturers'),
+                request('minPrice'),
+                request('maxPrice'),
+                request('optionType'),
+                request('optionTypes'),
+                request('color'),
+                request('colors'),
+                request('version'),
+                request('versions'),
+                request('volume'),
+                request('volumes'),
+                request('category'),
+                request('categories')
+            )
+            : ProductList::getCatalog(
+                request('search'),
+                $product_type->key(),
+                request('sortColumn'),
+                request('sortDirection', 'asc'),
+                request('manufacturer'),
+                request('manufacturers'),
+                request('minPrice'),
+                request('maxPrice'),
+                request('optionType'),
+                request('optionTypes'),
+                request('color'),
+                request('colors'),
+                request('version'),
+                request('versions'),
+                request('volume'),
+                request('volumes'),
+                request('category'),
+                request('categories')
+            );
 
-        $paginator = $product->query->paginate(request('perPage'));
+        $paginator = $product->paginate(request('perPage'));
 
         return $this->getCustomPaginate($paginator);
     }
@@ -57,19 +68,24 @@ class ProductController extends Controller
     public function show(ProductTypeEnum $product_type, string|int $product_id): Product
     {
         return Product::with([
+            // 6: Options
             'options',
             'seo',
             'upsell',
             'cross_sell',
             'related_products',
         ])
+            // 9: Reviews Count
             ->withCount('reviews')
+            // 10: Reviews Avg Rate
             ->withAvg('reviews', 'rate')
             ->where(fn (Builder $query): Builder => $query
                 ->orWhere('id', $product_id)
                 ->orWhere('search_url', $product_id))
-            ->wherePublished(true)
+            // 2: Product Type
             ->whereType($product_type->key())
+            // 3: Published
+            ->wherePublished(true)
             ->firstOrFail();
     }
 }

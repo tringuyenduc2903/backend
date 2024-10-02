@@ -100,16 +100,16 @@ class Product extends Model
     }
 
     /**
-     * Determine if the model should be searchable.
+     * Get the indexable data array for the model.
      */
-    public function shouldBeSearchable(): bool
+    public function toSearchableArray(): array
     {
-        return $this->published &&
-            in_array(
-                $this->visibility, [
-                    ProductVisibility::SEARCH,
-                    ProductVisibility::CATALOG_AND_SEARCH,
-                ]);
+        return $this
+            ->with('options')
+            ->withMin('options', 'price')
+            ->withAvg('reviews', 'rate')
+            ->findOrFail($this->id)
+            ->toArray();
     }
 
     /*

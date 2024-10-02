@@ -138,11 +138,24 @@ return [
         'index-settings' => [
             Product::class => [
                 'filterableAttributes' => [
-                    'id', 'enabled', 'visibility', 'type_preview', 'manufacturer', '__soft_deleted',
-                    'options.type_preview', 'options.color', 'options.version', 'options.volume',
+                    'type_preview',
+                    'published',
+                    'visibility_preview',
+                    'options.status_preview',
+                    'manufacturer',
+                    'options_min_price.raw',
+                    'options.type_preview',
+                    'options.color',
+                    'options.version',
+                    'options.volume',
                     'categories.id',
                 ],
-                'sortableAttributes' => ['name', 'created_at'],
+                'sortableAttributes' => [
+                    'name',
+                    'options_min_price.raw',
+                    'reviews_avg_rate',
+                    'created_at',
+                ],
             ],
         ],
     ],

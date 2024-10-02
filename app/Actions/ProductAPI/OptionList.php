@@ -111,12 +111,12 @@ class OptionList
 
         if ($this->category) {
             $this->query->whereHas(
-                'categories',
+                'product.categories',
                 fn (Builder $query): Builder => $query->where('category_id', $this->category)
             );
         } elseif ($this->categories) {
             $this->query->whereHas(
-                'categories',
+                'product.categories',
                 fn (Builder $query): Builder => $query->whereIn('category_id', $this->categories)
             );
         }

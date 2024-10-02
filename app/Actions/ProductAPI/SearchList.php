@@ -54,7 +54,6 @@ class SearchList
                 'name' => $this->query->orderBy('name', $this->sortDirection),
                 'latest' => $this->query->latest(),
                 'oldest' => $this->query->oldest(),
-                default => null,
             };
         }
     }

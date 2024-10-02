@@ -70,7 +70,6 @@ class SEO extends \RalphJSmit\Laravel\SEO\Models\SEO
         return $this->title ?: match ($this->model_type) {
             Product::class => $this->product->name,
             Category::class => $this->category->name,
-            default => $this->title,
         };
     }
 
@@ -83,7 +82,6 @@ class SEO extends \RalphJSmit\Laravel\SEO\Models\SEO
             Category::class => category_image_url(
                 $this->image ?: ($this->category->image ?? '')
             ),
-            default => $this->image,
         };
     }
 }

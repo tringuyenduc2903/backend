@@ -151,7 +151,6 @@ class Review extends Model
                 match ($this->reviewable_type) {
                     Customer::class => $this->customer->name,
                     Employee::class => $this->employee->name,
-                    default => '',
                 }
             );
         }

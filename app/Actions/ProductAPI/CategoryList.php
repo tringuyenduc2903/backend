@@ -123,15 +123,9 @@ class CategoryList
         );
 
         if ($this->category) {
-            $this->query->whereHas(
-                'categories',
-                fn (Builder $query): Builder => $query->where('category_id', $this->category)
-            );
+            $this->query->find($this->category);
         } elseif ($this->categories) {
-            $this->query->whereHas(
-                'categories',
-                fn (Builder $query): Builder => $query->whereIn('category_id', $this->categories)
-            );
+            $this->query->whereIn('id', $this->categories);
         }
     }
 }
