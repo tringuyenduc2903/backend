@@ -159,7 +159,11 @@ post:
       content:
         application/json:
           schema:
-            $ref: "../../components/schemas/Dữ liệu rỗng.yaml"
+            properties:
+              id:
+                title: Id
+                example: 1
+                type: object
     401:
       $ref: "../../components/responses/401.yaml"
     422:
