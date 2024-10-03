@@ -59,13 +59,6 @@ class OrderMotorcycleCrudController extends CrudController
         CRUD::setEntityNameStrings(trans('Order'), trans('Order motorcycle'));
 
         CRUD::operation(
-            ['list', 'show'],
-            fn () => CRUD::addButton('line', 'cancel_order', 'view', 'crud.buttons.order.cancel_order', 'end'));
-        CRUD::setAccessCondition(
-            'cancel_order',
-            fn (OrderMotorcycle $entry): bool => $entry->canCancel()
-        );
-        CRUD::operation(
             'list',
             fn () => CRUD::addButton('line', 'show', 'view', 'crud.buttons.review.show', 'beginning'));
 

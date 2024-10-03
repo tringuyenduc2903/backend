@@ -158,7 +158,7 @@ class ProductRequest extends FormRequest
                         'sku' => $value,
                     ], [
                         'sku' => Rule::unique(Option::class)->ignore(
-                            $this->input('options.*.id')
+                            $this->input(str_replace('.sku', '.id', $attribute))
                         ),
                     ]);
 

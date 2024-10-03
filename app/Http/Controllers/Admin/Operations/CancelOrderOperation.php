@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Operations;
 
 use App\Enums\OrderStatus;
 use App\Models\Order;
+use App\Models\OrderMotorcycle;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,26 @@ trait CancelOrderOperation
             'uses' => $controller.'@cancelOrder',
             'operation' => 'cancel_order',
         ]);
+    }
+
+    /**
+     * Add the default settings, buttons, etc that this operation needs.
+     */
+    protected function setupCancelOrderDefaults()
+    {
+        CRUD::setAccessCondition(
+            'cancel_order',
+            fn (Order|OrderMotorcycle $entry): bool => $entry->canCancel()
+        );
+
+        CRUD::operation('create', function () {
+            CRUD::loadDefaultOperationSettingsFromConfig();
+            CRUD::setupDefaultSaveActions();
+        });
+
+        CRUD::operation(
+            ['list', 'show'],
+            fn () => CRUD::addButton('line', 'cancel_order', 'view', 'crud.buttons.order.cancel_order', 'end'));
     }
 
     protected function cancelOrder(string $id): JsonResponse

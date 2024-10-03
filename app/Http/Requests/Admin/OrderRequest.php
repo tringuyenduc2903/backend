@@ -50,7 +50,7 @@ class OrderRequest extends FormRequest
                     }
 
                     if (! $option = get_product(
-                        $this->input('options.*.option')
+                        $this->input(str_replace('.amount', '.option', $attribute))
                     )) {
                         return;
                     }
