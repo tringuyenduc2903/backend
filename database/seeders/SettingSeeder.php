@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Enums\ProductType;
 use App\Enums\ProductTypeEnum;
 use App\Enums\ProductVisibility;
-use App\Facades\Ghn;
+use App\Facades\GhnApi;
 use App\Models\Branch;
 use App\Models\Product;
 use App\Models\Setting;
@@ -370,7 +370,7 @@ class SettingSeeder extends Seeder
 
     protected function storeGhn(): array
     {
-        $data = Ghn::shop();
+        $data = GhnApi::shop();
         $shops = [];
 
         foreach ($data['shops'] as $shop) {

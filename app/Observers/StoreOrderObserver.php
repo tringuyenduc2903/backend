@@ -5,8 +5,8 @@ namespace App\Observers;
 use App\Enums\OrderPaymentMethod;
 use App\Enums\OrderShippingMethod;
 use App\Enums\OrderStatus;
-use App\Facades\Ghn;
-use App\Facades\PayOsOrder;
+use App\Facades\GhnApi;
+use App\Facades\PayOsOrderApi;
 use App\Models\Order;
 
 class StoreOrderObserver
@@ -42,14 +42,14 @@ class StoreOrderObserver
                 $order->shipping_method == OrderShippingMethod::DOOR_TO_DOOR_DELIVERY &&
                 $order->shipping_code
             ) {
-                Ghn::cancelOrder($order);
+                GhnApi::cancelOrder($order);
             }
 
             if (
                 $order->payment_method == OrderPaymentMethod::BANK_TRANSFER &&
                 $order->payment_checkout_url
             ) {
-                PayOsOrder::cancelPaymentLink($order);
+                PayOsOrderApi::cancelPaymentLink($order);
             }
         }
     }

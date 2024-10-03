@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Enums\OrderShippingMethod;
 use App\Enums\OrderStatus;
 use App\Events\AdminOrderCreatedEvent;
-use App\Facades\Ghn;
+use App\Facades\GhnApi;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class CreateOrderGhnShip implements ShouldQueue
@@ -20,7 +20,7 @@ class CreateOrderGhnShip implements ShouldQueue
             $event->order->status == OrderStatus::TO_SHIP &&
             $event->order->shipping_method == OrderShippingMethod::DOOR_TO_DOOR_DELIVERY
         ) {
-            $response = Ghn::createOrder($event->order);
+            $response = GhnApi::createOrder($event->order);
 
             $event->order
                 ->forceFill([

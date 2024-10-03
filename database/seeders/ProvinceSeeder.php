@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Facades\Ghn;
+use App\Facades\GhnApi;
 use App\Models\Province;
 use Illuminate\Database\Seeder;
 
@@ -22,7 +22,7 @@ class ProvinceSeeder extends Seeder
                 ),
                 'ghn_id' => $province['ProvinceID'],
             ],
-            Ghn::province()
+            GhnApi::province()
         );
 
         Province::upsert($provinces, 'ghn_id');

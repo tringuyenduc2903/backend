@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Enums\OrderStatus;
 use App\Enums\PayOsOrderTypeEnum;
 use App\Enums\PayOsStatus;
-use App\Facades\Ghn;
-use App\Facades\PayOsOrder;
-use App\Facades\PayOsOrderMotorcycle;
+use App\Facades\GhnApi;
+use App\Facades\PayOsOrderApi;
+use App\Facades\PayOsOrderMotorcycleApi;
 use App\Models\Order;
 use App\Models\OrderMotorcycle;
 use Exception;
@@ -27,13 +27,13 @@ class PayOsController extends Controller
             $data = $request->all();
 
             if ($order_type === PayOsOrderTypeEnum::ORDER) {
-                $webhook_data = PayOsOrder::verifyPaymentWebhookData($data);
+                $webhook_data = PayOsOrderApi::verifyPaymentWebhookData($data);
                 $order = Order::findOrFail($webhook_data['orderCode']);
-                $payment_link_information = PayOsOrder::getPaymentLinkInformation($order);
+                $payment_link_information = PayOsOrderApi::getPaymentLinkInformation($order);
             } else {
-                $webhook_data = PayOsOrderMotorcycle::verifyPaymentWebhookData($data);
+                $webhook_data = PayOsOrderMotorcycleApi::verifyPaymentWebhookData($data);
                 $order = OrderMotorcycle::findOrFail($webhook_data['orderCode']);
-                $payment_link_information = PayOsOrderMotorcycle::getPaymentLinkInformation($order);
+                $payment_link_information = PayOsOrderMotorcycleApi::getPaymentLinkInformation($order);
             }
 
             $order->transactions()->create([
@@ -49,7 +49,7 @@ class PayOsController extends Controller
                             'status' => OrderStatus::TO_SHIP,
                         ]);
 
-                        $response = Ghn::createOrder($order);
+                        $response = GhnApi::createOrder($order);
 
                         $order
                             ->forceFill([

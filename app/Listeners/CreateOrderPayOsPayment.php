@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Enums\OrderPaymentMethod;
 use App\Events\AdminOrderCreatedEvent;
-use App\Facades\PayOsOrder;
+use App\Facades\PayOsOrderApi;
 use Exception;
 
 class CreateOrderPayOsPayment
@@ -18,7 +18,7 @@ class CreateOrderPayOsPayment
     {
         /** @var AdminOrderCreatedEvent $event */
         if ($event->order->payment_method == OrderPaymentMethod::BANK_TRANSFER) {
-            $response = PayOsOrder::createPaymentLink($event->order);
+            $response = PayOsOrderApi::createPaymentLink($event->order);
 
             $event->order
                 ->forceFill([

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ProductTypeEnum;
-use App\Facades\ProductList;
+use App\Facades\ProductListApi;
 use App\Models\Category;
 use App\Models\Option;
 use App\Models\Product;
@@ -18,7 +18,7 @@ class ProductFilterController extends Controller
     public function __invoke(ProductTypeEnum $product_type, Request $request): array
     {
         if ($request->exists('search')) {
-            $product_min_price = ProductList::getSearch(
+            $product_min_price = ProductListApi::getSearch(
                 request('search'),
                 $product_type->value,
                 request('sortColumn'),
@@ -42,7 +42,7 @@ class ProductFilterController extends Controller
                 ->first()
                 ?->options_min_price;
 
-            $product_max_price = ProductList::getSearch(
+            $product_max_price = ProductListApi::getSearch(
                 request('search'),
                 $product_type->value,
                 request('sortColumn'),
@@ -67,7 +67,7 @@ class ProductFilterController extends Controller
                 ?->options_min_price;
 
             $manufacturer_handle = array_count_values(
-                ProductList::getSearch(
+                ProductListApi::getSearch(
                     request('search'),
                     $product_type->value,
                     request('sortColumn'),
@@ -102,7 +102,7 @@ class ProductFilterController extends Controller
                 array_keys($manufacturer_handle), $manufacturer_handle
             );
         } else {
-            $product = ProductList::getCatalog(
+            $product = ProductListApi::getCatalog(
                 $product_type->key(),
                 request('sortColumn'),
                 request('sortDirection', 'asc'),
@@ -132,7 +132,7 @@ class ProductFilterController extends Controller
                 ->first()
                 ?->options_min_price;
 
-            $manufacturer = ProductList::getCatalogClone(
+            $manufacturer = ProductListApi::getCatalogClone(
                 $product_type->key(),
                 request('manufacturer'),
                 request('manufacturers'),
@@ -165,7 +165,7 @@ class ProductFilterController extends Controller
                 ]);
         }
 
-        $option = ProductList::getOption(
+        $option = ProductListApi::getOption(
             request('search'),
             $product_type->key(),
             request('manufacturer'),
@@ -184,7 +184,7 @@ class ProductFilterController extends Controller
             request('categories')
         );
 
-        $category = ProductList::getCategory(
+        $category = ProductListApi::getCategory(
             request('search'),
             $product_type->key(),
             request('manufacturer'),

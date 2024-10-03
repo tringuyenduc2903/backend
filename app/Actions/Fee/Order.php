@@ -3,7 +3,7 @@
 namespace App\Actions\Fee;
 
 use App\Enums\OrderShippingMethod;
-use App\Facades\Ghn;
+use App\Facades\GhnApi;
 use App\Models\Address;
 use App\Models\Option;
 
@@ -90,7 +90,7 @@ class Order
         if ($this->shipping_method == OrderShippingMethod::DOOR_TO_DOOR_DELIVERY) {
             $address = Address::findOrFail($this->address_id);
 
-            $data = Ghn::fee(
+            $data = GhnApi::fee(
                 $address,
                 $this->weight,
                 (int) $this->price,

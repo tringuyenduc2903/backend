@@ -4,7 +4,7 @@ namespace App\Observers;
 
 use App\Enums\OrderPaymentMethod;
 use App\Enums\OrderStatus;
-use App\Facades\PayOsOrderMotorcycle;
+use App\Facades\PayOsOrderMotorcycleApi;
 use App\Models\OrderMotorcycle;
 
 class StoreOrderMotorcycleObserver
@@ -52,7 +52,7 @@ class StoreOrderMotorcycleObserver
             $order_motorcycle->payment_method == OrderPaymentMethod::BANK_TRANSFER &&
             $order_motorcycle->payment_checkout_url
         ) {
-            PayOsOrderMotorcycle::cancelPaymentLink($order_motorcycle);
+            PayOsOrderMotorcycleApi::cancelPaymentLink($order_motorcycle);
         }
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ProductTypeEnum;
-use App\Facades\ProductList;
+use App\Facades\ProductListApi;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function index(ProductTypeEnum $product_type, Request $request): array
     {
         $product = $request->exists('search')
-            ? ProductList::getSearch(
+            ? ProductListApi::getSearch(
                 request('search'),
                 $product_type->value,
                 request('sortColumn'),
@@ -36,7 +36,7 @@ class ProductController extends Controller
                 request('category'),
                 request('categories')
             )
-            : ProductList::getCatalog(
+            : ProductListApi::getCatalog(
                 $product_type->key(),
                 request('sortColumn'),
                 request('sortDirection', 'asc'),
