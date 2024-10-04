@@ -17,8 +17,23 @@
                             'link' => route('orders.index'),
                         ],
                         [
+                            'permission' => EmployeePermission::SHIPMENT_CRUD,
+                            'title' => trans('Shipments'),
+                            'link' => route('shipments.index'),
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        [
+            'title' => trans('Sales (Motorcycle)'),
+            'icon' => 'la la-dollar',
+            'columns' => [
+                [
+                    'items' => [
+                        [
                             'permission' => EmployeePermission::ORDER_CRUD,
-                            'title' => trans('Order motorcycle'),
+                            'title' => trans('Order'),
                             'link' => route('order-motorcycles.index'),
                         ],
                     ],

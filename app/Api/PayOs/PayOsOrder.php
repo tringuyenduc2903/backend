@@ -69,7 +69,7 @@ class PayOsOrder
             ]);
         } catch (Exception) {
             throw ValidationException::withMessages([
-                'shipping_method' => trans(':method_name :method_value is not available for this order', [
+                'payment_method' => trans(':method_name :method_value is not available for this order', [
                     'method_name' => trans('Payment method'),
                     'method_value' => trans('Bank transfer'),
                 ]),

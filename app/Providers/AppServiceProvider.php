@@ -6,7 +6,6 @@ use App\Events\AdminOrderCreatedEvent;
 use App\Events\AdminOrderMotorcycleCreatedEvent;
 use App\Events\FrontendOrderCreatedEvent;
 use App\Events\FrontendOrderMotorcycleCreatedEvent;
-use App\Listeners\CreateOrderGhnShip;
 use App\Listeners\CreateOrderMotorcyclePayOsPayment;
 use App\Listeners\CreateOrderPayOsPayment;
 use App\Models\Address;
@@ -58,9 +57,6 @@ class AppServiceProvider extends ServiceProvider
 
         Event::listen(AdminOrderCreatedEvent::class, [CreateOrderPayOsPayment::class, 'handle']);
         Event::listen(FrontendOrderCreatedEvent::class, [CreateOrderPayOsPayment::class, 'handle']);
-
-        Event::listen(AdminOrderCreatedEvent::class, [CreateOrderGhnShip::class, 'handle']);
-        Event::listen(FrontendOrderCreatedEvent::class, [CreateOrderGhnShip::class, 'handle']);
 
         Event::listen(AdminOrderMotorcycleCreatedEvent::class, [CreateOrderMotorcyclePayOsPayment::class, 'handle']);
         Event::listen(FrontendOrderMotorcycleCreatedEvent::class, [CreateOrderMotorcyclePayOsPayment::class, 'handle']);

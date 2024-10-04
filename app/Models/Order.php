@@ -108,6 +108,13 @@ class Order extends Model
         ]);
     }
 
+    public function canCreateGhnOrder(): bool
+    {
+        return $this->status == OrderStatus::TO_SHIP &&
+            $this->shipping_method == OrderShippingMethod::DOOR_TO_DOOR_DELIVERY &&
+            is_null($this->shipping_code);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS

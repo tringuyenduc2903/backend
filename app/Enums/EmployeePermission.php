@@ -45,4 +45,6 @@ class EmployeePermission extends Enum
     const REVIEW_CRUD = 'review_crud';
 
     const ORDER_CRUD = 'order_crud';
+
+    const SHIPMENT_CRUD = 'shipment_crud';
 }

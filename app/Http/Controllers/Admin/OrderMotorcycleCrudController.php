@@ -58,7 +58,7 @@ class OrderMotorcycleCrudController extends CrudController
     {
         CRUD::setModel(OrderMotorcycle::class);
         CRUD::setRoute(route('order-motorcycles.index'));
-        CRUD::setEntityNameStrings(trans('Order'), trans('Order motorcycle'));
+        CRUD::setEntityNameStrings(trans('Order'), trans('Orders'));
 
         CRUD::operation(
             'list',

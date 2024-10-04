@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Enums\OrderStatus;
 use App\Enums\PayOsOrderTypeEnum;
 use App\Enums\PayOsStatus;
-use App\Facades\GhnApi;
 use App\Facades\PayOsOrderApi;
 use App\Facades\PayOsOrderMotorcycleApi;
 use App\Models\Order;
@@ -48,14 +47,6 @@ class PayOsController extends Controller
                         $order->update([
                             'status' => OrderStatus::TO_SHIP,
                         ]);
-
-                        $response = GhnApi::createOrder($order);
-
-                        $order
-                            ->forceFill([
-                                'shipping_code' => $response['order_code'],
-                            ])
-                            ->save();
                     } else {
                         $order->update([
                             'status' => OrderStatus::TO_RECEIVE,

@@ -6,6 +6,7 @@ use App\Enums\OrderPaymentMethod;
 use App\Models\Address;
 use App\Models\Order;
 use App\Models\OrderProduct;
+use Exception;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Validation\ValidationException;
 
@@ -67,9 +68,15 @@ trait ShippingOrder
             $data['note'] = $order->note;
         }
 
-        return $this->http
-            ->post('v2/shipping-order/create', $data)
-            ->json('data');
+        $response = $this->http->post('v2/shipping-order/create', $data);
+
+        if ($response->failed()) {
+            throw app(Exception::class, [
+                'message' => $response->json('message'),
+            ]);
+        }
+
+        return $response->json('data');
     }
 
     protected function getServiceTypeId(int $weight): int
