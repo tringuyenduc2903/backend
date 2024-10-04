@@ -22,6 +22,9 @@ post:
                     value_added_tax_preview:
                       raw: 10
                       preview: 10%
+                    make_money_preview:
+                      raw: 522000
+                      preview: 522.000 ₫
                     quantity: 2
                     weight: 351
                     length: 31
