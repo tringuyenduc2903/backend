@@ -76,6 +76,7 @@ class OrderMotorcycle
             'code' => $option->sku,
             'price' => (int) $option->price,
             'quantity' => $amount,
+            'value_added_tax' => $option->value_added_tax,
         ];
     }
 

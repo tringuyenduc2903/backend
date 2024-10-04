@@ -14,6 +14,7 @@ use App\Enums\ProductType;
 use App\Events\AdminOrderMotorcycleCreatedEvent;
 use App\Facades\OrderMotorcycleFee;
 use App\Http\Controllers\Admin\Operations\CancelOrderOperation;
+use App\Http\Controllers\Admin\Operations\FeeOperation;
 use App\Http\Requests\Admin\OrderMotorcycleRequest;
 use App\Models\Address;
 use App\Models\Customer;
@@ -43,6 +44,7 @@ class OrderMotorcycleCrudController extends CrudController
     use CreateOperation {
         store as traitStore;
     }
+    use FeeOperation;
     use FetchOperation;
     use ListOperation;
     use ShowOperation;
@@ -103,6 +105,16 @@ class OrderMotorcycleCrudController extends CrudController
         ]));
 
         return $this->crud->performSaveAction($item->getKey());
+    }
+
+    public function fee(OrderMotorcycleRequest $request): array
+    {
+        return OrderMotorcycleFee::getFee(
+            $request->validated('option'),
+            $request->validated('motorcycle_registration_support'),
+            $request->validated('registration_option'),
+            $request->validated('license_plate_registration_option'),
+        );
     }
 
     /**
@@ -319,6 +331,11 @@ class OrderMotorcycleCrudController extends CrudController
             'content' => resource_path('assets/js/admin/forms/order.js'),
         ]);
 
+        Widget::add([
+            'type' => 'script',
+            'content' => resource_path('assets/js/admin/forms/fee/order-motorcycle.js'),
+        ]);
+
         $code = current_currency();
 
         CRUD::addField([
@@ -352,6 +369,20 @@ class OrderMotorcycleCrudController extends CrudController
             'label' => trans('Payment method'),
             'type' => 'select2_from_array',
             'options' => OrderPaymentMethod::values(),
+            'tab' => trans('Price quote'),
+        ]);
+        CRUD::addField([
+            'name' => 'fee',
+            'label' => trans('View order quote'),
+            'type' => 'view',
+            'view' => 'crud.buttons.order.fee',
+            'route' => route('order-motorcycles.fee'),
+            'notification' => [
+                'successfully' => [
+                    'title' => trans('Price quote'),
+                    'description' => trans('Retrieve information successfully.'),
+                ],
+            ],
             'tab' => trans('Price quote'),
         ]);
         CRUD::field('price')

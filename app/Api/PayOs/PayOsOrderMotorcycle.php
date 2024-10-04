@@ -2,7 +2,6 @@
 
 namespace App\Api\PayOs;
 
-use App\Enums\OrderPaymentMethod;
 use App\Models\OrderMotorcycle;
 use Exception;
 use Illuminate\Validation\ValidationException;
@@ -67,9 +66,9 @@ class PayOsOrderMotorcycle
             ]);
         } catch (Exception) {
             throw ValidationException::withMessages([
-                'shipping_method' => trans('::method_name :method_value is not available for this order', [
+                'shipping_method' => trans(':method_name :method_value is not available for this order', [
                     'method_name' => trans('Payment method'),
-                    'method_value' => OrderPaymentMethod::BANK_TRANSFER,
+                    'method_value' => trans('Bank transfer'),
                 ]),
             ]);
         }

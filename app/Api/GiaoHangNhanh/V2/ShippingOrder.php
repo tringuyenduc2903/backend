@@ -3,11 +3,9 @@
 namespace App\Api\GiaoHangNhanh\V2;
 
 use App\Enums\OrderPaymentMethod;
-use App\Enums\OrderShippingMethod;
 use App\Models\Address;
 use App\Models\Order;
 use App\Models\OrderProduct;
-use Exception;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Validation\ValidationException;
 
@@ -79,27 +77,31 @@ trait ShippingOrder
         return $weight < 20000 ? self::HANG_NHE : self::HANG_NANG;
     }
 
+    /**
+     * @throws ConnectionException
+     */
     public function fee(Address $address, int $weight, int $insurance_value, array $items): array
     {
-        try {
-            return $this->http
-                ->post('v2/shipping-order/fee', [
-                    'shop_id' => current_store(),
-                    'service_type_id' => $this->getServiceTypeId($weight),
-                    'to_district_id' => $address->district->ghn_id,
-                    'to_ward_code' => $address->ward?->ghn_id,
-                    'weight' => $weight,
-                    'insurance_value' => $insurance_value,
-                    'items' => $items,
-                ])
-                ->json('data');
-        } catch (Exception) {
+        $response = $this->http
+            ->post('v2/shipping-order/fee', [
+                'shop_id' => current_store(),
+                'service_type_id' => $this->getServiceTypeId($weight),
+                'to_district_id' => $address->district->ghn_id,
+                'to_ward_code' => $address->ward?->ghn_id,
+                'weight' => $weight,
+                'insurance_value' => $insurance_value,
+                'items' => $items,
+            ]);
+
+        if ($response->failed()) {
             throw ValidationException::withMessages([
-                'shipping_method' => trans('::method_name :method_value is not available for this order', [
-                    'method_name' => trans('Shipping fee'),
-                    'method_value' => OrderShippingMethod::DOOR_TO_DOOR_DELIVERY,
+                'shipping_method' => trans(':method_name :method_value is not available for this order', [
+                    'method_name' => trans('Shipping method'),
+                    'method_value' => trans('Door-to-door delivery'),
                 ]),
             ]);
         }
+
+        return $response->json('data');
     }
 }

@@ -37,11 +37,6 @@ trait CancelOrderOperation
             fn (Order|OrderMotorcycle $entry): bool => $entry->canCancel()
         );
 
-        CRUD::operation('create', function () {
-            CRUD::loadDefaultOperationSettingsFromConfig();
-            CRUD::setupDefaultSaveActions();
-        });
-
         CRUD::operation(
             ['list', 'show'],
             fn () => CRUD::addButton('line', 'cancel_order', 'view', 'crud.buttons.order.cancel_order', 'end'));

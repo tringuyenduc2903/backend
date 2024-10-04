@@ -79,6 +79,7 @@ class Order
                     'length' => (int) $option->length,
                     'width' => (int) $option->width,
                     'height' => (int) $option->height,
+                    'value_added_tax' => $option->value_added_tax,
                 ];
             },
             $this->options

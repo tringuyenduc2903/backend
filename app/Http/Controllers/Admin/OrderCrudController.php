@@ -13,6 +13,7 @@ use App\Enums\ProductType;
 use App\Events\AdminOrderCreatedEvent;
 use App\Facades\OrderFee;
 use App\Http\Controllers\Admin\Operations\CancelOrderOperation;
+use App\Http\Controllers\Admin\Operations\FeeOperation;
 use App\Http\Requests\Admin\OrderRequest;
 use App\Models\Address;
 use App\Models\Customer;
@@ -25,6 +26,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Backpack\CRUD\app\Library\Widget;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
@@ -40,6 +42,7 @@ class OrderCrudController extends CrudController
     use CreateOperation {
         store as traitStore;
     }
+    use FeeOperation;
     use FetchOperation;
     use ListOperation;
     use ShowOperation;
@@ -99,6 +102,15 @@ class OrderCrudController extends CrudController
         ]));
 
         return $this->crud->performSaveAction($item->getKey());
+    }
+
+    public function fee(OrderRequest $request): array
+    {
+        return OrderFee::getFee(
+            $request->validated('options'),
+            $request->validated('shipping_method'),
+            $request->validated('address')
+        );
     }
 
     /**
@@ -297,6 +309,11 @@ class OrderCrudController extends CrudController
     {
         CRUD::setValidation(OrderRequest::class);
 
+        Widget::add([
+            'type' => 'script',
+            'content' => resource_path('assets/js/admin/forms/fee/order.js'),
+        ]);
+
         $code = current_currency();
 
         CRUD::addField([
@@ -356,6 +373,20 @@ class OrderCrudController extends CrudController
             'min_rows' => 1,
             'max_rows' => 20,
             'reorder' => false,
+            'tab' => trans('Price quote'),
+        ]);
+        CRUD::addField([
+            'name' => 'fee',
+            'label' => trans('View order quote'),
+            'type' => 'view',
+            'view' => 'crud.buttons.order.fee',
+            'route' => route('orders.fee'),
+            'notification' => [
+                'successfully' => [
+                    'title' => trans('Price quote'),
+                    'description' => trans('Retrieve information successfully.'),
+                ],
+            ],
             'tab' => trans('Price quote'),
         ]);
         CRUD::addField([
