@@ -51,9 +51,7 @@ $("#fee").on("click", function (event) {
                 let valueAddedTax = parseInt(
                     item.value_added_tax,
                 ).toLocaleString();
-                let makeMoney = parseInt(
-                    item.price * item.quantity,
-                ).toLocaleString();
+                let makeMoney = parseInt(item.make_money).toLocaleString();
 
                 crud.field("options").subfield("price", rowNumber).input.value =
                     price;

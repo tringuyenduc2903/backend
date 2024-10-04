@@ -19,7 +19,8 @@ class OrderMotorcycleFeeController extends Controller
             $request->validated('license_plate_registration_option')
         );
 
-        $fee['item']['price'] = price_preview($fee['item']['price']);
+        $fee['item']['price_preview'] = price_preview($fee['item']['price']);
+        $fee['item']['value_added_tax_preview'] = percent_preview($fee['item']['value_added_tax']);
 
         $fee['motorcycle_registration_support_fee_preview'] = price_preview($fee['motorcycle_registration_support_fee']);
         $fee['registration_fee_preview'] = price_preview($fee['registration_fee']);
@@ -30,6 +31,8 @@ class OrderMotorcycleFeeController extends Controller
         $fee['total_preview'] = price_preview($fee['total']);
 
         unset(
+            $fee['item']['price'],
+            $fee['item']['value_added_tax'],
             $fee['motorcycle_registration_support_fee'],
             $fee['registration_fee'],
             $fee['license_plate_registration_fee'],

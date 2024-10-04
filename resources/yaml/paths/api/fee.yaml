@@ -19,6 +19,9 @@ post:
                     price_preview:
                       raw: 261000
                       preview: 261.000 ₫
+                    value_added_tax_preview:
+                      raw: 10
+                      preview: 10%
                     quantity: 2
                     weight: 351
                     length: 31

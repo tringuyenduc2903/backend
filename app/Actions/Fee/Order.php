@@ -61,8 +61,10 @@ class Order
                 $option = Option::findOrFail($item['option'] ?? $item['option_id']);
                 $amount = (int) $item['amount'];
 
+                $make_money = $option->price * $amount;
+
                 // Handle price
-                $this->price += $option->price * $amount;
+                $this->price += $make_money;
 
                 // Handle tax
                 $this->tax += (($option->price * $option->value_added_tax) / (100 + $option->value_added_tax)) * $amount;
@@ -80,6 +82,7 @@ class Order
                     'width' => (int) $option->width,
                     'height' => (int) $option->height,
                     'value_added_tax' => $option->value_added_tax,
+                    'make_money' => $make_money,
                 ];
             },
             $this->options

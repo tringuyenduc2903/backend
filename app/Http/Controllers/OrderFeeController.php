@@ -21,7 +21,14 @@ class OrderFeeController extends Controller
         $fee['items_preview'] = array_map(
             function (array $item): array {
                 $item['price_preview'] = price_preview($item['price']);
-                unset($item['price']);
+                $item['value_added_tax_preview'] = percent_preview($item['value_added_tax']);
+                $item['make_money_preview'] = price_preview($item['make_money']);
+
+                unset(
+                    $item['price'],
+                    $item['value_added_tax'],
+                    $item['make_money'],
+                );
 
                 return $item;
             },
