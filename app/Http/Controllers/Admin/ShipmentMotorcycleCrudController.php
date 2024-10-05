@@ -46,9 +46,7 @@ class ShipmentMotorcycleCrudController extends CrudController
      */
     protected function setupShowOperation(): void
     {
-        app(OrderCrudController::class)->setupShowOperation(
-            $this->crud->entity_name
-        );
+        app(OrderMotorcycleCrudController::class)->setupShowOperation();
     }
 
     /**
@@ -60,7 +58,7 @@ class ShipmentMotorcycleCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        app(OrderCrudController::class)->setupListOperation();
+        app(OrderMotorcycleCrudController::class)->setupListOperation();
 
         CRUD::removeFilter('status');
     }

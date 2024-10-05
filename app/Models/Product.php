@@ -190,11 +190,13 @@ class Product extends Model
     {
         $items = json_decode($this->images);
 
-        foreach ($items as &$item) {
-            $item = image_preview(
-                product_image_url($item->image),
-                $item->alt
-            );
+        if ($items) {
+            foreach ($items as &$item) {
+                $item = image_preview(
+                    product_image_url($item->image),
+                    $item->alt
+                );
+            }
         }
 
         return array_values($items);

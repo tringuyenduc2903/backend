@@ -145,14 +145,16 @@ class Review extends Model
     {
         $items = json_decode($this->images);
 
-        foreach ($items as &$item) {
-            $item = image_preview(
-                review_image_url($item ?? ''),
-                match ($this->reviewable_type) {
-                    Customer::class => $this->customer->name,
-                    Employee::class => $this->employee->name,
-                }
-            );
+        if ($items) {
+            foreach ($items as &$item) {
+                $item = image_preview(
+                    review_image_url($item ?? ''),
+                    match ($this->reviewable_type) {
+                        Customer::class => $this->customer->name,
+                        Employee::class => $this->employee->name,
+                    }
+                );
+            }
         }
 
         return array_values($items);
