@@ -13,7 +13,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class OrderCrudController
+ * Class ShipmentCrudController
  *
  * @property-read CrudPanel $crud
  */
@@ -34,13 +34,9 @@ class ShipmentCrudController extends CrudController
         CRUD::setRoute(route('shipments.index'));
         CRUD::setEntityNameStrings(trans('Shipment'), trans('Shipments'));
 
-        CRUD::operation(
-            'list',
-            fn () => CRUD::addButton('line', 'show', 'view', 'crud.buttons.review.show', 'beginning'));
-
         CRUD::addClause('whereIn', 'status', [OrderStatus::TO_SHIP, OrderStatus::TO_RECEIVE]);
 
-        deny_access(EmployeePermission::ORDER_CRUD);
+        deny_access(EmployeePermission::SHIPMENT_CRUD);
     }
 
     /**
@@ -65,5 +61,7 @@ class ShipmentCrudController extends CrudController
     protected function setupListOperation()
     {
         app(OrderCrudController::class)->setupListOperation();
+
+        CRUD::removeFilter('status');
     }
 }

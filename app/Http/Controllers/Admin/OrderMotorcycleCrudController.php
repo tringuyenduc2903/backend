@@ -60,10 +60,6 @@ class OrderMotorcycleCrudController extends CrudController
         CRUD::setRoute(route('order-motorcycles.index'));
         CRUD::setEntityNameStrings(trans('Order'), trans('Orders'));
 
-        CRUD::operation(
-            'list',
-            fn () => CRUD::addButton('line', 'show', 'view', 'crud.buttons.review.show', 'beginning'));
-
         deny_access(EmployeePermission::ORDER_CRUD);
     }
 
@@ -125,8 +121,6 @@ class OrderMotorcycleCrudController extends CrudController
     protected function setupShowOperation(): void
     {
         $this->setupListOperation();
-
-        set_title(sub_heading: $this->crud->entity_name);
 
         $code = ' '.current_currency();
 

@@ -67,23 +67,6 @@ if (! function_exists('deny_access')) {
     }
 }
 
-if (! function_exists('set_title')) {
-    function set_title(string $column = 'name', ?string $sub_heading = null): void
-    {
-        if ($sub_heading) {
-            $value = sprintf('%s %s', trans('See details'), $sub_heading);
-
-            CRUD::setTitle($value);
-            CRUD::setSubHeading($value);
-        } elseif ($entry = CRUD::getCurrentEntry()) {
-            $value = $entry->getAttribute($column);
-
-            CRUD::setTitle($value);
-            CRUD::setHeading($value);
-        }
-    }
-}
-
 if (! function_exists('mb_ucwords')) {
     function mb_ucwords(?string $string): string
     {

@@ -243,16 +243,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.322.10",
+            "version": "3.323.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "0adb58bc7989068b489d320970951163847b520b"
+                "reference": "1b393c41a73e1ef4c493c60c5eee0bb4b0632264"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0adb58bc7989068b489d320970951163847b520b",
-                "reference": "0adb58bc7989068b489d320970951163847b520b",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/1b393c41a73e1ef4c493c60c5eee0bb4b0632264",
+                "reference": "1b393c41a73e1ef4c493c60c5eee0bb4b0632264",
                 "shasum": ""
             },
             "require": {
@@ -335,9 +335,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.322.10"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.323.1"
             },
-            "time": "2024-10-02T18:14:16+00:00"
+            "time": "2024-10-04T18:07:17+00:00"
         },
         {
             "name": "backpack/basset",
@@ -415,16 +415,16 @@
         },
         {
             "name": "backpack/crud",
-            "version": "6.7.38",
+            "version": "6.7.39",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Backpack/CRUD.git",
-                "reference": "3714d7d90c8ae0b08b43866f86103aee0862ad28"
+                "reference": "c2e22e46d3ad39c19a221d2bc31eb4bbb52b1a81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Backpack/CRUD/zipball/3714d7d90c8ae0b08b43866f86103aee0862ad28",
-                "reference": "3714d7d90c8ae0b08b43866f86103aee0862ad28",
+                "url": "https://api.github.com/repos/Laravel-Backpack/CRUD/zipball/c2e22e46d3ad39c19a221d2bc31eb4bbb52b1a81",
+                "reference": "c2e22e46d3ad39c19a221d2bc31eb4bbb52b1a81",
                 "shasum": ""
             },
             "require": {
@@ -503,9 +503,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Laravel-Backpack/CRUD/issues",
-                "source": "https://github.com/Laravel-Backpack/CRUD/tree/6.7.38"
+                "source": "https://github.com/Laravel-Backpack/CRUD/tree/6.7.39"
             },
-            "time": "2024-09-20T10:00:30+00:00"
+            "time": "2024-10-04T09:54:26+00:00"
         },
         {
             "name": "backpack/filemanager",
@@ -568,17 +568,17 @@
         },
         {
             "name": "backpack/pro",
-            "version": "2.2.18",
+            "version": "2.2.19",
             "source": {
                 "type": "git",
                 "url": "git@github.com:Laravel-Backpack/PRO.git",
-                "reference": "cb70d78d491f941428dfa010374a426b1ae29769"
+                "reference": "7eb8180ec885334e916ee4840d4a04778e78e8fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://repo.backpackforlaravel.com/dist/backpack/pro/backpack-pro-cb70d78d491f941428dfa010374a426b1ae29769-zip-ca4f63.zip",
-                "reference": "cb70d78d491f941428dfa010374a426b1ae29769",
-                "shasum": "0c5f60b661eb7ff15a4da3225f8c628d01f62d4f"
+                "url": "https://repo.backpackforlaravel.com/dist/backpack/pro/backpack-pro-7eb8180ec885334e916ee4840d4a04778e78e8fe-zip-d4c70b.zip",
+                "reference": "7eb8180ec885334e916ee4840d4a04778e78e8fe",
+                "shasum": "12707a2776665e48e33899154cb1e84cfebd927e"
             },
             "require": {
                 "backpack/crud": "^6.0.1"
@@ -630,10 +630,10 @@
                 "Pro"
             ],
             "support": {
-                "source": "https://github.com/Laravel-Backpack/PRO/tree/2.2.18",
+                "source": "https://github.com/Laravel-Backpack/PRO/tree/2.2.19",
                 "issues": "https://github.com/Laravel-Backpack/PRO/issues"
             },
-            "time": "2024-10-02T14:05:58+00:00"
+            "time": "2024-10-03T21:09:09+00:00"
         },
         {
             "name": "backpack/revise-operation",
@@ -5833,24 +5833,24 @@
         },
         {
             "name": "nette/schema",
-            "version": "v1.3.0",
+            "version": "v1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/schema.git",
-                "reference": "a6d3a6d1f545f01ef38e60f375d1cf1f4de98188"
+                "reference": "bfcdeb9eb137b3c8937db468d31618ed96591d47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/schema/zipball/a6d3a6d1f545f01ef38e60f375d1cf1f4de98188",
-                "reference": "a6d3a6d1f545f01ef38e60f375d1cf1f4de98188",
+                "url": "https://api.github.com/repos/nette/schema/zipball/bfcdeb9eb137b3c8937db468d31618ed96591d47",
+                "reference": "bfcdeb9eb137b3c8937db468d31618ed96591d47",
                 "shasum": ""
             },
             "require": {
                 "nette/utils": "^4.0",
-                "php": "8.1 - 8.3"
+                "php": "8.1 - 8.4"
             },
             "require-dev": {
-                "nette/tester": "^2.4",
+                "nette/tester": "^2.5.2",
                 "phpstan/phpstan-nette": "^1.0",
                 "tracy/tracy": "^2.8"
             },
@@ -5889,9 +5889,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/schema/issues",
-                "source": "https://github.com/nette/schema/tree/v1.3.0"
+                "source": "https://github.com/nette/schema/tree/v1.3.1"
             },
-            "time": "2023-12-11T11:54:22+00:00"
+            "time": "2024-10-05T02:53:56+00:00"
         },
         {
             "name": "nette/utils",
@@ -6455,16 +6455,16 @@
         },
         {
             "name": "pda/pheanstalk",
-            "version": "v5.0.6",
+            "version": "v5.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pheanstalk/pheanstalk.git",
-                "reference": "7a31b5981d2708b27c5f473b83dadfd3dfd85d4c"
+                "reference": "f02f69d568e5558325516ec335f21711466bfe7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pheanstalk/pheanstalk/zipball/7a31b5981d2708b27c5f473b83dadfd3dfd85d4c",
-                "reference": "7a31b5981d2708b27c5f473b83dadfd3dfd85d4c",
+                "url": "https://api.github.com/repos/pheanstalk/pheanstalk/zipball/f02f69d568e5558325516ec335f21711466bfe7c",
+                "reference": "f02f69d568e5558325516ec335f21711466bfe7c",
                 "shasum": ""
             },
             "require": {
@@ -6515,9 +6515,9 @@
             ],
             "support": {
                 "issues": "https://github.com/pheanstalk/pheanstalk/issues",
-                "source": "https://github.com/pheanstalk/pheanstalk/tree/v5.0.6"
+                "source": "https://github.com/pheanstalk/pheanstalk/tree/v5.0.7"
             },
-            "time": "2024-09-05T11:27:23+00:00"
+            "time": "2024-10-04T13:56:46+00:00"
         },
         {
             "name": "phar-io/manifest",

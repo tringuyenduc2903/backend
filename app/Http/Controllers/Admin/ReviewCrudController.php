@@ -41,9 +41,6 @@ class ReviewCrudController extends CrudController
         CRUD::setEntityNameStrings(trans('Review'), trans('Reviews'));
 
         CRUD::operation(
-            'list',
-            fn () => CRUD::addButton('line', 'show', 'view', 'crud.buttons.review.show', 'beginning'));
-        CRUD::operation(
             ['list', 'show'],
             fn () => CRUD::addButton('line', 'update', 'view', 'crud.buttons.review.update', 'end'));
 
@@ -58,8 +55,6 @@ class ReviewCrudController extends CrudController
     protected function setupShowOperation(): void
     {
         $this->setupListOperation();
-
-        set_title(sub_heading: $this->crud->entity_name);
 
         CRUD::column('content')
             ->type('textarea');
@@ -129,6 +124,7 @@ class ReviewCrudController extends CrudController
      */
     protected function setupUpdateOperation(): void
     {
+        CRUD::setTitle(trans('Reply this review'));
         CRUD::setSubheading(trans('Reply this review'));
 
         CRUD::setValidation(ReviewRequest::class);

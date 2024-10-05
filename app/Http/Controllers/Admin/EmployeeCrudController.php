@@ -85,7 +85,10 @@ class EmployeeCrudController extends CrudController
     {
         $this->setupCreateOperation();
 
-        set_title();
+        $value = CRUD::getCurrentEntry()->getAttribute('name');
+
+        CRUD::setTitle($value);
+        CRUD::setHeading($value);
     }
 
     /**

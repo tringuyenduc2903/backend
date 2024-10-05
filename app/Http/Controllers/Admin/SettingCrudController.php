@@ -86,7 +86,10 @@ class SettingCrudController extends CrudController
             ->type('switch');
         CRUD::addFields($setting->fields);
 
-        set_title();
+        $value = CRUD::getCurrentEntry()->getAttribute('name');
+
+        CRUD::setTitle($value);
+        CRUD::setHeading($value);
     }
 
     protected function fetchBranches()

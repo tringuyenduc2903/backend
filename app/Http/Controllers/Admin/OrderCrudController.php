@@ -58,10 +58,6 @@ class OrderCrudController extends CrudController
         CRUD::setRoute(route('orders.index'));
         CRUD::setEntityNameStrings(trans('Order'), trans('Orders'));
 
-        CRUD::operation(
-            'list',
-            fn () => CRUD::addButton('line', 'show', 'view', 'crud.buttons.review.show', 'beginning'));
-
         deny_access(EmployeePermission::ORDER_CRUD);
     }
 
@@ -118,11 +114,9 @@ class OrderCrudController extends CrudController
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      */
-    public function setupShowOperation(?string $entity_name = null): void
+    public function setupShowOperation(): void
     {
         $this->setupListOperation();
-
-        set_title(sub_heading: $entity_name ?? $this->crud->entity_name);
 
         $code = ' '.current_currency();
 
