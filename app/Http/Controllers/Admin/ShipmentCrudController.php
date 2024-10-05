@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\EmployeePermission;
 use App\Enums\OrderStatus;
 use App\Http\Controllers\Admin\Operations\CreateGhnOrderOperation;
+use App\Http\Controllers\Admin\Operations\ProductHandoverOperation;
 use App\Models\Order;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -21,6 +22,7 @@ class ShipmentCrudController extends CrudController
 {
     use CreateGhnOrderOperation;
     use ListOperation;
+    use ProductHandoverOperation;
     use ShowOperation;
 
     /**

@@ -1,16 +1,16 @@
-@if ($crud->hasAccess('create_ghn_order', $entry))
-    <a bp-button="update" class="btn btn-sm btn-link" href="javascript:void(0)" onclick="createGhnOrder(this)"
+@if ($crud->hasAccess('product_handover', $entry))
+    <a bp-button="update" class="btn btn-sm btn-link" href="javascript:void(0)" onclick="productHandover(this)"
        data-id="{{ $entry->getKey() }}">
-        <i class="la la-send"></i> <span>{{ trans('Create GHN Order') }}</span>
+        <i class="la la-send"></i> <span>{{ trans('Product handover') }}</span>
     </a>
 
     <script>
-        if (typeof createGhnOrder != 'function') {
-            function createGhnOrder(button) {
+        if (typeof productHandover != 'function') {
+            function productHandover(button) {
                 // show confirm message
                 swal({
                     title: "{{ trans('Confirm packaging') }}",
-                    text: "{{ trans('Is the order ready for delivery to the :name?', ['name' => trans('Shipping unit')]) }}",
+                    text: "{{ trans('Is the order ready for delivery to the :name?', ['name' => trans('Customer')]) }}",
                     icon: "warning",
                     buttons: {
                         cancel: {
@@ -36,8 +36,8 @@
 
                     // submit an AJAX delete call
                     $.ajax({
-                        url: `{{ url($crud->route) }}/${entry}/create-ghn-order`,
-                        type: 'DELETE',
+                        url: `{{ url($crud->route) }}/${entry}/product-handover`,
+                        type: 'POST',
                         data: {
                             entry
                         },

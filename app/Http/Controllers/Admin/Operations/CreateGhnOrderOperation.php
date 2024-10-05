@@ -52,9 +52,7 @@ trait CreateGhnOrderOperation
         if (! $order->canCreateGhnOrder()) {
             return response()->json([
                 'title' => trans('Failed'),
-                'description' => trans('Cannot create GHN order with this Order.', [
-                    'name' => $order->status_preview,
-                ]),
+                'description' => trans('Cannot create GHN order with this Order.'),
             ], 403);
         }
 

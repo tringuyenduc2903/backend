@@ -222,6 +222,7 @@
     "Confirm cancellation of this order?": "Xác nhận hủy đơn hàng này?",
     "Cancellation of order Id #:number successfully!": "Hủy đơn Id #:number hàng thành công!",
     "Created GHN order for order Id #:number of goods successfully!": "Tạo đơn GHN cho đơn hàng Id #:number hàng thành công!",
+    "Handover of products to order Id #:number successfully!": "Bàn giao sản phẩm cho đơn hàng Id #:number hàng thành công!",
     ":method_name :method_value is not available for this order": ":method_name :method_value không khả dụng với đơn hàng này",
     "Checkout URL": "Liên kết thanh toán",
     "Pending": "Đang xử lý",
@@ -229,6 +230,7 @@
     "Failed": "Thất bại",
     "Orders with status :name cannot be canceled.": "Không thể hủy Đơn hàng có trạng thái :name.",
     "Cannot create GHN order with this Order.": "Không thể tạo đơn GHN với Đơn hàng này.",
+    "Products cannot be delivered with this Order.": "Không thể bàn giao sản phẩm với Đơn hàng này.",
     "Shipments": "Vận chuyển",
     "Shipment": "Vận chuyển",
     "Reason": "Lý do",
@@ -250,6 +252,8 @@
     "No": "Không",
     "Create GHN Order": "Tạo đơn GHN",
     "Confirm packaging": "Xác nhận đóng gói",
-    "Is the order ready for delivery to the shipping unit?": "Đơn hàng đã sẵn sàng giao cho đơn vị vận chuyển?",
-    "Add transaction history": "Thêm lịch sử giao dịch"
+    "Is the order ready for delivery to the :name?": "Đơn hàng đã sẵn sàng giao cho :name?",
+    "Shipping unit": "Đơn vị vận chuyển",
+    "Add transaction history": "Thêm lịch sử giao dịch",
+    "Product handover": "Bàn giao sản phẩm"
 }

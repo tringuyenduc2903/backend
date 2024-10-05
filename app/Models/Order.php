@@ -121,6 +121,12 @@ class Order extends Model
             $this->payment_method == OrderPaymentMethod::PAYMENT_ON_DELIVERY;
     }
 
+    public function canProductHandover(): bool
+    {
+        return $this->status == OrderStatus::TO_RECEIVE &&
+            $this->shipping_method == OrderShippingMethod::PICKUP_AT_STORE;
+    }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS
