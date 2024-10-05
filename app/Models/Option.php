@@ -113,13 +113,15 @@ class Option extends Model
     {
         $items = json_decode($this->images);
 
-        if ($items) {
-            foreach ($items as &$item) {
-                $item = image_preview(
-                    product_image_url($item),
-                    $this->sku
-                );
-            }
+        if (is_null($items)) {
+            return [];
+        }
+
+        foreach ($items as &$item) {
+            $item = image_preview(
+                product_image_url($item),
+                $this->sku
+            );
         }
 
         return array_values($items);
