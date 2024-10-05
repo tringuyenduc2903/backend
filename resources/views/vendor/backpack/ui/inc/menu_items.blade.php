@@ -46,6 +46,11 @@
                             'title' => trans('Transactions'),
                             'link' => route('transaction-motorcycles.index'),
                         ],
+                        [
+                            'permission' => EmployeePermission::SHIPMENT_CRUD,
+                            'title' => trans('Shipments'),
+                            'link' => route('shipment-motorcycles.index'),
+                        ],
                     ],
                 ],
             ],

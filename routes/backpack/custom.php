@@ -30,4 +30,5 @@ Route::prefix(config('backpack.base.route_prefix', 'admin'))
         Route::crud('shipments', ShipmentCrudController::class);
         Route::crud('order-motorcycles', OrderMotorcycleCrudController::class);
         Route::crud('transaction-motorcycles', TransactionMotorcycleCrudController::class);
+        Route::crud('shipment-motorcycles', ShipmentMotorcycleCrudController::class);
     });

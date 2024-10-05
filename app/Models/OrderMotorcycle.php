@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\OrderMotorcycleLicensePlateRegistration;
 use App\Enums\OrderMotorcycleRegistration;
 use App\Enums\OrderPaymentMethod;
+use App\Enums\OrderShippingMethod;
 use App\Enums\OrderStatus;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -116,6 +117,12 @@ class OrderMotorcycle extends Model
     {
         return $this->status == OrderStatus::TO_PAY &&
             $this->payment_method == OrderPaymentMethod::PAYMENT_ON_DELIVERY;
+    }
+
+    public function canProductHandover(): bool
+    {
+        return $this->status == OrderStatus::TO_RECEIVE &&
+            $this->shipping_method == OrderShippingMethod::PICKUP_AT_STORE;
     }
 
     /*
