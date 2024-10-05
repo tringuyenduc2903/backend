@@ -141,13 +141,13 @@ class Review extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected function getImagesPreviewAttribute(): array
+    protected function getImagesPreviewAttribute(): ?array
     {
-        $items = json_decode($this->images);
-
-        if (is_null($items)) {
-            return [];
+        if (is_null($this->images)) {
+            return null;
         }
+
+        $items = json_decode($this->images);
 
         foreach ($items as &$item) {
             $item = image_preview(
