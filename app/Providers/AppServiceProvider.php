@@ -14,12 +14,14 @@ use App\Models\Option;
 use App\Models\Order;
 use App\Models\OrderMotorcycle;
 use App\Models\OrderProduct;
-use App\Observers\StoreAddress;
-use App\Observers\StoreIdentification;
-use App\Observers\StoreOptionObserver;
-use App\Observers\StoreOrderMotorcycleObserver;
-use App\Observers\StoreOrderObserver;
-use App\Observers\StoreOrderProductObserver;
+use App\Models\OrderTransaction;
+use App\Observers\AddressObserver;
+use App\Observers\IdentificationObserver;
+use App\Observers\OptionObserver;
+use App\Observers\OrderMotorcycleObserver;
+use App\Observers\OrderObserver;
+use App\Observers\OrderProductObserver;
+use App\Observers\OrderTransactionObserver;
 use App\Rules\Action;
 use App\Rules\Image;
 use Illuminate\Auth\Notifications\ResetPassword;
@@ -48,12 +50,13 @@ class AppServiceProvider extends ServiceProvider
             )
         );
 
-        Address::observe(StoreAddress::class);
-        Identification::observe(StoreIdentification::class);
-        Option::observe(StoreOptionObserver::class);
-        Order::observe(StoreOrderObserver::class);
-        OrderProduct::observe(StoreOrderProductObserver::class);
-        OrderMotorcycle::observe(StoreOrderMotorcycleObserver::class);
+        Address::observe(AddressObserver::class);
+        Identification::observe(IdentificationObserver::class);
+        Option::observe(OptionObserver::class);
+        Order::observe(OrderObserver::class);
+        OrderProduct::observe(OrderProductObserver::class);
+        OrderMotorcycle::observe(OrderMotorcycleObserver::class);
+        OrderTransaction::observe(OrderTransactionObserver::class);
 
         Event::listen(AdminOrderCreatedEvent::class, [CreateOrderPayOsPayment::class, 'handle']);
         Event::listen(FrontendOrderCreatedEvent::class, [CreateOrderPayOsPayment::class, 'handle']);

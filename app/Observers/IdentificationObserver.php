@@ -4,7 +4,7 @@ namespace App\Observers;
 
 use App\Models\Identification;
 
-class StoreIdentification
+class IdentificationObserver
 {
     /**
      * Handle the Identification "saving" event.

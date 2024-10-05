@@ -35,24 +35,12 @@ class PayOsController extends Controller
                 $payment_link_information = PayOsOrderMotorcycleApi::getPaymentLinkInformation($order);
             }
 
-            $order->transactions()->create([
-                'amount' => $webhook_data['amount'],
+            $order->transactions()->whereReference($order->id)->update([
                 'status' => PayOsStatus::valueForKey($payment_link_information['status']),
                 'reference' => $webhook_data['reference'],
             ]);
 
             switch ($payment_link_information['status']) {
-                case PayOsStatus::PAID:
-                    if ($order_type === PayOsOrderTypeEnum::ORDER) {
-                        $order->update([
-                            'status' => OrderStatus::TO_SHIP,
-                        ]);
-                    } else {
-                        $order->update([
-                            'status' => OrderStatus::TO_RECEIVE,
-                        ]);
-                    }
-                    break;
                 case PayOsStatus::CANCELLED:
                     $order->update([
                         'status' => OrderStatus::CANCELLED,

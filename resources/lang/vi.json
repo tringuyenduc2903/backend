@@ -233,6 +233,7 @@
     "Shipment": "Vận chuyển",
     "Reason": "Lý do",
     "Transactions": "Giao dịch",
+    "Transaction": "Giao dịch",
     "Reference": "Tham chiếu",
     "Motorcycle registration support": "Hỗ trợ đăng ký xe máy",
     "Motorcycle registration support fee": "Phí hỗ trợ đăng ký xe máy",
@@ -249,5 +250,6 @@
     "No": "Không",
     "Create GHN Order": "Tạo đơn GHN",
     "Confirm packaging": "Xác nhận đóng gói",
-    "Is the order ready for delivery to the shipping unit?": "Đơn hàng đã sẵn sàng giao cho đơn vị vận chuyển?"
+    "Is the order ready for delivery to the shipping unit?": "Đơn hàng đã sẵn sàng giao cho đơn vị vận chuyển?",
+    "Add transaction history": "Thêm lịch sử giao dịch"
 }

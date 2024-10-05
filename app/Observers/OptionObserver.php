@@ -5,7 +5,7 @@ namespace App\Observers;
 use App\Enums\OptionStatus;
 use App\Models\Option;
 
-class StoreOptionObserver
+class OptionObserver
 {
     /**
      * Handle the Option "saving" event.

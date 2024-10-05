@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\OrderTransactionStatus;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OrderTransaction extends Model
 {
@@ -50,6 +51,22 @@ class OrderTransaction extends Model
     /*
     |--------------------------------------------------------------------------
     | MUTATORS
+    |--------------------------------------------------------------------------
+    */
+
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class, 'orderable_id');
+    }
+
+    public function order_motorcycle(): BelongsTo
+    {
+        return $this->belongsTo(OrderMotorcycle::class, 'orderable_id');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
     |--------------------------------------------------------------------------
     */
 

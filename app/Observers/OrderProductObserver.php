@@ -4,7 +4,7 @@ namespace App\Observers;
 
 use App\Models\OrderProduct;
 
-class StoreOrderProductObserver
+class OrderProductObserver
 {
     /**
      * Handle the OrderProduct "creating" event.

@@ -17,6 +17,11 @@
                             'link' => route('orders.index'),
                         ],
                         [
+                            'permission' => EmployeePermission::TRANSACTION_CRUD,
+                            'title' => trans('Transactions'),
+                            'link' => route('transactions.index'),
+                        ],
+                        [
                             'permission' => EmployeePermission::SHIPMENT_CRUD,
                             'title' => trans('Shipments'),
                             'link' => route('shipments.index'),

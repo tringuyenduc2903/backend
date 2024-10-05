@@ -9,7 +9,7 @@ use App\Facades\GhnApi;
 use App\Facades\PayOsOrderApi;
 use App\Models\Order;
 
-class StoreOrderObserver
+class OrderObserver
 {
     /**
      * Handle the Order "creating" event.

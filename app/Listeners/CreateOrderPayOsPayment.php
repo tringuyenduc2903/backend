@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Enums\OrderPaymentMethod;
+use App\Enums\OrderTransactionStatus;
 use App\Events\AdminOrderCreatedEvent;
 use App\Facades\PayOsOrderApi;
 use Exception;
@@ -25,6 +26,12 @@ class CreateOrderPayOsPayment
                     'payment_checkout_url' => $response['checkoutUrl'],
                 ])
                 ->save();
+
+            $event->order->transactions()->create([
+                'amount' => $event->order->total,
+                'status' => OrderTransactionStatus::PENDING,
+                'reference' => $event->order->id,
+            ]);
         }
     }
 }

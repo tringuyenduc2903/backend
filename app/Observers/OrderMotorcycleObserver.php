@@ -7,7 +7,7 @@ use App\Enums\OrderStatus;
 use App\Facades\PayOsOrderMotorcycleApi;
 use App\Models\OrderMotorcycle;
 
-class StoreOrderMotorcycleObserver
+class OrderMotorcycleObserver
 {
     /**
      * Handle the OrderMotorcycle "creating" event.

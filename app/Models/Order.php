@@ -115,6 +115,12 @@ class Order extends Model
             is_null($this->shipping_code);
     }
 
+    public function canAddTransaction(): bool
+    {
+        return $this->status == OrderStatus::TO_PAY &&
+            $this->payment_method == OrderPaymentMethod::PAYMENT_ON_DELIVERY;
+    }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS

@@ -4,7 +4,7 @@ namespace App\Observers;
 
 use App\Models\Address;
 
-class StoreAddress
+class AddressObserver
 {
     /**
      * Handle the Address "saving" event.
