@@ -226,6 +226,7 @@
     ":method_name :method_value is not available for this order": ":method_name :method_value không khả dụng với đơn hàng này",
     "Checkout URL": "Liên kết thanh toán",
     "Pending": "Đang xử lý",
+    "Paid": "Đã thanh toán",
     "Successfully": "Thành công",
     "Failed": "Thất bại",
     "Orders with status :name cannot be canceled.": "Không thể hủy Đơn hàng có trạng thái :name.",

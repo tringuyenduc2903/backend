@@ -165,6 +165,12 @@ class OrderCrudController extends CrudController
             ], [
                 'name' => 'reference',
                 'label' => trans('Reference'),
+            ], [
+                'name' => CRUD::getModel()->getCreatedAtColumn(),
+                'label' => trans('Created at'),
+            ], [
+                'name' => CRUD::getModel()->getUpdatedAtColumn(),
+                'label' => trans('Updated at'),
             ]],
         ])->afterColumn('payment_method');
         CRUD::column('payment_checkout_url')

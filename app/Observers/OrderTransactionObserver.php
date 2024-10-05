@@ -18,7 +18,7 @@ class OrderTransactionObserver
     {
         $amount = OrderTransaction::whereOrderableType($order_transaction->orderable_type)
             ->whereOrderableId($order_transaction->orderable_id)
-            ->whereStatus(OrderTransactionStatus::SUCCESSFULLY)
+            ->whereStatus(OrderTransactionStatus::PAID)
             ->sum('amount');
 
         $order = match ($order_transaction->orderable_type) {

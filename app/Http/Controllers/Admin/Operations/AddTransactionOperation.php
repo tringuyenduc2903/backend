@@ -87,7 +87,7 @@ trait AddTransactionOperation
             ->label(trans('Reference'));
 
         OrderTransaction::creating(function (OrderTransaction $order_transaction) {
-            $order_transaction->status = OrderTransactionStatus::SUCCESSFULLY;
+            $order_transaction->status = OrderTransactionStatus::PAID;
         });
     }
 

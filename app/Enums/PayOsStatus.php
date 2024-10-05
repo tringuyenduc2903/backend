@@ -28,7 +28,7 @@ class PayOsStatus extends Enum
     public static function map(): array
     {
         return [
-            static::PAID => OrderTransactionStatus::SUCCESSFULLY,
+            static::PAID => OrderTransactionStatus::PAID,
             static::CANCELLED => OrderTransactionStatus::FAILED,
             static::PENDING, static::PROCESSING => OrderTransactionStatus::PENDING,
         ];

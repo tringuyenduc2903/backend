@@ -8,14 +8,14 @@ use Rexlabs\Enum\Enum;
  * The OrderTransactionStatus enum.
  *
  * @method static self PENDING()
- * @method static self SUCCESSFULLY()
+ * @method static self PAID()
  * @method static self FAILED()
  */
 class OrderTransactionStatus extends Enum
 {
     const PENDING = 0;
 
-    const SUCCESSFULLY = 1;
+    const PAID = 1;
 
     const FAILED = 2;
 
@@ -26,7 +26,7 @@ class OrderTransactionStatus extends Enum
     {
         return [
             static::PENDING => trans('Pending'),
-            static::SUCCESSFULLY => trans('Successfully'),
+            static::PAID => trans('Paid'),
             static::FAILED => trans('Failed'),
         ];
     }
