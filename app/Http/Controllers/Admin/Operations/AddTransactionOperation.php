@@ -6,6 +6,7 @@ use Alert;
 use App\Enums\OrderTransactionStatus;
 use App\Http\Requests\Admin\Operations\AddTransactionRequest;
 use App\Models\Order;
+use App\Models\OrderMotorcycle;
 use App\Models\OrderTransaction;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
@@ -44,27 +45,12 @@ trait AddTransactionOperation
     {
         CRUD::setAccessCondition(
             'add_transaction',
-            fn (Order $entry): bool => $entry->canAddTransaction()
+            fn (Order|OrderMotorcycle $entry): bool => $entry->canAddTransaction()
         );
 
         CRUD::operation('add_transaction', function () {
             CRUD::loadDefaultOperationSettingsFromConfig();
             CRUD::setupDefaultSaveActions();
-            $this->crud->addSaveAction([
-                'name' => 'save_and_preview',
-                'visible' => fn ($crud): bool => $crud->hasAccess('show'),
-                'redirect' => function ($crud, $request, $itemId = null) {
-                    $itemId = $itemId ?: $request->input('id');
-                    $redirectUrl = route('orders.show', ['id' => $itemId]);
-
-                    if ($request->has('_locale')) {
-                        $redirectUrl .= '?_locale='.$request->input('_locale');
-                    }
-
-                    return $redirectUrl;
-                },
-                'button_text' => trans('backpack::crud.save_action_save_and_preview'),
-            ]);
         });
 
         CRUD::operation(
@@ -93,7 +79,6 @@ trait AddTransactionOperation
             ->prefix($code);
         CRUD::field('preview')
             ->label(trans('Price preview'))
-            ->type('number')
             ->prefix($code)
             ->attributes([
                 'disabled' => true,

@@ -112,6 +112,12 @@ class OrderMotorcycle extends Model
         ]);
     }
 
+    public function canAddTransaction(): bool
+    {
+        return $this->status == OrderStatus::TO_PAY &&
+            $this->payment_method == OrderPaymentMethod::PAYMENT_ON_DELIVERY;
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

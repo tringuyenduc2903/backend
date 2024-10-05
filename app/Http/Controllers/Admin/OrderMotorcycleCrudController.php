@@ -118,7 +118,7 @@ class OrderMotorcycleCrudController extends CrudController
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      */
-    protected function setupShowOperation(): void
+    public function setupShowOperation(): void
     {
         $this->setupListOperation();
 
@@ -246,7 +246,7 @@ class OrderMotorcycleCrudController extends CrudController
      *
      * @return void
      */
-    protected function setupListOperation()
+    public function setupListOperation()
     {
         CRUD::column('id')
             ->label(trans('Id'));

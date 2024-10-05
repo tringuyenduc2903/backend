@@ -14,9 +14,7 @@ class OrderMotorcycleObserver
      */
     public function creating(OrderMotorcycle $order_motorcycle): void
     {
-        $order_motorcycle->status = $order_motorcycle->payment_method == OrderPaymentMethod::PAYMENT_ON_DELIVERY
-            ? OrderStatus::TO_RECEIVE
-            : OrderStatus::TO_PAY;
+        $order_motorcycle->status = OrderStatus::TO_PAY;
         $order_motorcycle->amount = 1;
 
         $order_motorcycle->price = $order_motorcycle->option->price;

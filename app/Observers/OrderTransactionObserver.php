@@ -2,11 +2,11 @@
 
 namespace App\Observers;
 
-use App\Actions\Fee\OrderMotorcycle;
 use App\Enums\OrderShippingMethod;
 use App\Enums\OrderStatus;
 use App\Enums\OrderTransactionStatus;
 use App\Models\Order;
+use App\Models\OrderMotorcycle;
 use App\Models\OrderTransaction;
 
 class OrderTransactionObserver

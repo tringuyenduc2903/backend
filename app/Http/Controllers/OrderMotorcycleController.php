@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Fee\OrderMotorcycle;
 use App\Enums\OrderStatus;
 use App\Events\FrontendOrderMotorcycleCreatedEvent;
 use App\Facades\OrderMotorcycleFee;
 use App\Http\Requests\OrderMotorcycleRequest;
 use App\Models\Option;
+use App\Models\OrderMotorcycle;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
