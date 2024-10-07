@@ -61,6 +61,8 @@ class OrderController extends Controller
         event(app(FrontendOrderCreatedEvent::class, [
             'order' => $order,
             'customer' => fortify_user(),
+            'cancel_url' => $request->validated('cancel_url'),
+            'return_url' => $request->validated('return_url'),
         ]));
 
         return response()->json([

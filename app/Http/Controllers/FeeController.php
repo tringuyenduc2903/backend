@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Facades\OrderFee;
 use App\Http\Requests\OrderRequest;
 
-class OrderFeeController extends Controller
+class FeeController extends Controller
 {
     /**
      * Handle the incoming request.

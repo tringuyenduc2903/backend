@@ -38,6 +38,14 @@ content:
           title: Ghi chú
           example:
           type: string
+        cancel_url:
+          title: Liên kết chuyển hướng khi thanh toán thất bại/Hủy yêu cầu thanh toán
+          example: http://localhost/order-motorcycle/1/transaction/failed
+          type: string
+        return_url:
+          title: Liên kết chuyển hướng khi thanh toán thành công
+          example: http://localhost/order-motorcycle/1/transaction/success
+          type: string
       type: object
       required:
         - option_id
