@@ -14,9 +14,9 @@ class SendFrontendOrderMotorcycleCreatedNotification implements ShouldQueue
      */
     public function handle(FrontendOrderMotorcycleCreatedEvent $event): void
     {
-        Mail::to($event->order_motorcycle->customer)->send(
+        Mail::to($event->order->customer)->send(
             app(FrontendOrderMotorcycleCreated::class, [
-                'order_motorcycle' => $event->order_motorcycle,
+                'order' => $event->order,
             ])
         );
     }

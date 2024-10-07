@@ -14,7 +14,7 @@ class AdminOrderMotorcycleCreatedEvent
      * Create a new event instance.
      */
     public function __construct(
-        public OrderMotorcycle $order_motorcycle,
+        public OrderMotorcycle $order,
         public Employee $employee
     ) {}
 }

@@ -19,7 +19,7 @@ class AdminOrderMotorcycleCreated extends Mailable
      * Create a new message instance.
      */
     public function __construct(
-        protected OrderMotorcycle $order_motorcycle,
+        protected OrderMotorcycle $order,
         protected Employee $employee,
     ) {}
 
@@ -44,26 +44,26 @@ class AdminOrderMotorcycleCreated extends Mailable
                 'level' => '',
                 'introLines' => [
                     trans('Order Id #**:number** was successfully created by Employee **:name** at **:time**.', [
-                        'number' => $this->order_motorcycle->id,
+                        'number' => $this->order->id,
                         'name' => $this->employee->name,
                         'time' => Carbon::now()->isoFormat(config('backpack.ui.default_datetime_format')),
                     ]),
                     trans('Please review the information and access your account to track order status:'),
                     '---',
                     '# '.trans('Order account information:'),
-                    sprintf('**%s**: %s', trans('Name'), $this->order_motorcycle->customer->name),
-                    sprintf('**%s**: %s', trans('Phone number'), $this->order_motorcycle->customer->phone_number),
+                    sprintf('**%s**: %s', trans('Name'), $this->order->customer->name),
+                    sprintf('**%s**: %s', trans('Phone number'), $this->order->customer->phone_number),
                     '---',
                     '# '.trans('Recipient information:'),
-                    sprintf('**%s**: %s', trans('Name'), $this->order_motorcycle->address->customer_name),
-                    sprintf('**%s**: %s', trans('Phone number'), $this->order_motorcycle->address->customer_phone_number),
-                    sprintf('**%s**: %s', trans('Address detail'), $this->order_motorcycle->address->address_preview),
-                    sprintf('**%s**: %s', trans('Note'), $this->order_motorcycle->note),
-                    sprintf('**%s**: %s', trans('Payment method'), $this->order_motorcycle->payment_method_preview),
-                    sprintf('**%s**: %s', trans('Status'), $this->order_motorcycle->status_preview),
-                    sprintf('**%s**: %s', trans('Motorcycle registration support'), trans($this->order_motorcycle->motorcycle_registration_support ? 'Yes' : 'No')),
-                    sprintf('**%s**: %s', trans('Registration option'), $this->order_motorcycle->registration_option_preview),
-                    sprintf('**%s**: %s', trans('License plate registration option'), $this->order_motorcycle->license_plate_registration_option_preview),
+                    sprintf('**%s**: %s', trans('Name'), $this->order->address->customer_name),
+                    sprintf('**%s**: %s', trans('Phone number'), $this->order->address->customer_phone_number),
+                    sprintf('**%s**: %s', trans('Address detail'), $this->order->address->address_preview),
+                    sprintf('**%s**: %s', trans('Note'), $this->order->note),
+                    sprintf('**%s**: %s', trans('Payment method'), $this->order->payment_method_preview),
+                    sprintf('**%s**: %s', trans('Status'), $this->order->status_preview),
+                    sprintf('**%s**: %s', trans('Motorcycle registration support'), trans($this->order->motorcycle_registration_support ? 'Yes' : 'No')),
+                    sprintf('**%s**: %s', trans('Registration option'), $this->order->registration_option_preview),
+                    sprintf('**%s**: %s', trans('License plate registration option'), $this->order->license_plate_registration_option_preview),
                     '---',
                     '# '.trans('Information about products:'),
                 ],
@@ -78,7 +78,7 @@ class AdminOrderMotorcycleCreated extends Mailable
                     ),
                     '| --- | :---: | :---: | :---: | ---: |',
                 ],
-                'options' => get_option($this->order_motorcycle),
+                'options' => get_option($this->order),
                 'outroLines' => [],
             ],
         );

@@ -14,9 +14,9 @@ class SendAdminOrderMotorcycleCreatedNotification implements ShouldQueue
      */
     public function handle(AdminOrderMotorcycleCreatedEvent $event): void
     {
-        Mail::to($event->order_motorcycle->customer)->send(
+        Mail::to($event->order->customer)->send(
             app(AdminOrderMotorcycleCreated::class, [
-                'order_motorcycle' => $event->order_motorcycle,
+                'order' => $event->order,
                 'employee' => $event->employee,
             ])
         );

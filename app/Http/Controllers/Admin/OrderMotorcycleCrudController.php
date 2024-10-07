@@ -32,6 +32,7 @@ use Backpack\CRUD\app\Library\Widget;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Class OrderMotorcycleCrudController
@@ -95,10 +96,14 @@ class OrderMotorcycleCrudController extends CrudController
         // save the redirect choice for next time
         $this->crud->setSaveAction();
 
-        event(app(AdminOrderMotorcycleCreatedEvent::class, [
-            'order_motorcycle' => CRUD::getCurrentEntry(),
-            'employee' => backpack_user(),
-        ]));
+        try {
+            event(app(AdminOrderMotorcycleCreatedEvent::class, [
+                'order' => CRUD::getCurrentEntry(),
+                'employee' => backpack_user(),
+            ]));
+        } catch (ValidationException $exception) {
+            Alert::error($exception->getMessage())->flash();
+        }
 
         return $this->crud->performSaveAction($item->getKey());
     }

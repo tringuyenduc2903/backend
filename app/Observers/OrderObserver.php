@@ -6,7 +6,7 @@ use App\Enums\OrderPaymentMethod;
 use App\Enums\OrderShippingMethod;
 use App\Enums\OrderStatus;
 use App\Facades\GhnApi;
-use App\Facades\PayOsOrderApi;
+use App\Facades\PayOsApi;
 use App\Models\Order;
 
 class OrderObserver
@@ -49,7 +49,7 @@ class OrderObserver
                 $order->payment_method == OrderPaymentMethod::BANK_TRANSFER &&
                 $order->payment_checkout_url
             ) {
-                PayOsOrderApi::cancelPaymentLink($order);
+                PayOsApi::cancelPaymentLink($order);
             }
         }
     }

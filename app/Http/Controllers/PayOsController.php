@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\OrderStatus;
 use App\Enums\PayOsOrderTypeEnum;
 use App\Enums\PayOsStatus;
-use App\Facades\PayOsOrderApi;
-use App\Facades\PayOsOrderMotorcycleApi;
+use App\Facades\PayOsApi;
 use App\Models\Order;
 use App\Models\OrderMotorcycle;
 use Exception;
@@ -22,22 +21,16 @@ class PayOsController extends Controller
      */
     public function __invoke(PayOsOrderTypeEnum $order_type, Request $request): Response|JsonResponse
     {
-        $webhook_data['orderCode'] = $request->order_code;
-        $webhook_data['reference'] = $request->reference;
-        $payment_link_information['status'] = PayOsStatus::PAID;
-
         try {
             $data = $request->all();
 
-            if ($order_type === PayOsOrderTypeEnum::ORDER) {
-                $webhook_data = PayOsOrderApi::verifyPaymentWebhookData($data);
-                $order = Order::findOrFail($webhook_data['orderCode']);
-                $payment_link_information = PayOsOrderApi::getPaymentLinkInformation($order);
-            } else {
-                $webhook_data = PayOsOrderMotorcycleApi::verifyPaymentWebhookData($data);
-                $order = OrderMotorcycle::findOrFail($webhook_data['orderCode']);
-                $payment_link_information = PayOsOrderMotorcycleApi::getPaymentLinkInformation($order);
-            }
+            $webhook_data = PayOsApi::verifyPaymentWebhookData($order_type, $data);
+
+            $order = $order_type === PayOsOrderTypeEnum::ORDER
+                ? Order::findOrFail($webhook_data['orderCode'])
+                : OrderMotorcycle::findOrFail($webhook_data['orderCode']);
+
+            $payment_link_information = PayOsApi::getPaymentLinkInformation($order);
 
             $order
                 ->transactions()

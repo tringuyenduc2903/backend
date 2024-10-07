@@ -2,16 +2,16 @@
 
 namespace App\Facades;
 
-use App\Api\PayOs\PayOsOrder;
+use App\Api\PayOs\PayOs;
 use Illuminate\Support\Facades\Facade;
 
-class PayOsOrderApi extends Facade
+class PayOsApi extends Facade
 {
     /**
      * Get the registered name of the component.
      */
     protected static function getFacadeAccessor(): string
     {
-        return PayOsOrder::class;
+        return PayOs::class;
     }
 }

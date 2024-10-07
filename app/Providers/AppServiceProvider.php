@@ -6,8 +6,7 @@ use App\Events\AdminOrderCreatedEvent;
 use App\Events\AdminOrderMotorcycleCreatedEvent;
 use App\Events\FrontendOrderCreatedEvent;
 use App\Events\FrontendOrderMotorcycleCreatedEvent;
-use App\Listeners\CreateOrderMotorcyclePayOsPayment;
-use App\Listeners\CreateOrderPayOsPayment;
+use App\Listeners\CreatePayOsPayment;
 use App\Models\Address;
 use App\Models\Identification;
 use App\Models\Option;
@@ -58,11 +57,11 @@ class AppServiceProvider extends ServiceProvider
         OrderMotorcycle::observe(OrderMotorcycleObserver::class);
         OrderTransaction::observe(OrderTransactionObserver::class);
 
-        Event::listen(AdminOrderCreatedEvent::class, [CreateOrderPayOsPayment::class, 'handle']);
-        Event::listen(FrontendOrderCreatedEvent::class, [CreateOrderPayOsPayment::class, 'handle']);
+        Event::listen(AdminOrderCreatedEvent::class, [CreatePayOsPayment::class, 'handle']);
+        Event::listen(FrontendOrderCreatedEvent::class, [CreatePayOsPayment::class, 'handle']);
 
-        Event::listen(AdminOrderMotorcycleCreatedEvent::class, [CreateOrderMotorcyclePayOsPayment::class, 'handle']);
-        Event::listen(FrontendOrderMotorcycleCreatedEvent::class, [CreateOrderMotorcyclePayOsPayment::class, 'handle']);
+        Event::listen(AdminOrderMotorcycleCreatedEvent::class, [CreatePayOsPayment::class, 'handle']);
+        Event::listen(FrontendOrderMotorcycleCreatedEvent::class, [CreatePayOsPayment::class, 'handle']);
 
         Validator::extend(
             'actions',
