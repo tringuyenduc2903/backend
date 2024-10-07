@@ -84,6 +84,16 @@ class OrderRequest extends FormRequest
                 'string',
                 'max:255',
             ],
+            'cancel_url' => [
+                'required_if:payment_method'.OrderPaymentMethod::BANK_TRANSFER,
+                'string',
+                'url',
+            ],
+            'return_url' => [
+                'required_if:payment_method'.OrderPaymentMethod::BANK_TRANSFER,
+                'string',
+                'url',
+            ],
         ];
     }
 }
