@@ -22,6 +22,10 @@ class PayOsController extends Controller
      */
     public function __invoke(PayOsOrderTypeEnum $order_type, Request $request): Response|JsonResponse
     {
+        $webhook_data['orderCode'] = $request->order_code;
+        $webhook_data['reference'] = $request->reference;
+        $payment_link_information['status'] = PayOsStatus::PAID;
+
         try {
             $data = $request->all();
 
@@ -35,17 +39,19 @@ class PayOsController extends Controller
                 $payment_link_information = PayOsOrderMotorcycleApi::getPaymentLinkInformation($order);
             }
 
-            $order->transactions()->whereReference($order->id)->update([
-                'status' => PayOsStatus::valueForKey($payment_link_information['status']),
-                'reference' => $webhook_data['reference'],
-            ]);
+            $order
+                ->transactions()
+                ->whereReference($webhook_data['paymentLinkId'])
+                ->first()
+                ->update([
+                    'status' => PayOsStatus::valueForKey($payment_link_information['status']),
+                    'reference' => $webhook_data['reference'],
+                ]);
 
-            switch ($payment_link_information['status']) {
-                case PayOsStatus::CANCELLED:
-                    $order->update([
-                        'status' => OrderStatus::CANCELLED,
-                    ]);
-                    break;
+            if ($payment_link_information['status'] == PayOsStatus::CANCELLED) {
+                $order->update([
+                    'status' => OrderStatus::CANCELLED,
+                ]);
             }
         } catch (Exception $exception) {
             return $exception->getCode() == ErrorCode::NO_DATA

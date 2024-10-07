@@ -46,8 +46,11 @@ class PayOsOrder
         return $this->payOS->cancelPaymentLink($orderCode->id, $cancellationReason);
     }
 
-    public function createPaymentLink(Order $paymentData): array
-    {
+    public function createPaymentLink(
+        Order $paymentData,
+        ?string $cancel_url = null,
+        ?string $return_url = null,
+    ): array {
         try {
             return $this->payOS->createPaymentLink([
                 'orderCode' => $paymentData->id,
@@ -64,8 +67,8 @@ class PayOsOrder
                         'price' => (int) $order_product->price,
                     ])
                     ->toArray(),
-                'cancelUrl' => route('orders.show', ['id' => $paymentData->id]),
-                'returnUrl' => route('orders.show', ['id' => $paymentData->id]),
+                'cancelUrl' => $cancel_url ?: route('transactions.show', ['id' => $paymentData->id]),
+                'returnUrl' => $return_url ?: route('orders.show', ['id' => $paymentData->id]),
             ]);
         } catch (Exception) {
             throw ValidationException::withMessages([

@@ -2,7 +2,7 @@
 
 namespace App\Facades;
 
-use App\Actions\Fee\OrderMotorcycle;
+use App\Actions\MotorcycleFee;
 use Illuminate\Support\Facades\Facade;
 
 class OrderMotorcycleFee extends Facade
@@ -12,6 +12,6 @@ class OrderMotorcycleFee extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return OrderMotorcycle::class;
+        return MotorcycleFee::class;
     }
 }

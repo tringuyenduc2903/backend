@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Actions\Fee;
+namespace App\Actions;
 
 use App\Enums\OrderShippingMethod;
 use App\Facades\GhnApi;
 use App\Models\Address;
 use App\Models\Option;
 
-class Order
+class Fee
 {
     protected array $items = [];
 

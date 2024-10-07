@@ -30,7 +30,7 @@ class CreateOrderPayOsPayment
             $event->order->transactions()->create([
                 'amount' => $event->order->total,
                 'status' => OrderTransactionStatus::PENDING,
-                'reference' => $event->order->id,
+                'reference' => $response['paymentLinkId'],
             ]);
         }
     }

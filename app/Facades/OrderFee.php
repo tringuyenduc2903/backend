@@ -2,7 +2,7 @@
 
 namespace App\Facades;
 
-use App\Actions\Fee\Order;
+use App\Actions\Fee;
 use Illuminate\Support\Facades\Facade;
 
 class OrderFee extends Facade
@@ -12,6 +12,6 @@ class OrderFee extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return Order::class;
+        return Fee::class;
     }
 }

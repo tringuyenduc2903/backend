@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Enums\OrderPaymentMethod;
+use App\Enums\OrderTransactionStatus;
 use App\Events\AdminOrderMotorcycleCreatedEvent;
 use App\Facades\PayOsOrderMotorcycleApi;
 use Exception;
@@ -25,6 +26,12 @@ class CreateOrderMotorcyclePayOsPayment
                     'payment_checkout_url' => $response['checkoutUrl'],
                 ])
                 ->save();
+
+            $event->order_motorcycle->transactions()->create([
+                'amount' => $event->order_motorcycle->total,
+                'status' => OrderTransactionStatus::PENDING,
+                'reference' => $response['paymentLinkId'],
+            ]);
         }
     }
 }

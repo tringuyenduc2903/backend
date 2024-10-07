@@ -45,8 +45,11 @@ class PayOsOrderMotorcycle
         return $this->payOS->cancelPaymentLink($orderCode->id, $cancellationReason);
     }
 
-    public function createPaymentLink(OrderMotorcycle $paymentData): array
-    {
+    public function createPaymentLink(
+        OrderMotorcycle $paymentData,
+        ?string $cancel_url = null,
+        ?string $return_url = null,
+    ): array {
         try {
             return $this->payOS->createPaymentLink([
                 'orderCode' => $paymentData->id,
@@ -61,8 +64,8 @@ class PayOsOrderMotorcycle
                     'quantity' => $paymentData->amount,
                     'price' => (int) $paymentData->price,
                 ]],
-                'cancelUrl' => route('orders.show', ['id' => $paymentData->id]),
-                'returnUrl' => route('orders.show', ['id' => $paymentData->id]),
+                'cancelUrl' => $cancel_url ?: route('transaction-motorcycles.show', ['id' => $paymentData->id]),
+                'returnUrl' => $return_url ?: route('order-motorcycles.show', ['id' => $paymentData->id]),
             ]);
         } catch (Exception) {
             throw ValidationException::withMessages([

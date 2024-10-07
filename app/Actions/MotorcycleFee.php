@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Actions\Fee;
+namespace App\Actions;
 
 use App\Enums\OrderMotorcycleLicensePlateRegistration;
 use App\Enums\OrderMotorcycleRegistration;
 use App\Models\Option;
 
-class OrderMotorcycle
+class MotorcycleFee
 {
     protected array $item = [];
 
