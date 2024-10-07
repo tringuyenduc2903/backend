@@ -4,7 +4,6 @@ namespace App\Listeners;
 
 use App\Enums\OrderPaymentMethod;
 use App\Enums\OrderTransactionStatus;
-use App\Events\AdminOrderCreatedEvent;
 use App\Facades\PayOsApi;
 use Exception;
 
@@ -17,9 +16,12 @@ class CreatePayOsPayment
      */
     public function handle($event): void
     {
-        /** @var AdminOrderCreatedEvent $event */
         if ($event->order->payment_method == OrderPaymentMethod::BANK_TRANSFER) {
-            $response = PayOsApi::createPaymentLink($event->order);
+            $response = PayOsApi::createPaymentLink(
+                $event->order,
+                $event?->cancel_url,
+                $event?->return_url,
+            );
 
             $event->order
                 ->forceFill([

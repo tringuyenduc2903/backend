@@ -58,6 +58,8 @@ class OrderMotorcycleController extends Controller
         event(app(FrontendOrderMotorcycleCreatedEvent::class, [
             'order_motorcycle' => $order_motorcycle,
             'customer' => fortify_user(),
+            'cancel_url' => $request->validated('cancel_url'),
+            'return_url' => $request->validated('return_url'),
         ]));
 
         return response()->json([

@@ -16,5 +16,7 @@ class FrontendOrderMotorcycleCreatedEvent
     public function __construct(
         public OrderMotorcycle $order,
         public Customer $customer,
+        public string $cancel_url,
+        public string $return_url,
     ) {}
 }

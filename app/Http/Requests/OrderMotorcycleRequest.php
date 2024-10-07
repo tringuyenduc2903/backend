@@ -76,6 +76,16 @@ class OrderMotorcycleRequest extends FormRequest
                 'string',
                 'max:255',
             ],
+            'cancel_url' => [
+                'required',
+                'string',
+                'url',
+            ],
+            'return_url' => [
+                'required',
+                'string',
+                'url',
+            ],
         ];
     }
 
