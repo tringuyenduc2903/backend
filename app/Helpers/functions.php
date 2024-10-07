@@ -271,7 +271,7 @@ if (! function_exists('get_options')) {
                 return sprintf(
                     '| ![%s](%s) | %s%s | %s | %s | %s |',
                     $order_product->option->product->name,
-                    Arr::first(json_decode($order_product->option->images)),
+                    Arr::first(json_decode($order_product->option->images ?: '[]')),
                     mb_substr($order_product->option->product->name, 0, 9),
                     mb_strlen($order_product->option->product->name) > 7 ? '...' : '',
                     price($order_product->price),
@@ -312,7 +312,7 @@ if (! function_exists('get_option')) {
         $option = [sprintf(
             '| ![%s](%s) | %s%s | %s | %s | %s |',
             $order_motorcycle->option->product->name,
-            Arr::first(json_decode($order_motorcycle->option->images)),
+            Arr::first(json_decode($order_motorcycle->option->images ?: '[]')),
             mb_substr($order_motorcycle->option->product->name, 0, 9),
             mb_strlen($order_motorcycle->option->product->name) > 7 ? '...' : '',
             price($order_motorcycle->price),
