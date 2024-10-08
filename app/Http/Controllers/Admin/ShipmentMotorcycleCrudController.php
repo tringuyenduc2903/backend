@@ -11,6 +11,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ShipmentMotorcycleCrudController
@@ -46,7 +47,7 @@ class ShipmentMotorcycleCrudController extends CrudController
      */
     protected function setupShowOperation(): void
     {
-        app(OrderMotorcycleCrudController::class)->setupShowOperation();
+        $this->setupListOperation();
     }
 
     /**
@@ -58,8 +59,46 @@ class ShipmentMotorcycleCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        app(OrderMotorcycleCrudController::class)->setupListOperation();
+        CRUD::column('id')
+            ->label(trans('Id'));
+        CRUD::column('address.customer_name')
+            ->label(trans('Name'))
+            ->searchLogic(
+                fn (Builder $query, array $_, string $search_term): Builder => $query->orWhereHas(
+                    'address',
+                    fn (Builder $query): Builder => $query->whereLike('customer_name', "%$search_term%")
+                )
+            );
+        CRUD::addColumn([
+            'name' => 'address',
+            'label' => trans('Phone number'),
+            'attribute' => 'customer_phone_number',
+            'searchLogic' => fn (Builder $query, array $_, string $search_term): Builder => $query->orWhereHas(
+                'address',
+                fn (Builder $query): Builder => $query->whereLike(
+                    'customer_phone_number',
+                    "%$search_term%"
+                )
+            ),
+        ]);
+        CRUD::addColumn([
+            'name' => 'status',
+            'label' => trans('Status'),
+            'type' => 'select2_from_array',
+            'options' => OrderStatus::values(),
+        ]);
+        CRUD::addColumn([
+            'name' => 'option',
+            'label' => trans('Product'),
+            'attribute' => 'sku',
+        ]);
 
-        CRUD::removeFilter('status');
+        CRUD::filter('status')
+            ->label(trans('Status'))
+            ->type('dropdown')
+            ->values([
+                OrderStatus::TO_SHIP => trans('To ship'),
+                OrderStatus::TO_RECEIVE => trans('To receive'),
+            ]);
     }
 }

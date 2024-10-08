@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\EmployeePermission;
+use App\Enums\OrderShippingMethod;
 use App\Enums\OrderStatus;
 use App\Http\Controllers\Admin\Operations\CreateGhnOrderOperation;
 use App\Http\Controllers\Admin\Operations\ProductHandoverOperation;
@@ -12,6 +13,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ShipmentCrudController
@@ -48,9 +50,23 @@ class ShipmentCrudController extends CrudController
      */
     protected function setupShowOperation(): void
     {
-        app(OrderCrudController::class)->setupShowOperation(
-            $this->crud->entity_name
-        );
+        $this->setupListOperation();
+
+        CRUD::addColumn([
+            'name' => 'shipments',
+            'label' => trans('Shipments'),
+            'subfields' => [[
+                'name' => 'name_preview',
+                'label' => trans('Name'),
+            ], [
+                'name' => 'description',
+                'label' => trans('Description'),
+            ], [
+                'name' => 'reason_preview',
+                'label' => trans('Reason'),
+                'type' => 'textarea',
+            ]],
+        ]);
     }
 
     /**
@@ -62,8 +78,61 @@ class ShipmentCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        app(OrderCrudController::class)->setupListOperation();
+        CRUD::column('id')
+            ->label(trans('Id'));
+        CRUD::column('address.customer_name')
+            ->label(trans('Name'))
+            ->searchLogic(
+                fn (Builder $query, array $_, string $search_term): Builder => $query->orWhereHas(
+                    'address',
+                    fn (Builder $query): Builder => $query->whereLike('customer_name', "%$search_term%")
+                )
+            );
+        CRUD::addColumn([
+            'name' => 'address',
+            'label' => trans('Phone number'),
+            'attribute' => 'customer_phone_number',
+            'searchLogic' => fn (Builder $query, array $_, string $search_term): Builder => $query->orWhereHas(
+                'address',
+                fn (Builder $query): Builder => $query->whereLike(
+                    'customer_phone_number',
+                    "%$search_term%"
+                )
+            ),
+        ]);
+        CRUD::addColumn([
+            'name' => 'shipping_method',
+            'label' => trans('Shipping method'),
+            'type' => 'select2_from_array',
+            'options' => OrderShippingMethod::values(),
+        ]);
+        CRUD::addColumn([
+            'name' => 'status',
+            'label' => trans('Status'),
+            'type' => 'select2_from_array',
+            'options' => OrderStatus::values(),
+        ]);
+        CRUD::addColumn([
+            'name' => 'shipping_code',
+            'label' => trans('Shipping code'),
+            'wrapper' => [
+                'href' => fn ($_, $__, $entry): string => sprintf(
+                    'https://donhang.ghn.vn/?order_code=%s',
+                    $entry->shipping_code
+                ),
+            ],
+        ]);
 
-        CRUD::removeFilter('status');
+        CRUD::filter('shipping_method')
+            ->label(trans('Shipping method'))
+            ->type('dropdown')
+            ->values(OrderShippingMethod::values());
+        CRUD::filter('status')
+            ->label(trans('Status'))
+            ->type('dropdown')
+            ->values([
+                OrderStatus::TO_SHIP => trans('To ship'),
+                OrderStatus::TO_RECEIVE => trans('To receive'),
+            ]);
     }
 }

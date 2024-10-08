@@ -243,16 +243,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.323.1",
+            "version": "3.323.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "1b393c41a73e1ef4c493c60c5eee0bb4b0632264"
+                "reference": "030b93340f0e7d6fd20276037087d3eab8f16575"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/1b393c41a73e1ef4c493c60c5eee0bb4b0632264",
-                "reference": "1b393c41a73e1ef4c493c60c5eee0bb4b0632264",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/030b93340f0e7d6fd20276037087d3eab8f16575",
+                "reference": "030b93340f0e7d6fd20276037087d3eab8f16575",
                 "shasum": ""
             },
             "require": {
@@ -335,9 +335,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.323.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.323.2"
             },
-            "time": "2024-10-04T18:07:17+00:00"
+            "time": "2024-10-07T18:11:24+00:00"
         },
         {
             "name": "backpack/basset",
@@ -962,16 +962,16 @@
         },
         {
             "name": "brianium/paratest",
-            "version": "v7.5.6",
+            "version": "v7.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paratestphp/paratest.git",
-                "reference": "8134d62d5b6f98b145f00db1421f39eb1fd0687b"
+                "reference": "4890b17f569efea5e034e519dc883da53a67448d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/8134d62d5b6f98b145f00db1421f39eb1fd0687b",
-                "reference": "8134d62d5b6f98b145f00db1421f39eb1fd0687b",
+                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/4890b17f569efea5e034e519dc883da53a67448d",
+                "reference": "4890b17f569efea5e034e519dc883da53a67448d",
                 "shasum": ""
             },
             "require": {
@@ -985,22 +985,22 @@
                 "phpunit/php-code-coverage": "^11.0.6",
                 "phpunit/php-file-iterator": "^5.1.0",
                 "phpunit/php-timer": "^7.0.1",
-                "phpunit/phpunit": "^11.3.6",
+                "phpunit/phpunit": "^11.4.0",
                 "sebastian/environment": "^7.2.0",
-                "symfony/console": "^6.4.11 || ^7.1.4",
-                "symfony/process": "^6.4.8 || ^7.1.3"
+                "symfony/console": "^6.4.11 || ^7.1.5",
+                "symfony/process": "^6.4.8 || ^7.1.5"
             },
             "require-dev": {
                 "doctrine/coding-standard": "^12.0.0",
                 "ext-pcov": "*",
                 "ext-posix": "*",
-                "infection/infection": "^0.29.6",
-                "phpstan/phpstan": "^1.12.5",
+                "infection/infection": "^0.29.7",
+                "phpstan/phpstan": "^1.12.6",
                 "phpstan/phpstan-deprecation-rules": "^1.2.1",
                 "phpstan/phpstan-phpunit": "^1.4.0",
                 "phpstan/phpstan-strict-rules": "^1.6.1",
                 "squizlabs/php_codesniffer": "^3.10.3",
-                "symfony/filesystem": "^6.4.9 || ^7.1.2"
+                "symfony/filesystem": "^6.4.9 || ^7.1.5"
             },
             "bin": [
                 "bin/paratest",
@@ -1040,7 +1040,7 @@
             ],
             "support": {
                 "issues": "https://github.com/paratestphp/paratest/issues",
-                "source": "https://github.com/paratestphp/paratest/tree/v7.5.6"
+                "source": "https://github.com/paratestphp/paratest/tree/v7.5.7"
             },
             "funding": [
                 {
@@ -1052,7 +1052,7 @@
                     "type": "paypal"
                 }
             ],
-            "time": "2024-10-02T05:22:28+00:00"
+            "time": "2024-10-07T06:27:54+00:00"
         },
         {
             "name": "brick/math",

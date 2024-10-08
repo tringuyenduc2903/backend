@@ -257,5 +257,10 @@
     "Is the order ready for delivery to the :name?": "Đơn hàng đã sẵn sàng giao cho :name?",
     "Shipping unit": "Đơn vị vận chuyển",
     "Add cash transactions": "Thêm giao dịch tiền mặt",
-    "Product handover": "Bàn giao sản phẩm"
+    "Product handover": "Bàn giao sản phẩm",
+    "Invoice information": "Thông tin hóa đơn",
+    "Customer information": "Thông tin khách hàng",
+    "Payment information": "Thông tin thanh toán",
+    "Shipping information": "Thông tin vận chuyển",
+    "Product information": "Thông tin sản phẩm"
 }

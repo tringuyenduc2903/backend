@@ -53,6 +53,9 @@ class TransactionMotorcycleCrudController extends CrudController
 
         $code = ' '.current_currency();
 
+        CRUD::column('payment_checkout_url')
+            ->label(trans('Checkout URL'))
+            ->type('url');
         CRUD::addColumn([
             'name' => 'transactions',
             'label' => trans('Transactions'),

@@ -119,72 +119,19 @@ class OrderCrudController extends CrudController
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      */
-    public function setupShowOperation(): void
+    protected function setupShowOperation(): void
     {
         $this->setupListOperation();
 
         $code = ' '.current_currency();
 
-        CRUD::column('address.address_preview')
-            ->label(trans('Address'))
-            ->type('textarea')
-            ->after('address');
+        // Invoice information
         CRUD::addColumn([
-            'name' => 'shipments',
-            'label' => trans('Shipments'),
-            'subfields' => [[
-                'name' => 'name_preview',
-                'label' => trans('Name'),
-            ], [
-                'name' => 'description',
-                'label' => trans('Description'),
-            ], [
-                'name' => 'reason_preview',
-                'label' => trans('Reason'),
-                'type' => 'textarea',
-            ]],
-        ])->afterColumn('shipping_method');
-        CRUD::addColumn([
-            'name' => 'shipping_code',
-            'label' => trans('Shipping code'),
-            'wrapper' => [
-                'href' => fn ($_, $__, $entry): string => sprintf(
-                    'https://donhang.ghn.vn/?order_code=%s',
-                    $entry->shipping_code
-                ),
-            ],
-        ])->afterColumn('shipping_method');
-        CRUD::addColumn([
-            'name' => 'transactions',
-            'label' => trans('Transactions'),
-            'subfields' => [[
-                'name' => 'amount',
-                'label' => trans('Amount (Money)'),
-                'type' => 'number',
-                'suffix' => $code,
-            ], [
-                'name' => 'status',
-                'label' => trans('Status'),
-                'type' => 'select2_from_array',
-                'options' => OrderTransactionStatus::values(),
-            ], [
-                'name' => 'reference',
-                'label' => trans('Reference'),
-            ], [
-                'name' => CRUD::getModel()->getCreatedAtColumn(),
-                'label' => trans('Created at'),
-            ], [
-                'name' => CRUD::getModel()->getUpdatedAtColumn(),
-                'label' => trans('Updated at'),
-            ]],
-        ])->afterColumn('payment_method');
-        CRUD::column('payment_checkout_url')
-            ->label(trans('Checkout URL'))
-            ->type('url')
-            ->after('payment_method');
-        CRUD::column('note')
-            ->label(trans('Note'))
-            ->type('textarea');
+            'name' => 'note',
+            'label' => trans('Note'),
+            'type' => 'textarea',
+            'tab' => trans('Invoice information'),
+        ]);
         CRUD::addColumn([
             'name' => 'options',
             'label' => trans('Products'),
@@ -207,34 +154,110 @@ class OrderCrudController extends CrudController
                 'type' => 'number',
                 'suffix' => '%',
             ]],
+            'tab' => trans('Invoice information'),
+        ]);
+        CRUD::addColumn([
+            'name' => CRUD::getModel()->getCreatedAtColumn(),
+            'label' => trans('Created at'),
+            'tab' => trans('Invoice information'),
+        ]);
+        CRUD::addColumn([
+            'name' => CRUD::getModel()->getUpdatedAtColumn(),
+            'label' => trans('Updated at'),
+            'tab' => trans('Invoice information'),
+        ]);
+
+        // Customer information
+        CRUD::addColumn([
+            'name' => 'address.address_preview',
+            'label' => trans('Address'),
+            'type' => 'textarea',
+            'tab' => trans('Customer information'),
+        ]);
+
+        // Payment information
+        CRUD::addColumn([
+            'name' => 'payment_checkout_url',
+            'label' => trans('Checkout URL'),
+            'type' => 'url',
+            'tab' => trans('Payment information'),
         ]);
         CRUD::addColumn([
             'name' => 'tax',
             'label' => trans('Tax'),
             'type' => 'number',
             'suffix' => $code,
+            'tab' => trans('Payment information'),
         ]);
         CRUD::addColumn([
             'name' => 'shipping_fee',
             'label' => trans('Shipping fee'),
             'type' => 'number',
             'suffix' => $code,
+            'tab' => trans('Payment information'),
         ]);
         CRUD::addColumn([
             'name' => 'handling_fee',
             'label' => trans('Handling fee'),
             'type' => 'number',
             'suffix' => $code,
+            'tab' => trans('Payment information'),
         ]);
         CRUD::addColumn([
             'name' => 'total',
             'label' => trans('Total'),
             'type' => 'number',
             'suffix' => $code,
+            'tab' => trans('Payment information'),
         ]);
-        CRUD::column(CRUD::getModel()->getUpdatedAtColumn())
-            ->label(trans('Updated at'))
-            ->after(CRUD::getModel()->getCreatedAtColumn());
+        CRUD::addColumn([
+            'name' => 'transactions',
+            'label' => trans('Transactions'),
+            'subfields' => [[
+                'name' => 'amount',
+                'label' => trans('Amount (Money)'),
+                'type' => 'number',
+                'suffix' => $code,
+            ], [
+                'name' => 'status',
+                'label' => trans('Status'),
+                'type' => 'select2_from_array',
+                'options' => OrderTransactionStatus::values(),
+            ], [
+                'name' => 'reference',
+                'label' => trans('Reference'),
+            ]],
+            'tab' => trans('Payment information'),
+        ]);
+
+        // Shipping information
+        CRUD::addColumn([
+            'name' => 'shipping_code',
+            'label' => trans('Shipping code'),
+            'wrapper' => [
+                'href' => fn ($_, $__, $entry): string => sprintf(
+                    'https://donhang.ghn.vn/?order_code=%s',
+                    $entry->shipping_code
+                ),
+            ],
+            'tab' => trans('Shipping information'),
+        ]);
+        CRUD::addColumn([
+            'name' => 'shipments',
+            'label' => trans('Shipments'),
+            'subfields' => [[
+                'name' => 'name_preview',
+                'label' => trans('Name'),
+            ], [
+                'name' => 'description',
+                'label' => trans('Description'),
+            ], [
+                'name' => 'reason_preview',
+                'label' => trans('Reason'),
+                'type' => 'textarea',
+            ]],
+            'tab' => trans('Shipping information'),
+        ]);
     }
 
     /**
@@ -244,18 +267,22 @@ class OrderCrudController extends CrudController
      *
      * @return void
      */
-    public function setupListOperation()
+    protected function setupListOperation()
     {
-        CRUD::column('id')
-            ->label(trans('Id'));
-        CRUD::column('address.customer_name')
-            ->label(trans('Name'))
-            ->searchLogic(
-                fn (Builder $query, array $_, string $search_term): Builder => $query->orWhereHas(
-                    'address',
-                    fn (Builder $query): Builder => $query->whereLike('customer_name', "%$search_term%")
-                )
-            );
+        CRUD::addColumn([
+            'name' => 'id',
+            'label' => trans('Id'),
+            'tab' => trans('Invoice information'),
+        ]);
+        CRUD::addColumn([
+            'name' => 'address.customer_name',
+            'label' => trans('Name'),
+            'searchLogic' => fn (Builder $query, array $_, string $search_term): Builder => $query->orWhereHas(
+                'address',
+                fn (Builder $query): Builder => $query->whereLike('customer_name', "%$search_term%")
+            ),
+            'tab' => trans('Customer information'),
+        ]);
         CRUD::addColumn([
             'name' => 'address',
             'label' => trans('Phone number'),
@@ -267,36 +294,38 @@ class OrderCrudController extends CrudController
                     "%$search_term%"
                 )
             ),
-        ]);
-        CRUD::addColumn([
-            'name' => 'shipping_method',
-            'label' => trans('Shipping method'),
-            'type' => 'select2_from_array',
-            'options' => OrderShippingMethod::values(),
+            'tab' => trans('Customer information'),
         ]);
         CRUD::addColumn([
             'name' => 'payment_method',
             'label' => trans('Payment method'),
             'type' => 'select2_from_array',
             'options' => OrderPaymentMethod::values(),
+            'tab' => trans('Payment information'),
+        ]);
+        CRUD::addColumn([
+            'name' => 'shipping_method',
+            'label' => trans('Shipping method'),
+            'type' => 'select2_from_array',
+            'options' => OrderShippingMethod::values(),
+            'tab' => trans('Shipping information'),
         ]);
         CRUD::addColumn([
             'name' => 'status',
             'label' => trans('Status'),
             'type' => 'select2_from_array',
             'options' => OrderStatus::values(),
+            'tab' => trans('Invoice information'),
         ]);
-        CRUD::column(CRUD::getModel()->getCreatedAtColumn())
-            ->label(trans('Created at'));
 
-        CRUD::filter('shipping_method')
-            ->label(trans('Shipping method'))
-            ->type('dropdown')
-            ->values(OrderShippingMethod::values());
         CRUD::filter('payment_method')
             ->label(trans('Payment method'))
             ->type('dropdown')
             ->values(OrderPaymentMethod::values());
+        CRUD::filter('shipping_method')
+            ->label(trans('Shipping method'))
+            ->type('dropdown')
+            ->values(OrderShippingMethod::values());
         CRUD::filter('status')
             ->label(trans('Status'))
             ->type('dropdown')
