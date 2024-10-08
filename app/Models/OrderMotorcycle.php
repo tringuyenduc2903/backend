@@ -7,6 +7,7 @@ use App\Enums\OrderMotorcycleRegistration;
 use App\Enums\OrderPaymentMethod;
 use App\Enums\OrderShippingMethod;
 use App\Enums\OrderStatus;
+use App\Enums\OrderTransactionStatus;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -151,9 +152,12 @@ class OrderMotorcycle extends Model
         return $this->belongsTo(Identification::class)->withTrashed();
     }
 
-    public function transactions(): MorphMany
+    protected function getPaidAttribute(): float
     {
-        return $this->morphMany(OrderTransaction::class, 'orderable');
+        return $this
+            ->transactions()
+            ->whereStatus(OrderTransactionStatus::PAID)
+            ->sum('amount');
     }
 
     /*
@@ -161,6 +165,16 @@ class OrderMotorcycle extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+    public function transactions(): MorphMany
+    {
+        return $this->morphMany(OrderTransaction::class, 'orderable');
+    }
+
+    protected function getToBePaidAttribute(): float
+    {
+        return $this->total - $this->paid;
+    }
 
     protected function getPricePreviewAttribute(): array
     {

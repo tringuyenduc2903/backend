@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\OrderPaymentMethod;
 use App\Enums\OrderShippingMethod;
 use App\Enums\OrderStatus;
+use App\Enums\OrderTransactionStatus;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -89,17 +90,6 @@ class Order extends Model
         return $this->hasMany(OrderShipments::class);
     }
 
-    public function transactions(): MorphMany
-    {
-        return $this->morphMany(OrderTransaction::class, 'orderable');
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | FUNCTIONS
-    |--------------------------------------------------------------------------
-    */
-
     public function canCancel(): bool
     {
         return in_array($this->status, [
@@ -107,6 +97,12 @@ class Order extends Model
             OrderStatus::TO_SHIP,
         ]);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTIONS
+    |--------------------------------------------------------------------------
+    */
 
     public function canCreateGhnOrder(): bool
     {
@@ -127,11 +123,29 @@ class Order extends Model
             $this->shipping_method == OrderShippingMethod::PICKUP_AT_STORE;
     }
 
+    protected function getPaidAttribute(): float
+    {
+        return $this
+            ->transactions()
+            ->whereStatus(OrderTransactionStatus::PAID)
+            ->sum('amount');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+    public function transactions(): MorphMany
+    {
+        return $this->morphMany(OrderTransaction::class, 'orderable');
+    }
+
+    protected function getToBePaidAttribute(): float
+    {
+        return $this->total - $this->paid;
+    }
 
     protected function getTaxPreviewAttribute(): array
     {

@@ -63,8 +63,8 @@ trait AddTransactionOperation
     {
         CRUD::setValidation(AddTransactionRequest::class);
 
-        CRUD::setTitle(trans('Add transaction history'));
-        CRUD::setSubheading(trans('Add transaction history'));
+        CRUD::setTitle(trans('Add cash transactions'));
+        CRUD::setSubheading(trans('Add cash transactions'));
 
         Widget::add([
             'type' => 'script',
@@ -76,6 +76,7 @@ trait AddTransactionOperation
         CRUD::field('amount')
             ->label(trans('Amount (Money)'))
             ->type('number')
+            ->default(CRUD::getCurrentEntry()->getAttribute('to_be_paid'))
             ->prefix($code);
         CRUD::field('preview')
             ->label(trans('Price preview'))

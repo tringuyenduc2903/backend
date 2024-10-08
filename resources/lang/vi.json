@@ -227,6 +227,7 @@
     "Checkout URL": "Liên kết thanh toán",
     "Pending": "Đang xử lý",
     "Paid": "Đã thanh toán",
+    "To be paid": "Cần thanh toán",
     "Successfully": "Thành công",
     "Failed": "Thất bại",
     "Orders with status :name cannot be canceled.": "Không thể hủy Đơn hàng có trạng thái :name.",
@@ -255,6 +256,6 @@
     "Confirm packaging": "Xác nhận đóng gói",
     "Is the order ready for delivery to the :name?": "Đơn hàng đã sẵn sàng giao cho :name?",
     "Shipping unit": "Đơn vị vận chuyển",
-    "Add transaction history": "Thêm lịch sử giao dịch",
+    "Add cash transactions": "Thêm giao dịch tiền mặt",
     "Product handover": "Bàn giao sản phẩm"
 }
