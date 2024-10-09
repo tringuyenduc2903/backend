@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\EmployeePermission;
 use App\Enums\OrderStatus;
-use App\Http\Controllers\Admin\Operations\ProductHandoverOperation;
+use App\Http\Controllers\Admin\Operations\MotorcycleHandoverOperation;
 use App\Models\OrderMotorcycle;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Builder;
 class ShipmentMotorcycleCrudController extends CrudController
 {
     use ListOperation;
-    use ProductHandoverOperation;
+    use MotorcycleHandoverOperation;
     use ShowOperation;
 
     /**

@@ -1,5 +1,5 @@
 @if ($crud->hasAccess('cancel_order', $entry))
-    <a bp-button="update" class="btn btn-sm btn-link" href="javascript:void(0)" onclick="cancelOrder(this)"
+    <a class="btn btn-sm btn-link" href="javascript:void(0)" onclick="cancelOrder(this)"
        data-id="{{ $entry->getKey() }}">
         <i class="la la-trash"></i> <span>{{ trans('Cancel order') }}</span>
     </a>

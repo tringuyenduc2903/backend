@@ -1,5 +1,5 @@
 @if ($crud->hasAccess('create_ghn_order', $entry))
-    <a bp-button="update" class="btn btn-sm btn-link" href="javascript:void(0)" onclick="createGhnOrder(this)"
+    <a class="btn btn-sm btn-link" href="javascript:void(0)" onclick="createGhnOrder(this)"
        data-id="{{ $entry->getKey() }}">
         <i class="la la-send"></i> <span>{{ trans('Create GHN Order') }}</span>
     </a>

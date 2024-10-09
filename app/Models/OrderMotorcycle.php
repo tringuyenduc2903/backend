@@ -120,7 +120,7 @@ class OrderMotorcycle extends Model
             $this->payment_method == OrderPaymentMethod::PAYMENT_ON_DELIVERY;
     }
 
-    public function canProductHandover(): bool
+    public function canMotorcycleHandover(): bool
     {
         return $this->status == OrderStatus::TO_RECEIVE &&
             $this->shipping_method == OrderShippingMethod::PICKUP_AT_STORE;
@@ -150,6 +150,11 @@ class OrderMotorcycle extends Model
     public function identification(): BelongsTo
     {
         return $this->belongsTo(Identification::class)->withTrashed();
+    }
+
+    public function motor_cycle(): BelongsTo
+    {
+        return $this->belongsTo(MotorCycle::class)->withTrashed();
     }
 
     protected function getPaidAttribute(): float

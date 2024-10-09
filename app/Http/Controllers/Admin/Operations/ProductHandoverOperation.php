@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin\Operations;
 
 use App\Enums\OrderStatus;
 use App\Models\Order;
-use App\Models\OrderMotorcycle;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Route;
@@ -34,7 +33,7 @@ trait ProductHandoverOperation
     {
         CRUD::setAccessCondition(
             'product_handover',
-            fn (Order|OrderMotorcycle $entry): bool => $entry->canProductHandover()
+            fn (Order $entry): bool => $entry->canProductHandover()
         );
 
         CRUD::operation(

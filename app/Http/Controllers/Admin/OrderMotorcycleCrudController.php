@@ -279,6 +279,12 @@ class OrderMotorcycleCrudController extends CrudController
             'suffix' => '%',
             'tab' => trans('Product information'),
         ]);
+        CRUD::addColumn([
+            'name' => 'motor_cycle',
+            'label' => trans('Motor cycle'),
+            'attribute' => 'chassis_number',
+            'tab' => trans('Product information'),
+        ]);
     }
 
     /**

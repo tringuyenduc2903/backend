@@ -1,5 +1,5 @@
 @if ($crud->hasAccess('product_handover', $entry))
-    <a bp-button="update" class="btn btn-sm btn-link" href="javascript:void(0)" onclick="productHandover(this)"
+    <a class="btn btn-sm btn-link" href="javascript:void(0)" onclick="productHandover(this)"
        data-id="{{ $entry->getKey() }}">
         <i class="la la-send"></i> <span>{{ trans('Product handover') }}</span>
     </a>
